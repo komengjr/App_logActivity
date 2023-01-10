@@ -52,8 +52,18 @@ class HomeController extends Controller
         elseif(auth::user()->kd_akses == 2) {
             $cabang = DB::table('tbl_cabang')->get();
             $user = DB::table('users')->where('kd_akses', '>','1' )->get();
-            // dd($user);
-            return view('index',['cabang'=>$cabang , 'user' => $user]);
+            $data_tiket = DB::table('tbl_tiket_group_worklist')
+            ->join('group_worklist','group_worklist.kd_worklist_group','=','tbl_tiket_group_worklist.kd_worklist_group')
+            ->join('tbl_worklist','tbl_worklist.kd_worklist','group_worklist.kd_worklist')
+            ->get();
+            $data_tiket1 = DB::table('tbl_tiket_person_worklist')
+            ->join('worklist_person','worklist_person.kd_worklist_person','=','tbl_tiket_person_worklist.kd_worklist_person')
+            ->join('tbl_worklist','tbl_worklist.kd_worklist','worklist_person.kd_worklist')
+            ->get();
+            
+            $data = $data_tiket->merge($data_tiket1);
+            // dd($data);
+            return view('index',['cabang'=>$cabang , 'user' => $user , 'tiket' => $data]);
         }
         elseif (auth::user()->kd_akses == 3 ) {
 

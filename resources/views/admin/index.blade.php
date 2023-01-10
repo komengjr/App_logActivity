@@ -202,109 +202,41 @@
                   </div>
                 </div>
 
-                <ul class="list-group list-group-flush shadow-none">
-                  <li class="list-group-item">
-                    <div class="media align-items-center">
-                      <img
-                        src="https://via.placeholder.com/110x110"
-                        alt="user avatar"
-                        class="customer-img rounded"
-                      />
-                      <div class="media-body ml-3">
-                        <h6 class="mb-0">
-                          Lorem ipsum dolor sitamet consectetur adipiscing
-                        </h6>
-                        <small class="small-font"
-                          >$810,000 . 04 Beds . 03 Baths</small
-                        >
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item">
-                    <div class="media align-items-center">
-                      <img
-                        src="https://via.placeholder.com/110x110"
-                        alt="user avatar"
-                        class="customer-img rounded"
-                      />
-                      <div class="media-body ml-3">
-                        <h6 class="mb-0">
-                          Lorem ipsum dolor sitamet consectetur adipiscing
-                        </h6>
-                        <small class="small-font"
-                          >$2,560,000 . 08 Beds . 07 Baths</small
-                        >
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item">
-                    <div class="media align-items-center">
-                      <img
-                        src="https://via.placeholder.com/110x110"
-                        alt="user avatar"
-                        class="customer-img rounded"
-                      />
-                      <div class="media-body ml-3">
-                        <h6 class="mb-0">
-                          Lorem ipsum dolor sitamet consectetur adipiscing
-                        </h6>
-                        <small class="small-font"
-                          >$910,300 . 03 Beds . 02 Baths</small
-                        >
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item">
-                    <div class="media align-items-center">
-                      <img
-                        src="https://via.placeholder.com/110x110"
-                        alt="user avatar"
-                        class="customer-img rounded"
-                      />
-                      <div class="media-body ml-3">
-                        <h6 class="mb-0">
-                          Lorem ipsum dolor sitamet consectetur adipiscing
-                        </h6>
-                        <small class="small-font"
-                          >$1,140,650 . 06 Beds . 03 Baths</small
-                        >
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item">
-                    <div class="media align-items-center">
-                      <img
-                        src="https://via.placeholder.com/110x110"
-                        alt="user avatar"
-                        class="customer-img rounded"
-                      />
-                      <div class="media-body ml-3">
-                        <h6 class="mb-0">
-                          Lorem ipsum dolor sitamet consectetur adipiscing
-                        </h6>
-                        <small class="small-font"
-                          >$1,140,650 . 06 Beds . 03 Baths</small
-                        >
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item">
-                    <div class="media align-items-center">
-                      <img
-                        src="https://via.placeholder.com/110x110"
-                        alt="user avatar"
-                        class="customer-img rounded"
-                      />
-                      <div class="media-body ml-3">
-                        <h6 class="mb-0">
-                          Lorem ipsum dolor sitamet consectetur adipiscing
-                        </h6>
-                        <small class="small-font"
-                          >$910,300 . 03 Beds . 02 Baths</small
-                        >
-                      </div>
-                    </div>
-                  </li>
+                <ul class="list-group list-group-flush shadow-none pt-3">
+                    <table id="default-datatable1" class="table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No Tiket</th>
+                                <th>Worklist</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($tiket as $tiket)
+                                <tr>
+                                    <td>
+                                             {{$tiket->no_tiket}}
+                                        {{-- <span class="list-group-item" >
+                                            <div class="media align-items-center" style="text-decoration:none;">
+                                            <div class="icon-box border ">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <div class="media-body ml-3">
+                                                <h6 class="mb-0">{{$user->name}}</h6>
+                                            </div>
+                                            <div class="date">Wrok List: 250</div>
+                                            </div>
+                                        </span> --}}
+                                    </td>
+                                    <td>{{$tiket->nama_worklist}}</td>
+                                    <td>
+                                        <button class="btn-warning">Option</button>
+                                    </td>
+                                </tr>
+                            
+                            @endforeach
+                        </tbody>
+                    </table>
                 </ul>
                 <div class="card-footer text-center bg-transparent border-0">
                   <a href="javascript:void();">View all listings</a>
@@ -351,30 +283,30 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($user as $user)
-                            <tr>
-                                <td>
-                                        <i class="fa fa-user-circle-o"> </i>  - {{$user->name}}
-                                    {{-- <span class="list-group-item" >
-                                        <div class="media align-items-center" style="text-decoration:none;">
-                                        <div class="icon-box border ">
-                                            <i class="fa fa-user"></i>
-                                        </div>
-                                        <div class="media-body ml-3">
-                                            <h6 class="mb-0">{{$user->name}}</h6>
-                                        </div>
-                                        <div class="date">Wrok List: 250</div>
-                                        </div>
-                                    </span> --}}
-                                </td>
-                                <td>total : 200 <br> Selesai : 170 <br> tidak selesai : 30</td>
-                                <td>
-                                    <button class="btn-warning">Option</button>
-                                </td>
-                            </tr>
-                         
-                        @endforeach
-                    </tbody>
+                            @foreach ($user as $user)
+                                <tr>
+                                    <td>
+                                            <i class="fa fa-user-circle-o"> </i>  - {{$user->name}}
+                                        {{-- <span class="list-group-item" >
+                                            <div class="media align-items-center" style="text-decoration:none;">
+                                            <div class="icon-box border ">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <div class="media-body ml-3">
+                                                <h6 class="mb-0">{{$user->name}}</h6>
+                                            </div>
+                                            <div class="date">Wrok List: 250</div>
+                                            </div>
+                                        </span> --}}
+                                    </td>
+                                    <td>total : 200 <br> Selesai : 170 <br> tidak selesai : 30</td>
+                                    <td>
+                                        <button class="btn-warning">Option</button>
+                                    </td>
+                                </tr>
+                            
+                            @endforeach
+                        </tbody>
                     </table>
                 </ul>
 
@@ -457,6 +389,7 @@
     $(document).ready(function () {
       //Default data table
       $("#default-datatable").DataTable();
+      $("#default-datatable1").DataTable();
 
       var table = $("#example").DataTable({
         lengthChange: false,
