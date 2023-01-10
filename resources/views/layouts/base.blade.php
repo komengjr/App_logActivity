@@ -85,7 +85,16 @@
                                         <div class="avatar"><img class="align-self-start mr-3"
                                                 src="{{ url('icon.png', []) }}" alt="user avatar"></div>
                                         <div class="media-body">
-                                            <h6 class="mt-2 user-title">{{auth::user()->name}}</h6>
+                                            <h6 class="mt-2 user-title">{{auth::user()->name}} ( 
+                                            @if (auth::user()->kd_akses == 1)
+                                                Super Admin
+                                            @elseif (auth::user()->kd_akses == 2)
+                                                Admin
+                                            @elseif (auth::user()->kd_akses == 3)
+                                                User Leader
+                                            @elseif (auth::user()->kd_akses == 4)
+                                                User
+                                            @endif )</h6>
                                             <p class="user-subtitle">{{auth::user()->email}}</p>
                                         </div>
                                     </div>

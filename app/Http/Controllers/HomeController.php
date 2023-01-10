@@ -51,10 +51,65 @@ class HomeController extends Controller
         }
         elseif(auth::user()->kd_akses == 2) {
             $cabang = DB::table('tbl_cabang')->get();
-            // dd($cabang);
-            return view('index',['cabang'=>$cabang]);
+            $user = DB::table('users')->where('kd_akses', '>','1' )->get();
+            // dd($user);
+            return view('index',['cabang'=>$cabang , 'user' => $user]);
         }
-        elseif (auth::user()->kd_akses == 3 && 4) {
+        elseif (auth::user()->kd_akses == 3 ) {
+
+            $worklistperson = DB::table('tbl_tiket_person_worklist')
+            ->join('worklist_person','worklist_person.kd_worklist_person','=','tbl_tiket_person_worklist.kd_worklist_person')
+            ->join('tbl_worklist','tbl_worklist.kd_worklist','=','worklist_person.kd_worklist')
+            ->where('worklist_person.id_user',auth::user()->id_user)
+            ->where('tbl_tiket_person_worklist.status_tiket',0)
+            ->get();
+            $groupworklist = DB::table('tbl_tiket_group_worklist')
+            ->join('group_worklist','group_worklist.kd_worklist_group','=','tbl_tiket_group_worklist.kd_worklist_group')
+            ->join('tbl_worklist','tbl_worklist.kd_worklist','=','group_worklist.kd_worklist')
+            ->join('group_user','group_user.kd_group','=','group_worklist.kd_group')
+            ->where('tbl_tiket_group_worklist.status_tiket',0)
+            ->where('group_user.id_user',auth::user()->id_user)->get();
+            $datalaporan = DB::table('tbl_tiket_laporan')
+            ->join('tbl_laporan','tbl_laporan.kd_laporan','=','tbl_tiket_laporan.kd_laporan')
+            ->where('tbl_tiket_laporan.status_tiket',0)
+            ->get();
+
+            $tugasselesai = DB::table('log_tiket_person_worklist')
+            ->where('id_user',auth::user()->id_user)
+            ->count();
+            $tugasbelumselesai = DB::table('tbl_tiket_person_worklist')
+            ->join('worklist_person','worklist_person.kd_worklist_person','=','tbl_tiket_person_worklist.kd_worklist_person')
+            ->join('tbl_worklist','tbl_worklist.kd_worklist','=','worklist_person.kd_worklist')
+            ->where('worklist_person.id_user',auth::user()->id_user)
+            ->where('tbl_tiket_person_worklist.status_tiket',0)
+            ->count();
+            $tugashariini = DB::table('tbl_tiket_person_worklist')
+            ->join('worklist_person','worklist_person.kd_worklist_person','=','tbl_tiket_person_worklist.kd_worklist_person')
+            ->join('tbl_worklist','tbl_worklist.kd_worklist','=','worklist_person.kd_worklist')
+            ->where('worklist_person.id_user',auth::user()->id_user)
+            // ->where('tbl_tiket_person_worklist.status_tiket',0)
+            ->where('tbl_tiket_person_worklist.tgl_buat', 'like', '%' . date('Y-m-d') . '%')
+            ->count();
+            if ($tugasselesai == 0) {
+                $persenselesai = $tugasselesai*100/(1+$tugasbelumselesai);
+                $persenbelumselesai = $tugasbelumselesai*100/(1+$tugasbelumselesai);
+            }else{
+                $persenselesai = $tugasselesai*100/($tugasselesai+$tugasbelumselesai);
+                $persenbelumselesai = $tugasbelumselesai*100/($tugasselesai+$tugasbelumselesai);
+            }
+            
+            
+            return view('index',[   'worklistperson'=>$worklistperson,
+                                    'groupworklist'=>$groupworklist,
+                                    'tugasselesai'=>$tugasselesai,
+                                    'tugasbelumselesai'=>$tugasbelumselesai,
+                                    'tugashariini'=>$tugashariini,
+                                    'datalaporan'=>$datalaporan,
+                                    'persenselesai'=>$persenselesai,
+                                    'persenbelumselesai'=>$persenbelumselesai
+                                ]);
+        }
+        elseif (auth::user()->kd_akses == 4) {
 
             $worklistperson = DB::table('tbl_tiket_person_worklist')
             ->join('worklist_person','worklist_person.kd_worklist_person','=','tbl_tiket_person_worklist.kd_worklist_person')
