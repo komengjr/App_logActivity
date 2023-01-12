@@ -20,6 +20,7 @@
                     <option value="1">Tiket Personal</option>
                     <option value="2">Tiket Group</option>
                     <option value="3">Tiket Laporan</option>
+                    <option value="4">Tiket Mandiri</option>
                 </select>
             </div>
         </div>

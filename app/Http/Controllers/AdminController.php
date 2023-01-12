@@ -14,6 +14,10 @@ class AdminController extends Controller
     {
         $this->middleware('auth');
     }
+    public function datatugasbulanan()
+    {
+        return view('admin.modal.daftartugasbulanan');
+    }
     public function datamapscabang($id)
     {
         if (auth::user()->kd_akses == 2) {
@@ -63,6 +67,8 @@ class AdminController extends Controller
                 return view('admin.modal.option.optiongroup', ['data' => $data, 'group' => $group]);
             } elseif ($id == 3) {
                 return view('admin.modal.option.optionlaporan');
+            } elseif ($id == 4) {
+                return view('admin.modal.option.optionmandiri');
             }
         }
     }

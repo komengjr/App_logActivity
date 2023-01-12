@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLogTiketLaporanTable extends Migration
+class CreateTblTiketMandiri extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreateLogTiketLaporanTable extends Migration
      */
     public function up()
     {
-        Schema::create('log_tiket_laporan', function (Blueprint $table) {
-            $table->id('id_log_tiket_laporan');
-            $table->string('no_tiket')->index();
+        Schema::create('tbl_tiket_mandiri', function (Blueprint $table) {
+            $table->id('id_tiket_mandiri');
+            $table->string('no_tiket')->unique();
             $table->string('id_user')->index();
-            $table->string('keterangan');
+            $table->string('kd_cabang')->index();
+            $table->longtext('deskripsi_tugas');
             $table->string('tgl_buat');
-            $table->string('lokasi');
+            $table->string('user_pembuat');
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -31,6 +33,6 @@ class CreateLogTiketLaporanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('log_tiket_laporan');
+        Schema::dropIfExists('tbl_tiket_mandiri');
     }
 }

@@ -36,24 +36,19 @@
                   <div class="">
                     <h4 class="mb-0 py-3 text-primary">
                       92,403
-                      <span class="float-right"
-                        ><i class="fa fa-search" style="cursor: pointer;"></i
-                      ></span>
+                      <span class="float-right" ><i class="fa fa-search" style="cursor: pointer;" data-toggle="modal" data-target="#showdatamaps" id="tugasuserbulanan"></i ></span>
                     </h4>
                   </div>
                   <div class="progress-wrapper">
                     <div class="progress" style="height: 5px">
                       <div
                         class="progress-bar bg-primary"
-                        style="width: 60%"
-                      ></div>
+                        style="width: 60%"></div>
                     </div>
                   </div>
                   <p class="mb-0 mt-2 small-font">
                     Compare to last month
-                    <span class="float-right"
-                      >+15% <i class="fa fa-long-arrow-up"></i
-                    ></span>
+                    <span class="float-right" >+15% <i class="fa fa-long-arrow-up"></i></span>
                   </p>
                 </div>
               </div>
@@ -69,24 +64,17 @@
                   <div class="">
                     <h4 class="mb-0 py-3 text-success">
                       5,70,803
-                      <span class="float-right"
-                        ><i class="fa fa-search" style="cursor: pointer;"></i
-                      ></span>
+                      <span class="float-right"><i class="fa fa-search" style="cursor: pointer;" data-toggle="modal" data-target="#showdatamaps" id="tugasuserharian"></i></span>
                     </h4>
                   </div>
                   <div class="progress-wrapper">
                     <div class="progress" style="height: 5px">
-                      <div
-                        class="progress-bar bg-success"
-                        style="width: 80%"
-                      ></div>
+                      <div class="progress-bar bg-success" style="width: 80%" ></div>
                     </div>
                   </div>
                   <p class="mb-0 mt-2 small-font">
                     Compare to yesterday
-                    <span class="float-right"
-                      >+43% <i class="fa fa-long-arrow-up"></i
-                    ></span>
+                    <span class="float-right"  >+43% <i class="fa fa-long-arrow-up"></i ></span>
                   </p>
                 </div>
               </div>
@@ -102,7 +90,7 @@
                   <div class="">
                     <h4 class="mb-0 py-3 text-danger">
                       8,456
-                      <span class="float-right"><i class="fa fa-search" style="cursor: pointer;"></i></span>
+                      <span class="float-right"><i class="fa fa-search" style="cursor: pointer;" data-toggle="modal" data-target="#showdatamaps" id="tugasuserbelum"></i></span>
                     </h4>
                   </div>
                   <div class="progress-wrapper">
@@ -129,22 +117,13 @@
             <div class="card-header">
               Grafik Pengerjaan Tugas
               <div class="btn-group group-round btn-group-sm float-right">
-                <button
-                  type="button"
-                  class="btn btn-info waves-effect waves-light"
-                >
+                <button type="button" class="btn btn-info waves-effect waves-light" >
                   Monthly
                 </button>
-                <button
-                  type="button"
-                  class="btn btn-info waves-effect waves-light"
-                >
+                <button type="button" class="btn btn-info waves-effect waves-light" >
                   Weekly
                 </button>
-                <button
-                  type="button"
-                  class="btn btn-info waves-effect waves-light"
-                >
+                <button type="button" class="btn btn-info waves-effect waves-light" >
                   Daily
                 </button>
               </div>
@@ -176,61 +155,57 @@
                   Tugas Baru
                   <div class="card-action">
                     <div class="dropdown">
-                      <a
-                        href="javascript:void();"
+                      <a href="javascript:void();"
                         class="dropdown-toggle dropdown-toggle-nocaret"
-                        data-toggle="dropdown"
-                      >
+                        data-toggle="dropdown">
                         <i class="icon-options"></i>
                       </a>
                       <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="javascript:void();"
-                          >Action</a
-                        >
-                        <a class="dropdown-item" href="javascript:void();"
-                          >Another action</a
-                        >
-                        <a class="dropdown-item" href="javascript:void();"
-                          >Something else here</a
-                        >
+                        <a class="dropdown-item" href="javascript:void();" data-toggle="modal" data-target="#inputtiketbaruadmin" id="buttonadminbuattiket"><i class="fa fa-ticket"></i>  Buat Tugas Baru</a>
+                       
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="javascript:void();"
-                          >Separated link</a
-                        >
+                        <a class="dropdown-item" href="javascript:void();"><i class="fa fa-search"></i> Cari Tugas</a>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <ul class="list-group list-group-flush shadow-none pt-3">
-                    <table id="default-datatable1" class="table-bordered">
+                    <table id="default-datatable1" class="styled-table">
                         <thead>
                             <tr>
                                 <th>No Tiket</th>
                                 <th>Worklist</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($tiket as $tiket)
                                 <tr>
+                                    <td data-label="No tiket">{{$tiket->no_tiket}}</td>
+                                    <td data-label="Worklist">{{$tiket->nama_worklist}}</td>
+                                    <td>{{$tiket->status_tiket}}</td>
                                     <td>
-                                             {{$tiket->no_tiket}}
-                                        {{-- <span class="list-group-item" >
-                                            <div class="media align-items-center" style="text-decoration:none;">
-                                            <div class="icon-box border ">
-                                                <i class="fa fa-user"></i>
-                                            </div>
-                                            <div class="media-body ml-3">
-                                                <h6 class="mb-0">{{$user->name}}</h6>
-                                            </div>
-                                            <div class="date">Wrok List: 250</div>
-                                            </div>
-                                        </span> --}}
-                                    </td>
-                                    <td>{{$tiket->nama_worklist}}</td>
-                                    <td>
-                                        <button class="btn-warning">Option</button>
+                                        {{-- <button class="btn-warning">Option</button> --}}
+                                        <div class="dropdown">
+                                          <button
+                                            class="dropdown-toggle dropdown-toggle-nocaret btn-warning"
+                                            data-toggle="dropdown">Option
+                                            
+                                        </button>
+                                          <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="javascript:void();"
+                                              >Action</a>
+                                            <a class="dropdown-item" href="javascript:void();"
+                                              >Another action</a>
+                                            <a class="dropdown-item" href="javascript:void();"
+                                              >Something else here</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="javascript:void();"
+                                              >Separated link</a>
+                                          </div>
+                                        </div>
                                     </td>
                                 </tr>
                             
@@ -239,7 +214,7 @@
                     </table>
                 </ul>
                 <div class="card-footer text-center bg-transparent border-0">
-                  <a href="javascript:void();">View all listings</a>
+                  {{-- <a href="javascript:void();">View all listings</a> --}}
                 </div>
               </div>
             </div>
@@ -274,7 +249,7 @@
                 </div>
 
                 <ul class="list-group list-group-flush shadow-none pt-3">
-                    <table id="default-datatable" class=" table table-bordered">
+                    <table id="default-datatable" class="styled-table">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -365,16 +340,16 @@
     
 </div>
 <div class="modal fade" id="showdatamaps">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-      <div class="modal-content border-danger" id="bodyformdatamapscabang">
-        
-        loading ..
-  
+    <div class="modal-dialog modal-dialog-centered modal-xl"  id="bodyformdatamapscabang">
+      <div class="modal-content border-danger" style="background: transparent;">
+        <div class="text-center" >
+          <img src="{{ url('loading1.gif', []) }}" alt="" srcset="" width="250" style="height: auto;">
+        </div>
       </div>
     </div>
 </div>
 <div class="modal fade" id="inputtiketbaruadmin">
-    <div class="modal-dialog modal-dialog-centered modal-ml">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content border-danger" id="bodyformdatatiket">
         
         loading ..

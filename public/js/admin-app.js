@@ -37,6 +37,25 @@ $(document).on('click', '#buttontampilmapscabang', function(e) {
                 );
         });
 });
+$(document).on('click', '#tugasuserbulanan', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    var url = 'admin/data/tugasbulanan';
+    // console.log(id);
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#bodyformdatamapscabang').html(data);
+        })
+        .fail(function() {
+            $('#bodyformdatamapscabang').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
 $(document).on('click', '#buttonadminbuattiket', function(e) {
     e.preventDefault();
     // var id = $(this).data("id");

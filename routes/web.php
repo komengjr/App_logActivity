@@ -67,6 +67,7 @@ Route::post('masteradmin/datapersonworklist/postdata/hapus',['as'=>'masteradmin/
 Route::post('masteradmin/datatypeworklist/postdata/tambah',['as'=>'masteradmin/datatypeworklist/postdata/tambah','uses'=> 'MasterAdminController@datatypeworklisttambahpost']);
 
 // ADMIN ROUTE
+Route::get('admin/data/tugasbulanan',['as'=>'admin/data/tugasbulanan','uses'=> 'AdminController@datatugasbulanan']);
 Route::get('admin/maps/data/cabang/{id}',['as'=>'admin/maps/data/cabang','uses'=> 'AdminController@datamapscabang']);
 Route::get('admin/tiket/data/tambah',['as'=>'admin/tiket/data/tambah','uses'=> 'AdminController@inputtiketbaru']);
 Route::get('admin/tiket/getdataoption/{id}',['as'=>'admin/tiket/getdataoption','uses'=> 'AdminController@getdataoptiontiket']);
