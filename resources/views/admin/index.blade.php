@@ -1,3 +1,4 @@
+
 <div class="content-wrapper">
     <div class="container-fluid">
         <div class="row pt-2 pb-2">
@@ -195,15 +196,14 @@
                                             
                                         </button>
                                           <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="javascript:void();"
-                                              >Action</a>
-                                            <a class="dropdown-item" href="javascript:void();"
-                                              >Another action</a>
-                                            <a class="dropdown-item" href="javascript:void();"
+                                            <a class="dropdown-item" href="javascript:void();" data-toggle="modal" data-target="#modaladmin" id="buttonshowtiket" data-id="{{$tiket->no_tiket}}"><i class="fa fa-eye"></i> Show</a>
+                                            <a class="dropdown-item" href="javascript:void();" data-toggle="modal" data-target="#modaladmin" id="buttonedittiket" data-id="{{$tiket->no_tiket}}"><i class="fa fa-pencil"></i> Edit</a>
+                                            <a class="dropdown-item" href="javascript:void();"><i class="fa fa-trash"></i> Hapus</a>
+                                            {{-- <a class="dropdown-item" href="javascript:void();"
                                               >Something else here</a>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="javascript:void();"
-                                              >Separated link</a>
+                                              >Separated link</a> --}}
                                           </div>
                                         </div>
                                     </td>
@@ -309,16 +309,16 @@
         <!-- End Breadcrumb-->
         @if ($message = Session::get('sukses'))
 				
-        <div class="alert alert-icon-success alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <div class="alert-icon icon-part-success">
-                <i class="fa fa-check"></i>
-            </div>
-            <div class="alert-message">
-                <span><strong>Success!</strong> {{ $message }} </span>
-            </div>
-        </div>
-		@endif
+          <div class="alert alert-icon-success alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <div class="alert-icon icon-part-success">
+                  <i class="fa fa-check"></i>
+              </div>
+              <div class="alert-message">
+                  <span><strong>Success!</strong> {{ $message }} </span>
+              </div>
+          </div>
+		    @endif
         <div class="row">
             <div class="col-lg-12">
 
@@ -348,6 +348,17 @@
       </div>
     </div>
 </div>
+
+<div class="modal fade" id="modaladmin">
+    <div class="modal-dialog modal-dialog-centered modal-xl"  id="showmodaladmin">
+      <div class="modal-content border-danger" style="background: transparent;">
+        <div class="text-center" >
+          <img src="{{ url('loading1.gif', []) }}" alt="" srcset="" width="250" style="height: auto;">
+        </div>
+      </div>
+    </div>
+</div>
+
 <div class="modal fade" id="inputtiketbaruadmin">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content border-danger" id="bodyformdatatiket">

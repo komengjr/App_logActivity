@@ -51,7 +51,7 @@ class MasterAdminController extends Controller
                     foreach ($tiket as $item) {
                         DB::table('tbl_tiket_person_worklist')->insert(
                             [
-                                'no_tiket' => "tiket/personal/".date('Y-m-d').'/'.date('H:i:s').'/'. Str::random(10),
+                                'no_tiket' => "tiket_personal_".date('Y-m-d').'_'.date('H:i:s').'_'. Str::random(10),
                                 'kd_worklist_person' => $item->kd_worklist_person,
                                 'id_user' => $item->id_user,
                                 'status_tiket' => 0,
@@ -69,7 +69,7 @@ class MasterAdminController extends Controller
                     foreach ($tiket as $item) {
                         DB::table('tbl_tiket_person_worklist')->insert(
                             [
-                                'no_tiket' => "tiket/personal/".date('Y-m-d').'/'.date('H:i:s').'/'. Str::random(10),
+                                'no_tiket' => "tiket_personal_".date('Y-m-d').'_'.date('H:i:s').'_'. Str::random(10),
                                 'kd_worklist_person' => $item->kd_worklist_person,
                                 'id_user' => $request->input('id_user'),
                                 'status_tiket' => 0,
@@ -90,7 +90,7 @@ class MasterAdminController extends Controller
                     foreach ($tiket as $item) {
                         DB::table('tbl_tiket_person_worklist')->insert(
                             [
-                                'no_tiket' => "tiket/personal/".date('Y-m-d').'/'.date('H:i:s').'/'. Str::random(10),
+                                'no_tiket' => "tiket_personal_".date('Y-m-d').'_'.date('H:i:s').'_'. Str::random(10),
                                 'kd_worklist_person' => $item->kd_worklist_person,
                                 'id_user' => $item->id_user,
                                 'status_tiket' => 0,
@@ -110,7 +110,7 @@ class MasterAdminController extends Controller
                     foreach ($tiket as $item) {
                         DB::table('tbl_tiket_person_worklist')->insert(
                             [
-                                'no_tiket' => "tiket/personal/".date('Y-m-d').'/'.date('H:i:s').'/'. Str::random(10),
+                                'no_tiket' => "tiket/personal/".date('Y-m-d').'_'.date('H:i:s').'_'. Str::random(10),
                                 'kd_worklist_person' => $item->kd_worklist_person,
                                 'id_user' => $item->id_user,
                                 'status_tiket' => 0,
@@ -138,7 +138,7 @@ class MasterAdminController extends Controller
                     foreach ($tiket as $item) {
                         DB::table('tbl_tiket_group_worklist')->insert(
                             [
-                                'no_tiket' => "tiket/group/".date('Y-m-d').'/'.date('H:i:s').'/'. Str::random(10),
+                                'no_tiket' => "tiket_group_".date('Y-m-d').'_'.date('H:i:s').'_'. Str::random(10),
                                 'kd_worklist_group' => $item->kd_worklist_group,
                                 'status_tiket' => 0,
                                 'tgl_buat' => date('Y-m-d H:i:s'),
@@ -155,7 +155,7 @@ class MasterAdminController extends Controller
                     foreach ($tiket as $item) {
                         DB::table('tbl_tiket_group_worklist')->insert(
                             [
-                                'no_tiket' => "tiket/group/".date('Y-m-d').'/'.date('H:i:s').'/'. Str::random(10),
+                                'no_tiket' => "tiket_group_".date('Y-m-d').'_'.date('H:i:s').'_'. Str::random(10),
                                 'kd_worklist_group' => $item->kd_worklist_group,
                                 'status_tiket' => 0,
                                 'tgl_buat' => date('Y-m-d H:i:s'),
@@ -174,7 +174,7 @@ class MasterAdminController extends Controller
                     foreach ($tiket as $item) {
                         DB::table('tbl_tiket_group_worklist')->insert(
                             [
-                                'no_tiket' => "tiket/group/".date('Y-m-d').'/'.date('H:i:s').'/'. Str::random(10),
+                                'no_tiket' => "tiket_group_".date('Y-m-d').'_'.date('H:i:s').'_'. Str::random(10),
                                 'kd_worklist_group' => $item->kd_worklist_group,
                                 'status_tiket' => 0,
                                 'tgl_buat' => date('Y-m-d H:i:s'),
@@ -192,7 +192,7 @@ class MasterAdminController extends Controller
                     foreach ($tiket as $item) {
                         DB::table('tbl_tiket_group_worklist')->insert(
                             [
-                                'no_tiket' => "tiket/group/".date('Y-m-d').'/'.date('H:i:s').'/'. Str::random(10),
+                                'no_tiket' => "tiket_group_".date('Y-m-d').'_'.date('H:i:s').'_'. Str::random(10),
                                 'kd_worklist_group' => $item->kd_worklist_group,
                                 'status_tiket' => 0,
                                 'tgl_buat' => date('Y-m-d H:i:s'),

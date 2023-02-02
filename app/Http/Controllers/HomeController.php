@@ -61,7 +61,7 @@ class HomeController extends Controller
             ->join('tbl_worklist','tbl_worklist.kd_worklist','worklist_person.kd_worklist')
             ->get();
             
-            $data = $data_tiket->merge($data_tiket1);
+            $data = $data_tiket1->merge($data_tiket);
             // dd($data);
             return view('index',['cabang'=>$cabang , 'user' => $user , 'tiket' => $data]);
         }

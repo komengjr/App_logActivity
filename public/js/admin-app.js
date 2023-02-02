@@ -56,6 +56,82 @@ $(document).on('click', '#tugasuserbulanan', function(e) {
                 );
         });
 });
+$(document).on('click', '#tugasuserharian', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    var url = 'admin/data/tugasharian';
+    // console.log(id);
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#bodyformdatamapscabang').html(data);
+        })
+        .fail(function() {
+            $('#bodyformdatamapscabang').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
+$(document).on('click', '#tugasuserbelum', function(e) {
+    e.preventDefault();
+    
+    var url = 'admin/data/tugasuserbelum';
+    // console.log(id);
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#bodyformdatamapscabang').html(data);
+        })
+        .fail(function() {
+            $('#bodyformdatamapscabang').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
+$(document).on('click', '#buttonshowtiket', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    var url = 'admin/data/showtiketadmin/'+id;
+    // console.log(id);
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#showmodaladmin').html(data);
+        })
+        .fail(function() {
+            $('#showmodaladmin').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
+$(document).on('click', '#buttonedittiket', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    var url = 'admin/data/edittiketadmin/'+id;
+    // console.log(id);
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#showmodaladmin').html(data);
+        })
+        .fail(function() {
+            $('#showmodaladmin').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
 $(document).on('click', '#buttonadminbuattiket', function(e) {
     e.preventDefault();
     // var id = $(this).data("id");

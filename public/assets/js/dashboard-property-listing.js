@@ -8,17 +8,18 @@ $(function() {
 			var myChart = new Chart(ctx, {
 				type: 'bar',
 				data: {
-					labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+					labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"],
 					datasets: [{
-						label: 'Orders',
-						data: [25, 23, 27, 15, 27, 23, 31, 41, 31, 25, 35, 25, 30],
-						backgroundColor: 'rgba(0, 0, 0, 0.07)',
+						label: 'Target',
+						data: [24, 23, 27, 15, 27, 23, 31, 41, 31, 25],
+						backgroundColor: 'rgba(43, 201, 69, 0.57)',
+						// backgroundColor: 'rgba(0, 0, 0, 0.07)',
 						borderColor: "transparent",
 						borderWidth: 3
 					}, {
-						label: 'Payments',
+						label: 'Selesai',
 						type: 'line',
-						data: [10, 8, 12, 5, 12, 8, 16, 25, 15, 10, 20, 10, 15],
+						data: [24, 8, 12, 5, 12, 8, 16, 25, 15, 10],
 						backgroundColor: "rgba(3, 208, 234, 0.23)",
 						borderColor: "#03d0ea",
 						pointBackgroundColor:'transparent',

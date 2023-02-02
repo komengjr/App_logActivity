@@ -18,6 +18,29 @@ class AdminController extends Controller
     {
         return view('admin.modal.daftartugasbulanan');
     }
+    public function datatugasharian()
+    {
+        return view('admin.modal.daftartugasharian');
+    }
+    public function tugasuserbelum()
+    {
+        return view('admin.modal.daftartugasuserbelum');
+    }
+    public function showtiketadmin($id)
+    {
+        $data = DB::table('tbl_tiket_person_worklist')->where('no_tiket','=',$id)->get();
+        if ($data->isEmpty()) {
+            $data = DB::table('tbl_tiket_group_worklist')->where('no_tiket','=',$id)->get();
+            if ($data->isEmpty()) {
+                
+            }
+        }
+        return view('admin.modal.action.showdatatiket',['id'=>$id ,'data'=>$data]);
+    }
+    public function edittiketadmin($id)
+    {
+       return view('admin.modal.action.editdatatiket',['id'=>$id]);
+    }
     public function datamapscabang($id)
     {
         if (auth::user()->kd_akses == 2) {
@@ -82,7 +105,7 @@ class AdminController extends Controller
                     foreach ($tiket as $item) {
                         DB::table('tbl_tiket_person_worklist')->insert(
                             [
-                                'no_tiket' => "tiket/personal/".date('Y-m-d').'/'.date('H:i:s').'/'. Str::random(10),
+                                'no_tiket' => "tiket_personal_".date('Y-m-d').'_'.date('H:i:s').'_'. Str::random(10),
                                 'kd_worklist_person' => $item->kd_worklist_person,
                                 'id_user' => $item->id_user,
                                 'status_tiket' => 0,
@@ -100,7 +123,7 @@ class AdminController extends Controller
                     foreach ($tiket as $item) {
                         DB::table('tbl_tiket_person_worklist')->insert(
                             [
-                                'no_tiket' => "tiket/personal/".date('Y-m-d').'/'.date('H:i:s').'/'. Str::random(10),
+                                'no_tiket' => "tiket_personal_".date('Y-m-d').'_'.date('H:i:s').'_'. Str::random(10),
                                 'kd_worklist_person' => $item->kd_worklist_person,
                                 'id_user' => $request->input('id_user'),
                                 'status_tiket' => 0,
@@ -121,7 +144,7 @@ class AdminController extends Controller
                     foreach ($tiket as $item) {
                         DB::table('tbl_tiket_person_worklist')->insert(
                             [
-                                'no_tiket' => "tiket/personal/".date('Y-m-d').'/'.date('H:i:s').'/'. Str::random(10),
+                                'no_tiket' => "tiket_personal_".date('Y-m-d').'_'.date('H:i:s').'_'. Str::random(10),
                                 'kd_worklist_person' => $item->kd_worklist_person,
                                 'id_user' => $item->id_user,
                                 'status_tiket' => 0,
@@ -141,7 +164,7 @@ class AdminController extends Controller
                     foreach ($tiket as $item) {
                         DB::table('tbl_tiket_person_worklist')->insert(
                             [
-                                'no_tiket' => "tiket/personal/".date('Y-m-d').'/'.date('H:i:s').'/'. Str::random(10),
+                                'no_tiket' => "tiket_personal_".date('Y-m-d').'_'.date('H:i:s').'_'. Str::random(10),
                                 'kd_worklist_person' => $item->kd_worklist_person,
                                 'id_user' => $item->id_user,
                                 'status_tiket' => 0,
