@@ -8,5 +8,7 @@
         @include('userleader.index') 
     @elseif(auth::user()->kd_akses == 4)   
         @include('user.index') 
+    @elseif(auth::user()->kd_akses == 5)   
+        @include('verifikator.index') 
     @endif
 @endsection

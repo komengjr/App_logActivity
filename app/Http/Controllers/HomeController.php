@@ -60,10 +60,12 @@ class HomeController extends Controller
             ->join('worklist_person','worklist_person.kd_worklist_person','=','tbl_tiket_person_worklist.kd_worklist_person')
             ->join('tbl_worklist','tbl_worklist.kd_worklist','worklist_person.kd_worklist')
             ->get();
-            
+            $jumlah_tiket = DB::table('tbl_tiket_person_worklist','tbl_tiket_group_worklist')
+            ->select('tbl_tiket_group_worklist.*','tbl_tiket_person_worklist.*')
+            ->count();
             $data = $data_tiket1->merge($data_tiket);
             // dd($data);
-            return view('index',['cabang'=>$cabang , 'user' => $user , 'tiket' => $data]);
+            return view('index',['cabang'=>$cabang , 'user' => $user , 'tiket' => $data , 'jumlah_tiket' => $jumlah_tiket]);
         }
         elseif (auth::user()->kd_akses == 3 ) {
 
@@ -173,7 +175,9 @@ class HomeController extends Controller
                                     'persenbelumselesai'=>$persenbelumselesai
                                 ]);
         }
-        
+        elseif (auth::user()->kd_akses == 5) {
+            return view('index');
+        }
         
     }
     public function ubahpassword(Request $request)

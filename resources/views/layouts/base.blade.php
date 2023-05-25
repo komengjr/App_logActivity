@@ -165,6 +165,8 @@
                                                 User Leader
                                             @elseif (auth::user()->kd_akses == 4)
                                                 User
+                                            @elseif (auth::user()->kd_akses == 5)
+                                                Verifikator
                                             @endif )</h6>
                                             <p class="user-subtitle">{{auth::user()->email}}</p>
                                         </div>

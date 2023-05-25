@@ -36,7 +36,7 @@
                   </p>
                   <div class="">
                     <h4 class="mb-0 py-3 text-primary">
-                      92,403
+                      0
                       <span class="float-right" ><i class="fa fa-search" style="cursor: pointer;" data-toggle="modal" data-target="#showdatamaps" id="tugasuserbulanan"></i ></span>
                     </h4>
                   </div>
@@ -44,12 +44,12 @@
                     <div class="progress" style="height: 5px">
                       <div
                         class="progress-bar bg-primary"
-                        style="width: 60%"></div>
+                        style="width: 0%"></div>
                     </div>
                   </div>
                   <p class="mb-0 mt-2 small-font">
                     Compare to last month
-                    <span class="float-right" >+15% <i class="fa fa-long-arrow-up"></i></span>
+                    <span class="float-right" >+0% <i class="fa fa-long-arrow-up"></i></span>
                   </p>
                 </div>
               </div>
@@ -64,18 +64,18 @@
                   </p>
                   <div class="">
                     <h4 class="mb-0 py-3 text-success">
-                      5,70,803
+                      0
                       <span class="float-right"><i class="fa fa-search" style="cursor: pointer;" data-toggle="modal" data-target="#showdatamaps" id="tugasuserharian"></i></span>
                     </h4>
                   </div>
                   <div class="progress-wrapper">
                     <div class="progress" style="height: 5px">
-                      <div class="progress-bar bg-success" style="width: 80%" ></div>
+                      <div class="progress-bar bg-success" style="width: 0%" ></div>
                     </div>
                   </div>
                   <p class="mb-0 mt-2 small-font">
                     Compare to yesterday
-                    <span class="float-right"  >+43% <i class="fa fa-long-arrow-up"></i ></span>
+                    <span class="float-right"  >+0% <i class="fa fa-long-arrow-up"></i ></span>
                   </p>
                 </div>
               </div>
@@ -90,7 +90,7 @@
                   </p>
                   <div class="">
                     <h4 class="mb-0 py-3 text-danger">
-                      8,456
+                      0
                       <span class="float-right"><i class="fa fa-search" style="cursor: pointer;" data-toggle="modal" data-target="#showdatamaps" id="tugasuserbelum"></i></span>
                     </h4>
                   </div>
@@ -98,14 +98,14 @@
                     <div class="progress" style="height: 5px">
                       <div
                         class="progress-bar bg-danger"
-                        style="width: 45%"
+                        style="width: 0%"
                       ></div>
                     </div>
                   </div>
                   <p class="mb-0 mt-2 small-font">
                     Compare to last week
                     <span class="float-right"
-                      >+32% <i class="fa fa-long-arrow-up"></i
+                      >+0% <i class="fa fa-long-arrow-up"></i
                     ></span>
                   </p>
                 </div>
@@ -133,10 +133,10 @@
               <div class="row align-items-center">
                 <div class="col-12 col-lg-3 text-center">
                   <p class="mt-4">Total Tugas</p>
-                  <h4 class="mb-0">4,350</h4>
+                  <h4 class="mb-0">{{$jumlah_tiket}}</h4>
                   <hr />
                   <p>Total Penyelesaian</p>
-                  <h4 class="mb-0 text-info">80,520</h4>
+                  <h4 class="mb-0 text-info">0</h4>
                 </div>
                 <div class="col-12 col-lg-9">
                   <div class="chart-container-11">
@@ -274,9 +274,25 @@
                                             </div>
                                         </span> --}}
                                     </td>
-                                    <td>total : 200 <br> Selesai : 170 <br> tidak selesai : 30</td>
+                                    <td>total : 0 <br> Selesai : 0 <br> tidak selesai : 0</td>
                                     <td>
-                                        <button class="btn-warning">Option</button>
+                                      <div class="dropdown">
+                                        <button
+                                          class="dropdown-toggle dropdown-toggle-nocaret btn-warning"
+                                          data-toggle="dropdown">Option
+                                          
+                                      </button>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                          <a class="dropdown-item" href="javascript:void();" ><i class="fa fa-eye"></i> Show</a>
+                                          <a class="dropdown-item" href="javascript:void();"><i class="fa fa-pencil"></i> Edit</a>
+                                          <a class="dropdown-item" href="javascript:void();"><i class="fa fa-trash"></i> Hapus</a>
+                                          {{-- <a class="dropdown-item" href="javascript:void();"
+                                            >Something else here</a>
+                                          <div class="dropdown-divider"></div>
+                                          <a class="dropdown-item" href="javascript:void();"
+                                            >Separated link</a> --}}
+                                        </div>
+                                      </div>
                                     </td>
                                 </tr>
                             
@@ -325,7 +341,7 @@
                 <div class="card">
                     <div class="card-header text-uppercase">Lokasi Pramita</div>
                     <div class="card-body">
-                        <div id="map" class="gmaps"></div>
+                        {{-- <div id="map" class="gmaps"></div> --}}
                     </div>
                 </div>
 

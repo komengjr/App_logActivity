@@ -13,6 +13,7 @@
                 <option value="2">Admin</option>
                 <option value="3">User Leader</option>
                 <option value="4">User</option>
+                <option value="5">Verifikator</option>
             </select>
         </div>
         <div class="col-12 col-lg-6 col-xl-6">
