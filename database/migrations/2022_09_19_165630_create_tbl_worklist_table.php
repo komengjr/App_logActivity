@@ -20,6 +20,7 @@ class CreateTblWorklistTable extends Migration
             $table->string('type_worklist')->index();
             $table->integer('jenis_worklist');
             $table->string('point_worklist');
+            $table->string('kd_kinerja');
             $table->string('status_worklist')->nullable();
             $table->timestamps();
         });

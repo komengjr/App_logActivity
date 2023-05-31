@@ -14,17 +14,91 @@ class AdminController extends Controller
     {
         $this->middleware('auth');
     }
-    public function datatugasbulanan()
+    public function datauseradmin()
     {
-        return view('admin.modal.daftartugasbulanan');
+        if (auth::user()->kd_akses == 2) {
+        $user = DB::table('users')->where('kd_akses', '>','2' )->get();
+
+        return view('admin.modal.datauseradmin',['user'=>$user]);
+        }
     }
+    public function datadetailuseradmin($id)
+    {
+        $kinerja = DB::table('tbl_kinerja')->get();
+        $user = DB::table('users')->where('id_user',$id)->get();
+        $cabang = DB::table('tbl_cabang')
+        ->select('tbl_cabang.nama_cabang')
+        ->join('handler_cabang','handler_cabang.kd_cabang','=','tbl_cabang.kd_cabang')
+        ->join('group_user','group_user.kd_group','=','handler_cabang.kd_group')
+        ->where('group_user.id_user',$id)
+        ->get();
+        return view('admin.modal.user.detail',['detailuser'=>$user , 'kinerja'=>$kinerja, 'cabang'=>$cabang]);
+    }
+    public function buattiketbaru()
+    {
+        if (auth::user()->kd_akses == 2) {
+            $kinerja = DB::table('tbl_kinerja')->get();
+            return view('admin.modal.worklist.tambahtiket',['kinerja'=>$kinerja]);
+        }
+
+
+    }
+    public function getdataoptionkinerja($id,$ids)
+    {
+        if (auth::user()->kd_akses == 2) {
+            if ($ids == '-') {
+                # code...
+            } elseif($ids == 1) {
+                $cabang = DB::table('tbl_cabang')->get();
+                return view('admin.modal.option.optiontiketbaruindividu',['cabang'=>$cabang,'id'=>$id]);
+            } elseif($ids == 2) {
+                $group = DB::table('tbl_group')->get();
+                return view('admin.modal.option.optiontiketbarugroup',['group'=>$group]);
+            }
+
+
+            // if ($id == 1) {
+            //     $data = DB::table('tbl_worklist')
+            //         ->get();
+            //     $person = DB::table('users')->where('kd_akses', '>', 2)->get();
+            //     return view('admin.modal.option.optionpersonal', ['data' => $data, 'person' => $person]);
+            // } elseif ($id == 2) {
+            //     $data = DB::table('tbl_worklist')
+            //         ->get();
+            //     $group = DB::table('tbl_group')
+            //         ->join('group_user', 'tbl_group.kd_group', '=', 'group_user.kd_group')
+            //         ->join('handler_cabang', 'handler_cabang.kd_group', '=', 'tbl_group.kd_group')
+            //         ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'handler_cabang.kd_cabang')
+            //         ->get()->unique('nama_group');
+            //     return view('admin.modal.option.optiongroup', ['data' => $data, 'group' => $group]);
+            // } elseif ($id == 3) {
+            //     return view('admin.modal.option.optionlaporan');
+            // } elseif ($id == 4) {
+            //     return view('admin.modal.option.optionmandiri');
+            // }
+        }
+    }
+
     public function datatugasharian()
     {
-        return view('admin.modal.daftartugasharian');
+        if (auth::user()->kd_akses == 2) {
+        $data_tiket = DB::table('tbl_tiket_group_worklist')
+        ->join('group_worklist','group_worklist.kd_worklist_group','=','tbl_tiket_group_worklist.kd_worklist_group')
+        ->join('tbl_worklist','tbl_worklist.kd_worklist','group_worklist.kd_worklist')
+        ->get();
+        $data_tiket1 = DB::table('tbl_tiket_person_worklist')
+        ->join('worklist_person','worklist_person.kd_worklist_person','=','tbl_tiket_person_worklist.kd_worklist_person')
+        ->join('tbl_worklist','tbl_worklist.kd_worklist','worklist_person.kd_worklist')
+        ->get();
+        $data = $data_tiket1->merge($data_tiket);
+        return view('admin.modal.daftartugasharian',['data'=>$data]);
+        }
     }
     public function tugasuserbelum()
     {
+        if (auth::user()->kd_akses == 2) {
         return view('admin.modal.daftartugasuserbelum');
+        }
     }
     public function showtiketadmin($id)
     {
@@ -32,14 +106,16 @@ class AdminController extends Controller
         if ($data->isEmpty()) {
             $data = DB::table('tbl_tiket_group_worklist')->where('no_tiket','=',$id)->get();
             if ($data->isEmpty()) {
-                
+
             }
         }
         return view('admin.modal.action.showdatatiket',['id'=>$id ,'data'=>$data]);
     }
     public function edittiketadmin($id)
     {
-       return view('admin.modal.action.editdatatiket',['id'=>$id]);
+        if (auth::user()->kd_akses == 2) {
+            return view('admin.modal.action.editdatatiket',['id'=>$id]);
+        }
     }
     public function datamapscabang($id)
     {
@@ -176,10 +252,10 @@ class AdminController extends Controller
                     Session::flash('sukses','Berhasil Membuat Tiket Dengan ID User : '.$request->input('id_user'));
                     return redirect()->back();
                 }
-                
+
             }
 
-            
+
         }
     }
     public function buattiketgroupl(Request $request)
@@ -257,10 +333,10 @@ class AdminController extends Controller
                     Session::flash('sukses','Berhasil Membuat Tiket Dengan ID Group : '.$request->input('kd_group'));
                     return redirect()->back();
                 }
-                
+
             }
 
-            
+
         }
     }
     public function buattiketlaporan(Request $request)

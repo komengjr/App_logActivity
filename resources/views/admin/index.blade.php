@@ -26,18 +26,30 @@
                 </div>
             </div>
         </div>
+        @if ($message = Session::get('sukses'))
+
+          <div class="alert alert-icon-success alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <div class="alert-icon icon-part-success">
+                  <i class="fa fa-check"></i>
+              </div>
+              <div class="alert-message">
+                  <span><strong>Success!</strong> {{ $message }} </span>
+              </div>
+          </div>
+		@endif
         <div class="row mt-3">
-            <div class="col-12 col-lg-6 col-xl-4">
+            <div class="col-12 col-lg-4 col-xl-3">
               <div class="card">
                 <div class="card-body">
-                  <p class="mb-0">
-                    Tugas Bulan
-                    <span class="float-right badge badge-primary">Monthly</span>
+                  <p class="mb-0 text-primary">
+                    <i class="fa fa-user-circle-o"> </i>  - Data User
+                    <span class="float-right badge badge-primary">memo</span>
                   </p>
                   <div class="">
                     <h4 class="mb-0 py-3 text-primary">
-                      0
-                      <span class="float-right" ><i class="fa fa-search" style="cursor: pointer;" data-toggle="modal" data-target="#showdatamaps" id="tugasuserbulanan"></i ></span>
+                      {{$jumlahuser}}
+                      <span class="float-right" ><i class="fa fa-search" style="cursor: pointer;" data-toggle="modal" data-target="#showdatamaps" id="datauseradmin"></i ></span>
                     </h4>
                   </div>
                   <div class="progress-wrapper">
@@ -48,23 +60,23 @@
                     </div>
                   </div>
                   <p class="mb-0 mt-2 small-font">
-                    Compare to last month
+                    Persentase Kapasitas
                     <span class="float-right" >+0% <i class="fa fa-long-arrow-up"></i></span>
                   </p>
                 </div>
               </div>
             </div>
 
-            <div class="col-12 col-lg-6 col-xl-4">
+            <div class="col-12 col-lg-4 col-xl-3">
               <div class="card">
                 <div class="card-body">
                   <p class="text-success mb-0">
-                    Tugas Harian
-                    <span class="float-right badge badge-success">Today</span>
+                    <i class="fa fa-book"> </i>  - Data Worklist
+                    <span class="float-right badge badge-success">memo</span>
                   </p>
                   <div class="">
                     <h4 class="mb-0 py-3 text-success">
-                      0
+                        {{$jumlah_tiket}}
                       <span class="float-right"><i class="fa fa-search" style="cursor: pointer;" data-toggle="modal" data-target="#showdatamaps" id="tugasuserharian"></i></span>
                     </h4>
                   </div>
@@ -74,19 +86,49 @@
                     </div>
                   </div>
                   <p class="mb-0 mt-2 small-font">
-                    Compare to yesterday
+                    Persentase Kapasitas
                     <span class="float-right"  >+0% <i class="fa fa-long-arrow-up"></i ></span>
                   </p>
                 </div>
               </div>
             </div>
 
-            <div class="col-12 col-lg-6 col-xl-4">
+            <div class="col-12 col-lg-4 col-xl-3">
+              <div class="card">
+                <div class="card-body">
+                  <p class="text-info mb-0">
+                    Data Grup Cabang
+                    <span class="float-right badge badge-info">memo</span>
+                  </p>
+                  <div class="">
+                    <h4 class="mb-0 py-3 text-info">
+                      0
+                      <span class="float-right"><i class="fa fa-search" style="cursor: pointer;" data-toggle="modal" data-target="#showdatamaps" id="tugasuserbelum"></i></span>
+                    </h4>
+                  </div>
+                  <div class="progress-wrapper">
+                    <div class="progress" style="height: 5px">
+                      <div
+                        class="progress-bar bg-info"
+                        style="width: 0%"
+                      ></div>
+                    </div>
+                  </div>
+                  <p class="mb-0 mt-2 small-font">
+                    Compare to last week
+                    <span class="float-right"
+                      >+0% <i class="fa fa-long-arrow-up"></i
+                    ></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4 col-xl-3">
               <div class="card">
                 <div class="card-body">
                   <p class="text-danger mb-0">
-                    Tugas Belum dikerjakan
-                    <span class="float-right badge badge-danger">Weekly</span>
+                    Data Laporan
+                    <span class="float-right badge badge-danger">memo</span>
                   </p>
                   <div class="">
                     <h4 class="mb-0 py-3 text-danger">
@@ -150,7 +192,7 @@
           <!--End Card-->
 
           <div class="row">
-            <div class="col-lg-6">
+            {{-- <div class="col-lg-6">
               <div class="card">
                 <div class="card-header">
                   Tugas Baru
@@ -163,7 +205,7 @@
                       </a>
                       <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="javascript:void();" data-toggle="modal" data-target="#inputtiketbaruadmin" id="buttonadminbuattiket"><i class="fa fa-ticket"></i>  Buat Tugas Baru</a>
-                       
+
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="javascript:void();"><i class="fa fa-search"></i> Cari Tugas</a>
                       </div>
@@ -188,38 +230,34 @@
                                     <td data-label="Worklist">{{$tiket->nama_worklist}}</td>
                                     <td>{{$tiket->status_tiket}}</td>
                                     <td>
-                                        {{-- <button class="btn-warning">Option</button> --}}
+
                                         <div class="dropdown">
                                           <button
                                             class="dropdown-toggle dropdown-toggle-nocaret btn-warning"
                                             data-toggle="dropdown">Option
-                                            
+
                                         </button>
                                           <div class="dropdown-menu dropdown-menu-right">
                                             <a class="dropdown-item" href="javascript:void();" data-toggle="modal" data-target="#modaladmin" id="buttonshowtiket" data-id="{{$tiket->no_tiket}}"><i class="fa fa-eye"></i> Show</a>
                                             <a class="dropdown-item" href="javascript:void();" data-toggle="modal" data-target="#modaladmin" id="buttonedittiket" data-id="{{$tiket->no_tiket}}"><i class="fa fa-pencil"></i> Edit</a>
                                             <a class="dropdown-item" href="javascript:void();"><i class="fa fa-trash"></i> Hapus</a>
-                                            {{-- <a class="dropdown-item" href="javascript:void();"
-                                              >Something else here</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="javascript:void();"
-                                              >Separated link</a> --}}
+
                                           </div>
                                         </div>
                                     </td>
                                 </tr>
-                            
+
                             @endforeach
                         </tbody>
                     </table>
                 </ul>
                 <div class="card-footer text-center bg-transparent border-0">
-                  {{-- <a href="javascript:void();">View all listings</a> --}}
+
                 </div>
               </div>
-            </div>
+            </div> --}}
 
-            <div class="col-lg-6">
+            {{-- <div class="col-lg-6">
               <div class="card">
                 <div class="card-header">
                   User
@@ -262,17 +300,7 @@
                                 <tr>
                                     <td>
                                             <i class="fa fa-user-circle-o"> </i>  - {{$user->name}}
-                                        {{-- <span class="list-group-item" >
-                                            <div class="media align-items-center" style="text-decoration:none;">
-                                            <div class="icon-box border ">
-                                                <i class="fa fa-user"></i>
-                                            </div>
-                                            <div class="media-body ml-3">
-                                                <h6 class="mb-0">{{$user->name}}</h6>
-                                            </div>
-                                            <div class="date">Wrok List: 250</div>
-                                            </div>
-                                        </span> --}}
+
                                     </td>
                                     <td>total : 0 <br> Selesai : 0 <br> tidak selesai : 0</td>
                                     <td>
@@ -280,32 +308,28 @@
                                         <button
                                           class="dropdown-toggle dropdown-toggle-nocaret btn-warning"
                                           data-toggle="dropdown">Option
-                                          
+
                                       </button>
                                         <div class="dropdown-menu dropdown-menu-right">
                                           <a class="dropdown-item" href="javascript:void();" ><i class="fa fa-eye"></i> Show</a>
                                           <a class="dropdown-item" href="javascript:void();"><i class="fa fa-pencil"></i> Edit</a>
                                           <a class="dropdown-item" href="javascript:void();"><i class="fa fa-trash"></i> Hapus</a>
-                                          {{-- <a class="dropdown-item" href="javascript:void();"
-                                            >Something else here</a>
-                                          <div class="dropdown-divider"></div>
-                                          <a class="dropdown-item" href="javascript:void();"
-                                            >Separated link</a> --}}
+
                                         </div>
                                       </div>
                                     </td>
                                 </tr>
-                            
+
                             @endforeach
                         </tbody>
                     </table>
                 </ul>
 
                 <div class="card-footer text-center border-0">
-                  {{-- <a href="javascript:void();">View all Categories</a> --}}
+
                 </div>
               </div>
-            </div>
+            </div> --}}
           </div>
           <!--End Row-->
           <!--start overlay-->
@@ -320,28 +344,17 @@
                     <li class="breadcrumb-item active" aria-current="page">Pramita</li>
                 </ol>
             </div>
-            
+
         </div>
         <!-- End Breadcrumb-->
-        @if ($message = Session::get('sukses'))
-				
-          <div class="alert alert-icon-success alert-dismissible" role="alert">
-              <button type="button" class="close" data-dismiss="alert">&times;</button>
-              <div class="alert-icon icon-part-success">
-                  <i class="fa fa-check"></i>
-              </div>
-              <div class="alert-message">
-                  <span><strong>Success!</strong> {{ $message }} </span>
-              </div>
-          </div>
-		    @endif
+
         <div class="row">
             <div class="col-lg-12">
 
                 <div class="card">
                     <div class="card-header text-uppercase">Lokasi Pramita</div>
                     <div class="card-body">
-                        {{-- <div id="map" class="gmaps"></div> --}}
+                        <div id="map" class="gmaps"></div>
                     </div>
                 </div>
 
@@ -353,7 +366,7 @@
         <!--end overlay-->
     </div>
     <!-- End container-fluid-->
-    
+
 </div>
 <div class="modal fade" id="showdatamaps">
     <div class="modal-dialog modal-dialog-centered modal-xl"  id="bodyformdatamapscabang">
@@ -378,9 +391,9 @@
 <div class="modal fade" id="inputtiketbaruadmin">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content border-danger" id="bodyformdatatiket">
-        
+
         loading ..
-  
+
       </div>
     </div>
 </div>
@@ -417,7 +430,7 @@
                 ["<h6><?php echo $item->nama_cabang ?></h6><p>{{  $item->alamat }}</p><button data-toggle='modal' data-target='#showdatamaps' class='btn-info' id='buttontampilmapscabang' data-id='<?php echo $item->kd_cabang ?>'><i class='fa fa-eye'> </i> Show Data</button>",+
                 "<?php echo $item->latitude ?>", "<?php echo $item->longtitude ?>"],
             @endforeach
-           
+
         ];
 
         // Lokasi folder dari icon
@@ -429,8 +442,8 @@
                 iconMarker + '1.png',
                 iconMarker + '1.gif',
                 // iconMarker + '3.png',
-              
-            // @endforeach  
+
+            // @endforeach
         ]
         var iconsLength = uniqueIcons.length;
 
@@ -457,7 +470,7 @@
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(locations[i][1], locations[i][2]),
                 map: map,
-                
+
                 mapTypeId: 'satellite',
                 icon: uniqueIcons[iconCounter]
             });

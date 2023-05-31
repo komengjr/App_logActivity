@@ -18,6 +18,27 @@ function getDataOptionTiket() {
                 );
         });
 };
+function getDataOptionKinerja() {
+    var datakinerja = document.getElementById('datakinerja').value;
+    var kategori = document.getElementById('kategori').value;
+    // e.preventDefault();
+    // var url = $(this).data('url');
+    // console.log(datakode);
+    $.ajax({
+
+            url: "admin/tiket/getdataoptionkinerja/"+datakinerja+'/'+kategori,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#optionkinerjaadmin').html(data);
+        })
+        .fail(function() {
+            $('#optionkinerjaadmin').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+};
 $(document).on('click', '#buttontampilmapscabang', function(e) {
     e.preventDefault();
     var id = $(this).data("id");
@@ -37,10 +58,10 @@ $(document).on('click', '#buttontampilmapscabang', function(e) {
                 );
         });
 });
-$(document).on('click', '#tugasuserbulanan', function(e) {
+$(document).on('click', '#datauseradmin', function(e) {
     e.preventDefault();
     var id = $(this).data("id");
-    var url = 'admin/data/tugasbulanan';
+    var url = 'admin/data/datauseradmin';
     // console.log(id);
     $.ajax({
             url: url,
@@ -77,7 +98,7 @@ $(document).on('click', '#tugasuserharian', function(e) {
 });
 $(document).on('click', '#tugasuserbelum', function(e) {
     e.preventDefault();
-    
+
     var url = 'admin/data/tugasuserbelum';
     // console.log(id);
     $.ajax({
@@ -147,6 +168,42 @@ $(document).on('click', '#buttonadminbuattiket', function(e) {
         })
         .fail(function() {
             $('#bodyformdatatiket').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
+$(document).on('click', '#buttonshowdetailuser', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    var url = 'admin/user/data/detail/'+id;
+    // console.log(id);
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#divtableuseradmin').html(data);
+        })
+        .fail(function() {
+            $('#divtableuseradmin').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
+$(document).on('click', '#buttontambahtiketbaru', function(e) {
+    e.preventDefault();
+    var url = 'admin/dataworklist/tiketbaru';
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#divtableworklist').html(data);
+        })
+        .fail(function() {
+            $('#divtableworklist').html(
                 '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
                 );
         });

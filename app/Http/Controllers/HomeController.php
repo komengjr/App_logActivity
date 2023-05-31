@@ -52,6 +52,7 @@ class HomeController extends Controller
         elseif(auth::user()->kd_akses == 2) {
             $cabang = DB::table('tbl_cabang')->get();
             $user = DB::table('users')->where('kd_akses', '>','1' )->get();
+            $jumlahuser = DB::table('users')->where('kd_akses', '>','1' )->count();
             $data_tiket = DB::table('tbl_tiket_group_worklist')
             ->join('group_worklist','group_worklist.kd_worklist_group','=','tbl_tiket_group_worklist.kd_worklist_group')
             ->join('tbl_worklist','tbl_worklist.kd_worklist','group_worklist.kd_worklist')
@@ -65,7 +66,7 @@ class HomeController extends Controller
             ->count();
             $data = $data_tiket1->merge($data_tiket);
             // dd($data);
-            return view('index',['cabang'=>$cabang , 'user' => $user , 'tiket' => $data , 'jumlah_tiket' => $jumlah_tiket]);
+            return view('index',['cabang'=>$cabang , 'user' => $user , 'tiket' => $data , 'jumlah_tiket' => $jumlah_tiket, 'jumlahuser'=>$jumlahuser]);
         }
         elseif (auth::user()->kd_akses == 3 ) {
 
@@ -109,8 +110,8 @@ class HomeController extends Controller
                 $persenselesai = $tugasselesai*100/($tugasselesai+$tugasbelumselesai);
                 $persenbelumselesai = $tugasbelumselesai*100/($tugasselesai+$tugasbelumselesai);
             }
-            
-            
+
+
             return view('index',[   'worklistperson'=>$worklistperson,
                                     'groupworklist'=>$groupworklist,
                                     'tugasselesai'=>$tugasselesai,
@@ -163,8 +164,8 @@ class HomeController extends Controller
                 $persenselesai = $tugasselesai*100/($tugasselesai+$tugasbelumselesai);
                 $persenbelumselesai = $tugasbelumselesai*100/($tugasselesai+$tugasbelumselesai);
             }
-            
-            
+
+
             return view('index',[   'worklistperson'=>$worklistperson,
                                     'groupworklist'=>$groupworklist,
                                     'tugasselesai'=>$tugasselesai,
@@ -178,15 +179,15 @@ class HomeController extends Controller
         elseif (auth::user()->kd_akses == 5) {
             return view('index');
         }
-        
+
     }
     public function ubahpassword(Request $request)
     {
-        
+
         DB::table('users')
                 ->where('id',auth::user()->id)
                 ->update([
-                            'password' => Hash::make($request->input('password')), 
+                            'password' => Hash::make($request->input('password')),
                         ]);
         return redirect()->back();
     }
@@ -204,7 +205,7 @@ class HomeController extends Controller
         DB::table('tbl_tiket_person_worklist')
         ->where('no_tiket',$tiket[0]->no_tiket)
         ->update([
-                    'status_tiket' => 2, 
+                    'status_tiket' => 2,
                 ]);
         Session::flash('sukses','Berhasil Input Tugas');
         return redirect()->back();
@@ -227,7 +228,7 @@ class HomeController extends Controller
         DB::table('tbl_tiket_group_worklist')
         ->where('no_tiket',$tiket[0]->no_tiket)
         ->update([
-                    'status_tiket' => 2, 
+                    'status_tiket' => 2,
                 ]);
         Session::flash('sukses','Berhasil Input Tugas');
         return redirect()->back();
