@@ -105,8 +105,9 @@
             color: #020202;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/script.js/2.1.1/script.min.js"integrity="sha512-oM6Bv767uUJZcy+SqCTP2rkHtKlivWNQ5+PPhhDwkY8FtNj4bq1xvNCB9NB3WkBa1KiY7P5a7/yfSONl5TYSPQ=="crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ url('assets/js/jquery.min.js', []) }}"></script>
-    
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 
 <body>
@@ -138,11 +139,11 @@
                             </div>
                         </a>
                     </li>
-                   
+
                 </ul>
 
                 <ul class="navbar-nav align-items-center right-nav-link">
-                    
+
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown"
                             href="#">
@@ -156,7 +157,7 @@
                                         <div class="avatar"><img class="align-self-start mr-3"
                                                 src="{{ url('icon.png', []) }}" alt="user avatar"></div>
                                         <div class="media-body">
-                                            <h6 class="mt-2 user-title">{{auth::user()->name}} ( 
+                                            <h6 class="mt-2 user-title">{{auth::user()->name}} (
                                             @if (auth::user()->kd_akses == 1)
                                                 Super Admin
                                             @elseif (auth::user()->kd_akses == 2)
@@ -215,7 +216,20 @@
                     <!-- Level Two-->
                     <ul>
                         <li><a href="{{ url('home', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i> Home</a></li>
-                       
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
+                        <span class="title">Data</span>
+                        <span class="arrow"></span>
+                    </a>
+                    <!-- Level Two-->
+                    <ul>
+
+                        <li><a href="{{ url('schedule', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i> Schedule</a></li>
+
                     </ul>
                 </li>
 
@@ -224,7 +238,7 @@
         <!-- end horizontal Menu -->
 
         <div class="clearfix"></div>
-        
+
             @yield('content')
 
         <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
@@ -244,24 +258,24 @@
         <div class="modal-dialog modal-dialog-centered modal-sm">
           <div class="modal-content border-danger">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white">Ubah Password User</h5> 
+                <h5 class="modal-title text-white">Ubah Password User</h5>
                 <span>
                     <button type="button" class="btn-danger" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </span>
-                
+
             </div>
             <form action="{{ url('ubahpassword', []) }}" method="post">
                 @csrf
                 <div class="modal-body" id="divtableworklist">
-                    <div class="body" id="divinputworklist">  
+                    <div class="body" id="divinputworklist">
                         <div class="row">
                             <div class="col-12">
                                 <label for="">Password Baru</label>
                                 <input type="text" class="form-control" name="password">
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -272,7 +286,7 @@
           </div>
         </div>
     </div>
-    
+
     <script src="{{ url('assets/js/popper.min.js', []) }}"></script>
     <script src="{{ url('assets/js/bootstrap.min.js', []) }}"></script>
     <script src="{{ url('assets/plugins/simplebar/js/simplebar.js', []) }}"></script>

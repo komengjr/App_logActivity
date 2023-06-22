@@ -81,9 +81,9 @@
             });
         </script>
     </div>
-    <div class="modal-footer">
+    {{-- <div class="modal-footer">
         <button type="button" class="btn-dark" data-dismiss="modal"><i class="fa fa-close"></i> Tutup</button>
-    </div>
+    </div> --}}
 </div>
 
 <script>

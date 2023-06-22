@@ -67,13 +67,17 @@ Route::post('masteradmin/datapersonworklist/postdata/hapus',['as'=>'masteradmin/
 Route::post('masteradmin/datatypeworklist/postdata/tambah',['as'=>'masteradmin/datatypeworklist/postdata/tambah','uses'=> 'MasterAdminController@datatypeworklisttambahpost']);
 
 // ADMIN ROUTE
+
+Route::get('schedule',['as'=>'schedule','uses'=> 'AdminController@schedule']);
+Route::get('schedule/datacalender',['as'=>'schedule/datacalender','uses'=> 'AdminController@datacalender']);
 Route::get('admin/data/datauseradmin',['as'=>'admin/data/datauseradmin','uses'=> 'AdminController@datauseradmin']);
 Route::get('admin/user/data/detail/{id}',['as'=>'admin/user/data/detail','uses'=> 'AdminController@datadetailuseradmin']);
 Route::get('admin/dataworklist/tiketbaru',['as'=>'admin/dataworklist/tiketbaru','uses'=> 'AdminController@buattiketbaru']);
-Route::get('admin/tiket/getdataoptionkinerja/{id}/{ids}',['as'=>'admin/tiket/getdataoptionkinerja','uses'=> 'AdminController@getdataoptionkinerja']);
+Route::get('admin/tiket/getdataoptionkinerja/{id}',['as'=>'admin/tiket/getdataoptionkinerja','uses'=> 'AdminController@getdataoptionkinerja']);
 
 Route::get('admin/data/tugasharian',['as'=>'admin/data/tugasharian','uses'=> 'AdminController@datatugasharian']);
 Route::get('admin/data/tugasuserbelum',['as'=>'admin/data/tugasuserbelum','uses'=> 'AdminController@tugasuserbelum']);
+Route::get('admin/data/dataperiode',['as'=>'admin/data/dataperiode','uses'=> 'AdminController@dataperiode']);
 Route::get('admin/data/showtiketadmin/{id}',['as'=>'admin/data/showtiketadmin','uses'=> 'AdminController@showtiketadmin']);
 Route::get('admin/data/edittiketadmin/{id}',['as'=>'admin/data/edittiketadmin','uses'=> 'AdminController@edittiketadmin']);
 Route::get('admin/maps/data/cabang/{id}',['as'=>'admin/maps/data/cabang','uses'=> 'AdminController@datamapscabang']);
@@ -83,6 +87,8 @@ Route::get('admin/tiket/getdataoption/{id}',['as'=>'admin/tiket/getdataoption','
 Route::post('admin/buattiket/personal',['as'=>'radmin/buattiket/personal','uses'=> 'AdminController@buattiketpersonal']);
 Route::post('admin/buattiket/group',['as'=>'admin/buattiket/group','uses'=> 'AdminController@buattiketgroupl']);
 Route::post('admin/buattiket/laporan',['as'=>'admin/buattiket/laporan','uses'=> 'AdminController@buattiketlaporan']);
+
+Route::post('admin/buatjadwal/user',['as'=>'admin/buatjadwal/user','uses'=> 'AdminController@ajaxRequestPost']);
 
 Auth::routes();
 Route::get('datamaps', function () {
@@ -101,3 +107,7 @@ Route::get('user/group/lihattiket/{id}',['as'=>'user12','uses'=> 'UserController
 Route::get('user/lihattugas',['as'=>'user2','uses'=> 'UserController@lihattugaspersonal']);
 Route::get('user/laporan/tambah',['as'=>'user3','uses'=> 'UserController@laporantambah']);
 Route::get('user/laporan/lihatlaporan/{id}',['as'=>'user/laporan/lihatlaporan','uses'=> 'UserController@lihatlaporan']);
+
+
+
+Route::post('ajaxRequest', [AdminController::class, 'ajaxRequestPost'])->name('ajaxRequest.post');

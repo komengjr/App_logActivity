@@ -1,6 +1,6 @@
 <link href="{{ url('assets/plugins/select2/css/select2.min.css', []) }}" rel="stylesheet"/>
 <div class="row">
-    <div class="col-12 mt-2">
+    {{-- <div class="col-12 mt-2">
         <label for="">Pilih Kategori</label>
         <select name="kategori" id="kategori" class="form-control">
             <option value="-">Pilih</option>
@@ -8,13 +8,21 @@
             <option value="2">Group</option>
 
         </select>
-    </div>
+    </div> --}}
     <div class="col-12">
         <label for="">Pilih Kinerja</label>
         <select name="type_tiket" class="form-control single-select12" onchange="getDataOptionKinerja();" id="datakinerja" required>
             <option value="">Pilih Salah satu</option>
             @foreach ($kinerja as $item)
-            <option value="{{$item->kd_kinerja}}">{{$item->kinerja}}</option>
+            <option value="{{$item->kd_kinerja}}">
+                {{$item->kinerja}} (
+                @if ($item->jenis_kinerja == 1)
+                    Team
+                @else
+                    Individu
+                @endif
+                )
+            </option>
             @endforeach
 
         </select>
@@ -28,9 +36,6 @@
 <script>
     $(document).ready(function() {
         $('.single-select12').select2();
-
-
-
 
       });
 

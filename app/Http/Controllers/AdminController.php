@@ -43,15 +43,16 @@ class AdminController extends Controller
 
 
     }
-    public function getdataoptionkinerja($id,$ids)
+    public function getdataoptionkinerja($id)
     {
+        $cekdata = DB::table('tbl_kinerja')->where('kd_kinerja',$id)->get();
         if (auth::user()->kd_akses == 2) {
-            if ($ids == '-') {
+            if ($cekdata[0]->jenis_kinerja == 0) {
                 # code...
-            } elseif($ids == 1) {
+            } elseif($cekdata[0]->jenis_kinerja == 2) {
                 $cabang = DB::table('tbl_cabang')->get();
                 return view('admin.modal.option.optiontiketbaruindividu',['cabang'=>$cabang,'id'=>$id]);
-            } elseif($ids == 2) {
+            } elseif($cekdata[0]->jenis_kinerja == 1) {
                 $group = DB::table('tbl_group')->get();
                 return view('admin.modal.option.optiontiketbarugroup',['group'=>$group]);
             }
@@ -91,13 +92,20 @@ class AdminController extends Controller
         ->join('tbl_worklist','tbl_worklist.kd_worklist','worklist_person.kd_worklist')
         ->get();
         $data = $data_tiket1->merge($data_tiket);
-        return view('admin.modal.daftartugasharian',['data'=>$data]);
+        return view('admin.modal.daftartugasworklist',['data'=>$data]);
         }
     }
     public function tugasuserbelum()
     {
         if (auth::user()->kd_akses == 2) {
         return view('admin.modal.daftartugasuserbelum');
+        }
+    }
+    public function dataperiode()
+    {
+        if (auth::user()->kd_akses == 2) {
+            $data = DB::table('tbl_periode')->where('status_periode',1)->get();
+        return view('admin.modal.daftarperiode',['dataperiode'=>$data]);
         }
     }
     public function showtiketadmin($id)
@@ -363,5 +371,38 @@ class AdminController extends Controller
             ]);
         Session::flash('sukses','Berhasil Membuat Laporan Dengan Kode Tiket : '.$no_tiket);
 		return redirect()->back();
+    }
+
+    public function schedule()
+    {
+        if (auth::user()->kd_akses ==2) {
+            return view('admin.schedule');
+        }
+
+    }
+    public function datacalender()
+    {
+        if (auth::user()->kd_akses ==2) {
+            $data = DB::table('tbl_kinerja')->get();
+            return view('admin.modal.calender',['data'=>$data]);
+        }
+
+    }
+    public function ajaxRequestPost(Request $request)
+    {
+        $date = substr($request->date, 4, 11);
+        $datex = strtotime($date);
+        DB::table('tbl_schedule')->insert(
+            [
+                'kd_schedule' => Str::random(10),
+                'kd_kinerja' => $request->judul,
+                'tgl_start' => date('Y-m-d', $datex),
+                'tgl_akhir' => $request->end,
+                'status_schedule' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]
+        );
+
+        return response()->json(['success'=>'Data Tugas telah di jadwalkan']);
     }
 }

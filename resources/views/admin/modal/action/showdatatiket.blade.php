@@ -10,7 +10,7 @@
 
     </div>
     <div class="modal-body" id="divtableworklist">
-        
+
         <form class="row g-3 pb-3">
             <div class="col-md-6">
                 <label for="inputEmail4" class="form-label">No Tiket</label>
@@ -52,9 +52,9 @@
                     </label>
                 </div>
             </div> --}}
-          
+
         </form>
-        
+
         <script>
             $(document).ready(function() {
 
@@ -71,9 +71,9 @@
             });
         </script>
     </div>
-    <div class="modal-footer">
+    {{-- <div class="modal-footer">
         <button type="button" class="btn-dark" data-dismiss="modal"><i class="fa fa-close"></i> Tutup</button>
-    </div>
+    </div> --}}
 </div>
 
 <script>

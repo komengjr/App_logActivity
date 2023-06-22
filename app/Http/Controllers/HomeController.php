@@ -51,7 +51,7 @@ class HomeController extends Controller
         }
         elseif(auth::user()->kd_akses == 2) {
             $cabang = DB::table('tbl_cabang')->get();
-            $user = DB::table('users')->where('kd_akses', '>','1' )->get();
+            $user = DB::table('users')->where('kd_akses', '>','2' )->get();
             $jumlahuser = DB::table('users')->where('kd_akses', '>','1' )->count();
             $data_tiket = DB::table('tbl_tiket_group_worklist')
             ->join('group_worklist','group_worklist.kd_worklist_group','=','tbl_tiket_group_worklist.kd_worklist_group')
@@ -66,7 +66,26 @@ class HomeController extends Controller
             ->count();
             $data = $data_tiket1->merge($data_tiket);
             // dd($data);
-            return view('index',['cabang'=>$cabang , 'user' => $user , 'tiket' => $data , 'jumlah_tiket' => $jumlah_tiket, 'jumlahuser'=>$jumlahuser]);
+            $periode = DB::table('tbl_periode')->where('status_periode',1)->get();
+            $datateam = DB::table('tbl_tiket_group_worklist')->count();
+            $datateamselesai = DB::table('tbl_tiket_group_worklist')->where('status_tiket',2)->count();
+            if ($datateamselesai == 0) {
+                $persendatateamselesai = 0;
+            } else {
+                $persendatateamselesai = ($datateamselesai/$datateam)*100;
+            }
+
+            $dataindividu = DB::table('tbl_tiket_person_worklist')->count();
+            $dataindividuselesai = DB::table('tbl_tiket_person_worklist')->where('status_tiket',2)->count();
+            if ($dataindividuselesai == 0) {
+                $persendataindividuselesai = 0;
+            } else {
+                $persendataindividuselesai = ($dataindividuselesai/$dataindividu)*100;
+            }
+            return view('index',['cabang'=>$cabang , 'user' => $user , 'tiket' => $data ,
+                        'jumlah_tiket' => $jumlah_tiket, 'jumlahuser'=>$jumlahuser, 'periode'=>$periode, 'datateam'=>$datateam,
+                        'dataindividu'=>$dataindividu, 'persendatateamselesai'=>$persendatateamselesai, 'persendataindividuselesai'=>$persendataindividuselesai
+                    ]);
         }
         elseif (auth::user()->kd_akses == 3 ) {
 

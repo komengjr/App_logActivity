@@ -12,7 +12,7 @@
             <select name="kd_cabang" id="" class="form-control single-select5">
                 <option value="">Pilih Cabang</option>
                 @foreach ($cabang as $item)
-                <option value="1">{{$item->nama_cabang}}</option>
+                <option value="1">{{$item->nama_cabang}} </option>
                 @endforeach
 
             </select>
@@ -28,21 +28,21 @@
         </div>
     </div>
 </form>
-<script src="{{ url('assets/plugins/summernote/dist/summernote-bs4.min.js', []) }}"></script>
-  <script>
-   $('#summernoteEditor').summernote({
-            height: 400,
-            tabsize: 2
+    <script src="{{ url('assets/plugins/summernote/dist/summernote-bs4.min.js', []) }}"></script>
+    <script>
+    $('#summernoteEditor').summernote({
+                height: 400,
+                tabsize: 2
+            });
+    </script>
+    <script src="{{ url('assets/plugins/select2/js/select2.min.js', []) }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.single-select5').select2();
+
+
+
+
         });
-  </script>
-  <script src="{{ url('assets/plugins/select2/js/select2.min.js', []) }}"></script>
-  <script>
-      $(document).ready(function() {
-        $('.single-select5').select2();
 
-
-
-
-      });
-
-  </script>
+    </script>

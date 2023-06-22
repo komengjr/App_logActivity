@@ -20,13 +20,13 @@ function getDataOptionTiket() {
 };
 function getDataOptionKinerja() {
     var datakinerja = document.getElementById('datakinerja').value;
-    var kategori = document.getElementById('kategori').value;
+    // var kategori = document.getElementById('kategori').value;
     // e.preventDefault();
     // var url = $(this).data('url');
     // console.log(datakode);
     $.ajax({
 
-            url: "admin/tiket/getdataoptionkinerja/"+datakinerja+'/'+kategori,
+            url: "admin/tiket/getdataoptionkinerja/"+datakinerja,
             type: 'GET',
             dataType: 'html'
         })
@@ -96,10 +96,10 @@ $(document).on('click', '#tugasuserharian', function(e) {
                 );
         });
 });
-$(document).on('click', '#tugasuserbelum', function(e) {
+$(document).on('click', '#dataperiode', function(e) {
     e.preventDefault();
 
-    var url = 'admin/data/tugasuserbelum';
+    var url = 'admin/data/dataperiode';
     // console.log(id);
     $.ajax({
             url: url,
@@ -192,6 +192,23 @@ $(document).on('click', '#buttonshowdetailuser', function(e) {
         });
 });
 $(document).on('click', '#buttontambahtiketbaru', function(e) {
+    e.preventDefault();
+    var url = 'admin/dataworklist/tiketbaru';
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#divtableworklist').html(data);
+        })
+        .fail(function() {
+            $('#divtableworklist').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
+$(document).on('click', '#datajadwaltugas', function(e) {
     e.preventDefault();
     var url = 'admin/dataworklist/tiketbaru';
     $.ajax({

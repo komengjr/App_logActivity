@@ -17,6 +17,7 @@ class CreateTblTiketPersonWorklistTable extends Migration
             $table->id('id_tiket_worklist_person');
             $table->string('no_tiket')->unique();
             $table->string('kd_worklist_person')->index();
+            $table->string('kd_kinerja')->index();
             $table->string('id_user')->index();
             $table->string('status_tiket')->nullable();
             $table->string('tgl_buat')->nullable();

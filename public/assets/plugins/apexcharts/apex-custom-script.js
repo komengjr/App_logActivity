@@ -25,7 +25,7 @@ var options = {
                 },
             },
             stroke: {
-                width: 4,   
+                width: 4,
                 curve: 'smooth',
             },
             series: [{
@@ -61,7 +61,7 @@ var options = {
             },
             yaxis: {
                 min: -10,
-                max: 40,                
+                max: 40,
             }
         }
 
@@ -69,7 +69,7 @@ var options = {
             document.querySelector("#chart1"),
             options
         );
-        
+
         chart.render();
 
 
@@ -92,7 +92,7 @@ var options = {
                 enabled: false
             },
             stroke: {
-                width: 0, 
+                width: 0,
                 curve: 'smooth'
             },
             series: [{
@@ -105,7 +105,7 @@ var options = {
 
             xaxis: {
                 type: 'datetime',
-                categories: ["2018-09-19T00:00:00", "2018-09-19T01:30:00", "2018-09-19T02:30:00", "2018-09-19T03:30:00", "2018-09-19T04:30:00", "2018-09-19T05:30:00", "2018-09-19T06:30:00"],                
+                categories: ["2018-09-19T00:00:00", "2018-09-19T01:30:00", "2018-09-19T02:30:00", "2018-09-19T03:30:00", "2018-09-19T04:30:00", "2018-09-19T05:30:00", "2018-09-19T06:30:00"],
             },
 
             fill: {
@@ -158,7 +158,7 @@ var options = {
                 bar: {
                     horizontal: false,
                     columnWidth: '55%',
-                    endingShape: 'rounded'  
+                    endingShape: 'rounded'
                 },
             },
             dataLabels: {
@@ -217,7 +217,7 @@ var options = {
         chart.render();
 
 
-   
+
    // chart 4
 
         var options = {
@@ -262,7 +262,7 @@ var options = {
         );
 
         chart.render();
-      
+
 
         // chart 5
 
@@ -308,11 +308,11 @@ var options = {
         );
 
         chart.render();
-        
-       
+
+
 
         // chart 6
-		
+
 		var options = {
             chart: {
                 height: 350,
@@ -338,7 +338,7 @@ var options = {
                 name: 'Series 3',
                 data: [44, 76, 78, 13, 43, 10],
             }],
-			
+
             title: {
                 text: 'Radar Chart - Multi Series'
             },
@@ -375,9 +375,9 @@ var options = {
 
         chart.render();
 
-      
+
 	  // chart 7
-	  
+
 	  var options = {
             chart: {
                 height: 380,
@@ -387,7 +387,7 @@ var options = {
                 radialBar: {
                     dataLabels: {
                         name: {
-							
+
                             fontSize: '22px',
                         },
                         value: {
@@ -420,21 +420,21 @@ var options = {
 			colors: ["#8f50ff", "#f1076f", "#ffd200", "#cddc35"],
             series: [44, 55, 67, 83],
             labels: ['Apples', 'Oranges', 'Bananas', 'Berries'],
-            
+
         }
 
        var chart = new ApexCharts(
             document.querySelector("#chart7"),
             options
         );
-        
+
         chart.render();
 
-		
-		
-		
+
+
+
 	 // chart 8
-	 
+
 	 var options = {
       chart: {
         height: 380,
@@ -523,12 +523,12 @@ var options = {
       options
     );
 
-    chart.render();	
-		
-		
-		
-     
-    // chart 9 
+    chart.render();
+
+
+
+
+    // chart 9
 
     var options = {
             chart: {
@@ -625,15 +625,15 @@ var options = {
          }, colors: ["#00f260"],
             series: [87],
             labels: ['Median Ratio'],
-            
+
         }
 
        var chart = new ApexCharts(
             document.querySelector("#chart9"),
             options
         );
-        
-        chart.render();	 
+
+        chart.render();
 
 
 
@@ -641,4 +641,4 @@ var options = {
 
 
 
-     });	
+     });

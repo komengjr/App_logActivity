@@ -16,7 +16,8 @@ class CreateTblTiketGroupWorklistTable extends Migration
         Schema::create('tbl_tiket_group_worklist', function (Blueprint $table) {
             $table->id('id_tiket_group_worklist');
             $table->string('no_tiket')->unique();
-            $table->string('kd_group')->index();
+            $table->string('kd_worklist_group')->index();
+            $table->string('kd_kinerja')->index();
             $table->string('id_user')->index();
             $table->string('status_tiket')->nullable();
             $table->string('tgl_buat')->nullable();

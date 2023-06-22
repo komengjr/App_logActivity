@@ -11,10 +11,12 @@
                 <option value="">Pilih Group</option>
                 @foreach ($group as $item)
                     <option value="1">{{$item->nama_group}}</option>
+                    asd
                 @endforeach
 
 
             </select>
+
         </div>
 
         <div class="col-12 mt-2">
