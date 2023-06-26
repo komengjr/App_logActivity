@@ -78,67 +78,31 @@
             selectHelper: true,
             editable: false,
             eventLimit: true, // allow "more" link when too many events
-            // events: [{
-            //         title: "All Day Event",
-            //         start: "2018-03-01",
-            //     },
-            //     {
-            //         title: "Long Event",
-            //         start: "2018-03-07",
-            //         end: "2018-03-10",
-            //     },
-            //     {
-            //         id: 999,
-            //         title: "Repeating Event",
-            //         start: "2018-03-09T16:00:00",
-            //     },
-            //     {
-            //         id: 999,
-            //         title: "Repeating Event",
-            //         start: "2018-03-16T16:00:00",
-            //     },
-            //     {
-            //         title: "Conference",
-            //         start: "2018-03-11",
-            //         end: "2018-03-13",
-            //     },
-            //     {
-            //         title: "Meeting",
-            //         start: "2018-03-12T10:30:00",
-            //         end: "2018-03-12T12:30:00",
-            //     },
-            //     {
-            //         title: "Lunch",
-            //         start: "2018-03-12T12:00:00",
-            //     },
-            //     {
-            //         title: "Meeting",
-            //         start: "2018-03-12T14:30:00",
-            //     },
-            //     {
-            //         title: "Happy Hour",
-            //         start: "2018-03-12T17:30:00",
-            //     },
-            //     {
-            //         title: "Dinner",
-            //         start: "2018-03-12T20:00:00",
-            //     },
-            //     {
-            //         title: "Birthday Party",
-            //         start: "2018-03-13T07:00:00",
-            //     },
-            //     {
-            //         title: "Click for Google",
-            //         url: "http://google.com/",
-            //         start: "2018-03-28",
-            //     },
-            // ],
+            events: [
+                @foreach ($data as $data)
+                    {
+                        title: "{{ $data->kinerja }}",
+                        start: "{{ $data->tgl_start }}",
+                        end: "{{ $data->tgl_akhir }}",
+                    },
+                @endforeach
+
+                {
+                    title: "Click for Google",
+                    url: "http://google.com/",
+                    start: "2018-03-28",
+                },
+            ],
             select: function(start, end, table) {
-                // var title = 1;
+
                 console.log(start._d);
                 $("#formemodal").modal('show');
+                $('#txt_name').on("change", function() {
+                    var datanama = $("#txt_name option:selected").attr('data-nama');
+                    alert(datanama)
+                });
                 var title = '';
-                var url = 'schedule/datacalender';
+                var url = 'schedule/datacalender/'+start._d;
                 $.ajax({
                         url: url,
                         type: 'GET',
@@ -149,6 +113,8 @@
                         $('#bodycalender').html(data);
                         $("#simpan").click(function() {
                             var title = document.getElementById('txt_name').value;
+                            var judul = document.getElementById('judul').value;
+                            var ket = document.getElementById('ket').value;
 
                             var user_name = "Rohit";
                             document.cookie = "name = " + user_name;
@@ -156,37 +122,31 @@
                             console.log(title);
                             $("#calendar").fullCalendar("unselect");
                             var tanggal = $(this).data("date");
-                            // @php
-                            //     $name= @endphp title@php;
-                            //     $datax = DB::table('tbl_kinerja')
-                            //         ->where('kd_kinerja',$name)
-                            //         ->get();
-                            // @endphp
-                            // @if ($datax->isEmpty())
-                            // @else
-                                if (title) {
-                                    eventData = {
-                                        title: title,
-                                        start: start,
-                                        end: tglskrng,
-                                    };
-                                    $.ajax({
-                                        type: 'post',
-                                        url: 'admin/buatjadwal/user',
-                                        data: {
-                                            judul: title,
-                                            date: start._d,
-                                            end: tglskrng,
-                                        },
-                                        success: function(data) {
-                                            alert(data.success);
-                                        }
 
-                                    });
-                                    $("#calendar").fullCalendar("renderEvent", eventData, true);
-                                    console.log(eventData);
-                                }
-                            // @endif
+                            if (title) {
+                                eventData = {
+                                    title: judul,
+                                    start: start,
+                                    end: tglskrng + " 24:00:00",
+                                };
+                                $.ajax({
+                                    type: 'post',
+                                    url: 'admin/buatjadwal/user',
+                                    data: {
+                                        judul: title,
+                                        date: start._d,
+                                        ket: ket,
+                                        end: tglskrng + " 24:00:00",
+                                    },
+                                    success: function(data) {
+                                        alert(data.success);
+                                    }
+
+                                });
+                                $("#calendar").fullCalendar("renderEvent", eventData, true);
+                                console.log(eventData);
+                            }
+
 
                         });
 

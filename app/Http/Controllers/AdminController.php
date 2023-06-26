@@ -79,6 +79,13 @@ class AdminController extends Controller
             // }
         }
     }
+    public function getdataoptionkinerjax($id)
+    {
+        $cekdata = DB::table('tbl_kinerja')->where('kd_kinerja',$id)->get();
+
+        return view('admin.modal.option.datakinerja',['cekdata'=>$cekdata,'id'=>$id]);
+
+    }
 
     public function datatugasharian()
     {
@@ -376,15 +383,21 @@ class AdminController extends Controller
     public function schedule()
     {
         if (auth::user()->kd_akses ==2) {
-            return view('admin.schedule');
+            $data = DB::table('tbl_schedule')
+            ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
+            ->get();
+            return view('admin.schedule',['data'=>$data]);
         }
 
     }
-    public function datacalender()
+    public function datacalender($id)
     {
+        $date = substr($id, 4, 11);
+        $datex = strtotime($date);
+        $tgl = date('m/d/Y', $datex);
         if (auth::user()->kd_akses ==2) {
             $data = DB::table('tbl_kinerja')->get();
-            return view('admin.modal.calender',['data'=>$data]);
+            return view('admin.modal.calender',['data'=>$data,'id'=>$tgl]);
         }
 
     }
@@ -398,6 +411,7 @@ class AdminController extends Controller
                 'kd_kinerja' => $request->judul,
                 'tgl_start' => date('Y-m-d', $datex),
                 'tgl_akhir' => $request->end,
+                'ket_schedule' => $request->ket,
                 'status_schedule' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
             ]

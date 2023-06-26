@@ -19,6 +19,7 @@ class CreateTblScheduleTable extends Migration
             $table->string('kd_kinerja');
             $table->string('tgl_start');
             $table->string('tgl_akhir');
+            $table->string('ket_schedule');
             $table->string('status_schedule');
             $table->timestamps();
         });

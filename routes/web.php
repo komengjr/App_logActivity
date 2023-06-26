@@ -69,11 +69,12 @@ Route::post('masteradmin/datatypeworklist/postdata/tambah',['as'=>'masteradmin/d
 // ADMIN ROUTE
 
 Route::get('schedule',['as'=>'schedule','uses'=> 'AdminController@schedule']);
-Route::get('schedule/datacalender',['as'=>'schedule/datacalender','uses'=> 'AdminController@datacalender']);
+Route::get('schedule/datacalender/{id}',['as'=>'schedule/datacalender','uses'=> 'AdminController@datacalender']);
 Route::get('admin/data/datauseradmin',['as'=>'admin/data/datauseradmin','uses'=> 'AdminController@datauseradmin']);
 Route::get('admin/user/data/detail/{id}',['as'=>'admin/user/data/detail','uses'=> 'AdminController@datadetailuseradmin']);
 Route::get('admin/dataworklist/tiketbaru',['as'=>'admin/dataworklist/tiketbaru','uses'=> 'AdminController@buattiketbaru']);
 Route::get('admin/tiket/getdataoptionkinerja/{id}',['as'=>'admin/tiket/getdataoptionkinerja','uses'=> 'AdminController@getdataoptionkinerja']);
+Route::get('admin/tiket/getdataoptionkinerjax/{id}',['as'=>'admin/tiket/getdataoptionkinerjax','uses'=> 'AdminController@getdataoptionkinerjax']);
 
 Route::get('admin/data/tugasharian',['as'=>'admin/data/tugasharian','uses'=> 'AdminController@datatugasharian']);
 Route::get('admin/data/tugasuserbelum',['as'=>'admin/data/tugasuserbelum','uses'=> 'AdminController@tugasuserbelum']);

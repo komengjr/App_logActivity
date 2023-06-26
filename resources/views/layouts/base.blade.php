@@ -11,7 +11,9 @@
     <!--favicon-->
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
     <link href="{{ url('assets/plugins/simplebar/css/simplebar.css', []) }}" rel="stylesheet" />
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css"> --}}
     <link href="{{ url('assets/css/bootstrap.min.css', []) }}" rel="stylesheet" />
+
     <link href="{{ url('assets/css/animate.css', []) }}" rel="stylesheet" type="text/css" />
     <link href="{{ url('assets/css/icons.css', []) }}" rel="stylesheet" type="text/css" />
     <link href="{{ url('assets/css/horizontal-menu.css', []) }}" rel="stylesheet" />
@@ -105,8 +107,11 @@
             color: #020202;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/script.js/2.1.1/script.min.js"integrity="sha512-oM6Bv767uUJZcy+SqCTP2rkHtKlivWNQ5+PPhhDwkY8FtNj4bq1xvNCB9NB3WkBa1KiY7P5a7/yfSONl5TYSPQ=="crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="{{ url('assets/js/jquery.min.js', []) }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/script.js/2.1.1/script.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+    {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> --}}
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 
