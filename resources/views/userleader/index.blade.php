@@ -206,7 +206,7 @@
                         </div>
 
                         <div class="card-body pt-5">
-                            <img src="{{ asset('storage/'.$biodata->gambar) }}" alt="profile-image" class="profile" />
+                            <img src="{{ url('storage/'.$biodata->gambar) }}" alt="profile-image" class="profile" />
                             <h5 class="card-title">{{$biodata->nama_lengkap}}</h5>
                             <p class="card-text">
                                 Welcome to the IT activity log application.
