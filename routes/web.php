@@ -109,6 +109,6 @@ Route::get('user/lihattugas',['as'=>'user2','uses'=> 'UserController@lihattugasp
 Route::get('user/laporan/tambah',['as'=>'user3','uses'=> 'UserController@laporantambah']);
 Route::get('user/laporan/lihatlaporan/{id}',['as'=>'user/laporan/lihatlaporan','uses'=> 'UserController@lihatlaporan']);
 
-
+Route::post('user/lengkapi/data', 'UserController@lengkapidatabiodata');
 
 Route::post('ajaxRequest', [AdminController::class, 'ajaxRequestPost'])->name('ajaxRequest.post');

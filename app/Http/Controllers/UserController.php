@@ -12,7 +12,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        
+
     }
     public function lihattiketpersonal($id)
     {
@@ -69,10 +69,27 @@ class UserController extends Controller
 		return redirect()->back();
     }
     public function lihatlaporan($id)
-    {  
+    {
         $data = DB::table('tbl_tiket_laporan')
         ->where('id_tiket_laporan',$id)
         ->get();
         return view('userleader.modal.detaillaporan',['data'=>$data]);
+    }
+
+    public function lengkapidatabiodata(Request $request)
+    {
+        DB::table('tbl_biodata')->insert(
+            [
+                'id_user' => auth::user()->id_user,
+                'nama_lengkap' => $request->input('nama_lengkap'),
+                'nip' => $request->input('nip'),
+                'tgl_lahir' => $request->input('tgl_lahir'),
+                'tempat_lahir' => $request->input('tempat_lahir_lahir'),
+                'alamat' => $request->input('alamat'),
+                'gambar' => $request->file('gambar')->storeAs('data_file/fileupload/'.auth::user()->email,auth::user()->id_user.''.'pp.jpg'),
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+            Session::flash('sukses','Berhasil Melengkapi Data Profil');
+            return redirect()->back();
     }
 }

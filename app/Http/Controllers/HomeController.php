@@ -129,8 +129,15 @@ class HomeController extends Controller
                 $persenselesai = $tugasselesai*100/($tugasselesai+$tugasbelumselesai);
                 $persenbelumselesai = $tugasbelumselesai*100/($tugasselesai+$tugasbelumselesai);
             }
+            $tbl_kinerja = DB::table('tbl_kinerja')->get();
+            $biodata = DB::table('tbl_biodata')
+            ->join('users','users.id_user','=','tbl_biodata.id_user')
+            ->where('tbl_biodata.id_user',auth::user()->id_user)->first();
 
-
+            $groupcabang = DB::table('handler_cabang')
+            ->join('group_user','group_user.kd_group','=','handler_cabang.kd_group')
+            ->join('tbl_cabang','tbl_cabang.kd_cabang','=','handler_cabang.kd_cabang')
+            ->where('group_user.id_user',auth::user()->id_user)->get();
             return view('index',[   'worklistperson'=>$worklistperson,
                                     'groupworklist'=>$groupworklist,
                                     'tugasselesai'=>$tugasselesai,
@@ -138,7 +145,10 @@ class HomeController extends Controller
                                     'tugashariini'=>$tugashariini,
                                     'datalaporan'=>$datalaporan,
                                     'persenselesai'=>$persenselesai,
-                                    'persenbelumselesai'=>$persenbelumselesai
+                                    'persenbelumselesai'=>$persenbelumselesai,
+                                    'tbl_kinerja'=>$tbl_kinerja,
+                                    'biodata'=>$biodata,
+                                    'groupcabang'=>$groupcabang,
                                 ]);
         }
         elseif (auth::user()->kd_akses == 4) {
