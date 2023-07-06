@@ -10,21 +10,21 @@
     <title>App Log</title>
     <!--favicon-->
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
-    <link href="{{ url('assets/plugins/simplebar/css/simplebar.css', []) }}" rel="stylesheet" />
+    <link href="{{ asset('assets/plugins/simplebar/css/simplebar.css', []) }}" rel="stylesheet" />
     {{-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css"> --}}
-    <link href="{{ url('assets/css/bootstrap.min.css', []) }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/bootstrap.min.css', []) }}" rel="stylesheet" />
 
-    <link href="{{ url('assets/css/animate.css', []) }}" rel="stylesheet" type="text/css" />
-    <link href="{{ url('assets/css/icons.css', []) }}" rel="stylesheet" type="text/css" />
-    <link href="{{ url('assets/css/horizontal-menu.css', []) }}" rel="stylesheet" />
-    <link href="{{ url('assets/css/app-style.css', []) }}" rel="stylesheet" />
-    <link href="{{ url('assets/plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css', []) }}" rel="stylesheet"
+    <link href="{{ asset('assets/css/animate.css', []) }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/icons.css', []) }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/horizontal-menu.css', []) }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/app-style.css', []) }}" rel="stylesheet" />
+    <link href="{{ asset('assets/plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css', []) }}" rel="stylesheet"
         type="text/css">
-    <link href="{{ url('assets/plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css', []) }}" rel="stylesheet"
+    <link href="{{ asset('assets/plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css', []) }}" rel="stylesheet"
         type="text/css">
-    <link rel="stylesheet" href="{{ url('assets/plugins/notifications/css/lobibox.min.css', []) }}" />
-    <link rel="stylesheet" href="{{ url('assets/plugins/summernote/dist/summernote-bs4.css', []) }}" />
-    <link href="{{ url('assets/plugins/select2/css/select2.min.css', []) }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('assets/plugins/notifications/css/lobibox.min.css', []) }}" />
+    <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/dist/summernote-bs4.css', []) }}" />
+    <link href="{{ asset('assets/plugins/select2/css/select2.min.css', []) }}" rel="stylesheet" />
     <style>
         .footerx {
             padding: 5px;
@@ -401,18 +401,18 @@
         </div>
     </div>
 
-    <script src="{{ url('assets/js/popper.min.js', []) }}"></script>
-    <script src="{{ url('assets/js/bootstrap.min.js', []) }}"></script>
-    <script src="{{ url('assets/plugins/simplebar/js/simplebar.js', []) }}"></script>
-    <script src="{{ url('assets/js/horizontal-menu.js', []) }}"></script>
-    <script src="{{ url('assets/js/app-script.js', []) }}"></script>
-    <script src="{{ url('assets/plugins/bootstrap-datatable/js/jquery.dataTables.min.js', []) }}"></script>
-    <script src="{{ url('assets/plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js', []) }}"></script>
-    <script src="{{ url('assets/plugins/bootstrap-datatable/js/dataTables.buttons.min.js', []) }}"></script>
-    <script src="{{ url('assets/plugins/notifications/js/lobibox.min.js', []) }}"></script>
-    <script src="{{ url('assets/plugins/notifications/js/notifications.min.js', []) }}"></script>
-    <script src="{{ url('assets/plugins/notifications/js/notification-custom-script.js', []) }}"></script>
-    <script src="{{ url('assets/plugins/select2/js/select2.min.js', []) }}"></script>
+    <script src="{{ asset('assets/js/popper.min.js', []) }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.min.js', []) }}"></script>
+    <script src="{{ asset('assets/plugins/simplebar/js/simplebar.js', []) }}"></script>
+    <script src="{{ asset('assets/js/horizontal-menu.js', []) }}"></script>
+    <script src="{{ asset('assets/js/app-script.js', []) }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap-datatable/js/jquery.dataTables.min.js', []) }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js', []) }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap-datatable/js/dataTables.buttons.min.js', []) }}"></script>
+    <script src="{{ asset('assets/plugins/notifications/js/lobibox.min.js', []) }}"></script>
+    <script src="{{ asset('assets/plugins/notifications/js/notifications.min.js', []) }}"></script>
+    <script src="{{ asset('assets/plugins/notifications/js/notification-custom-script.js', []) }}"></script>
+    <script src="{{ asset('assets/plugins/select2/js/select2.min.js', []) }}"></script>
 
 </body>
 

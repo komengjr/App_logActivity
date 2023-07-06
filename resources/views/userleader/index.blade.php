@@ -223,21 +223,10 @@
 
                         <div class="btn-group float-sm-right" style="padding: 0px;">
 
-                            <button type="button"
-                                class="btn btn-light dropdown-toggle dropdown-toggle-split waves-effect waves-light rounded-0 texture-info"
-                                data-toggle="dropdown">
-                                <span class="caret"></span>
-                            </button>
-                            <div class="dropdown-menu">
-                                <a href="javaScript:void();" class="dropdown-item" data-toggle="modal"
-                                    data-target="#input_tiketxx" id="buttoninputlaporan"><i
-                                        class="fa fa-exclamation-circle"></i> Input Laporan</a>
-                                {{-- <a href="javaScript:void();" class="dropdown-item">Another action</a>
-                            <a href="javaScript:void();" class="dropdown-item">Something else here</a> --}}
-                                <div class="dropdown-divider"></div>
-                                <a href="javaScript:void();" class="dropdown-item"><i class="fa fa-tasks"></i> Ambil
-                                    Tugas</a>
-                            </div>
+                            <span class="btn btn-light dropdown-toggle-split rounded-0 texture-info" >
+                                {{-- <span class="caret"></span> --}}
+                            </span>
+
                         </div>
                     </div>
                 </div>
@@ -267,19 +256,19 @@
                                     <h5 class="mb-3">User Profile</h5>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h6>Nomor Induk Pegawai</h6>
+                                            <h6 style="text-decoration: underline;">Nomor Induk Pegawai</h6>
                                             <p>{{$biodata->nip}}</p>
-                                            <h6>Tempat / Tanggal Lahir</h6>
+                                            <h6 style="text-decoration: underline;">Tempat / Tanggal Lahir</h6>
                                             <p>
                                                 {{$biodata->tempat_lahir}} / {{$biodata->tgl_lahir}}
                                             </p>
-                                            <h6>Alamat</h6>
+                                            <h6 style="text-decoration: underline;">Alamat</h6>
                                             <p>
                                                 {{$biodata->alamat}}
                                             </p>
                                         </div>
                                         <div class="col-md-6">
-                                            <h6>Cabang Group</h6>
+                                            <h6 style="text-decoration: underline;">Cabang Group</h6>
                                             @foreach ($groupcabang as $groupcabang)
                                                 <a href="javascript:void();" class="badge badge-dark badge-pill">{{$groupcabang->nama_cabang}}</a>
                                             @endforeach
@@ -307,7 +296,7 @@
                                                     <div class="alert-icon contrast-alert">
                                                         <button><i class="fa fa-exclamation-triangle"></i></button>
                                                     </div>
-                                                    <div class="alert-message">
+                                                    <div class="alert-message" style="text-align: justify;">
                                                         <span><strong>Tugas Group :</strong> <span
                                                                 style="color: black;">{{ $groupworklist->nama_worklist }}</span>
                                                             <strong>Dengan
@@ -336,6 +325,28 @@
                                                         </div>
                                                     </div>
                                                     @php $jumlahtugashariini = $jumlahtugashariini + 1; @endphp
+                                                @endif
+                                            @endforeach
+                                            <hr>
+                                            @foreach ($dataschedule as $dataschedule)
+                                                @if (substr($dataschedule->tgl_start, 0, 10) == date('Y-m-d'))
+                                                    <div class="alert alert-warning alert-dismissible" role="alert"
+                                                        style="cursor: pointer;" data-toggle="modal"
+                                                        data-target="#input_tiketxx" id="buttontiketpersonal"
+                                                        data-id="{{ $dataschedule->kd_schedule }}">
+                                                        <div class="alert-icon contrast-alert">
+                                                            <button><i class="fa fa-exclamation-triangle"></i></button>
+                                                        </div>
+                                                        <div class="alert-message">
+                                                            <span><strong>Tugas Baru : </strong> <span
+                                                                    style="color: black;">{{ $dataschedule->kd_kinerja }}</span>
+                                                                Dengan
+                                                                No
+                                                                Tiket <span
+                                                                    style="color: black">{{ $dataschedule->kd_schedule }}</span></span>
+                                                        </div>
+                                                    </div>
+
                                                 @endif
                                             @endforeach
 
@@ -540,7 +551,38 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12 col-lg-12 col-xl-12">
 
+
+              <div class="card">
+                <div class="card-header text-uppercase">Column Chart
+                    <div class="card-action">
+                        <div class="dropdown">
+                            <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret"
+                                data-toggle="dropdown">
+                                <i class="icon-options"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a href="javaScript:void();" class="dropdown-item" data-toggle="modal"
+                                    data-target="#input_tiketxx" id="buttoninputlaporan"><i
+                                        class="fa fa-exclamation-circle"></i> Input Laporan</a>
+                                <a class="dropdown-item" href="javascript:void();">Another action</a>
+                                <a class="dropdown-item" href="javascript:void();">Something else here</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="javaScript:void();" class="dropdown-item" data-toggle="modal"
+                                data-target="#inputtiketbaruadmin" id="buttonadminbuattiket"><i class="fa fa-tasks"></i>
+                                Buat Tiket</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                  <div id="chart3"></div>
+                </div>
+              </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -619,6 +661,140 @@
                 topic: "Please select at least 2 topics"
             }
         });
+
+    });
+</script>
+<script src="{{ url('assets/plugins/apexcharts/apexcharts.js', []) }}"></script>
+    {{-- <script src="{{ url('assets/plugins/apexcharts/apex-custom-script.js', []) }}"></script> --}}
+{{-- <script src="{{ url('assets/js/dashboard-human-resources.js', []) }}"></script> --}}
+<script>
+    $(function() {
+        "use strict";
+
+
+
+
+        // chart 8
+
+        var options = {
+            chart: {
+                height: 350,
+                type: 'bar',
+                foreColor: '#4e4e4e',
+                toolbar: {
+                      show: false
+                    }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    endingShape: 'rounded'
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            grid:{
+                show: true,
+                borderColor: 'rgba(255, 255, 255, 0.00)',
+            },
+            series: [{
+                name: 'Total Tiket',
+                data: [
+                    @foreach ($periode as $periodtotal)
+                        @php
+                            $totaldatatiketperson = DB::table('tbl_tiket_person_worklist')
+                                ->whereBetween('tgl_buat', [$periodtotal->awal_tgl, $periodtotal->akhir_tgl])
+                                ->count();
+                            $totaldatatiketgroup = DB::table('tbl_tiket_group_worklist')
+                                ->whereBetween('tgl_buat', [$periodtotal->awal_tgl, $periodtotal->akhir_tgl])
+                                ->count();
+                            $totaltiket = $totaldatatiketperson + $totaldatatiketgroup;
+                        @endphp
+                            '{{ $totaltiket }}',
+                    @endforeach
+                ]
+            }, {
+                name: 'Selesai',
+                data: [
+                    @foreach ($periode as $periodtota2)
+                        @php
+                            $totaldatatiketpersonselesai = DB::table('tbl_tiket_person_worklist')
+                                ->where('status_tiket', 2)
+                                ->whereBetween('tgl_buat', [$periodtota2->awal_tgl, $periodtota2->akhir_tgl])
+                                ->count();
+                            $totaldatatiketgroupselesai = DB::table('tbl_tiket_group_worklist')
+                                ->where('status_tiket', 2)
+                                ->whereBetween('tgl_buat', [$periodtota2->awal_tgl, $periodtota2->akhir_tgl])
+                                ->count();
+                            $totaltiketselesai = $totaldatatiketpersonselesai + $totaldatatiketgroupselesai;
+                        @endphp
+                            '{{ $totaltiketselesai }}',
+                    @endforeach
+                ]
+            }, {
+                name: 'Tidak',
+                data: [
+                    @foreach ($periode as $periodtota3)
+                        @php
+                            $totaldatatiketpersontidakselesai = DB::table('tbl_tiket_person_worklist')
+                                ->where('status_tiket', 0)
+                                ->whereBetween('tgl_buat', [$periodtota3->awal_tgl, $periodtota3->akhir_tgl])
+                                ->count();
+                            $totaldatatiketgrouptidakselesai = DB::table('tbl_tiket_group_worklist')
+                                ->where('status_tiket', 0)
+                                ->whereBetween('tgl_buat', [$periodtota3->awal_tgl, $periodtota3->akhir_tgl])
+                                ->count();
+                            $totaltikettidakselesai = $totaldatatiketpersontidakselesai + $totaldatatiketgrouptidakselesai;
+                        @endphp
+                            '{{ $totaltikettidakselesai }}',
+                    @endforeach
+                ]
+            }],
+            xaxis: {
+                categories: [
+                    @foreach ($periode as $periodenama)
+                        '{{ $periodenama->bulan }} - {{ $periodenama->tahun }}',
+                    @endforeach
+                ],
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'dark',
+                    gradientToColors: [ '#00c8ff', '#08a50e', '#7f00ff'],
+                    shadeIntensity: 1,
+                    type: 'horizontal',
+                    opacityFrom: 1,
+                    opacityTo: 1,
+                    stops: [0, 100, 100, 100]
+                },
+            },
+            colors: ["#0072ff", "#cddc35", "#e100ff"],
+            tooltip: {
+                theme: 'dark',
+                y: {
+                    formatter: function (val) {
+                        return "" + val + " Tiket"
+                    }
+                }
+            }
+        }
+
+        var chart = new ApexCharts(
+            document.querySelector("#chart3"),
+            options
+        );
+
+        chart.render();
+
+
 
     });
 </script>

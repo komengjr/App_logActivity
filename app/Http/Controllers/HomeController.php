@@ -138,6 +138,10 @@ class HomeController extends Controller
             ->join('group_user','group_user.kd_group','=','handler_cabang.kd_group')
             ->join('tbl_cabang','tbl_cabang.kd_cabang','=','handler_cabang.kd_cabang')
             ->where('group_user.id_user',auth::user()->id_user)->get();
+            $periode = DB::table('tbl_periode')->where('status_periode',1)->get();
+            $dataschedule = DB::table('tbl_schedule')
+            ->get();
+
             return view('index',[   'worklistperson'=>$worklistperson,
                                     'groupworklist'=>$groupworklist,
                                     'tugasselesai'=>$tugasselesai,
@@ -149,6 +153,8 @@ class HomeController extends Controller
                                     'tbl_kinerja'=>$tbl_kinerja,
                                     'biodata'=>$biodata,
                                     'groupcabang'=>$groupcabang,
+                                    'periode'=>$periode,
+                                    'dataschedule'=>$dataschedule,
                                 ]);
         }
         elseif (auth::user()->kd_akses == 4) {
