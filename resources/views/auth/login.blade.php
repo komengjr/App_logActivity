@@ -9,18 +9,18 @@
     <meta name="author" content="" /> --}}
     <title> Pramita - Panel Login</title>
     <!--favicon-->
-    <link rel="icon" href="{{ url('icon.png', []) }}" type="image/x-icon">
-    <link href="{{ url('assets/css/bootstrap.min.css', []) }}" rel="stylesheet" />
-    <link href="{{ url('assets/css/animate.css', []) }}" rel="stylesheet" type="text/css" />
-    <link href="{{ url('assets/css/icons.css', []) }}" rel="stylesheet" type="text/css" />
-    <link href="{{ url('assets/css/app-style.css', []) }}" rel="stylesheet" />
+    <link rel="icon" href="{{ asset('icon.png', []) }}" type="image/x-icon">
+    <link href="{{ asset('assets/css/bootstrap.min.css', []) }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/animate.css', []) }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/icons.css', []) }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/app-style.css', []) }}" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
     <!-- start loader -->
-    
+
     <!-- end loader -->
 
     <!-- Start wrapper-->
@@ -40,7 +40,7 @@
             <div class="card-body">
                 <div class="card-content p-0">
                     <div class="text-center m-0">
-                        <img src="{{ url('gif.gif', []) }}" alt="logo icon" width="300">
+                        <img src="{{ asset('gif.gif', []) }}" alt="logo icon" width="300">
                     </div>
                     <div class="card-title text-uppercase text-center py-3"
                         style="font-family: "Copperplate", "Courier New" , Monospace;">Login Aplikasi</div>
@@ -103,11 +103,11 @@
     <!--wrapper-->
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{{ url('assets/js/jquery.min.js', []) }}"></script>
-    <script src="{{ url('assets/js/popper.min.js', []) }}"></script>
-    <script src="{{ url('assets/js/bootstrap.min.js', []) }}"></script>
-    <script src="{{ url('assets/js/horizontal-menu.js', []) }}"></script>
-    <script src="{{ url('assets/js/app-script.js', []) }}"></script>
+    <script src="{{ asset('assets/js/jquery.min.js', []) }}"></script>
+    <script src="{{ asset('assets/js/popper.min.js', []) }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.min.js', []) }}"></script>
+    <script src="{{ asset('assets/js/horizontal-menu.js', []) }}"></script>
+    <script src="{{ asset('assets/js/app-script.js', []) }}"></script>
 
 </body>
 
