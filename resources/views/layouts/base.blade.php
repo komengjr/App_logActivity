@@ -158,7 +158,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:void();">
                             <div class="media align-items-center">
-                                <img src="{{ url('gif.gif', []) }}"  alt="logo icon"width="100" style="padding-top: 10px; padding-bottom: 10px;">
+                                <img src="{{ asset('gif.gif', []) }}"  alt="logo icon"width="100" style="padding-top: 10px; padding-bottom: 10px;">
 
                                 {{-- <div class="media-body">
                                     <h5 class="logo-text">App Log</h5>
@@ -255,7 +255,7 @@
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown"
                             href="#">
-                            <span class="user-profile"><img src="{{ url('icon.png', []) }}" class="img-circle"
+                            <span class="user-profile"><img src="{{ asset('icon.png', []) }}" class="img-circle"
                                     alt="user avatar"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
@@ -263,7 +263,7 @@
                                 <a href="javaScript:void();">
                                     <div class="media">
                                         <div class="avatar"><img class="align-self-start mr-3"
-                                                src="{{ url('icon.png', []) }}" alt="user avatar"></div>
+                                                src="{{ asset('icon.png', []) }}" alt="user avatar"></div>
                                         <div class="media-body">
                                             <h6 class="mt-2 user-title">{{ auth::user()->name }} (
                                                 @if (auth::user()->kd_akses == 1)
@@ -328,7 +328,7 @@
                     </a>
                     <!-- Level Two-->
                     <ul>
-                        <li><a href="{{ url('home', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i> Home</a></li>
+                        <li><a href="{{ asset('home', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i> Home</a></li>
 
                     </ul>
                 </li>
@@ -340,7 +340,7 @@
                         <span class="arrow"></span>
                     </a>
                     <ul>
-                        <li><a href="{{ url('schedule', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i> Schedule</a>
+                        <li><a href="{{ asset('schedule', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i> Schedule</a>
                         </li>
                     </ul>
                 </li>
@@ -380,7 +380,7 @@
                     </span>
 
                 </div>
-                <form action="{{ url('ubahpassword', []) }}" method="post">
+                <form action="{{ asset('ubahpassword', []) }}" method="post">
                     @csrf
                     <div class="modal-body" id="divtableworklist">
                         <div class="body" id="divinputworklist">

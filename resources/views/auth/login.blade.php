@@ -44,7 +44,7 @@
                     </div>
                     <div class="card-title text-uppercase text-center py-3"
                         style="font-family: "Copperplate", "Courier New" , Monospace;">Login Aplikasi</div>
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="login">
                         @csrf
                         <div class="form-group">
                             <label for="exampleInputUsername" class="sr-only">Username</label>

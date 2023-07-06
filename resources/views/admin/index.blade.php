@@ -322,7 +322,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" id="bodyformdatamapscabang">
         <div class="modal-content border-danger" style="background: transparent;">
             <div class="text-center">
-                <img src="{{ url('loading1.gif', []) }}" alt="" srcset="" width="250"
+                <img src="{{ asset('loading1.gif', []) }}" alt="" srcset="" width="250"
                     style="height: auto;">
             </div>
         </div>
@@ -333,7 +333,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" id="showmodaladmin">
         <div class="modal-content border-danger" style="background: transparent;">
             <div class="text-center">
-                <img src="{{ url('loading1.gif', []) }}" alt="" srcset="" width="250"
+                <img src="{{ asset('loading1.gif', []) }}" alt="" srcset="" width="250"
                     style="height: auto;">
             </div>
         </div>
@@ -349,7 +349,7 @@
         </div>
     </div>
 </div>
-<script src="{{ url('js/admin-app.js', []) }}"></script>
+<script src="{{ asset('js/admin-app.js', []) }}"></script>
 {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKXKdHQdtqgPVl2HI2RnUa_1bjCxRCQo4&callback=initialize" async defer></script> --}}
 {{-- <script src="http://maps.googleapis.com/maps/api/js"></script> --}}
 <script>
@@ -458,7 +458,7 @@
     };
 </script> --}}
 <!-- Apex Chart JS -->
-<script src="{{ url('assets/plugins/apexcharts/apexcharts.js', []) }}"></script>
+<script src="{{ asset('assets/plugins/apexcharts/apexcharts.js', []) }}"></script>
     {{-- <script src="{{ url('assets/plugins/apexcharts/apex-custom-script.js', []) }}"></script> --}}
 {{-- <script src="{{ url('assets/js/dashboard-human-resources.js', []) }}"></script> --}}
 <script>
