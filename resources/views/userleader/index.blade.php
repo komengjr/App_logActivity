@@ -130,7 +130,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form id="signupForm" action="{{ url('user/lengkapi/data', []) }}" method="POST" enctype="multipart/form-data">
+                            <form id="signupForm" action="{{ asset('user/lengkapi/data', []) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <h4 class="form-header text-uppercase">
                                     <i class="fa fa-address-book-o"></i>
@@ -206,7 +206,7 @@
                         </div>
 
                         <div class="card-body pt-5">
-                            <img src="{{ url('storage/'.$biodata->gambar) }}" alt="profile-image" class="profile" />
+                            <img src="{{ asset('storage/'.$biodata->gambar) }}" alt="profile-image" class="profile" />
                             <h5 class="card-title">{{$biodata->nama_lengkap}}</h5>
                             <p class="card-text">
                                 Welcome to the IT activity log application.
@@ -596,7 +596,7 @@
     </div>
 </div>
 
-<script src="{{ url('js/user-app.js', []) }}"></script>
+<script src="{{ asset('js/user-app.js', []) }}"></script>
 <script src="assets/plugins/jquery-validation/js/jquery.validate.min.js"></script>
 <script>
     $().ready(function() {
@@ -664,7 +664,7 @@
 
     });
 </script>
-<script src="{{ url('assets/plugins/apexcharts/apexcharts.js', []) }}"></script>
+<script src="{{ asset('assets/plugins/apexcharts/apexcharts.js', []) }}"></script>
     {{-- <script src="{{ url('assets/plugins/apexcharts/apex-custom-script.js', []) }}"></script> --}}
 {{-- <script src="{{ url('assets/js/dashboard-human-resources.js', []) }}"></script> --}}
 <script>
