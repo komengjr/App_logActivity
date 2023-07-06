@@ -665,8 +665,7 @@
     });
 </script>
 <script src="{{ asset('assets/plugins/apexcharts/apexcharts.js', []) }}"></script>
-    {{-- <script src="{{ url('assets/plugins/apexcharts/apex-custom-script.js', []) }}"></script> --}}
-{{-- <script src="{{ url('assets/js/dashboard-human-resources.js', []) }}"></script> --}}
+
 <script>
     $(function() {
         "use strict";

@@ -1,16 +1,16 @@
 <div class="modal-header bg-warning">
-    <h5 class="modal-title text-white">Input Data Laporan</h5> 
+    <h5 class="modal-title text-white">Input Data Laporan</h5>
     <span>
         <button type="button" class="btn-danger" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </span>
-    
+
 </div>
-<form action="{{ url('user/laporan/posttambah', []) }}" method="post">
+<form action="{{ asset('user/laporan/posttambah', []) }}" method="post">
     @csrf
 <div class="modal-body" id="">
-    <div class="body" id="">  
+    <div class="body" id="">
         <div class="row">
             <div class="col-12">
                 <label for="">Type Laporan</label>
@@ -30,7 +30,7 @@
                 <textarea name="deskripsi_laporan" class="form-control" id="summernoteEditor" cols="5" rows="10" required></textarea>
             </div>
         </div>
-        
+
     </div>
     {{-- <input type="text" name="id"  value="{{$id}}" hidden> --}}
 </div>
@@ -39,7 +39,7 @@
     <button type="submit" class="btn-success" ><i class="fa fa-save"></i> Simpan</button>
 </div>
 </form>
-<script src="{{ url('assets/plugins/summernote/dist/summernote-bs4.min.js', []) }}"></script>
+<script src="{{ asset('assets/plugins/summernote/dist/summernote-bs4.min.js', []) }}"></script>
   <script>
    $('#summernoteEditor').summernote({
             height: 400,

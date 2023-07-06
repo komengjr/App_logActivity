@@ -46,8 +46,8 @@
         </button>
     </div>
 </form>
-<script src="{{ url('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js', []) }}"></script>
-<script src="{{ url('assets/plugins/summernote/dist/summernote-bs4.min.js', []) }}"></script>
+<script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js', []) }}"></script>
+<script src="{{ asset('assets/plugins/summernote/dist/summernote-bs4.min.js', []) }}"></script>
 <script type="text/javascript">
     $('.single-select').select2();
 

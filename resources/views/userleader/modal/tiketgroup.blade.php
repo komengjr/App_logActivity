@@ -7,7 +7,7 @@
     </span>
 
 </div>
-<form action="{{ url('user/inputdatatiketgroup', []) }}" method="post">
+<form action="{{ asset('user/inputdatatiketgroup', []) }}" method="post">
     @csrf
 <div class="modal-body" id="">
     <div class="body" id="">
@@ -22,7 +22,7 @@
     <button type="submit" class="btn-success" ><i class="fa fa-save"></i> Simpanx</button>
 </div>
 </form>
-<script src="{{ url('assets/plugins/summernote/dist/summernote-bs4.min.js', []) }}"></script>
+<script src="{{ asset('assets/plugins/summernote/dist/summernote-bs4.min.js', []) }}"></script>
   <script>
    $('#summernoteEditor').summernote({
             height: 400,

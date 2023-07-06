@@ -1,6 +1,6 @@
 @extends('layouts.base')
 @section('content')
-    <link href='{{ url('assets/plugins/fullcalendar/css/fullcalendar.css', []) }}' rel='stylesheet' />
+    <link href='{{ asset('assets/plugins/fullcalendar/css/fullcalendar.css', []) }}' rel='stylesheet' />
     <div class="content-wrapper">
         <div class="container-fluid">
 
@@ -60,8 +60,8 @@
             </div>
         </div>
     </div>
-    <script src='{{ url('assets/plugins/fullcalendar/js/moment.js', []) }}'></script>
-    <script src='{{ url('assets/plugins/fullcalendar/js/fullcalendar.min.js', []) }}'></script>
+    <script src='{{ asset('assets/plugins/fullcalendar/js/moment.js', []) }}'></script>
+    <script src='{{ asset('assets/plugins/fullcalendar/js/fullcalendar.min.js', []) }}'></script>
 
 
     <script>
