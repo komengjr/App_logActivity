@@ -22,6 +22,27 @@ class UserController extends Controller
     {
         return view('userleader.modal.tiketgroup',['id'=>$id]);
     }
+    public function lihatnotifikasiwaktu()
+    {
+        $jumlahnotif = DB::table('tbl_schedule')
+        ->where('status_schedule', 1)
+        ->count();
+        return view('waktu',['id'=>$jumlahnotif]);
+    }
+    public function lihatnotifikasi($id)
+    {
+        $datachedule = DB::table('tbl_schedule')
+                        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
+                        ->where('status_schedule',1)->get();
+        return view('notif',['id'=>$id , 'datachedule'=>$datachedule]);
+    }
+    public function lihattaskkinerja($id)
+    {
+        $datachedule = DB::table('tbl_schedule')
+                        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
+                        ->where('kd_schedule',$id)->get();
+        return view('userleader.modal.taskkinerja',['id'=>$id,'datachedule'=>$datachedule]);
+    }
     public function lihattugaspersonal()
     {
         $worklistperson = DB::table('tbl_tiket_person_worklist')

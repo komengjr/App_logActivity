@@ -108,6 +108,9 @@ Route::get('user/group/lihattiket/{id}',['as'=>'user12','uses'=> 'UserController
 Route::get('user/lihattugas',['as'=>'user2','uses'=> 'UserController@lihattugaspersonal']);
 Route::get('user/laporan/tambah',['as'=>'user3','uses'=> 'UserController@laporantambah']);
 Route::get('user/laporan/lihatlaporan/{id}',['as'=>'user/laporan/lihatlaporan','uses'=> 'UserController@lihatlaporan']);
+Route::get('user/notifikasi/lihatnotif/{id}',['as'=>'user/notifikasi/lihatnotif','uses'=> 'UserController@lihatnotifikasi']);
+Route::get('user/task/kinerja/{id}',['as'=>'user/task/kinerja','uses'=> 'UserController@lihattaskkinerja']);
+Route::get('user/notifikasi/lihatnotifwaktu/',['as'=>'user/notifikasi/lihatnotifwaktu/','uses'=> 'UserController@lihatnotifikasiwaktu']);
 
 Route::post('user/lengkapi/data', 'UserController@lengkapidatabiodata');
 

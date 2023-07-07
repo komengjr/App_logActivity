@@ -509,7 +509,7 @@ hr {
 
 /* Dropdown Menu */
 .dropdown-menu {
-	border: 0px solid rgba(0,0,0,.15);
+	border: 1px solid rgba(30, 0, 255, 0.924);
 	-webkit-box-shadow: 0 5px 15px rgba(57, 98, 254, 0.02), 0 3px 6px rgba(117, 108, 254, 0.12)!important;
   box-shadow: 0 5px 15px rgba(57, 98, 254, 0.02), 0 3px 6px rgba(117, 108, 254, 0.12)!important;
     font-size:15px;
@@ -581,7 +581,7 @@ hr {
 }
 .dropdown-lg .dropdown-menu .media .media-body .msg-info{
 	font-size: 13px;
-    color: #6b6b6b;
+    color: #ff0000;
     margin-bottom: 0;
     white-space: nowrap;
 }

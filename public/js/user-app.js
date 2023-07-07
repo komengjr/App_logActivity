@@ -82,3 +82,38 @@ $(document).on('click', '#buttonshowdetaillaporan', function(e) {
             $('#bodyformdatainputtiket').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
         });
 });
+$(document).on('click', '#task_kinerja', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    $.ajax({
+            url: 'user/task/kinerja/'+id,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#bodytask_kinerja').html(data);
+        })
+        .fail(function() {
+            $('#bodytask_kinerja').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
+        });
+});
+
+
+function waktu() {
+
+    var id = 123;
+    $("#nitifikasipesan").html("");
+    $.ajax({
+            url: "user/notifikasi/lihatnotif/" + id,
+            type: "GET",
+            dataType: "html",
+        })
+        .done(function(data) {
+            $("#nitifikasipesan").html(data);
+        })
+        .fail(function() {
+            $("#nitifikasipesan").html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+            );
+        });
+}

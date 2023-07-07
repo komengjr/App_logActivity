@@ -404,13 +404,16 @@ class AdminController extends Controller
     public function ajaxRequestPost(Request $request)
     {
         $date = substr($request->date, 4, 11);
+        $datejamend = substr($request->end, 10, 20);
         $datex = strtotime($date);
+        $dateend = strtotime($request->end);
+
         DB::table('tbl_schedule')->insert(
             [
                 'kd_schedule' => Str::random(10),
                 'kd_kinerja' => $request->judul,
                 'tgl_start' => date('Y-m-d', $datex),
-                'tgl_akhir' => $request->end,
+                'tgl_akhir' => date('Y-m-d', $dateend).' '.$datejamend,
                 'ket_schedule' => $request->ket,
                 'status_schedule' => 1,
                 'created_at' => date('Y-m-d H:i:s'),

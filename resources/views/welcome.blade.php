@@ -1,100 +1,95 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<div ng-app="demoApp" class="ng-app">
+    <div class="wrapper" ng-controller="demoController">
+        <div class="nav-bar">
+            <ul>
+                <li class="searchbox-wrapper">
+                    <div class="search-box">
+                        <span class="fa fa-search search-icon"></span>
+                        <input type="text" />
+                    </div>
+                </li>
+                <li>
+                    <div class="dropdowns-wrapper">
+                        <div class="dropdown-container">
+                            <div class="notifications dropdown dd-trigger" ng-click="showNotifications($event)">
+                                <span class="count animated" id="notifications-count">{{ awaitingNotifications }}</span>
+                                <span class="fa fa-bell-o"></span>
+                            </div>
+                            <div class="dropdown-menu animated" id="notification-dropdown">
+                                <div class="dropdown-header">
+                                    <span class="triangle"></span>
+                                    <span class="heading">Notifications</span>
+                                    <span class="count"
+                                        id="dd-notifications-count">{{ newNotifications . length }}</span>
+                                </div>
+                                <div class="dropdown-body">
+                                    <div class="notification new"
+                                        ng-repeat="notification in newNotifications.slice().reverse() track by notification.timestamp">
+                                        <div class="notification-image-wrapper">
+                                            <div class="notification-image">
+                                                <img src="{{ notification . user . imageUrl }}" alt=""
+                                                    width="32">
+                                            </div>
+                                        </div>
+                                        <div class="notification-text">
+                                            <span class="highlight">{{ notification . user . name }}</span>
+                                            {{ notification . action }} {{ notification . target }}
+                                        </div>
+                                    </div>
+                                    <div class="notification"
+                                        ng-repeat="notification in readNotifications.slice().reverse() track by $index">
+                                        <div class="notification-image-wrapper">
+                                            <div class="notification-image">
+                                                <img src="{{ notification . user . imageUrl }}" alt=""
+                                                    width="32">
+                                            </div>
+                                        </div>
+                                        <div class="notification-text">
+                                            <span class="highlight">{{ notification . user . name }}</span>
+                                            {{ notification . action }} {{ notification . target }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-container">
+                            <div class="messages dropdown">
+                                <span class="fa fa-envelope-o"></span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="user">
+                    <div class="user-options-wrapper">
+                        <div class="user-image">
 
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ asset('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                        </div>
+                        <div class="user-options">
+                            <span class="fa fa-chevron-down"></span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="body-image">
+            <div class="instruction animated">Click on the bell!</div>
+            <div class="info animated" id="demoInfo">
+                <ul>
+                    <li>Dummy Polling is called at random intervals ranging from 1s to 5s.</li>
+                    <li>Dropdown shows both read and unread notifications.</li>
+                    <li>Unead notifications have blue background while read notifications have white background.</li>
+                    <li>On closing the dropdown, all notifications are marked as read.</li>
+                    <li>Dropdowns also display new notifications while it is open.</li>
+                    <li>Current status is maintained even on refresh.</li>
+                    <li>Count on bell is displayed only if it not zero.</li>
+                </ul>
+                <div class="ok-btn-wrapper">
+                    <span class="ok-btn" ng-click="hideInfo()">
+                        <span class="text">Okay!</span>
+                        <span class="hover-overlay"></span>
+                    </span>
                 </div>
             </div>
         </div>
-    </body>
-</html>
+    </div>
+</div>

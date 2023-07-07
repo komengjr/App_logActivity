@@ -18,13 +18,14 @@
     <link href="{{ asset('assets/css/icons.css', []) }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/horizontal-menu.css', []) }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/app-style.css', []) }}" rel="stylesheet" />
-    <link href="{{ asset('assets/plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css', []) }}" rel="stylesheet"
-        type="text/css">
+    <link href="{{ asset('assets/plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css', []) }}"
+        rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css', []) }}" rel="stylesheet"
         type="text/css">
     <link rel="stylesheet" href="{{ asset('assets/plugins/notifications/css/lobibox.min.css', []) }}" />
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/dist/summernote-bs4.css', []) }}" />
     <link href="{{ asset('assets/plugins/select2/css/select2.min.css', []) }}" rel="stylesheet" />
+    <link href="{{ asset('css/notif.scss', []) }}" rel="stylesheet" />
     <style>
         .footerx {
             padding: 5px;
@@ -158,7 +159,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:void();">
                             <div class="media align-items-center">
-                                <img src="{{ asset('gif.gif', []) }}"  alt="logo icon"width="100" style="padding-top: 10px; padding-bottom: 10px;">
+                                <img src="{{ asset('gif.gif', []) }}" alt="logo icon"width="100"
+                                    style="padding-top: 10px; padding-bottom: 10px;">
 
                                 {{-- <div class="media-body">
                                     <h5 class="logo-text">App Log</h5>
@@ -171,85 +173,25 @@
 
                 <ul class="navbar-nav align-items-center right-nav-link">
                     @if (auth::user()->kd_akses > 2)
+                        @php
+                            $jumlahnotif = DB::table('tbl_schedule')
+                                ->where('status_schedule', 1)
+                                ->count();
 
-                    <li class="nav-item ">
-                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown"
-                            href="javascript:void();">
-                            <i class="fa fa-envelope-open-o"></i><span
-                                class="badge badge-primary badge-up">12</span></a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    You have 12 new messages
-                                    <span class="badge badge-primary">12</span>
-                                </li>
-                                <li class="list-group-item">
-                                    <a href="javaScript:void();">
-                                        <div class="media">
-                                            <div class="avatar">
-                                                <img class="align-self-start mr-3"
-                                                    src="https://via.placeholder.com/110x110" alt="user avatar" />
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="mt-0 msg-title">Jhon Deo</h6>
-                                                <p class="msg-info">Lorem ipsum dolor sit amet...</p>
-                                                <small>Today, 4:10 PM</small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a href="javaScript:void();">
-                                        <div class="media">
-                                            <div class="avatar">
-                                                <img class="align-self-start mr-3"
-                                                    src="https://via.placeholder.com/110x110" alt="user avatar" />
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="mt-0 msg-title">Sara Jen</h6>
-                                                <p class="msg-info">Lorem ipsum dolor sit amet...</p>
-                                                <small>Yesterday, 8:30 AM</small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a href="javaScript:void();">
-                                        <div class="media">
-                                            <div class="avatar">
-                                                <img class="align-self-start mr-3"
-                                                    src="https://via.placeholder.com/110x110" alt="user avatar" />
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="mt-0 msg-title">Dannish Josh</h6>
-                                                <p class="msg-info">Lorem ipsum dolor sit amet...</p>
-                                                <small>5/11/2018, 2:50 PM</small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a href="javaScript:void();">
-                                        <div class="media">
-                                            <div class="avatar">
-                                                <img class="align-self-start mr-3"
-                                                    src="https://via.placeholder.com/110x110" alt="user avatar" />
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="mt-0 msg-title">Katrina Mccoy</h6>
-                                                <p class="msg-info">Lorem ipsum dolor sit amet.</p>
-                                                <small>1/11/2018, 2:50 PM</small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="list-group-item text-center">
-                                    <a href="javaScript:void();">See All Messages</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+                        @endphp
+                        <li class="nav-item">
+                            <button class="dropdown-toggle waves-effect" onclick="waktu()" data-toggle="dropdown">
+                                <i class="fa fa-envelope-open-o"></i><span class="badge badge-primary badge-up"><strong
+                                        id="kayu">{{ $jumlahnotif }}</strong></span></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <ul class="list-group list-group-flush">
 
+                                    <div id="nitifikasipesan"></div>
+
+                                </ul>
+
+                            </div>
+                        </li>
                     @endif
 
                     <li class="nav-item">
@@ -284,6 +226,7 @@
                                 </a>
                             </li>
                             <li class="dropdown-divider"></li>
+
                             <li class="dropdown-item" style="cursor: pointer" data-toggle="modal"
                                 data-target="#formuser"><i class="fa fa-key mr-2"></i> Ubah Password</li>
                             <li class="dropdown-divider"></li>
@@ -294,7 +237,8 @@
                             <li class="dropdown-item" style="cursor: pointer"
                                 onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
-                                <i class="icon-power mr-2"></i> Logout</li>
+                                <i class="icon-power mr-2"></i> Logout
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -333,17 +277,18 @@
                     </ul>
                 </li>
                 @if (auth::user()->kd_akses < 3)
-                <li>
-                    <a href="javascript:;">
-                        <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
-                        <span class="title">Data</span>
-                        <span class="arrow"></span>
-                    </a>
-                    <ul>
-                        <li><a href="{{ asset('schedule', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i> Schedule</a>
-                        </li>
-                    </ul>
-                </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
+                            <span class="title">Data</span>
+                            <span class="arrow"></span>
+                        </a>
+                        <ul>
+                            <li><a href="{{ asset('schedule', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i>
+                                    Schedule</a>
+                            </li>
+                        </ul>
+                    </li>
                 @endif
 
 
@@ -400,7 +345,13 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="primarymodal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-primary" id="bodytask_kinerja">
 
+            </div>
+        </div>
+    </div>
     <script src="{{ asset('assets/js/popper.min.js', []) }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js', []) }}"></script>
     <script src="{{ asset('assets/plugins/simplebar/js/simplebar.js', []) }}"></script>
@@ -413,7 +364,27 @@
     <script src="{{ asset('assets/plugins/notifications/js/notifications.min.js', []) }}"></script>
     <script src="{{ asset('assets/plugins/notifications/js/notification-custom-script.js', []) }}"></script>
     <script src="{{ asset('assets/plugins/select2/js/select2.min.js', []) }}"></script>
+    {{-- <script src="{{ url('js/notif.js', []) }}"></script> --}}
+    <script>
+        // function showTime() {
+        //     $.ajax({
+        //             url: "user/notifikasi/lihatnotifwaktu",
+        //             type: "GET",
+        //             dataType: "html",
+        //         })
+        //         .done(function(data) {
+        //             $("#kayu").html(data);
+        //             console.log(data);
+        //         })
+        //         .fail(function() {
+        //             $("#kayu").html(
+        //                 '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+        //             );
+        //         });
 
+        // }
+        // setInterval('showTime()', 3000);
+    </script>
 </body>
 
 </html>
