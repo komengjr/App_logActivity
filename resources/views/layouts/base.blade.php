@@ -174,13 +174,25 @@
                 <ul class="navbar-nav align-items-center right-nav-link">
                     @if (auth::user()->kd_akses > 2)
                         @php
-                            $jumlahnotif = DB::table('tbl_schedule')
+                            $jumlahnotif = 0;
+                            $notif = DB::table('tbl_schedule')
                                 ->where('status_schedule', 1)
-                                ->count();
+                                ->get();
+                            foreach ($notif as $value) {
+                                if (substr($value->tgl_start, 0, 10) >= date('Y-m-d')){
 
+                                    $cekdata = DB::table('tbl_schadule_log')->where('kd_schedule',$value->kd_schedule)->where('id_user',auth::user()->id_user)->count();
+
+                                    if ($cekdata == 0){
+                                        $jumlahnotif = $jumlahnotif + 1;
+                                    }else{
+
+                                    }
+                                }
+                            }
                         @endphp
-                        <li class="nav-item">
-                            <button class="dropdown-toggle waves-effect" onclick="waktu()" data-toggle="dropdown">
+                        <li class="nav-item pl-4">
+                            <button class="dropdown-toggle waves-effect " onclick="waktu()" data-toggle="dropdown">
                                 <i class="fa fa-envelope-open-o"></i><span class="badge badge-primary badge-up"><strong
                                         id="kayu">{{ $jumlahnotif }}</strong></span></button>
                             <div class="dropdown-menu dropdown-menu-right">
@@ -346,7 +358,7 @@
         </div>
     </div>
     <div class="modal fade" id="primarymodal">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content border-primary" id="bodytask_kinerja">
 
             </div>
@@ -365,26 +377,29 @@
     <script src="{{ asset('assets/plugins/notifications/js/notification-custom-script.js', []) }}"></script>
     <script src="{{ asset('assets/plugins/select2/js/select2.min.js', []) }}"></script>
     {{-- <script src="{{ url('js/notif.js', []) }}"></script> --}}
+    @if (auth::user()->kd_akses > 2)
     <script>
-        // function showTime() {
-        //     $.ajax({
-        //             url: "user/notifikasi/lihatnotifwaktu",
-        //             type: "GET",
-        //             dataType: "html",
-        //         })
-        //         .done(function(data) {
-        //             $("#kayu").html(data);
-        //             console.log(data);
-        //         })
-        //         .fail(function() {
-        //             $("#kayu").html(
-        //                 '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
-        //             );
-        //         });
+        function showTime() {
+            $.ajax({
+                    url: "user/notifikasi/lihatnotifwaktu",
+                    type: "GET",
+                    dataType: "html",
+                })
+                .done(function(data) {
+                    $("#kayu").html(data);
+                    // console.log(data);
+                })
+                .fail(function() {
+                    $("#kayu").html(
+                        '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                });
 
-        // }
-        // setInterval('showTime()', 3000);
+        }
+        setInterval('showTime()', 3000);
     </script>
+    @endif
+
 </body>
 
 </html>

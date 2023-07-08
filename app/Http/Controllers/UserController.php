@@ -24,9 +24,22 @@ class UserController extends Controller
     }
     public function lihatnotifikasiwaktu()
     {
-        $jumlahnotif = DB::table('tbl_schedule')
-        ->where('status_schedule', 1)
-        ->count();
+        $jumlahnotif = 0;
+        $notif = DB::table('tbl_schedule')
+            ->where('status_schedule', 1)
+            ->get();
+        foreach ($notif as $value) {
+            if (substr($value->tgl_start, 0, 10) >= date('Y-m-d')){
+
+                $cekdata = DB::table('tbl_schadule_log')->where('kd_schedule',$value->kd_schedule)->where('id_user',auth::user()->id_user)->count();
+
+                if ($cekdata == 0){
+                    $jumlahnotif = $jumlahnotif + 1;
+                }else{
+
+                }
+            }
+        }
         return view('waktu',['id'=>$jumlahnotif]);
     }
     public function lihatnotifikasi($id)
@@ -105,12 +118,67 @@ class UserController extends Controller
                 'nama_lengkap' => $request->input('nama_lengkap'),
                 'nip' => $request->input('nip'),
                 'tgl_lahir' => $request->input('tgl_lahir'),
-                'tempat_lahir' => $request->input('tempat_lahir_lahir'),
+                'tempat_lahir' => $request->input('tempat_lahir'),
                 'alamat' => $request->input('alamat'),
                 'gambar' => $request->file('gambar')->storeAs('data_file/fileupload/'.auth::user()->email,auth::user()->id_user.''.'pp.jpg'),
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
             Session::flash('sukses','Berhasil Melengkapi Data Profil');
             return redirect()->back();
+    }
+    public function postschedule(Request $request)
+    {
+        DB::table('tbl_schadule_log')->insert(
+            [
+                'kd_schedule' => $request->input('id'),
+                'id_user' => auth::user()->id_user,
+                'deskripsi_schedule' => $request->input('keterangan'),
+                'status_schedule_user' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+            Session::flash('sukses','Berhasil Menyelesaikan 1 Task');
+            return redirect()->back();
+    }
+    public function buattikettask(Request $request)
+    {
+        // $id_group = DB::table('group_user')->where('id_group_user',$request->input('usercabang'))->first();
+        DB::table('tbl_tiket_task')->insert(
+            [
+                'kd_tiket_task' => "task-".Str::random(50),
+                'id_leader' => auth::user()->id_user,
+                'kd_cabang' => $request->input('usercabang'),
+                'kd_kinerja' => $request->input('kd_kinerja'),
+                'kd_group' => '-',
+                'deskripsi_task' => $request->input('keterangan'),
+                'status_task' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+            Session::flash('sukses','Berhasil Menyelesaikan 1 Task');
+            return redirect()->back();
+    }
+
+    public function beritugasuser()
+    {
+        $groupcabang = DB::table('handler_cabang')
+        ->join('group_user','group_user.kd_group','=','handler_cabang.kd_group')
+        ->join('tbl_cabang','tbl_cabang.kd_cabang','=','handler_cabang.kd_cabang')
+        ->where('group_user.id_user',auth::user()->id_user)->get();
+        $kinerja = DB::table('tbl_kinerja')->where('status_kinerja',1)->get();
+        return view('userleader.modal.beritugas',['kinerja'=>$kinerja,'groupcabang'=>$groupcabang]);
+    }
+    public function lihattugasuser()
+    {
+        $datatikettask = DB::table('tbl_tiket_task')
+        ->select('tbl_tiket_task.*','tbl_cabang.nama_cabang','tbl_kinerja.kinerja')
+        ->join('tbl_cabang','tbl_cabang.kd_cabang','=','tbl_tiket_task.kd_cabang')
+        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
+        ->where('tbl_tiket_task.id_leader',auth::user()->id_user)->get();
+        $kinerja = DB::table('tbl_kinerja')->where('status_kinerja',1)->get();
+        return view('userleader.modal.lihattugas',['kinerja'=>$kinerja , 'datatikettask'=>$datatikettask]);
+    }
+    public function periodekpi()
+    {
+        $tbl_periode = DB::table('tbl_periode')->get();
+        return view('userleader.modal.periodekpi',['tbl_periode'=>$tbl_periode ]);
     }
 }

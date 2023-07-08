@@ -153,7 +153,7 @@
                                     </div>
                                     <label for="input-13" class="col-sm-2 col-form-label">Tanggal Lahir</label>
                                     <div class="col-sm-4">
-                                        <input type="date" class="form-control" id="input-13" name="nickname" />
+                                        <input type="date" class="form-control" id="input-13" name="tgl_lahir" />
                                     </div>
                                 </div>
                                 <h4 class="form-header text-uppercase">
@@ -183,7 +183,7 @@
                                 <div class="form-group row">
                                     <label for="input-17" class="col-sm-2 col-form-label">Alamat</label>
                                     <div class="col-sm-10">
-                                        <textarea class="form-control" rows="4" id="input-17"></textarea>
+                                        <textarea class="form-control" rows="4" id="input-17" name="alamat"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-footer" >
@@ -274,12 +274,9 @@
                                             @endforeach
 
                                             <hr />
-                                            <span class="badge badge-primary"><i class="fa fa-user"></i> 900
-                                                Followers</span>
-                                            <span class="badge badge-success"><i class="fa fa-cog"></i> 43
-                                                Forks</span>
-                                            <span class="badge badge-danger"><i class="fa fa-eye"></i> 245
-                                                Views</span>
+                                            <button class="btn-warning" data-toggle="modal" data-target="#input_tiketxx" id="buttonmemberitugasuser"><i class="fa fa-pencil"></i> Beri Tugas</button>
+                                            <button class="btn-dark" data-toggle="modal" data-target="#showtask" id="buttonlihattugasuser"><i class="fa fa-eye"></i> Lihat Tugas</button>
+
 
                                         </div>
                                         <div class="col-md-12">
@@ -328,28 +325,6 @@
                                                 @endif
                                             @endforeach
                                             <hr>
-                                            @foreach ($dataschedule as $dataschedule)
-                                                @if (substr($dataschedule->tgl_start, 0, 10) == date('Y-m-d'))
-                                                    <div class="alert alert-warning alert-dismissible" role="alert"
-                                                        style="cursor: pointer;" data-toggle="modal"
-                                                        data-target="#input_tiketxx" id="buttontiketpersonal"
-                                                        data-id="{{ $dataschedule->kd_schedule }}">
-                                                        <div class="alert-icon contrast-alert">
-                                                            <button><i class="fa fa-exclamation-triangle"></i></button>
-                                                        </div>
-                                                        <div class="alert-message">
-                                                            <span><strong>Tugas Baru : </strong> <span
-                                                                    style="color: black;">{{ $dataschedule->kd_kinerja }}</span>
-                                                                Dengan
-                                                                No
-                                                                Tiket <span
-                                                                    style="color: black">{{ $dataschedule->kd_schedule }}</span></span>
-                                                        </div>
-                                                    </div>
-
-                                                @endif
-                                            @endforeach
-
 
                                         </div>
                                     </div>
@@ -358,7 +333,7 @@
 
                                 <div class="tab-pane" id="messages">
                                     <div style="float: right;">
-                                        <button class="btn-info mb-5 ml-2"><i class="fa fa-print"></i> Cetak</button>
+                                        <button data-toggle="modal" data-target="#input_tiketxx" id="printkpi" href="{{ asset('user/userleader/pdf/kpi') }}" class="btn-info mb-5 ml-2"><i class="fa fa-print"></i> Cetak</a>
                                         <button class="btn-warning mb-5 ml-2"><i class="fa fa-send"></i></button>
                                     </div>
                                     <br><br>
@@ -465,7 +440,7 @@
 
 
 
-        <h6 class="text-uppercase">Status Tugas</h6>
+        {{-- <h6 class="text-uppercase">Status Tugas</h6>
         <hr />
         <div class="row">
             <div class="col-12 col-lg-4 col-xl-4">
@@ -550,7 +525,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="row">
             <div class="col-12 col-lg-12 col-xl-12">
 
@@ -590,7 +565,17 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-danger" id="bodyformdatainputtiket">
 
-            asd
+            <img src="{{ asset('gif.gif') }}" alt="" srcset="">
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="showtask">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content border-danger" id="lihatdatatask">
+
+            <img src="{{ asset('gif.gif') }}" alt="" srcset="">
 
         </div>
     </div>

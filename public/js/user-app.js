@@ -97,6 +97,48 @@ $(document).on('click', '#task_kinerja', function(e) {
             $('#bodytask_kinerja').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
         });
 });
+$(document).on('click', '#buttonmemberitugasuser', function(e) {
+    e.preventDefault();
+    $.ajax({
+            url: 'user/userleader/modal/beritugas',
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#bodyformdatainputtiket').html(data);
+        })
+        .fail(function() {
+            $('#bodyformdatainputtiket').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
+        });
+});
+$(document).on('click', '#buttonlihattugasuser', function(e) {
+    e.preventDefault();
+    $.ajax({
+            url: 'user/userleader/modal/lihattugas',
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#lihatdatatask').html(data);
+        })
+        .fail(function() {
+            $('#lihatdatatask').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
+        });
+});
+$(document).on('click', '#printkpi', function(e) {
+    e.preventDefault();
+    $.ajax({
+            url: 'user/userleader/modal/periodekpi',
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#bodyformdatainputtiket').html(data);
+        })
+        .fail(function() {
+            $('#bodyformdatainputtiket').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
+        });
+});
 
 
 function waktu() {
