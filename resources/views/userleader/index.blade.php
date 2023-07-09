@@ -108,7 +108,7 @@
 
         </div>
         @if ($message = Session::get('sukses'))
-            <div class="alert alert-icon-success alert-dismissible" role="alert">
+            {{-- <div class="alert alert-icon-success alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <div class="alert-icon icon-part-success">
                     <i class="fa fa-check"></i>
@@ -116,7 +116,25 @@
                 <div class="alert-message">
                     <span><strong>Success!</strong> {{ $message }} </span>
                 </div>
-            </div>
+            </div> --}}
+            <button class="btn btn-warning" onclick="sukses_notifikasi()" id="buttonnotif" hidden>SHOW ME</button>
+            <script>
+                function sukses_notifikasi() {
+                    Lobibox.notify('success', {
+                        pauseDelayOnHover: true,
+                        continueDelayOnInactiveTab: false,
+                        position: 'center top',
+                        showClass: 'zoomIn',
+                        hideClass: 'zoomOut',
+                        icon: 'fa fa-check-circle',
+                        width: 400,
+                        msg: 'Berhasil Input Data'
+                    });
+                }
+                $(document).ready(function() {
+                    $('#buttonnotif').click();
+                });
+            </script>
         @endif
 
         @php
@@ -130,7 +148,8 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form id="signupForm" action="{{ asset('user/lengkapi/data', []) }}" method="POST" enctype="multipart/form-data">
+                            <form id="signupForm" action="{{ asset('user/lengkapi/data', []) }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <h4 class="form-header text-uppercase">
                                     <i class="fa fa-address-book-o"></i>
@@ -168,7 +187,7 @@
                                     </div>
                                     <label for="input-15" class="col-sm-2 col-form-label">Pilih Photo Profil</label>
                                     <div class="col-sm-4">
-                                        <input type="file" class="form-control" id="input-15" name="gambar"/>
+                                        <input type="file" class="form-control" id="input-15" name="gambar" />
                                     </div>
                                 </div>
 
@@ -186,7 +205,7 @@
                                         <textarea class="form-control" rows="4" id="input-17" name="alamat"></textarea>
                                     </div>
                                 </div>
-                                <div class="form-footer" >
+                                <div class="form-footer">
 
                                     <button type="submit" class="btn btn-success" style="float: right;">
                                         <i class="fa fa-check-square-o"></i> Simpan Biodata
@@ -206,8 +225,9 @@
                         </div>
 
                         <div class="card-body pt-5">
-                            <img src="{{ asset('storage/'.$biodata->gambar) }}" alt="profile-image" class="profile" />
-                            <h5 class="card-title">{{$biodata->nama_lengkap}}</h5>
+                            <img src="{{ asset('storage/' . $biodata->gambar) }}" alt="profile-image"
+                                class="profile" />
+                            <h5 class="card-title">{{ $biodata->nama_lengkap }}</h5>
                             <p class="card-text">
                                 Welcome to the IT activity log application.
                             </p>
@@ -223,7 +243,7 @@
 
                         <div class="btn-group float-sm-right" style="padding: 0px;">
 
-                            <span class="btn btn-light dropdown-toggle-split rounded-0 texture-info" >
+                            <span class="btn btn-light dropdown-toggle-split rounded-0 texture-info">
                                 {{-- <span class="caret"></span> --}}
                             </span>
 
@@ -257,32 +277,37 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <h6 style="text-decoration: underline;">Nomor Induk Pegawai</h6>
-                                            <p>{{$biodata->nip}}</p>
+                                            <p>{{ $biodata->nip }}</p>
                                             <h6 style="text-decoration: underline;">Tempat / Tanggal Lahir</h6>
                                             <p>
-                                                {{$biodata->tempat_lahir}} / {{$biodata->tgl_lahir}}
+                                                {{ $biodata->tempat_lahir }} / {{ $biodata->tgl_lahir }}
                                             </p>
                                             <h6 style="text-decoration: underline;">Alamat</h6>
                                             <p>
-                                                {{$biodata->alamat}}
+                                                {{ $biodata->alamat }}
                                             </p>
                                         </div>
                                         <div class="col-md-6">
                                             <h6 style="text-decoration: underline;">Cabang Group</h6>
                                             @foreach ($groupcabang as $groupcabang)
-                                                <a href="javascript:void();" class="badge badge-dark badge-pill">{{$groupcabang->nama_cabang}}</a>
+                                                <a href="javascript:void();"
+                                                    class="badge badge-dark badge-pill">{{ $groupcabang->nama_cabang }}</a>
                                             @endforeach
 
                                             <hr />
-                                            <button class="btn-warning" data-toggle="modal" data-target="#input_tiketxx" id="buttonmemberitugasuser"><i class="fa fa-pencil"></i> Beri Tugas</button>
-                                            <button class="btn-dark" data-toggle="modal" data-target="#showtask" id="buttonlihattugasuser"><i class="fa fa-eye"></i> Lihat Tugas</button>
+                                            <button class="btn-warning" data-toggle="modal"
+                                                data-target="#input_tiketxx" id="buttonmemberitugasuser"><i
+                                                    class="fa fa-pencil"></i> Beri Tugas</button>
+                                            <button class="btn-dark" data-toggle="modal" data-target="#showtask"
+                                                id="buttonlihattugasuser"><i class="fa fa-eye"></i> Lihat
+                                                Tugas</button>
 
 
                                         </div>
                                         <div class="col-md-12">
                                             <h5 class="mt-2 mb-3">
                                                 <span class="fa fa-clock-o ion-clock float-right"></span>
-                                                Recent Activity
+                                                Task Group
                                             </h5>
                                             @foreach ($groupworklist as $groupworklist)
                                                 <div class="alert alert-danger alert-dismissible" role="alert"
@@ -333,8 +358,10 @@
 
                                 <div class="tab-pane" id="messages">
                                     <div style="float: right;">
-                                        <button data-toggle="modal" data-target="#input_tiketxx" id="printkpi" href="{{ asset('user/userleader/pdf/kpi') }}" class="btn-info mb-5 ml-2"><i class="fa fa-print"></i> Cetak</a>
-                                        <button class="btn-warning mb-5 ml-2"><i class="fa fa-send"></i></button>
+                                        <button data-toggle="modal" data-target="#input_tiketxx" id="printkpi"
+                                            href="{{ asset('user/userleader/pdf/kpi') }}"
+                                            class="btn-info mb-5 ml-2"><i class="fa fa-print"></i> Cetak</a>
+                                            <button class="btn-warning mb-5 ml-2"><i class="fa fa-send"></i></button>
                                     </div>
                                     <br><br>
                                     <h6 class="mb-3">A. Kinerja Team</h6>
@@ -380,14 +407,16 @@
                                             <label class="col-lg-3 col-form-label form-control-label">Nama
                                                 Lengkap</label>
                                             <div class="col-lg-9">
-                                                <input class="form-control" type="text" value="{{$biodata->nama_lengkap}}" />
+                                                <input class="form-control" type="text"
+                                                    value="{{ $biodata->nama_lengkap }}" />
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label form-control-label">Tanggal
                                                 Lahir</label>
                                             <div class="col-lg-9">
-                                                <input class="form-control" type="text" value="{{$biodata->tgl_lahir}}" />
+                                                <input class="form-control" type="text"
+                                                    value="{{ $biodata->tgl_lahir }}" />
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -395,7 +424,7 @@
                                                 Lahir</label>
                                             <div class="col-lg-9">
                                                 <input class="form-control" type="email"
-                                                    value="{{$biodata->tempat_lahir}}" />
+                                                    value="{{ $biodata->tempat_lahir }}" />
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -409,7 +438,7 @@
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label form-control-label">Alamat</label>
                                             <div class="col-lg-9">
-                                                <textarea name="" id="" cols="30" rows="10" class="form-control">{{$biodata->alamat}}</textarea>
+                                                <textarea name="" id="" cols="30" rows="10" class="form-control">{{ $biodata->alamat }}</textarea>
                                             </div>
                                         </div>
 
@@ -417,7 +446,8 @@
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label form-control-label">Username</label>
                                             <div class="col-lg-9">
-                                                <input class="form-control" type="text" value="{{$biodata->email}}" disabled/>
+                                                <input class="form-control" type="text"
+                                                    value="{{ $biodata->email }}" disabled />
                                             </div>
                                         </div>
 
@@ -530,32 +560,33 @@
             <div class="col-12 col-lg-12 col-xl-12">
 
 
-              <div class="card">
-                <div class="card-header text-uppercase">Column Chart
-                    <div class="card-action">
-                        <div class="dropdown">
-                            <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret"
-                                data-toggle="dropdown">
-                                <i class="icon-options"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a href="javaScript:void();" class="dropdown-item" data-toggle="modal"
-                                    data-target="#input_tiketxx" id="buttoninputlaporan"><i
-                                        class="fa fa-exclamation-circle"></i> Input Laporan</a>
-                                <a class="dropdown-item" href="javascript:void();">Another action</a>
-                                <a class="dropdown-item" href="javascript:void();">Something else here</a>
-                                <div class="dropdown-divider"></div>
-                                <a href="javaScript:void();" class="dropdown-item" data-toggle="modal"
-                                data-target="#inputtiketbaruadmin" id="buttonadminbuattiket"><i class="fa fa-tasks"></i>
-                                Buat Tiket</a>
+                <div class="card">
+                    <div class="card-header text-uppercase">Column Chart
+                        <div class="card-action">
+                            <div class="dropdown">
+                                <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret"
+                                    data-toggle="dropdown">
+                                    <i class="icon-options"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="javaScript:void();" class="dropdown-item" data-toggle="modal"
+                                        data-target="#input_tiketxx" id="buttoninputlaporan"><i
+                                            class="fa fa-exclamation-circle"></i> Input Laporan</a>
+                                    <a class="dropdown-item" href="javascript:void();">Another action</a>
+                                    <a class="dropdown-item" href="javascript:void();">Something else here</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="javaScript:void();" class="dropdown-item" data-toggle="modal"
+                                        data-target="#inputtiketbaruadmin" id="buttonadminbuattiket"><i
+                                            class="fa fa-tasks"></i>
+                                        Buat Tiket</a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="card-body">
+                        <div id="chart3"></div>
+                    </div>
                 </div>
-                <div class="card-body">
-                  <div id="chart3"></div>
-                </div>
-              </div>
             </div>
         </div>
     </div>
@@ -666,8 +697,8 @@
                 type: 'bar',
                 foreColor: '#4e4e4e',
                 toolbar: {
-                      show: false
-                    }
+                    show: false
+                }
             },
             plotOptions: {
                 bar: {
@@ -684,7 +715,7 @@
                 width: 2,
                 colors: ['transparent']
             },
-            grid:{
+            grid: {
                 show: true,
                 borderColor: 'rgba(255, 255, 255, 0.00)',
             },
@@ -752,7 +783,7 @@
                 type: 'gradient',
                 gradient: {
                     shade: 'dark',
-                    gradientToColors: [ '#00c8ff', '#08a50e', '#7f00ff'],
+                    gradientToColors: ['#00c8ff', '#08a50e', '#7f00ff'],
                     shadeIntensity: 1,
                     type: 'horizontal',
                     opacityFrom: 1,
@@ -764,7 +795,7 @@
             tooltip: {
                 theme: 'dark',
                 y: {
-                    formatter: function (val) {
+                    formatter: function(val) {
                         return "" + val + " Tiket"
                     }
                 }

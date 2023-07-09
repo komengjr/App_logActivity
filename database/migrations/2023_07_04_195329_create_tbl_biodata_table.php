@@ -16,6 +16,7 @@ class CreateTblBiodataTable extends Migration
         Schema::create('tbl_biodata', function (Blueprint $table) {
             $table->id('id_biodata');
             $table->string('id_user')->unique();
+            $table->string('kd_cabang')->index();
             $table->string('nip')->nullable();
             $table->string('nama_lengkap')->nullable();
             $table->string('tgl_lahir')->nullable();

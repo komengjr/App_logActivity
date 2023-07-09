@@ -114,11 +114,17 @@ Route::get('user/notifikasi/lihatnotifwaktu/',['as'=>'user/notifikasi/lihatnotif
 Route::get('user/userleader/modal/beritugas',['as'=>'user/userleader/modal/beritugas','uses'=> 'UserController@beritugasuser']);
 Route::get('user/userleader/modal/lihattugas',['as'=>'user/userleader/modal/lihattugas','uses'=> 'UserController@lihattugasuser']);
 Route::get('user/userleader/modal/periodekpi',['as'=>'user/userleader/modal/periodekpi','uses'=> 'UserController@periodekpi']);
+Route::get('user/userleader/table/detailtask/{id}',['as'=>'user/userleader/table/detailtask','uses'=> 'UserController@detaildatatask']);
+
+
+Route::get('user/user/task/kerjakan/{id}',['as'=>'user/userleader/table/detailtask','uses'=> 'UserController@kerjakandatatask']);
+Route::post('user/user/tiket/posttask', 'UserController@posttaskuser');
 
 Route::post('user/lengkapi/data', 'UserController@lengkapidatabiodata');
 Route::post('user/userleader/postschedule', 'UserController@postschedule');
 Route::post('user/userleader/buattikettask', 'UserController@buattikettask');
 Route::post('user/userleader/pdf/kpi', 'PdfController@printkpi');
+
 
 
 // Route::post('ajaxRequest', [AdminController::class, 'ajaxRequestPost'])->name('ajaxRequest.post');

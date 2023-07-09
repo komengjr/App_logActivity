@@ -193,8 +193,7 @@
                         @endphp
                         <li class="nav-item pl-4">
                             <button class="dropdown-toggle waves-effect " onclick="waktu()" data-toggle="dropdown">
-                                <i class="fa fa-envelope-open-o"></i><span class="badge badge-primary badge-up"><strong
-                                        id="kayu">{{ $jumlahnotif }}</strong></span></button>
+                                <i class="fa fa-envelope-open-o"></i><span class="badge badge-warning badge-up" id="detikwaktu"><strong id="kayu">{{ $jumlahnotif }}</strong></span></button>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <ul class="list-group list-group-flush">
 
@@ -376,10 +375,22 @@
     <script src="{{ asset('assets/plugins/notifications/js/notifications.min.js', []) }}"></script>
     <script src="{{ asset('assets/plugins/notifications/js/notification-custom-script.js', []) }}"></script>
     <script src="{{ asset('assets/plugins/select2/js/select2.min.js', []) }}"></script>
-    {{-- <script src="{{ url('js/notif.js', []) }}"></script> --}}
     @if (auth::user()->kd_akses > 2)
     <script>
+        function notifpesanbaru(){
+			Lobibox.notify('info', {
+		    pauseDelayOnHover: true,
+            continueDelayOnInactiveTab: false,
+            icon: 'fa fa-envelope',
+		    position: 'center top',
+		    showClass: 'zoomIn',
+            hideClass: 'zoomOut',
+            width: 400,
+		    msg: 'Ada Pesan Baru Yang belum dibaca'
+		    });
+		  }
         function showTime() {
+            var waktu = $("#detikwaktu").text();
             $.ajax({
                     url: "user/notifikasi/lihatnotifwaktu",
                     type: "GET",
@@ -387,7 +398,11 @@
                 })
                 .done(function(data) {
                     $("#kayu").html(data);
-                    // console.log(data);
+                    if (waktu == data) {
+
+                    }else{
+                        notifpesanbaru();
+                    }
                 })
                 .fail(function() {
                     $("#kayu").html(

@@ -12,8 +12,8 @@
             <li class="list-group-item">
                 <a href="#"  data-toggle="modal" data-target="#primarymodal" id="task_kinerja" data-id="{{$item->kd_schedule}}">
                     <div class="media">
-                        <div class="avatar">
-                            <img class="align-self-start mr-3" src="https://via.placeholder.com/50x50" alt="user avatar" />
+                        <div class="alert-icon contrast-alert m-2">
+                            <button><i class="fa fa-envelope"></i></button>
                         </div>
                         <div class="media-body">
 

@@ -1,1 +1,1 @@
-<strong>{{$id}}</strong>
+{{$id}}

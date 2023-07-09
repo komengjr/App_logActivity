@@ -199,8 +199,20 @@ class HomeController extends Controller
                 $persenselesai = $tugasselesai*100/($tugasselesai+$tugasbelumselesai);
                 $persenbelumselesai = $tugasbelumselesai*100/($tugasselesai+$tugasbelumselesai);
             }
-
-
+            $periode = DB::table('tbl_periode')->where('status_periode',1)->get();
+            $biodata = DB::table('tbl_biodata')
+            ->join('users','users.id_user','=','tbl_biodata.id_user')
+            ->where('tbl_biodata.id_user',auth::user()->id_user)->first();
+            $groupcabang = DB::table('handler_cabang')
+            ->join('group_user','group_user.kd_group','=','handler_cabang.kd_group')
+            ->join('tbl_cabang','tbl_cabang.kd_cabang','=','handler_cabang.kd_cabang')
+            ->where('group_user.id_user',auth::user()->id_user)->get();
+            $tbl_kinerja = DB::table('tbl_kinerja')->get();
+            $data_tiket_task = DB::table('tbl_tiket_task')
+            ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
+            ->where('tbl_tiket_task.status_task',1)
+            ->where('kd_cabang',$biodata->kd_cabang)
+            ->get();
             return view('index',[   'worklistperson'=>$worklistperson,
                                     'groupworklist'=>$groupworklist,
                                     'tugasselesai'=>$tugasselesai,
@@ -208,7 +220,12 @@ class HomeController extends Controller
                                     'tugashariini'=>$tugashariini,
                                     'datalaporan'=>$datalaporan,
                                     'persenselesai'=>$persenselesai,
-                                    'persenbelumselesai'=>$persenbelumselesai
+                                    'persenbelumselesai'=>$persenbelumselesai,
+                                    'periode'=>$periode,
+                                    'biodata'=>$biodata,
+                                    'groupcabang'=>$groupcabang,
+                                    'tbl_kinerja'=>$tbl_kinerja,
+                                    'data_tiket_task'=>$data_tiket_task,
                                 ]);
         }
         elseif (auth::user()->kd_akses == 5) {

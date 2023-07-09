@@ -119,6 +119,7 @@ $(document).on('click', '#buttonlihattugasuser', function(e) {
             dataType: 'html'
         })
         .done(function(data) {
+
             $('#lihatdatatask').html(data);
         })
         .fail(function() {
@@ -137,6 +138,36 @@ $(document).on('click', '#printkpi', function(e) {
         })
         .fail(function() {
             $('#bodyformdatainputtiket').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
+        });
+});
+$(document).on('click', '#buttondetailtask', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    $.ajax({
+            url: 'user/userleader/table/detailtask/'+id,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#detaildatatask').html(data);
+        })
+        .fail(function() {
+            $('#detaildatatask').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
+        });
+});
+$(document).on('click', '#buttontikettask', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    $.ajax({
+            url: 'user/user/task/kerjakan/'+id,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#lihatdatatask').html(data);
+        })
+        .fail(function() {
+            $('#lihatdatatask').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
         });
 });
 

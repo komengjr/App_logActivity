@@ -20,4 +20,10 @@ class PdfController extends Controller
         $pdf = PDF::loadview('pdf.kpi',['datakinerja'=>$datakinerja,'datadiri'=>$datadiri,'periode'=>$periode])->setPaper('A4','potrait');
         return $pdf->stream();
     }
+    public function detaildatatask($id)
+    {
+        $tbl_periode = DB::table('tbl_periode')->get();
+        $pdf = PDF::loadview('userleader.modal.detailtask',['id'=>$id ])->setPaper('A4','potrait');
+        return $pdf->stream();
+    }
 }

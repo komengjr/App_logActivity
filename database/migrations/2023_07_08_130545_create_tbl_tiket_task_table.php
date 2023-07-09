@@ -19,7 +19,8 @@ class CreateTblTiketTaskTable extends Migration
             $table->string('id_leader')->index();
             $table->string('kd_cabang')->index();
             $table->string('kd_kinerja')->index();
-            $table->string('kd_group')->index();
+            $table->string('tgl_start');
+            $table->string('tgl_end');
             $table->longtext('deskripsi_task');
             $table->string('status_task');
             $table->timestamps();

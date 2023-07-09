@@ -148,7 +148,8 @@ class UserController extends Controller
                 'id_leader' => auth::user()->id_user,
                 'kd_cabang' => $request->input('usercabang'),
                 'kd_kinerja' => $request->input('kd_kinerja'),
-                'kd_group' => '-',
+                'tgl_start' => $request->input('start'),
+                'tgl_end' => $request->input('end'),
                 'deskripsi_task' => $request->input('keterangan'),
                 'status_task' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
@@ -180,5 +181,43 @@ class UserController extends Controller
     {
         $tbl_periode = DB::table('tbl_periode')->get();
         return view('userleader.modal.periodekpi',['tbl_periode'=>$tbl_periode ]);
+    }
+    public function detaildatatask($id)
+    {
+        $tbl_tiket_task = DB::table('tbl_tiket_task')
+        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
+        ->where('tbl_tiket_task.kd_tiket_task',$id)
+        ->first();
+        $tbl_tiket_task_log = DB::table('tbl_tiket_task_log')
+        ->where('kd_tiket_task',$id)
+        ->get();
+        return view('userleader.modal.detailtask',['tbl_tiket_task'=>$tbl_tiket_task ,'tbl_tiket_task_log'=>$tbl_tiket_task_log ]);
+    }
+    public function kerjakandatatask($id)
+    {
+        $tbl_tiket_task = DB::table('tbl_tiket_task')
+        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
+        ->where('tbl_tiket_task.kd_tiket_task',$id)
+        ->first();
+        $tbl_tiket_task_log = DB::table('tbl_tiket_task_log')
+        ->where('kd_tiket_task',$id)
+        ->get();
+        return view('user.modal.kerjakantask',['tbl_tiket_task'=>$tbl_tiket_task ,'tbl_tiket_task_log'=>$tbl_tiket_task_log ]);
+    }
+
+    public function posttaskuser(Request $request)
+    {
+        // $id_group = DB::table('group_user')->where('id_group_user',$request->input('usercabang'))->first();
+        DB::table('tbl_tiket_task_log')->insert(
+            [
+                'kd_tiket_task' => $request->input('kd_tiket'),
+                'id_user' => auth::user()->id_user,
+                'tgl_buat_task_log' => date('Y-m-d H:i:s'),
+                'status_task_log' => 1,
+                'deskripsi_task_log' => $request->input('keterangan'),
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+            Session::flash('sukses','Berhasil Menyelesaikan 1 Task');
+            return redirect()->back();
     }
 }
