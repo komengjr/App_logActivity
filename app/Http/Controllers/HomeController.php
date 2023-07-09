@@ -211,7 +211,7 @@ class HomeController extends Controller
             $data_tiket_task = DB::table('tbl_tiket_task')
             ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
             ->where('tbl_tiket_task.status_task',1)
-            ->where('tbl_tiket_task.kd_cabang',$biodata->kd_cabang)
+            ->where('tbl_tiket_task.kd_cabang','PA')
             ->get();
             return view('index',[   'worklistperson'=>$worklistperson,
                                     'groupworklist'=>$groupworklist,
