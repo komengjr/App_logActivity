@@ -33,9 +33,14 @@
                         <td data-label="Mulai">{{$item->tgl_start}}</td>
                         <td data-label="Selesai">{{$item->tgl_end}}</td>
                         <td class="text-center">
-                            @if ($item->status_task == 1)
+                            @php
+                                $cekstatus = DB::table('tbl_tiket_task_log')->where('kd_tiket_task',$item->kd_tiket_task)->get();
+                            @endphp
+                            @if ($cekstatus->isEmpty())
                                 <span class="badge badge-danger badge-xl">Unfinished</span>
-                            @else
+                            @elseif($cekstatus[0]->status_task_log == 1)
+                                <span class="badge badge-warning badge-xl">Proses</span>
+                            @elseif($cekstatus[0]->status_task_log == 2)
 
                             @endif
                         </td>

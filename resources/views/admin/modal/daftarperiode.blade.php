@@ -3,7 +3,7 @@
     <div class="modal-header bg-info">
         <h5 class="modal-title text-white">Data Periode</h5>
         <span>
-            {{-- <button class="btn-success text-float-right" id="buttontambahworklistbaru" data-url="{{ url('masteradmin/dataworklist/tambah', []) }}"><i class="fa fa-plus"></i> Tambah User</button> --}}
+            <button class="btn-success text-float-right" id="buttontambahperiodebaru"><i class="fa fa-plus"></i> Tambah Periode</button>
             <button type="button" class="btn-danger" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

@@ -96,6 +96,25 @@ $(document).on('click', '#tugasuserharian', function(e) {
                 );
         });
 });
+$(document).on('click', '#datagroup', function(e) {
+    e.preventDefault();
+
+    var url = 'admin/data/datagroup';
+    // console.log(id);
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#bodyformdatamapscabang').html(data);
+        })
+        .fail(function() {
+            $('#bodyformdatamapscabang').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
 $(document).on('click', '#dataperiode', function(e) {
     e.preventDefault();
 
@@ -208,6 +227,40 @@ $(document).on('click', '#buttontambahtiketbaru', function(e) {
                 );
         });
 });
+$(document).on('click', '#buttontambahuserbaru', function(e) {
+    e.preventDefault();
+    var url = 'admin/datauser/tambah';
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#divtableuseradmin').html(data);
+        })
+        .fail(function() {
+            $('#divtableuseradmin').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
+$(document).on('click', '#buttontambahperiodebaru', function(e) {
+    e.preventDefault();
+    var url = 'admin/dataperiode/tambah';
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#divtableworklist').html(data);
+        })
+        .fail(function() {
+            $('#divtableworklist').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
 $(document).on('click', '#datajadwaltugas', function(e) {
     e.preventDefault();
     var url = 'admin/dataworklist/tiketbaru';
@@ -225,3 +278,78 @@ $(document).on('click', '#datajadwaltugas', function(e) {
                 );
         });
 });
+$(document).on('click', '#buttonusertable', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    var url = 'admin/datagroup/tambahuser/'+id;
+    // console.log(id);
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#menugroup').html(data);
+        })
+        .fail(function() {
+            $('#menugroup').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
+$(document).on('click', '#buttoncabangtable', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    var url = 'admin/datagroup/tambahcabang/'+id;
+    console.log(id);
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#menugroup').html(data);
+        })
+        .fail(function() {
+            $('#menugroup').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
+$(document).on('click', '#buttontambahgroupbaru', function(e) {
+    e.preventDefault();
+    var url = 'admin/datagroup/tambah';
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#divtableworklist').html(data);
+        })
+        .fail(function() {
+            $('#divtableworklist').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
+$(document).on('click', '#buttonuserpengerjaantask', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    // console.log(id);
+    var url = 'admin/datatask/user/pengerjaan/'+id;
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#divtableworklist').html(data);
+        })
+        .fail(function() {
+            $('#divtableworklist').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
+

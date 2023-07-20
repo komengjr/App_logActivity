@@ -29,8 +29,9 @@ class UserController extends Controller
             ->where('status_schedule', 1)
             ->get();
         foreach ($notif as $value) {
-            if (substr($value->tgl_start, 0, 10) >= date('Y-m-d')){
 
+            if (substr($value->tgl_akhir, 0, 10) >= date('Y-m-d')){
+                if (substr($value->tgl_start, 0, 10) <= date('Y-m-d')) {
                 $cekdata = DB::table('tbl_schadule_log')->where('kd_schedule',$value->kd_schedule)->where('id_user',auth::user()->id_user)->count();
 
                 if ($cekdata == 0){
@@ -38,6 +39,7 @@ class UserController extends Controller
                 }else{
 
                 }
+            }
             }
         }
         return view('waktu',['id'=>$jumlahnotif]);
@@ -120,6 +122,7 @@ class UserController extends Controller
                 'tgl_lahir' => $request->input('tgl_lahir'),
                 'tempat_lahir' => $request->input('tempat_lahir'),
                 'alamat' => $request->input('alamat'),
+                'kd_cabang' => $request->input('cabang'),
                 'gambar' => $request->file('gambar')->storeAs('data_file/fileupload/'.auth::user()->email,auth::user()->id_user.''.'pp.jpg'),
                 'created_at' => date('Y-m-d H:i:s'),
             ]);

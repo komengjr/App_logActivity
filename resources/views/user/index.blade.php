@@ -119,7 +119,7 @@
                         hideClass: 'zoomOut',
                         icon: 'fa fa-check-circle',
                         width: 400,
-                        msg: 'Berhasil Input Data'
+                        msg: '{{$message}}'
                     });
                 }
                 $(document).ready(function() {
@@ -183,10 +183,14 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="input-16" class="col-sm-2 col-form-label">Nomor Kontak</label>
+                                    <label for="input-16" class="col-sm-2 col-form-label">Pilih Cabang</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="input-16"
-                                            name="contactnumber" />
+                                        <select name="cabang" id="" class="form-control single-select">
+                                            <option value="">Pilih Asal Cabang</option>
+                                            @foreach ($cabang as $item)
+                                                <option value="{{$item->kd_cabang}}">{{$item->nama_cabang}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
 
@@ -533,7 +537,11 @@
         </div>
     </div>
 </div>
-
+<script>
+    $(document).ready(function() {
+        $('.single-select').select2();
+      });
+</script>
 <script src="{{ asset('js/user-app.js', []) }}"></script>
 <script src="assets/plugins/jquery-validation/js/jquery.validate.min.js"></script>
 <script>

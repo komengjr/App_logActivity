@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>App Log</title>
+    <title>App Log - {{ auth::user()->name }}</title>
     <!--favicon-->
-    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="{{ asset('1.jpg', []) }}" type="image/x-icon" />
     <link href="{{ asset('assets/plugins/simplebar/css/simplebar.css', []) }}" rel="stylesheet" />
     {{-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css"> --}}
     <link href="{{ asset('assets/css/bootstrap.min.css', []) }}" rel="stylesheet" />
@@ -172,28 +172,32 @@
                 </ul>
 
                 <ul class="navbar-nav align-items-center right-nav-link">
-                    @if (auth::user()->kd_akses > 2)
+                    @if (auth::user()->kd_akses > 2 && auth::user()->kd_akses < 5)
                         @php
                             $jumlahnotif = 0;
                             $notif = DB::table('tbl_schedule')
                                 ->where('status_schedule', 1)
                                 ->get();
                             foreach ($notif as $value) {
-                                if (substr($value->tgl_start, 0, 10) >= date('Y-m-d')){
+                                if (substr($value->tgl_akhir, 0, 10) >= date('Y-m-d')) {
+                                    if (substr($value->tgl_start, 0, 10) <= date('Y-m-d')) {
+                                        $cekdata = DB::table('tbl_schadule_log')
+                                            ->where('kd_schedule', $value->kd_schedule)
+                                            ->where('id_user', auth::user()->id_user)
+                                            ->count();
 
-                                    $cekdata = DB::table('tbl_schadule_log')->where('kd_schedule',$value->kd_schedule)->where('id_user',auth::user()->id_user)->count();
-
-                                    if ($cekdata == 0){
-                                        $jumlahnotif = $jumlahnotif + 1;
-                                    }else{
-
+                                        if ($cekdata == 0) {
+                                            $jumlahnotif = $jumlahnotif + 1;
+                                        } else {
+                                        }
                                     }
                                 }
                             }
                         @endphp
                         <li class="nav-item pl-4">
                             <button class="dropdown-toggle waves-effect " onclick="waktu()" data-toggle="dropdown">
-                                <i class="fa fa-envelope-open-o"></i><span class="badge badge-warning badge-up" id="detikwaktu"><strong id="kayu">{{ $jumlahnotif }}</strong></span></button>
+                                <i class="fa fa-envelope-open-o"></i><span class="badge badge-warning badge-up"
+                                    id="detikwaktu"><strong id="kayu">{{ $jumlahnotif }}</strong></span></button>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <ul class="list-group list-group-flush">
 
@@ -241,10 +245,6 @@
                             <li class="dropdown-item" style="cursor: pointer" data-toggle="modal"
                                 data-target="#formuser"><i class="fa fa-key mr-2"></i> Ubah Password</li>
                             <li class="dropdown-divider"></li>
-                            {{-- <li class="dropdown-item"><i class="icon-wallet mr-2"></i> Account</li>
-                            <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
-                            <li class="dropdown-divider"></li> --}}
                             <li class="dropdown-item" style="cursor: pointer"
                                 onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
@@ -254,7 +254,7 @@
                     </li>
                 </ul>
             </nav>
-            <form id="logout-form" action="logout" method="POST" class="d-none">
+            <form id="logout-form" action="{{ asset('logout') }}" method="POST" class="d-none">
                 @csrf
             </form>
         </header>
@@ -375,44 +375,68 @@
     <script src="{{ asset('assets/plugins/notifications/js/notifications.min.js', []) }}"></script>
     <script src="{{ asset('assets/plugins/notifications/js/notification-custom-script.js', []) }}"></script>
     <script src="{{ asset('assets/plugins/select2/js/select2.min.js', []) }}"></script>
-    @if (auth::user()->kd_akses > 2)
+    <script src="{{ asset('assets/plugins/bootstrap-datatable/js/buttons.bootstrap4.min.js', []) }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap-datatable/js/jszip.min.js', []) }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap-datatable/js/pdfmake.min.js', []) }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap-datatable/js/vfs_fonts.js', []) }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap-datatable/js/buttons.html5.min.js', []) }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap-datatable/js/buttons.print.min.js', []) }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap-datatable/js/buttons.colVis.min.js', []) }}"></script>
     <script>
-        function notifpesanbaru(){
-			Lobibox.notify('info', {
-		    pauseDelayOnHover: true,
-            continueDelayOnInactiveTab: false,
-            icon: 'fa fa-envelope',
-		    position: 'center top',
-		    showClass: 'zoomIn',
-            hideClass: 'zoomOut',
-            width: 400,
-		    msg: 'Ada Pesan Baru Yang belum dibaca'
-		    });
-		  }
-        function showTime() {
-            var waktu = $("#detikwaktu").text();
-            $.ajax({
-                    url: "user/notifikasi/lihatnotifwaktu",
-                    type: "GET",
-                    dataType: "html",
-                })
-                .done(function(data) {
-                    $("#kayu").html(data);
-                    if (waktu == data) {
+        $(document).ready(function() {
+            //Default data table
+            $('#default-datatable').DataTable();
 
-                    }else{
-                        notifpesanbaru();
-                    }
-                })
-                .fail(function() {
-                    $("#kayu").html(
-                        '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
-                    );
-                });
 
-        }
-        setInterval('showTime()', 3000);
+            var table = $('#example').DataTable({
+                lengthChange: false,
+                buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+            });
+
+            table.buttons().container()
+                .appendTo('#example_wrapper .col-md-6:eq(0)');
+
+        });
     </script>
+    @if (auth::user()->kd_akses > 2 && auth::user()->kd_akses < 5)
+        <script>
+            function notifpesanbaru() {
+                Lobibox.notify('info', {
+                    pauseDelayOnHover: true,
+                    continueDelayOnInactiveTab: false,
+                    icon: 'fa fa-envelope',
+                    position: 'center top',
+                    showClass: 'zoomIn',
+                    hideClass: 'zoomOut',
+                    width: 400,
+                    msg: 'Ada Pesan Baru Yang belum dibaca'
+                });
+            }
+
+            function showTime() {
+                var waktu = $("#detikwaktu").text();
+                $.ajax({
+                        url: "user/notifikasi/lihatnotifwaktu",
+                        type: "GET",
+                        dataType: "html",
+                    })
+                    .done(function(data) {
+                        $("#kayu").html(data);
+                        if (waktu == data || data == 0) {
+
+                        } else {
+                            notifpesanbaru();
+                        }
+                    })
+                    .fail(function() {
+                        $("#kayu").html(
+                            '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                        );
+                    });
+
+            }
+            setInterval('showTime()', 2000);
+        </script>
     @endif
 
 </body>

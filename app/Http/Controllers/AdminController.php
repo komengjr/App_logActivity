@@ -17,7 +17,8 @@ class AdminController extends Controller
     public function datauseradmin()
     {
         if (auth::user()->kd_akses == 2) {
-        $user = DB::table('users')->where('kd_akses', '>','2' )->get();
+        $user = DB::table('users')
+        ->where('kd_akses', '>','2' )->get();
 
         return view('admin.modal.datauseradmin',['user'=>$user]);
         }
@@ -33,6 +34,14 @@ class AdminController extends Controller
         ->where('group_user.id_user',$id)
         ->get();
         return view('admin.modal.user.detail',['detailuser'=>$user , 'kinerja'=>$kinerja, 'cabang'=>$cabang]);
+    }
+    public function tambahdatauseradmin()
+    {
+        return view('admin.modal.user.tambah',[]);
+    }
+    public function tambahdataperiodeadmin()
+    {
+        return view('admin.modal.periode.tambah',[]);
     }
     public function buattiketbaru()
     {
@@ -98,8 +107,11 @@ class AdminController extends Controller
         ->join('worklist_person','worklist_person.kd_worklist_person','=','tbl_tiket_person_worklist.kd_worklist_person')
         ->join('tbl_worklist','tbl_worklist.kd_worklist','worklist_person.kd_worklist')
         ->get();
+        $data_schedule = DB::table('tbl_schedule')
+        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
+        ->get();
         $data = $data_tiket1->merge($data_tiket);
-        return view('admin.modal.daftartugasworklist',['data'=>$data]);
+        return view('admin.modal.daftartugasworklist',['data'=>$data_schedule]);
         }
     }
     public function tugasuserbelum()
@@ -113,6 +125,13 @@ class AdminController extends Controller
         if (auth::user()->kd_akses == 2) {
             $data = DB::table('tbl_periode')->where('status_periode',1)->get();
         return view('admin.modal.daftarperiode',['dataperiode'=>$data]);
+        }
+    }
+    public function datagroup()
+    {
+        if (auth::user()->kd_akses == 2) {
+            $data = DB::table('tbl_group')->get();
+        return view('admin.modal.daftargorup',['data'=>$data]);
         }
     }
     public function showtiketadmin($id)
@@ -379,6 +398,43 @@ class AdminController extends Controller
         Session::flash('sukses','Berhasil Membuat Laporan Dengan Kode Tiket : '.$no_tiket);
 		return redirect()->back();
     }
+    public function tambahuserbaru(Request $request)
+    {
+        $cekuser = DB::table('users')->where('email',$request->input('username'))->count();
+        if ($cekuser == 0) {
+            DB::table('users')->insert(
+                [
+                    'id_user' => "user-" . Str::random(5),
+                    'name' => $request->input('nama_lengkap'),
+                    'email' => $request->input('username'),
+                    'password' => Hash::make($request->input('password')),
+                    'kd_akses' => $request->input('akses'),
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]);
+            Session::flash('sukses','Berhasil Membuat User '.$request->input('nama_lengkap'));
+            return redirect()->back();
+        } else {
+            Session::flash('gagal','User '.$request->input('nama_lengkap').' Sudah Ada');
+            return redirect()->back();
+        }
+
+
+    }
+    public function tambahperiodebaru(Request $request)
+    {
+        DB::table('tbl_periode')->insert(
+            [
+                'bulan' => $request->input('bulan'),
+                'tahun' => $request->input('tahun'),
+                'awal_tgl' => $request->input('start'),
+                'akhir_tgl' => $request->input('end'),
+                'status_periode' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+        Session::flash('sukses','Berhasil Membuat User '.$request->input('nama_lengkap'));
+        return redirect()->back();
+
+    }
 
     public function schedule()
     {
@@ -405,12 +461,13 @@ class AdminController extends Controller
     {
         $date = substr($request->date, 4, 11);
         $datejamend = substr($request->end, 10, 20);
+
         $datex = strtotime($date);
-        $dateend = strtotime($request->end);
+        $dateend = strtotime(substr($request->end, 0, 10));
 
         DB::table('tbl_schedule')->insert(
             [
-                'kd_schedule' => Str::random(10),
+                'kd_schedule' => Str::random(50),
                 'kd_kinerja' => $request->judul,
                 'tgl_start' => date('Y-m-d', $datex),
                 'tgl_akhir' => date('Y-m-d', $dateend).' '.$datejamend,
@@ -421,5 +478,112 @@ class AdminController extends Controller
         );
 
         return response()->json(['success'=>'Data Tugas telah di jadwalkan']);
+
+    }
+
+    public function tambahusergroup($id)
+    {
+        $group = DB::table('tbl_group')->where('kd_group',$id)->first();
+        $user = DB::table('users')
+        ->where('kd_akses', '>','2')->get();
+        return view('admin.modal.group.usergroup',['group'=>$group,'user'=>$user]);
+    }
+    public function tambahusergroupbaru(Request $request)
+    {
+        DB::table('group_user')->insert(
+            [
+                'kd_group' => $request->input('kd_group'),
+                'id_user' => $request->input('id_user'),
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+        Session::flash('sukses','Berhasil Membuat User '.$request->input('nama_lengkap'));
+        return redirect()->back();
+    }
+    public function tambahcabanggroup($id)
+    {
+        $group = DB::table('tbl_group')->where('kd_group',$id)->first();
+        $cabang = DB::table('tbl_cabang')->get();
+        return view('admin.modal.group.cabanggroup',['group'=>$group,'cabang'=>$cabang]);
+    }
+    public function tambahcabanggroupbaru(Request $request)
+    {
+        DB::table('handler_cabang')->insert(
+            [
+                'kd_group' => $request->input('kd_group'),
+                'kd_cabang' => $request->input('kd_cabang'),
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+        Session::flash('sukses','Berhasil Membuat User '.$request->input('nama_lengkap'));
+        return redirect()->back();
+    }
+    public function tambahgroupbaru()
+    {
+        return view('admin.modal.formgroupbaru');
+    }
+    public function posttambahgroupbaru(Request $request)
+    {
+        DB::table('tbl_group')->insert(
+            [
+                'kd_group' => 'GR-'.Str::random(4),
+                'nama_group' => $request->nama_group,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]
+        );
+        Session::flash('sukses','Berhasil Input Group Baru :'.$request->nama_group);
+        return redirect()->back();
+    }
+    public function datataskpengerjaanuser($id)
+    {
+        if (auth::user()->kd_akses ==2) {
+            $data = DB::table('tbl_schedule')
+            ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
+            ->where('kd_schedule',$id)->first();
+            $user = DB::table('users')->where('kd_akses','>','2')->get();
+            return view('admin.modal.worklist.usertask',['user'=>$user,'data'=>$data]);
+        }
+
+    }
+    public function showdataschedule($id)
+    {
+        $datauser = DB::table('users')->join('tbl_biodata','tbl_biodata.id_user','=','users.id_user')->get();
+        $data = DB::table('tbl_schedule')
+        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
+        ->where('kd_schedule',$id)->first();
+        return view('admin.dataschedule',[
+            'datauser'=> $datauser,
+            'data' => $data,
+            'id' => $id,
+        ]);
+    }
+    public function datataskshowdatauser($id,$kd)
+    {
+
+        $data = DB::table('tbl_schedule')
+        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
+        ->where('tbl_schedule.kd_schedule',$kd)->first();
+        $datataskuser = DB::table('tbl_schadule_log')
+        ->where('id_user',$id)
+        ->where('kd_schedule',$kd)->first();
+        return view('admin.schedule.datauser',[
+            'data' => $data,
+            'datataskuser' => $datataskuser,
+        ]);
+    }
+
+    public function data_peserta()
+    {
+        $data = DB::table('pre_test')->join('event_peserta','event_peserta.email','=','pre_test.email')->get();
+        $peserta = DB::table('event_peserta')->get();
+        $post_test = DB::table('post_test')
+        ->orderBy('id_post_test', 'ASC')
+        ->get();
+        $pre_test = DB::table('pre_test')
+        ->orderBy('id_pre_test', 'ASC')
+        ->get();
+        return view('data_peserta',[
+            'peserta'=>$peserta,
+            'post_test'=>$post_test,
+            'pre_test'=>$pre_test,
+        ]);
     }
 }

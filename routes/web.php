@@ -70,6 +70,8 @@ Route::post('masteradmin/datatypeworklist/postdata/tambah',['as'=>'masteradmin/d
 
 Route::get('schedule',['as'=>'schedule','uses'=> 'AdminController@schedule']);
 Route::get('schedule/datacalender/{id}',['as'=>'schedule/datacalender','uses'=> 'AdminController@datacalender']);
+Route::get('admin/datauser/tambah',['as'=>'admin/dataworklist/tambah','uses'=> 'AdminController@tambahdatauseradmin']);
+Route::get('admin/dataperiode/tambah',['as'=>'admin/dataperiode/tambah','uses'=> 'AdminController@tambahdataperiodeadmin']);
 Route::get('admin/data/datauseradmin',['as'=>'admin/data/datauseradmin','uses'=> 'AdminController@datauseradmin']);
 Route::get('admin/user/data/detail/{id}',['as'=>'admin/user/data/detail','uses'=> 'AdminController@datadetailuseradmin']);
 Route::get('admin/dataworklist/tiketbaru',['as'=>'admin/dataworklist/tiketbaru','uses'=> 'AdminController@buattiketbaru']);
@@ -79,17 +81,31 @@ Route::get('admin/tiket/getdataoptionkinerjax/{id}',['as'=>'admin/tiket/getdatao
 Route::get('admin/data/tugasharian',['as'=>'admin/data/tugasharian','uses'=> 'AdminController@datatugasharian']);
 Route::get('admin/data/tugasuserbelum',['as'=>'admin/data/tugasuserbelum','uses'=> 'AdminController@tugasuserbelum']);
 Route::get('admin/data/dataperiode',['as'=>'admin/data/dataperiode','uses'=> 'AdminController@dataperiode']);
+Route::get('admin/data/datagroup',['as'=>'admin/data/datagroup','uses'=> 'AdminController@datagroup']);
 Route::get('admin/data/showtiketadmin/{id}',['as'=>'admin/data/showtiketadmin','uses'=> 'AdminController@showtiketadmin']);
 Route::get('admin/data/edittiketadmin/{id}',['as'=>'admin/data/edittiketadmin','uses'=> 'AdminController@edittiketadmin']);
 Route::get('admin/maps/data/cabang/{id}',['as'=>'admin/maps/data/cabang','uses'=> 'AdminController@datamapscabang']);
 Route::get('admin/tiket/data/tambah',['as'=>'admin/tiket/data/tambah','uses'=> 'AdminController@inputtiketbaru']);
 Route::get('admin/tiket/getdataoption/{id}',['as'=>'admin/tiket/getdataoption','uses'=> 'AdminController@getdataoptiontiket']);
+Route::get('admin/datagroup/tambahuser/{id}',['as'=>'admin/datagroup/tambahuser','uses'=> 'AdminController@tambahusergroup']);
+Route::get('admin/datagroup/tambahcabang/{id}',['as'=>'admin/datagroup/tambahcabang','uses'=> 'AdminController@tambahcabanggroup']);
+Route::get('admin/schedule/show/on/{id}','AdminController@showdataschedule');
+Route::get('admin/datagroup/tambah',['as'=>'admin/datagroup/tambah','uses'=> 'AdminController@tambahgroupbaru']);
+Route::get('admin/datatask/user/pengerjaan/{id}',['as'=>'admin/datatask/user/pengerjaan','uses'=> 'AdminController@datataskpengerjaanuser']);
+Route::get('admin/datatask/user/pengerjaan/showdata/{id}/{kd}',['as'=>'admin/datatask/user/pengerjaan/showdata','uses'=> 'AdminController@datataskshowdatauser']);
+
 
 Route::post('admin/buattiket/personal',['as'=>'radmin/buattiket/personal','uses'=> 'AdminController@buattiketpersonal']);
 Route::post('admin/buattiket/group',['as'=>'admin/buattiket/group','uses'=> 'AdminController@buattiketgroupl']);
+
 Route::post('admin/buattiket/laporan',['as'=>'admin/buattiket/laporan','uses'=> 'AdminController@buattiketlaporan']);
 
 Route::post('admin/buatjadwal/user',['as'=>'admin/buatjadwal/user','uses'=> 'AdminController@ajaxRequestPost']);
+Route::post('admin/user/tambahuser','AdminController@tambahuserbaru');
+Route::post('admin/periode/tambahperiode','AdminController@tambahperiodebaru');
+Route::post('admin/datagroup/tambahusergroup','AdminController@tambahusergroupbaru');
+Route::post('admin/datagroup/tambahcabanggroup','AdminController@tambahcabanggroupbaru');
+Route::post('admin/group/tambahgroup','AdminController@posttambahgroupbaru');
 
 Auth::routes();
 Route::get('datamaps', function () {
@@ -127,4 +143,9 @@ Route::post('user/userleader/pdf/kpi', 'PdfController@printkpi');
 
 
 
+// VERIFIKATOR
+Route::get('verifikator/datatask/user/pengerjaan/{id}',['as'=>'verifikator/datatask/user/pengerjaan','uses'=> 'VerifikatorController@datatask']);
+Route::post('verifikator/datatask/user/pdf', 'PdfController@printdataverif');
+
 // Route::post('ajaxRequest', [AdminController::class, 'ajaxRequestPost'])->name('ajaxRequest.post');
+// Route::get('data_peserta','AdminController@data_peserta');

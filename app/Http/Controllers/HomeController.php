@@ -67,6 +67,7 @@ class HomeController extends Controller
             $data = $data_tiket1->merge($data_tiket);
             // dd($data);
             $periode = DB::table('tbl_periode')->where('status_periode',1)->get();
+            $tperiode = DB::table('tbl_periode')->where('status_periode',1)->count();
             $datateam = DB::table('tbl_tiket_group_worklist')->count();
             $datateamselesai = DB::table('tbl_tiket_group_worklist')->where('status_tiket',2)->count();
             if ($datateamselesai == 0) {
@@ -82,9 +83,13 @@ class HomeController extends Controller
             } else {
                 $persendataindividuselesai = ($dataindividuselesai/$dataindividu)*100;
             }
+            $group = DB::table('tbl_group')->count();
+            $schedule = DB::table('tbl_schedule')->count();
             return view('index',['cabang'=>$cabang , 'user' => $user , 'tiket' => $data ,
-                        'jumlah_tiket' => $jumlah_tiket, 'jumlahuser'=>$jumlahuser, 'periode'=>$periode, 'datateam'=>$datateam,
-                        'dataindividu'=>$dataindividu, 'persendatateamselesai'=>$persendatateamselesai, 'persendataindividuselesai'=>$persendataindividuselesai
+                        'jumlah_tiket' => $jumlah_tiket, 'jumlahuser'=>$jumlahuser, 'periode'=>$periode,
+                        'tperiode'=>$tperiode, 'datateam'=>$datateam, 'dataindividu'=>$dataindividu,
+                        'persendatateamselesai'=>$persendatateamselesai, 'persendataindividuselesai'=>$persendataindividuselesai,
+                        'group'=>$group,'schedule'=>$schedule,
                     ]);
         }
         elseif (auth::user()->kd_akses == 3 ) {
@@ -139,9 +144,10 @@ class HomeController extends Controller
             ->join('tbl_cabang','tbl_cabang.kd_cabang','=','handler_cabang.kd_cabang')
             ->where('group_user.id_user',auth::user()->id_user)->get();
             $periode = DB::table('tbl_periode')->where('status_periode',1)->get();
+
             $dataschedule = DB::table('tbl_schedule')
             ->get();
-
+            $cabang = DB::table('tbl_cabang')->select('tbl_cabang.kd_cabang','tbl_cabang.nama_cabang')->get();
             return view('index',[   'worklistperson'=>$worklistperson,
                                     'groupworklist'=>$groupworklist,
                                     'tugasselesai'=>$tugasselesai,
@@ -155,6 +161,7 @@ class HomeController extends Controller
                                     'groupcabang'=>$groupcabang,
                                     'periode'=>$periode,
                                     'dataschedule'=>$dataschedule,
+                                    'cabang'=>$cabang,
                                 ]);
         }
         elseif (auth::user()->kd_akses == 4) {
@@ -208,11 +215,17 @@ class HomeController extends Controller
             ->join('tbl_cabang','tbl_cabang.kd_cabang','=','handler_cabang.kd_cabang')
             ->where('group_user.id_user',auth::user()->id_user)->get();
             $tbl_kinerja = DB::table('tbl_kinerja')->get();
-            $data_tiket_task = DB::table('tbl_tiket_task')
-            ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
-            ->where('tbl_tiket_task.status_task',1)
-            ->where('tbl_tiket_task.kd_cabang',$biodata->kd_cabang)
-            ->get();
+            if ($biodata == Null) {
+                $data_tiket_task = 0;
+            } else {
+                $data_tiket_task = DB::table('tbl_tiket_task')
+                ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
+                ->where('tbl_tiket_task.status_task',1)
+                ->where('tbl_tiket_task.kd_cabang',$biodata->kd_cabang)
+                ->get();
+            }
+
+            $cabang = DB::table('tbl_cabang')->select('tbl_cabang.kd_cabang','tbl_cabang.nama_cabang')->get();
             return view('index',[   'worklistperson'=>$worklistperson,
                                     'groupworklist'=>$groupworklist,
                                     'tugasselesai'=>$tugasselesai,
@@ -226,10 +239,14 @@ class HomeController extends Controller
                                     'groupcabang'=>$groupcabang,
                                     'tbl_kinerja'=>$tbl_kinerja,
                                     'data_tiket_task'=>$data_tiket_task,
+                                    'cabang'=>$cabang,
                                 ]);
         }
         elseif (auth::user()->kd_akses == 5) {
-            return view('index');
+            $dataschedule = DB::table('tbl_schedule')
+            ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
+            ->get();
+            return view('index',['dataschedule'=>$dataschedule]);
         }
 
     }

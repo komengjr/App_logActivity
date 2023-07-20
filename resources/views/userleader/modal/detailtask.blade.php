@@ -7,7 +7,12 @@
                         aria-expanded="true" aria-controls="collapse-1">
                         {{ $tbl_tiket_task->kinerja }}
                     </button>
+                    @if ($tbl_tiket_task_log->isempty())
                     <span class="badge badge-danger badge-xl" style="float: right;">Unfinished</span>
+                    @elseif($tbl_tiket_task_log[0]->status_task_log == 1)
+                    <span class="badge badge-warning badge-xl" style="float: right;">Proses</span>
+                    @endif
+
                 </div>
 
                 <div id="collapse-1" class="collapse" data-parent="#accordion1">

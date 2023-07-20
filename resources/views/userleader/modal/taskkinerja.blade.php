@@ -20,7 +20,7 @@
         </div>
         <div class="col">
             <label for="">Penyelesaian</label>
-            <textarea name="keterangan" class="form-control" id="summernoteEditor" cols="5" rows="10" required></textarea>
+            <textarea name="keterangan" class="form-control" id="summernoteEditor88" cols="5" rows="10" required></textarea>
         </div>
     </div>
     <div class="modal-footer">
@@ -32,7 +32,7 @@
 </form>
 <script src="{{ asset('assets/plugins/summernote/dist/summernote-bs4.min.js', []) }}"></script>
 <script>
-    $('#summernoteEditor').summernote({
+    $('#summernoteEditor88').summernote({
         height: 400,
         tabsize: 2
     });

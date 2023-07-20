@@ -1,8 +1,10 @@
 <div class="modal-content border-danger" >
     <div class="modal-header bg-info">
-        <h5 class="modal-title text-white">Detail User</h5>
+        <h5 class="modal-title text-white">
+            <button class="btn-primary"><i class="fa fa-refresh"></i></button>
+        </h5>
         <span>
-            {{-- <button class="btn-success text-float-right" id="buttontambahworklistbaru" data-url="{{ url('masteradmin/dataworklist/tambah', []) }}"><i class="fa fa-plus"></i> Tambah User</button> --}}
+            <button class="btn-success text-float-right" id="buttontambahuserbaru" ><i class="fa fa-plus"></i> Tambah User</button>
             <button type="button" class="btn-danger" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -17,7 +19,7 @@
                         <th>Name</th>
                         <th>Username</th>
                         <th>Akses</th>
-                        <th>Worklist</th>
+                        <th>Cabang</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -25,18 +27,7 @@
                     @foreach ($user as $user)
                         <tr>
                             <td>
-                                    <i class="fa fa-user-circle-o"> </i>  - {{$user->name}}
-                                {{-- <span class="list-group-item" >
-                                    <div class="media align-items-center" style="text-decoration:none;">
-                                    <div class="icon-box border ">
-                                        <i class="fa fa-user"></i>
-                                    </div>
-                                    <div class="media-body ml-3">
-                                        <h6 class="mb-0">{{$user->name}}</h6>
-                                    </div>
-                                    <div class="date">Wrok List: 250</div>
-                                    </div>
-                                </span> --}}
+                                <i class="fa fa-user-circle-o"> </i>  - {{$user->name}}
                             </td>
                             <td>{{$user->email}}</td>
                             <td>
@@ -50,29 +41,16 @@
                             </td>
                             <td>
                                 @php
-                                    $cekdatatugasgrup = DB::table('tbl_tiket_group_worklist')
+                                    $cekbio = DB::table('tbl_biodata')
+                                    ->join('tbl_cabang','tbl_cabang.kd_cabang','=','tbl_biodata.kd_cabang')
                                     ->where('id_user',$user->id_user)
-                                    ->count();
-                                    $cekdatatugaspersonal = DB::table('tbl_tiket_person_worklist')
-                                    ->where('tbl_tiket_person_worklist.id_user',$user->id_user)
-                                    ->count();
-                                    $cekdatatugasgrupselesai = DB::table('tbl_tiket_group_worklist')
-                                    ->where('id_user',$user->id_user)
-                                    ->where('status_tiket',2)
-                                    ->count();
-                                    $cekdatatugaspersonalselesai = DB::table('tbl_tiket_person_worklist')
-                                    ->where('tbl_tiket_person_worklist.id_user',$user->id_user)
-                                    ->where('status_tiket',2)
-                                    ->count();
-                                    $total = $cekdatatugasgrup + $cekdatatugaspersonal ;
-                                    $selesai = $cekdatatugasgrupselesai + $cekdatatugaspersonalselesai ;
-
+                                    ->first();
                                 @endphp
-                                total : <button class="btn-social btn-outline-facebook btn-social-circle waves-effect waves-light m-1">{{$total}}</button> <br>
-                                Selesai : <button class="btn-social btn-outline-facebook btn-social-circle waves-effect waves-light m-1">{{$selesai}}</button> <br>
-                                tidak selesai : <button class="btn-social btn-outline-facebook btn-social-circle waves-effect waves-light m-1">{{$total-$selesai}}</button>
+                                @if ($cekbio)
+                                {{$cekbio->nama_cabang}}
+                                @endif
                             </td>
-                            <td>
+                            <td class="text-center">
                               <div class="dropdown">
                                 <button
                                   class="dropdown-toggle dropdown-toggle-nocaret btn-warning"

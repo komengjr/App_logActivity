@@ -1,8 +1,8 @@
 <div class="content-wrapper">
     <div class="container-fluid">
         <div class="row pt-2 pb-2">
-            <div class="col-sm-9">
-                <h4 class="page-title">Data Admin</h4>
+            <div class="col-sm-12">
+                <h4 class="page-title">Dashboard Admin</h4>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="javaScript:void();">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="javaScript:void();">Admin</a></li>
@@ -12,15 +12,43 @@
 
         </div>
         @if ($message = Session::get('sukses'))
-            <div class="alert alert-icon-success alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <div class="alert-icon icon-part-success">
-                    <i class="fa fa-check"></i>
-                </div>
-                <div class="alert-message">
-                    <span><strong>Success!</strong> {{ $message }} </span>
-                </div>
-            </div>
+            <button class="btn btn-warning" onclick="sukses_notifikasi()" id="buttonnotif" hidden>SHOW ME</button>
+            <script>
+                function sukses_notifikasi() {
+                    Lobibox.notify('success', {
+                        pauseDelayOnHover: true,
+                        continueDelayOnInactiveTab: false,
+                        position: 'center top',
+                        showClass: 'zoomIn',
+                        hideClass: 'zoomOut',
+                        icon: 'fa fa-check-circle',
+                        width: 400,
+                        msg: '{{ $message }}'
+                    });
+                }
+                $(document).ready(function() {
+                    $('#buttonnotif').click();
+                });
+            </script>
+        @elseif ($message = Session::get('gagal'))
+            <button class="btn btn-warning" onclick="gagal_notifikasi()" id="buttongagal" hidden>SHOW ME</button>
+            <script>
+                function gagal_notifikasi() {
+                    Lobibox.notify('warning', {
+                        pauseDelayOnHover: true,
+                        continueDelayOnInactiveTab: false,
+                        position: 'center top',
+                        showClass: 'zoomIn',
+                        hideClass: 'zoomOut',
+                        icon: 'fa fa-exclamation-triangle',
+                        width: 400,
+                        msg: '{{ $message }}'
+                    });
+                }
+                $(document).ready(function() {
+                    $('#buttongagal').click();
+                });
+            </script>
         @endif
         <div class="row mt-3">
             <div class="col-12 col-lg-4 col-xl-3">
@@ -54,12 +82,12 @@
                 <div class="card">
                     <div class="card-body">
                         <p class="text-success mb-0">
-                            <i class="fa fa-book"> </i> - Data Worklist
+                            <i class="fa fa-book"> </i> - Data Task
                             <span class="float-right badge badge-success">memo</span>
                         </p>
                         <div class="">
                             <h4 class="mb-0 py-3 text-success">
-                                {{ $jumlah_tiket }}
+                                {{ $schedule }}
                                 <span class="float-right"><i class="fa fa-search" style="cursor: pointer;"
                                         data-toggle="modal" data-target="#showdatamaps" id="tugasuserharian"></i></span>
                             </h4>
@@ -86,9 +114,9 @@
                         </p>
                         <div class="">
                             <h4 class="mb-0 py-3 text-info">
-                                0
+                                {{$group}}
                                 <span class="float-right"><i class="fa fa-search" style="cursor: pointer;"
-                                        data-toggle="modal" data-target="#showdatamaps" id="tugasuserbelum"></i></span>
+                                        data-toggle="modal" data-target="#showdatamaps" id="datagroup"></i></span>
                             </h4>
                         </div>
                         <div class="progress-wrapper">
@@ -112,7 +140,7 @@
                         </p>
                         <div class="">
                             <h4 class="mb-0 py-3 text-danger">
-                                0
+                                {{$tperiode}}
                                 <span class="float-right"><i class="fa fa-search" style="cursor: pointer;"
                                         data-toggle="modal" data-target="#showdatamaps" id="dataperiode"></i></span>
                             </h4>
@@ -132,39 +160,33 @@
         </div>
         <!--End Row-->
 
-
-        <!--end row-->
-
-
-        <!--end row-->
         <div class="row">
             <div class="col-12 col-lg-12 col-xl-12">
-
-
-              <div class="card">
-                <div class="card-header text-uppercase">Column Chart
-                    <div class="card-action">
-                        <div class="dropdown">
-                            <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret"
-                                data-toggle="dropdown">
-                                <i class="icon-options"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="javascript:void();">Action</a>
-                                <a class="dropdown-item" href="javascript:void();">Another action</a>
-                                <a class="dropdown-item" href="javascript:void();">Something else here</a>
-                                <div class="dropdown-divider"></div>
-                                <a href="javaScript:void();" class="dropdown-item" data-toggle="modal"
-                                data-target="#inputtiketbaruadmin" id="buttonadminbuattiket"><i class="fa fa-tasks"></i>
-                                Buat Tiket</a>
+                <div class="card">
+                    <div class="card-header text-uppercase">Column Chart
+                        <div class="card-action">
+                            <div class="dropdown">
+                                <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret"
+                                    data-toggle="dropdown">
+                                    <i class="icon-options"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="javascript:void();">Action</a>
+                                    <a class="dropdown-item" href="javascript:void();">Another action</a>
+                                    <a class="dropdown-item" href="javascript:void();">Something else here</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="javaScript:void();" class="dropdown-item" data-toggle="modal"
+                                        data-target="#inputtiketbaruadmin" id="buttonadminbuattiket"><i
+                                            class="fa fa-tasks"></i>
+                                        Buat Tiket</a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="card-body">
+                        <div id="chart3"></div>
+                    </div>
                 </div>
-                <div class="card-body">
-                  <div id="chart3"></div>
-                </div>
-              </div>
             </div>
         </div>
         <div class="row">
@@ -173,7 +195,7 @@
                     <div class="card-body">
                         <div class="media align-items-center">
                             <div class="media-body">
-                                <h3 class="mt-3 mb-0">{{$dataindividu}}</h3>
+                                <h3 class="mt-3 mb-0">{{ $dataindividu }}</h3>
                                 <p class="mb-0">Kinerja Individu</p>
                             </div>
                             <div class="card-content dash-array-chart-box">
@@ -186,7 +208,7 @@
                     <div class="card-body">
                         <div class="media align-items-center">
                             <div class="media-body">
-                                <h3 class="mt-3 mb-0">{{$datateam}}</h3>
+                                <h3 class="mt-3 mb-0">{{ $datateam }}</h3>
                                 <p class="mb-0">Kinerja Team</p>
                             </div>
                             <div class="card-content dash-array-chart-box">
@@ -459,7 +481,7 @@
 </script> --}}
 <!-- Apex Chart JS -->
 <script src="{{ asset('assets/plugins/apexcharts/apexcharts.js', []) }}"></script>
-    {{-- <script src="{{ url('assets/plugins/apexcharts/apex-custom-script.js', []) }}"></script> --}}
+{{-- <script src="{{ url('assets/plugins/apexcharts/apex-custom-script.js', []) }}"></script> --}}
 {{-- <script src="{{ url('assets/js/dashboard-human-resources.js', []) }}"></script> --}}
 <script>
     $(function() {
@@ -643,7 +665,7 @@
                 dashArray: 4,
             },
             colors: ["#5204ce"],
-            series: ['{{round($persendataindividuselesai)}}'],
+            series: ['{{ round($persendataindividuselesai) }}'],
             labels: ['Screening Calls'],
 
         }
@@ -733,7 +755,7 @@
                 dashArray: 4,
             },
             colors: ["#f1076f"],
-            series: ['{{$persendatateamselesai}}'],
+            series: ['{{ $persendatateamselesai }}'],
             labels: ['Assignments'],
 
         }
@@ -973,8 +995,7 @@
                     stops: [0, 100, 100, 100]
                 },
             },
-            colors: ['#d13adf', '#00c8ff', '#ff5447',
-            ],
+            colors: ['#d13adf', '#00c8ff', '#ff5447', ],
             dataLabels: {
                 enabled: true,
                 textAnchor: 'start',
@@ -992,18 +1013,18 @@
             series: [{
                 data: [
                     @foreach ($user as $userx)
-                    @php
-                        $totaltiketuser = DB::table('tbl_tiket_person_worklist')
-                            ->where('id_user', $userx->id_user)
-                            ->where('status_tiket', 2)
-                            ->count();
-                        $totaltiketuser1 = DB::table('tbl_tiket_group_worklist')
-                            ->where('id_user', $userx->id_user)
-                            ->where('status_tiket', 2)
-                            ->count();
-                        $totaltiketselesai = $totaltiketuser + $totaltiketuser1;
-                    @endphp
-                        '{{ $totaltiketselesai }}',
+                        @php
+                            $totaltiketuser = DB::table('tbl_tiket_person_worklist')
+                                ->where('id_user', $userx->id_user)
+                                ->where('status_tiket', 2)
+                                ->count();
+                            $totaltiketuser1 = DB::table('tbl_tiket_group_worklist')
+                                ->where('id_user', $userx->id_user)
+                                ->where('status_tiket', 2)
+                                ->count();
+                            $totaltiketselesai = $totaltiketuser + $totaltiketuser1;
+                        @endphp
+                            '{{ $totaltiketselesai }}',
                     @endforeach
                 ]
             }],
@@ -1056,8 +1077,8 @@
                 type: 'bar',
                 foreColor: '#4e4e4e',
                 toolbar: {
-                      show: false
-                    }
+                    show: false
+                }
             },
             plotOptions: {
                 bar: {
@@ -1074,7 +1095,7 @@
                 width: 2,
                 colors: ['transparent']
             },
-            grid:{
+            grid: {
                 show: true,
                 borderColor: 'rgba(255, 255, 255, 0.00)',
             },
@@ -1142,7 +1163,7 @@
                 type: 'gradient',
                 gradient: {
                     shade: 'dark',
-                    gradientToColors: [ '#00c8ff', '#08a50e', '#7f00ff'],
+                    gradientToColors: ['#00c8ff', '#08a50e', '#7f00ff'],
                     shadeIntensity: 1,
                     type: 'horizontal',
                     opacityFrom: 1,
@@ -1154,7 +1175,7 @@
             tooltip: {
                 theme: 'dark',
                 y: {
-                    formatter: function (val) {
+                    formatter: function(val) {
                         return "" + val + " Tiket"
                     }
                 }
