@@ -77,10 +77,29 @@ $(document).on('click', '#datauseradmin', function(e) {
                 );
         });
 });
-$(document).on('click', '#tugasuserharian', function(e) {
+$(document).on('click', '#jadwaltugasuser', function(e) {
     e.preventDefault();
     var id = $(this).data("id");
-    var url = 'admin/data/tugasharian';
+    var url = 'admin/data/tugasschedule';
+    // console.log(id);
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#bodyformdatamapscabang').html(data);
+        })
+        .fail(function() {
+            $('#bodyformdatamapscabang').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
+$(document).on('click', '#tugasuserlainnya', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    var url = 'admin/data/tugasuserlainnya';
     // console.log(id);
     $.ajax({
             url: url,
@@ -119,6 +138,25 @@ $(document).on('click', '#dataperiode', function(e) {
     e.preventDefault();
 
     var url = 'admin/data/dataperiode';
+    // console.log(id);
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#bodyformdatamapscabang').html(data);
+        })
+        .fail(function() {
+            $('#bodyformdatamapscabang').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
+$(document).on('click', '#datacabang', function(e) {
+    e.preventDefault();
+
+    var url = 'admin/data/datacabang';
     // console.log(id);
     $.ajax({
             url: url,
@@ -244,6 +282,23 @@ $(document).on('click', '#buttontambahuserbaru', function(e) {
                 );
         });
 });
+$(document).on('click', '#buttontambahcabangbaru', function(e) {
+    e.preventDefault();
+    var url = 'admin/data/datacabang/tambah';
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#divtableuseradmin').html(data);
+        })
+        .fail(function() {
+            $('#divtableuseradmin').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
 $(document).on('click', '#buttontambahperiodebaru', function(e) {
     e.preventDefault();
     var url = 'admin/dataperiode/tambah';
@@ -348,6 +403,25 @@ $(document).on('click', '#buttonuserpengerjaantask', function(e) {
         })
         .fail(function() {
             $('#divtableworklist').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
+$(document).on('click', '#buttontambahverifikator', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    // console.log(id);
+    var url = 'admin/data/datacabang/tambah/'+id;
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#divtablecabangadmin').html(data);
+        })
+        .fail(function() {
+            $('#divtablecabangadmin').html(
                 '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
                 );
         });

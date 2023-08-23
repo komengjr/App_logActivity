@@ -22,6 +22,7 @@ class CreateTblTiketTaskTable extends Migration
             $table->string('tgl_start');
             $table->string('tgl_end');
             $table->longtext('deskripsi_task');
+            $table->string('user_v')->nullable();
             $table->string('status_task');
             $table->timestamps();
         });

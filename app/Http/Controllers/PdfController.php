@@ -44,11 +44,13 @@ class PdfController extends Controller
     }
     public function printdataverif(Request $request)
     {
-        $tbl_schedule = DB::table('tbl_schedule')
-        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
-        ->where('tbl_schedule.kd_schedule',$request->id)
+        $tbl_tiket_task = DB::table('tbl_tiket_task')
+        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
+        ->join('users','users.id_user','=','tbl_tiket_task.user_v')
+        ->join('tbl_biodata','tbl_biodata.kd_cabang','=','tbl_tiket_task.kd_cabang')
+        ->where('tbl_tiket_task.kd_tiket_task',$request->id)
         ->first();
-        $pdf = PDF::loadview('verifikator.printpdf',['data'=>$tbl_schedule])->setPaper('A4','potrait');
+        $pdf = PDF::loadview('verifikator.printpdf',['data'=>$tbl_tiket_task])->setPaper('A4','potrait');
         return $pdf->stream();
     }
 }

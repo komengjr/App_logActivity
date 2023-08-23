@@ -114,13 +114,13 @@
             <tr>
                 <td style="width: 150px;">Nama Pegawai</td>
                 <td style="width: 5px;">:</td>
-                <td style="width: 440px;"></td>
+                <td style="width: 440px;">{{$data->nama_lengkap}}</td>
 
             </tr>
             <tr>
                 <td style="width: 150px;">NIP Pegawai</td>
                 <td style="width: 5px;">:</td>
-                <td></td>
+                <td>{{$data->nip}}</td>
 
             </tr>
             <tr>
@@ -138,7 +138,7 @@
             <tr>
                 <td>Tanggal Berakhir</td>
                 <td style="width: 5px;">:</td>
-                <td>{{ $data->tgl_akhir }}</td>
+                <td>{{ $data->tgl_end }}</td>
 
             </tr>
 
@@ -157,7 +157,7 @@
                 <tr>
                     <td>
                         @php
-                            echo $data->ket_schedule;
+                            echo $data->deskripsi_task;
                         @endphp
                     </td>
                 </tr>
@@ -177,7 +177,8 @@
                 <tr>
                     <td>
                         @php
-                            echo $data->ket_schedule;
+                            $log = DB::table('tbl_tiket_task_log')->where('kd_tiket_task',$data->kd_tiket_task)->first();
+                            echo $log->deskripsi_task_log;
                         @endphp
                     </td>
                 </tr>
@@ -194,25 +195,28 @@
                     <td colspan="3" class="text-right"><strong>Pontianak , {{ date('d - m - Y ') }}</strong></td>
                 </tr>
                 <tr>
-                    <td>Mengetahui,</td>
-                    <td>Pejabat Penilai ,</td>
-                    <td>Pegawai Yang Dinilai ,</td>
+                    <td>Pemberi Tugas ,</td>
+                    <td>User Terkait ,</td>
+                    <td>Yang Memverifikasi ,</td>
                 </tr>
                 <tr>
                     <td class="text-center" style="padding-top: 15px; padding-bottom: 15px; width: 33%;">
                         {{-- <img style="padding-left: 2px; left: 20px;" src=""> --}}
                         <br><br><br><br><br>
-                        123
+                        @php
+                            $userleader = DB::table('users')->where('id_user',$data->id_leader)->first();
+                        @endphp
+                        {{$userleader->name}}
 
                     </td>
                     <td class="text-center" style="width: 33%;">
                         <br><br><br><br><br>
-                        asd
+                        {{$data->nama_lengkap}}
 
                     </td>
                     <td class="text-center" style="width: 33%;">
                         <br><br><br><br><br>
-                        asd
+                        {{$data->name}}
                     </td>
                 </tr>
 

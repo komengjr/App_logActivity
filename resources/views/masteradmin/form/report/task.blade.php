@@ -18,7 +18,6 @@
         margin-left: 25px;
         margin-top: 5px;
         font-family: Calibri (Body);
-
     }
 </style>
 <style>
@@ -100,25 +99,25 @@
                     <p style="text-decoration: underline;">FORM :</p>
                 </td>
                 <td rowspan="4" class="text-right">
-                    <img style="padding-top: 0px; margin: 5px;" src="storage/{{$datadiri->gambar}}" width="90">
+                    <img style="padding-top: 0px; margin: 5px;" src="storage/" width="90">
                 </td>
             </tr>
             <tr>
                 <td style="width: 150px;">Nama Pegawai</td>
                 <td style="width: 5px;">:</td>
-                <td style="width: 440px;">{{$datadiri->nama_lengkap}}</td>
+                <td style="width: 440px;">-</td>
 
             </tr>
             <tr>
                 <td style="width: 150px;">NIP Pegawai</td>
                 <td style="width: 5px;">:</td>
-                <td>{{$datadiri->nip}}</td>
+                <td>-</td>
 
             </tr>
             <tr>
                 <td>Periode</td>
                 <td style="width: 5px;">:</td>
-                <td>{{$periode->bulan}} - {{$periode->tahun}} </td>
+                <td>-</td>
 
             </tr>
 
@@ -225,12 +224,12 @@
                 </td>
                 <td class="text-center" style="width: 33%;">
                     <br><br><br><br><br>
-                    {{$datadiri->nama_lengkap}}
+                    -
 
                 </td>
                 <td class="text-center" style="width: 33%;">
                     <br><br><br><br><br>
-                    {{$datadiri->nama_lengkap}}
+                   -
                 </td>
             </tr>
 

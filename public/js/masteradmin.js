@@ -6,7 +6,7 @@ function success_notibaru(){
     icon: 'fa fa-check-circle',
     msg: 'Data Berhasil di Tambah.'
     });
-  }	
+  }
 function success_notiupdate(){
     Lobibox.notify('success', {
     pauseDelayOnHover: true,
@@ -15,7 +15,7 @@ function success_notiupdate(){
     icon: 'fa fa-check-circle',
     msg: 'Data Berhasil di Update.'
     });
-  }	
+  }
 function success_notihapus(){
     Lobibox.notify('success', {
     pauseDelayOnHover: true,
@@ -24,7 +24,7 @@ function success_notihapus(){
     icon: 'fa fa-check-circle',
     msg: 'Data Berhasil di Hapus.'
     });
-  }	
+  }
   function getDataOptionTiket() {
     var datatiket = document.getElementById('datatiket').value;
     // e.preventDefault();
@@ -131,7 +131,7 @@ $(document).ready(function() {
                             );
                     });
     });
-    
+
     $(document).on('click', '#simpandatauserbaru', function(e) {
         var data = $('#formpostuserbaru').serialize();
         e.preventDefault();
@@ -178,7 +178,7 @@ $(document).ready(function() {
                     '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...' );
             });
     });
-    
+
     $(document).on('click', '#datagroupmasteradmin', function(e) {
         e.preventDefault();
         var url = $(this).data('url');
@@ -369,6 +369,45 @@ $(document).ready(function() {
             .fail(function() {
                 $('#divtablecabang').html(
                     '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...' );
+            });
+    });
+    $(document).on('click', '#datataskmasteradmin', function(e) {
+        e.preventDefault();
+        var url = $(this).data('url');
+        $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'html'
+            })
+            .done(function(data) {
+                $('#bodyformdatamasteradmin').html(data);
+            })
+            .fail(function() {
+                $('#bodyformdatamasteradmin').html(
+                    '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                    );
+            });
+    });
+    $(document).on('click', '#tampildatataskuser', function(e) {
+        e.preventDefault();
+        var url = $(this).data('url');
+        // let pdfWindow = window.open("");
+        $('#divtableworklist').html('<div class="tengah"><div class="spinner-border text-primary text-center" style="display: flex; justify-content: center; align-items: center;"></div></div>');
+        $.ajax({
+                url: url,
+                type: 'GET',
+                dataType : 'text',
+                contentType : 'application/pdf',
+            })
+            .done(function(data) {
+                // window.open("data:application/pdf," + url);
+                $('#divtableworklist').html('<iframe src="'+url+'" width="100%" height="500"></iframe>');
+                // $('#divtableworklist').html("<iframe width='100%' height='100%' src='data:application/pdf;base64," + url +"'></iframe>");
+            })
+            .fail(function() {
+                $('#divtableworklist').html(
+                    '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                    );
             });
     });
     $(document).on('click', '#dataworklistmasteradmin', function(e) {

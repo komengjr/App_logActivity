@@ -13,18 +13,27 @@
     <div class="body" id="">
         <div class="row">
             <div class="col-12">
+                <label for="">Point Kinerja</label>
+                <select name="kd_kinerja" id="" class="form-control  single-select" required>
+                    <option value="">Pilih Kinerja</option>
+                    @foreach ($kinerja as $kinerja)
+                        <option value="{{$kinerja->kd_kinerja}}">{{$kinerja->kinerja}}</option>
+                    @endforeach
+                </select>
+            </div>
+            {{-- <div class="col-12">
                 <label for="">Type Laporan</label>
-                <select name="type_laporan" id="" class="form-control" required>
+                <select name="type_laporan" id="" class="form-control  single-select1" required>
                     <option value="">Pilih Type</option>
                     @foreach ($type_laporan as $type_laporan)
                         <option value="{{$type_laporan->type_laporan}}">{{$type_laporan->tingkat_laporan}}</option>
                     @endforeach
                 </select>
-            </div>
-            <div class="col-12">
+            </div> --}}
+            {{-- <div class="col-12">
                 <label for="">Judul Laporan</label>
                 <input type="text" class="form-control" name="judul_laporan" required>
-            </div>
+            </div> --}}
             <div class="col-12">
                 <label for="">Deskripsi Laporan</label>
                 <textarea name="deskripsi_laporan" class="form-control" id="summernoteEditor" cols="5" rows="10" required></textarea>
@@ -45,4 +54,8 @@
             height: 400,
             tabsize: 2
         });
+    $(document).ready(function() {
+        $('.single-select1').select2();
+        $('.single-select').select2();
+    });
   </script>

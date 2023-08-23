@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
+use PDF;
 class MasterAdminController extends Controller
 {
     public function __construct()
@@ -122,10 +123,10 @@ class MasterAdminController extends Controller
                     Session::flash('sukses','Berhasil Membuat Tiket Dengan ID User : '.$request->input('id_user'));
                     return redirect()->back();
                 }
-                
+
             }
 
-            
+
         }
     }
     public function buattiketgroupl(Request $request)
@@ -203,10 +204,10 @@ class MasterAdminController extends Controller
                     Session::flash('sukses','Berhasil Membuat Tiket Dengan ID Group : '.$request->input('kd_group'));
                     return redirect()->back();
                 }
-                
+
             }
 
-            
+
         }
     }
     public function datauser()
@@ -359,7 +360,7 @@ class MasterAdminController extends Controller
         if (auth::user()->kd_akses == 1) {
             DB::table('tbl_group')->insert(
                 [
-                    
+
                     'kd_group' => $request->input('kd_group'),
                     'nama_group' => $request->input('nama_group'),
                     'created_at' => date('Y-m-d H:i:s'),
@@ -451,6 +452,27 @@ class MasterAdminController extends Controller
             return view('masteradmin.form.worklist', ['data' => $data]);
         }
     }
+    public function datatask()
+    {
+        if (auth::user()->kd_akses == 1) {
+            $data = DB::table('tbl_tiket_task')
+            ->select('tbl_tiket_task.*','tbl_cabang.nama_cabang','tbl_kinerja.kinerja')
+            ->join('tbl_cabang','tbl_cabang.kd_cabang','=','tbl_tiket_task.kd_cabang')
+            ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
+            ->get();
+            return view('masteradmin.form.task', ['data' => $data]);
+        }
+    }
+    public function showdattask($id)
+    {
+        if (auth::user()->kd_akses == 1) {
+            $datakinerja = DB::table('tbl_kinerja')->get();
+            $tbl_periode = DB::table('tbl_periode')->get();
+            $pdf = PDF::loadview('masteradmin.form.report.task',['id'=>$id,'datakinerja'=>$datakinerja ])->setPaper('A4','potrait');
+            return $pdf->stream();
+        }
+    }
+
     public function dataworklisttambah()
     {
         if (auth::user()->kd_akses == 1) {
@@ -717,7 +739,7 @@ class MasterAdminController extends Controller
         return view('masteradmin.form.tiketgroup.tiketgroupworklist',['data'=>$data]);
     }
     public function datatiketpersonalworklist()
-    {   
+    {
         $data = DB::table('tbl_tiket_person_worklist')
         ->join('worklist_person','worklist_person.kd_worklist_person','=','tbl_tiket_person_worklist.kd_worklist_person')
         ->join('tbl_worklist','tbl_worklist.kd_worklist','=','worklist_person.kd_worklist')
@@ -733,6 +755,6 @@ class MasterAdminController extends Controller
     {
         if (auth::user()->kd_akses == 1) {
             return view('masteradmin.form.maps.index');
-        } 
+        }
     }
 }

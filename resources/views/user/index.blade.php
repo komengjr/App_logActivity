@@ -343,7 +343,7 @@
                                                             ->get();
                                                     @endphp
                                                     @if ($cektasktiket->isEmpty())
-                                                        <div class="alert alert-warning alert-dismissible"
+                                                        <div class="alert alert-danger alert-dismissible"
                                                             role="alert" style="cursor: pointer;"
                                                             data-toggle="modal" data-target="#showtask"
                                                             id="buttontikettask"
@@ -359,6 +359,24 @@
                                                         </div>
                                                     @endif
                                                 @endif
+                                            @endforeach
+                                            @foreach ($datalaporan as $datalaporan)
+
+                                                        <div class="alert alert-danger alert-dismissible"
+                                                            role="alert" style="cursor: pointer;"
+                                                            data-toggle="modal" data-target="#showtask"
+                                                            id="buttontiketlaporan"
+                                                            data-id="{{ $datalaporan->id_tiket_laporan }}">
+                                                            <div class="alert-icon contrast-alert">
+                                                                <button><i class="fa fa-envelope"></i></button>
+                                                            </div>
+                                                            <div class="alert-message">
+                                                                <span><strong>Tugas Baru : </strong> <span
+                                                                        style="color: black;">{{ $datalaporan->kd_kinerja }}</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
                                             @endforeach
                                             <hr>
 
@@ -498,13 +516,13 @@
                                     <a href="javaScript:void();" class="dropdown-item" data-toggle="modal"
                                         data-target="#input_tiketxx" id="buttoninputlaporan"><i
                                             class="fa fa-exclamation-circle"></i> Input Laporan</a>
-                                    <a class="dropdown-item" href="javascript:void();">Another action</a>
+                                    {{-- <a class="dropdown-item" href="javascript:void();">Another action</a>
                                     <a class="dropdown-item" href="javascript:void();">Something else here</a>
                                     <div class="dropdown-divider"></div>
                                     <a href="javaScript:void();" class="dropdown-item" data-toggle="modal"
                                         data-target="#inputtiketbaruadmin" id="buttonadminbuattiket"><i
                                             class="fa fa-tasks"></i>
-                                        Buat Tiket</a>
+                                        Buat Tiket</a> --}}
                                 </div>
                             </div>
                         </div>

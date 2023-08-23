@@ -96,22 +96,24 @@ class AdminController extends Controller
 
     }
 
-    public function datatugasharian()
+    public function datatugasjadwal()
     {
         if (auth::user()->kd_akses == 2) {
-        $data_tiket = DB::table('tbl_tiket_group_worklist')
-        ->join('group_worklist','group_worklist.kd_worklist_group','=','tbl_tiket_group_worklist.kd_worklist_group')
-        ->join('tbl_worklist','tbl_worklist.kd_worklist','group_worklist.kd_worklist')
-        ->get();
-        $data_tiket1 = DB::table('tbl_tiket_person_worklist')
-        ->join('worklist_person','worklist_person.kd_worklist_person','=','tbl_tiket_person_worklist.kd_worklist_person')
-        ->join('tbl_worklist','tbl_worklist.kd_worklist','worklist_person.kd_worklist')
-        ->get();
         $data_schedule = DB::table('tbl_schedule')
         ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
         ->get();
-        $data = $data_tiket1->merge($data_tiket);
-        return view('admin.modal.daftartugasworklist',['data'=>$data_schedule]);
+        return view('admin.modal.daftartugasschedule',['data'=>$data_schedule]);
+        }
+    }
+    public function tugasuserlainnya()
+    {
+        if (auth::user()->kd_akses == 2) {
+        $data_tiket = DB::table('tbl_tiket_task')
+        ->join('tbl_kinerja','tbl_tiket_task.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
+        // ->join('tbl_worklist','tbl_worklist.kd_worklist','group_worklist.kd_worklist')
+        ->get();
+
+        return view('admin.modal.daftartugaslainnya',['data'=>$data_tiket]);
         }
     }
     public function tugasuserbelum()
@@ -569,6 +571,49 @@ class AdminController extends Controller
             'datataskuser' => $datataskuser,
         ]);
     }
+    public function datacabang()
+    {
+        $datacabang = DB::table('tbl_cabang')->get();
+        return view('admin.modal.datacabang',['datacabang'=>$datacabang]);
+    }
+    public function tambahdatacabang()
+    {
+        return view('admin.modal.cabang.tambah');
+    }
+    public function tambahdataverifikatorcabang($id)
+    {
+        $cabang =  DB::table('tbl_cabang')->where('kd_cabang',$id)->first();
+        return view('admin.modal.cabang.tambahverifikator',['id'=>$id,'cabang'=>$cabang]);
+    }
+    public function tambahuserverifikator(Request $request)
+    {
+        $cekuser = DB::table('users')->where('email',$request->input('username'))->count();
+        if ($cekuser == 0) {
+            DB::table('users')->insert(
+                [
+                    'id_user' => "verif-" . Str::random(5),
+                    'name' => $request->input('nama_lengkap'),
+                    'email' => $request->input('username'),
+                    'password' => Hash::make($request->input('password')),
+                    'kd_akses' => $request->input('akses'),
+                    'cabang' => $request->input('kd_cabang'),
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]);
+            Session::flash('sukses','Berhasil Membuat User '.$request->input('nama_lengkap'));
+            return redirect()->back();
+        } else {
+            Session::flash('gagal','User '.$request->input('nama_lengkap').' Sudah Ada');
+            return redirect()->back();
+        }
+    }
+
+
+
+
+
+
+
+
 
     public function data_peserta()
     {

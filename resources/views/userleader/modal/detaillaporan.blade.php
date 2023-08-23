@@ -7,15 +7,26 @@
     </span>
 
 </div>
-<form action="{{ asset('user/inputdatatiketgroup', []) }}" method="post">
+<form action="{{ asset('user/datalaporan/penyelesaian', []) }}" method="post">
     @csrf
 <div class="modal-body" id="">
     <div class="row">
         <div class="col-12">
+            <label for="">Nama Pelapor :</label>
+            <div class="responsive">
+            @php
+                echo $data[0]->name;
+            @endphp
+            <input type="text" name="no_tiket" value="{{$data[0]->no_tiket}}">
+            </div>
+        </div>
+        <div class="col-12">
             <label for="">Data Laporan</label>
+            <div class="responsive">
             @php
                 echo $data[0]->deskripsi_laporan;
             @endphp
+            </div>
         </div>
         <div class="col-12">
             <textarea name="keterangan" class="form-control" id="summernoteEditor" cols="5" rows="10" required></textarea>

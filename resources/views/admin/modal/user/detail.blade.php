@@ -33,7 +33,9 @@
                                     @elseif ($detailuser[0]->kd_akses == 4)
                                         User
                                     @elseif ($detailuser[0]->kd_akses == 5)
-                                        Verifikator
+                                        Verifikator ( Kacab )
+                                    @elseif ($detailuser[0]->kd_akses == 6)
+                                        Verify ( Manager SDM )
                                     @endif
                                 </p>
                             </div>

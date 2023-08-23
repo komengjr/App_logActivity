@@ -2,37 +2,36 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <form action="{{ asset('admin/user/tambahuser') }}" id="create_user" method="post" enctype="multipart/form-data">
+                <form action="{{ asset('admin/data/datacabang/tambahverifikator') }}" id="create_user" method="post" enctype="multipart/form-data">
                     @csrf
                     <h4 class="form-header text-uppercase">
                         <i class="fa fa-address-book-o"></i>
-                        Create User Baru
+                        Create Verifikator Baru
                     </h4>
                     <div class="form-group row">
                         <label for="input-10" class="col-sm-2 col-form-label">Nama Lengkap</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" id="input-10" name="nama_lengkap">
+                            <input type="text" class="form-control"  name="nama_lengkap">
                         </div>
                         <label for="input-11" class="col-sm-2 col-form-label">Akses</label>
                         <div class="col-sm-4">
                             <select name="akses" id="" class="form-control single-select">
                                 <option value="">Pilih Akses</option>
-                                <option value="3"><i class="fa fa-user-o"></i> User Leader</option>
-                                <option value="4">User</option>
                                 <option value="5">Verifikator</option>
                                 <option value="6">Verify</option>
                             </select>
+                            <input type="text" class="form-control"  name="kd_cabang" value="{{$id}}" hidden>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="input-12" class="col-sm-2 col-form-label">Username</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" id="input-12" name="username" value="">
+                            <input type="text" class="form-control"  name="username">
                         </div>
                         <label for="input-13" class="col-sm-2 col-form-label">Password</label>
                         <div class="col-sm-4">
-                            <input type="password" class="form-control" id="input-13" name="password" value="">
+                            <input type="password" class="form-control"  name="password">
                         </div>
                     </div>
 

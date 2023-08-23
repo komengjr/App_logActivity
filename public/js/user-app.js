@@ -67,6 +67,21 @@ $(document).on('click', '#buttoninputlaporan', function(e) {
             $('#bodyformdatainputtiket').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
         });
 });
+$(document).on('click', '#buttontiketlaporan', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    $.ajax({
+            url: 'user/laporan/lihatdatalaporan/'+id,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#lihatdatatask').html(data);
+        })
+        .fail(function() {
+            $('#lihatdatatask').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
+        });
+});
 $(document).on('click', '#buttonshowdetaillaporan', function(e) {
     e.preventDefault();
     var id = $(this).data("id");

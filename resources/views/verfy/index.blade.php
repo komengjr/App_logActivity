@@ -87,14 +87,15 @@
         color: #020202;
     }
 </style>
+
 <div class="content-wrapper">
     <div class="container-fluid">
         <div class="row pt-2 pb-2">
             <div class="col-sm-12">
-                <h4 class="page-title">Dashboard Verifikator {{auth::user()->name}}</h4>
+                <h4 class="page-title">Dashboard Verif {{auth::user()->name}}</h4>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="javaScript:void();">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="javaScript:void();">Verifikator</a></li>
+                    <li class="breadcrumb-item"><a href="javaScript:void();">Verif</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Home</li>
                 </ol>
             </div>
@@ -139,7 +140,6 @@
                 });
             </script>
         @endif
-
         <!--End Row-->
 
         <div class="card">
@@ -161,10 +161,10 @@
                 <div class="row align-items-center">
                     <div class="col-12 col-lg-3 text-center">
                         <p class="mt-4">Total Orders</p>
-                        <h4 class="mb-0">{{$jumlahorder}}</h4>
+                        <h4 class="mb-0">{{ $jumlahorder }}</h4>
                         <hr />
                         <p>Total Verifikasi</p>
-                        <h4 class="mb-0 text-info">{{$jumlahverif}}</h4>
+                        <h4 class="mb-0 text-info">{{ $jumlahverif }}</h4>
                     </div>
                     <div class="col-12 col-lg-9">
                         <div class="chart-container-11">
@@ -189,11 +189,13 @@
                                     <i class="icon-options"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="javascript:void();">Action</a>
+                                    {{-- <a class="dropdown-item" href="javascript:void();">Action</a>
                                     <a class="dropdown-item" href="javascript:void();">Another action</a>
-                                    <a class="dropdown-item" href="javascript:void();">Something else here</a>
+                                    <a class="dropdown-item" href="javascript:void();">Something else here</a> --}}
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#" id="buttontambahorderverify" data-toggle="modal" data-target="#modalverif"><i class="fa fa-ticket"></i> Tambah Order</a>
+                                    <a class="dropdown-item" href="#" id="buttontambahorderverify"
+                                        data-toggle="modal" data-target="#modalverif"><i class="fa fa-ticket"></i>
+                                        Tambah Order</a>
                                 </div>
                             </div>
                         </div>
@@ -229,13 +231,13 @@
                                         </td>
                                         <td data-label="Status">
                                             @if ($tiket->status_task == 1)
-                                            <span class="badge-dot">
-                                                <i class="bg-danger"></i> pending
-                                            </span>
+                                                <span class="badge-dot">
+                                                    <i class="bg-danger"></i> pending
+                                                </span>
                                             @else
-                                            <span class="badge-dot">
-                                                <i class="bg-success"></i> Selesai
-                                            </span>
+                                                <span class="badge-dot">
+                                                    <i class="bg-success"></i> Selesai
+                                                </span>
                                             @endif
 
 
@@ -243,8 +245,7 @@
                                         </td>
                                         <td class="text-center">
                                             <button class="btn-info" data-toggle="modal" data-target="#modalverif"
-                                                id="modalveriflihatschedule"
-                                                data-id="{{ $tiket->kd_tiket_task }}"><i
+                                                id="modalveriflihatschedule" data-id="{{ $tiket->kd_tiket_task }}"><i
                                                     class="fa fa-file-text"></i></button>
                                             {{-- <button class="btn-warning"><i class="fa fa-send"></i></button> --}}
                                         </td>
@@ -256,29 +257,13 @@
                 </div>
             </div>
         </div>
-
         <!--End Row-->
-        <!--start overlay-->
-        <div class="overlay toggle-menu"></div>
-
         <!--start overlay-->
         <div class="overlay toggle-menu"></div>
         <!--end overlay-->
     </div>
     <!-- End container-fluid-->
-
 </div>
-<div class="modal fade" id="showdatamaps">
-    <div class="modal-dialog modal-dialog-centered modal-xl" id="bodyformdatamapscabang">
-        <div class="modal-content border-danger" style="background: transparent;">
-            <div class="text-center">
-                <img src="{{ asset('loading1.gif', []) }}" alt="" srcset="" width="250"
-                    style="height: auto;">
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade" id="modalverif">
     <div class="modal-dialog modal-dialog-centered modal-xl" id="showmodalverif">
         <div class="modal-content border-danger" style="background: transparent;">
@@ -289,20 +274,6 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="inputtiketbaruadmin">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-danger" id="bodyformdatatiket">
-
-            loading ..
-
-        </div>
-    </div>
-</div>
 <script src="{{ asset('js/verif.js', []) }}"></script>
 <script src="{{ url('assets/plugins/Chart.js/Chart.min.js', []) }}"></script>
 <script src="{{ url('assets/js/dashboard-property-listing.js', []) }}"></script>
-
-
-<!-- Apex Chart JS -->
-<script src="{{ asset('assets/plugins/apexcharts/apexcharts.js', []) }}"></script>

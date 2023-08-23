@@ -1,3 +1,91 @@
+<style>
+    @media only screen and (max-width: 800px) {
+
+        td,
+        tr {
+            display: block;
+        }
+
+        /* Hide table headers (but not display: none;, for accessibility) */
+        thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+
+        tr {
+            border: 1px solid #000000;
+        }
+
+        tr+tr {
+            margin-top: 1.5em;
+        }
+
+        td {
+            /* make like a "row" */
+            border: 5px;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+            background-color: #bcc6c1;
+            text-align: left;
+        }
+
+        td:before {
+            content: attr(data-label);
+            display: inline-block;
+            font-family: 'Orbitron', sans-serif;
+            padding-left: 10px;
+            line-height: 2.5;
+            margin-left: -100%;
+            width: 100%;
+            white-space: nowrap;
+        }
+    }
+
+    .styled-table {
+        /* position: static; */
+        border-collapse: collapse;
+        margin: 0px 0;
+        font-size: 0.9em;
+
+        width: 100%;
+        /* min-width: 400px; */
+        box-shadow: 0 0 20px rgba(217, 211, 211, 0.15);
+
+    }
+
+    .styled-table thead tr {
+        background-color: #0095ff;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    @media only screen and (min-width: 260px) {
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+        }
+    }
+
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #030303;
+    }
+
+    .styled-table tbody tr.active-row {
+        font-weight: bold;
+        color: #020202;
+    }
+</style>
 <div class="content-wrapper">
     <div class="container-fluid">
         <div class="row pt-2 pb-2">
@@ -82,14 +170,14 @@
                 <div class="card">
                     <div class="card-body">
                         <p class="text-success mb-0">
-                            <i class="fa fa-book"> </i> - Data Task
+                            <i class="fa fa-home"> </i> - Data Cabang
                             <span class="float-right badge badge-success">memo</span>
                         </p>
                         <div class="">
                             <h4 class="mb-0 py-3 text-success">
-                                {{ $schedule }}
+                                {{ $jumlahcabang }}
                                 <span class="float-right"><i class="fa fa-search" style="cursor: pointer;"
-                                        data-toggle="modal" data-target="#showdatamaps" id="tugasuserharian"></i></span>
+                                        data-toggle="modal" data-target="#showdatamaps" id="datacabang"></i></span>
                             </h4>
                         </div>
                         <div class="progress-wrapper">
@@ -109,7 +197,7 @@
                 <div class="card">
                     <div class="card-body">
                         <p class="text-info mb-0">
-                            Data Grup Cabang
+                           <i class="fa fa-users"></i> - Data Grup Cabang
                             <span class="float-right badge badge-info">memo</span>
                         </p>
                         <div class="">
@@ -135,7 +223,7 @@
                 <div class="card">
                     <div class="card-body">
                         <p class="text-danger mb-0">
-                            Data Periode
+                            <i class="fa fa-calendar-o"> </i> - Data Periode
                             <span class="float-right badge badge-danger">memo</span>
                         </p>
                         <div class="">
@@ -171,9 +259,9 @@
                                     <i class="icon-options"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="javascript:void();">Action</a>
-                                    <a class="dropdown-item" href="javascript:void();">Another action</a>
-                                    <a class="dropdown-item" href="javascript:void();">Something else here</a>
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#showdatamaps" id="jadwaltugasuser"><i class="fa fa-file-text"></i> Semua Task Order</a>
+                                    <a class="dropdown-item" href="javascript:void();" data-toggle="modal" data-target="#showdatamaps" id="tugasuserlainnya"><i class="fa fa-file-text"></i> Task Lainnya</a>
+                                    {{-- <a class="dropdown-item" href="javascript:void();">Another action</a> --}}
                                     <div class="dropdown-divider"></div>
                                     <a href="javaScript:void();" class="dropdown-item" data-toggle="modal"
                                         data-target="#inputtiketbaruadmin" id="buttonadminbuattiket"><i
@@ -267,7 +355,7 @@
             </div>
         </div>
         <!--end row-->
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-12 col-lg-12">
                 <div class="card">
                     <div class="card-header border-0">
@@ -327,7 +415,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!--End Row-->
         <!--start overlay-->

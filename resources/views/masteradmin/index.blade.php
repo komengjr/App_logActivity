@@ -35,6 +35,25 @@
 
     }
 </script>
+<style>
+    .modal {
+      padding: 10px; !important; //
+    }
+    .modal .modal-dialog {
+      width: 100%;
+      max-width: none;
+      /* height: 100%; */
+      margin: 0;
+    }
+    .modal .modal-content {
+      /* height: 100%; */
+      border: 0;
+      border-radius: 0;
+    }
+    .modal .modal-body {
+      overflow-y: auto;
+    }
+    </style>
 <div class="content-wrapper">
     <div class="container-fluid">
         <div class="row pt-2 pb-2">
@@ -127,6 +146,23 @@
                             </div>
                             <div class="w-icon">
                                 <i class="zmdi zmdi-share text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-xl-3">
+                <div class="card gradient-blkw rounded-5" style="cursor: pointer;" data-toggle="modal"
+                    data-target="#datamasteradmin" id="datataskmasteradmin"
+                    data-url="{{ url('masteradmin/datatask', []) }}">
+                    <div class="card-body">
+                        <div class="media align-items-center">
+                            <div class="media-body">
+                                <h5 class="mb-0 text-white">0</h5>
+                                <p class="mb-0 text-white">Data Task</p>
+                            </div>
+                            <div class="w-icon">
+                                <i class="fa fa-briefcase text-dark"></i>
                             </div>
                         </div>
                     </div>

@@ -51,8 +51,8 @@ class HomeController extends Controller
         }
         elseif(auth::user()->kd_akses == 2) {
             $cabang = DB::table('tbl_cabang')->get();
-            $user = DB::table('users')->where('kd_akses', '>','2' )->get();
-            $jumlahuser = DB::table('users')->where('kd_akses', '>','1' )->count();
+            $user = DB::table('users')->where('kd_akses', '>','2')->get();
+            $jumlahuser = DB::table('users')->where('kd_akses', '>','2')->Where('kd_akses', '<', 5)->count();
             $data_tiket = DB::table('tbl_tiket_group_worklist')
             ->join('group_worklist','group_worklist.kd_worklist_group','=','tbl_tiket_group_worklist.kd_worklist_group')
             ->join('tbl_worklist','tbl_worklist.kd_worklist','group_worklist.kd_worklist')
@@ -84,12 +84,12 @@ class HomeController extends Controller
                 $persendataindividuselesai = ($dataindividuselesai/$dataindividu)*100;
             }
             $group = DB::table('tbl_group')->count();
-            $schedule = DB::table('tbl_schedule')->count();
+            $jumlahcabang = DB::table('tbl_cabang')->count();
             return view('index',['cabang'=>$cabang , 'user' => $user , 'tiket' => $data ,
                         'jumlah_tiket' => $jumlah_tiket, 'jumlahuser'=>$jumlahuser, 'periode'=>$periode,
                         'tperiode'=>$tperiode, 'datateam'=>$datateam, 'dataindividu'=>$dataindividu,
                         'persendatateamselesai'=>$persendatateamselesai, 'persendataindividuselesai'=>$persendataindividuselesai,
-                        'group'=>$group,'schedule'=>$schedule,
+                        'group'=>$group,'jumlahcabang'=>$jumlahcabang,
                     ]);
         }
         elseif (auth::user()->kd_akses == 3 ) {
@@ -179,7 +179,6 @@ class HomeController extends Controller
             ->where('tbl_tiket_group_worklist.status_tiket',0)
             ->where('group_user.id_user',auth::user()->id_user)->get();
             $datalaporan = DB::table('tbl_tiket_laporan')
-            ->join('tbl_laporan','tbl_laporan.kd_laporan','=','tbl_tiket_laporan.kd_laporan')
             ->where('tbl_tiket_laporan.status_tiket',0)
             ->get();
 
@@ -243,10 +242,38 @@ class HomeController extends Controller
                                 ]);
         }
         elseif (auth::user()->kd_akses == 5) {
-            $dataschedule = DB::table('tbl_schedule')
-            ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
+            $tiket = DB::table('tbl_tiket_task')
+            ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
+            ->where('kd_cabang',auth::user()->cabang)
+            ->orderBy('id_tiket_task', 'DESC')
             ->get();
-            return view('index',['dataschedule'=>$dataschedule]);
+            $jumlahorder = DB::table('tbl_tiket_task')
+            ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
+            ->where('kd_cabang',auth::user()->cabang)
+            ->count();
+            $jumlahverif = DB::table('tbl_tiket_task')
+            ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
+            ->where('kd_cabang',auth::user()->cabang)
+            ->where('status_task',2)
+            ->count();
+            return view('index',['tiket'=>$tiket,'jumlahorder'=>$jumlahorder,'jumlahverif'=>$jumlahverif]);
+        }
+        elseif (auth::user()->kd_akses == 6) {
+            $tiket = DB::table('tbl_tiket_task')
+            ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
+            ->where('kd_cabang',auth::user()->cabang)
+            ->orderBy('id_tiket_task', 'DESC')
+            ->get();
+            $jumlahorder = DB::table('tbl_tiket_task')
+            ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
+            ->where('kd_cabang',auth::user()->cabang)
+            ->count();
+            $jumlahverif = DB::table('tbl_tiket_task')
+            ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
+            ->where('kd_cabang',auth::user()->cabang)
+            ->where('status_task',2)
+            ->count();
+            return view('index',['tiket'=>$tiket,'jumlahorder'=>$jumlahorder,'jumlahverif'=>$jumlahverif]);
         }
 
     }

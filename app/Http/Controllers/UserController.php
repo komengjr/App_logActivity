@@ -77,32 +77,52 @@ class UserController extends Controller
     public function laporantambah()
     {
         $type_laporan = DB::table('type_laporan')->get();
-        return view('userleader.modal.laporan',['type_laporan'=>$type_laporan]);
+        $kinerja = DB::table('tbl_kinerja')->get();
+        return view('userleader.modal.laporan',['type_laporan'=>$type_laporan,'kinerja'=>$kinerja]);
     }
     public function posttambahlaporan(Request $request)
     {
         $kd_laporan = "laporan-".Str::random(10);
         $no_tiket = "tiket/laporan/".date('Y-m-d')."/".date('H:i:s')."/".Str::random(5);
-        DB::table('tbl_laporan')->insert(
-            [
-                'kd_laporan' => $kd_laporan,
-                'nama_laporan' => $request->input('judul_laporan'),
-                'type_laporan' => $request->input('type_laporan'),
-                'status_laporan' => 0,
-                'created_at' => date('Y-m-d H:i:s'),
-            ]);
+
         DB::table('tbl_tiket_laporan')->insert(
             [
                 'no_tiket' => $no_tiket,
-                'kd_laporan' => $kd_laporan,
-                'id_user' => $request->input('type_laporan'),
-                'deskripsi_laporan' => $request->input('deskripsi'),
+                'kd_kinerja' => $request->input('kd_kinerja'),
+                'id_user' => auth::user()->id_user,
+                'deskripsi_laporan' => $request->input('deskripsi_laporan'),
                 'status_tiket' => 0,
                 'tgl_buat' => date('Y-m-d H:i:s'),
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
         Session::flash('sukses','Berhasil Membuat Laporan Dengan Kode Tiket : '.$no_tiket);
 		return redirect()->back();
+    }
+    public function postpenyelesaianlaporan(Request $request)
+    {
+        DB::table('tbl_tiket_laporan_log')->insert(
+            [
+                'no_tiket' => $request->input('no_tiket'),
+                'id_user' => auth::user()->id_user,
+                'keterangan' => $request->input('keterangan'),
+                'tgl_buat' => date('Y-m-d H:i:s'),
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+        DB::table('tbl_tiket_laporan')
+        ->where('no_tiket',$request->input('no_tiket'))
+        ->update([
+                    'status_tiket' => 1,
+                ]);
+        Session::flash('sukses','Berhasil Penyelesaian data laporan');
+		return redirect()->back();
+    }
+    public function lihatdatalaporan($id)
+    {
+        $data = DB::table('tbl_tiket_laporan')
+        ->join('users','users.id_user','=','tbl_tiket_laporan.id_user')
+        ->where('tbl_tiket_laporan.id_tiket_laporan',$id)
+        ->get();
+        return view('userleader.modal.detaillaporan',['data'=>$data]);
     }
     public function lihatlaporan($id)
     {

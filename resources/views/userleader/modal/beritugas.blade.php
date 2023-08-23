@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="col">
-            <label for="">Penyelesaian</label>
+            <label for="">Deskripsi Tugas</label>
             <textarea name="keterangan" class="form-control" id="summernoteEditor" cols="5" rows="10" required></textarea>
         </div>
     </div>
