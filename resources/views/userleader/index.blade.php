@@ -165,6 +165,11 @@
                                         <input type="text" class="form-control" id="input-11" name="nip" />
                                     </div>
                                 </div>
+
+                                <h4 class="form-header text-uppercase">
+                                    <i class="fa fa-envelope-o"></i>
+                                    Contact Info & Bio
+                                </h4>
                                 <div class="form-group row">
                                     <label for="input-12" class="col-sm-2 col-form-label">Tempat Lahir</label>
                                     <div class="col-sm-4">
@@ -175,26 +180,27 @@
                                         <input type="date" class="form-control" id="input-13" name="tgl_lahir" />
                                     </div>
                                 </div>
-                                <h4 class="form-header text-uppercase">
-                                    <i class="fa fa-envelope-o"></i>
-                                    Contact Info & Bio
-                                </h4>
-
                                 <div class="form-group row">
                                     <label for="input-14" class="col-sm-2 col-form-label">E-mail</label>
                                     <div class="col-sm-4">
-                                        <input type="email" class="form-control" id="input-14" name="email" />
+                                        <input type="email" class="form-control" name="email" />
                                     </div>
+                                    <label for="input-14" class="col-sm-2 col-form-label">No HP / WA</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="input-14" name="nomor_hp" />
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+
                                     <label for="input-15" class="col-sm-2 col-form-label">Pilih Photo Profil</label>
                                     <div class="col-sm-4">
                                         <input type="file" class="form-control" id="input-15" name="gambar" />
                                     </div>
-                                </div>
-
-                                <div class="form-group row">
                                     <label for="input-16" class="col-sm-2 col-form-label">Pilih Cabang</label>
-                                    <div class="col-sm-10">
-                                        <select name="cabang" id="" class="form-control single-select">
+                                    <div class="col-sm-4">
+                                        <select name="cabang" class="form-control single-select">
                                             <option value="">Pilih Asal Cabang</option>
                                             @foreach ($cabang as $item)
                                                 <option value="{{$item->kd_cabang}}">{{$item->nama_cabang}}</option>
@@ -202,6 +208,7 @@
                                         </select>
                                     </div>
                                 </div>
+
 
                                 <div class="form-group row">
                                     <label for="input-17" class="col-sm-2 col-form-label">Alamat</label>
@@ -626,9 +633,12 @@
         // validate signup form on keyup and submit
         $("#signupForm").validate({
             rules: {
+
                 nama_lengkap: "required",
                 nip: "required",
                 gambar: "required",
+                cabang: "required",
+
 
                 username: {
                     required: true,
@@ -655,12 +665,17 @@
                     required: "#newsletter:checked",
                     minlength: 2
                 },
+                nomor_hp: "required",
                 agree: "required"
+
             },
             messages: {
-                nama_lengkap: "Masukan Nama Lengkap Dengan Benar",
+                nomor_hp: "Masukan No Wa Yang Benar",
+                nama_lengkap: "Masukan Nama Lengkap Dengan Benar .  ",
                 nip: "Masukan NIP Dengan Benar",
                 gambar: "Masukan Photo Profil",
+                cabang: "Pilih Salah Satu Cabang",
+
 
                 username: {
                     required: "Please enter a username",

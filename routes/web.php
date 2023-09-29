@@ -76,6 +76,8 @@ Route::get('schedule/datacalender/{id}',['as'=>'schedule/datacalender','uses'=> 
 Route::get('admin/datauser/tambah',['as'=>'admin/dataworklist/tambah','uses'=> 'AdminController@tambahdatauseradmin']);
 Route::get('admin/dataperiode/tambah',['as'=>'admin/dataperiode/tambah','uses'=> 'AdminController@tambahdataperiodeadmin']);
 Route::get('admin/data/datauseradmin',['as'=>'admin/data/datauseradmin','uses'=> 'AdminController@datauseradmin']);
+Route::get('admin/data/user/nonaktif/{id}',['as'=>'admin/data/user/nonaktif','uses'=> 'AdminController@nonaktifdatauseradmin']);
+Route::get('admin/data/user/aktif/{id}',['as'=>'admin/data/user/aktif','uses'=> 'AdminController@aktifdatauseradmin']);
 Route::get('admin/user/data/detail/{id}',['as'=>'admin/user/data/detail','uses'=> 'AdminController@datadetailuseradmin']);
 Route::get('admin/dataworklist/tiketbaru',['as'=>'admin/dataworklist/tiketbaru','uses'=> 'AdminController@buattiketbaru']);
 Route::get('admin/tiket/getdataoptionkinerja/{id}',['as'=>'admin/tiket/getdataoptionkinerja','uses'=> 'AdminController@getdataoptionkinerja']);

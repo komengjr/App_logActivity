@@ -39,6 +39,26 @@ class AdminController extends Controller
     {
         return view('admin.modal.user.tambah',[]);
     }
+    public function nonaktifdatauseradmin($id)
+    {
+        DB::table('users')
+        ->where('id_user',$id)
+        ->update([
+                    'status_user' => 0,
+                ]);
+        Session::flash('sukses','Berhasil menonaktifkan user '.$id);
+        return redirect()->back();
+    }
+    public function aktifdatauseradmin($id)
+    {
+        DB::table('users')
+        ->where('id_user',$id)
+        ->update([
+                    'status_user' => 1,
+                ]);
+        Session::flash('sukses','Berhasil Mengaktifkan user '.$id);
+        return redirect()->back();
+    }
     public function tambahdataperiodeadmin()
     {
         return view('admin.modal.periode.tambah',[]);
@@ -411,6 +431,7 @@ class AdminController extends Controller
                     'email' => $request->input('username'),
                     'password' => Hash::make($request->input('password')),
                     'kd_akses' => $request->input('akses'),
+                    'status_user' => 1,
                     'created_at' => date('Y-m-d H:i:s'),
                 ]);
             Session::flash('sukses','Berhasil Membuat User '.$request->input('nama_lengkap'));

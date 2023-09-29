@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('kd_akses')->index();
             $table->string('cabang')->nullable();
+            $table->string('status_user');
             $table->rememberToken();
             $table->timestamps();
         });

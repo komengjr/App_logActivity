@@ -21,6 +21,7 @@
                         <th>Username</th>
                         <th>Akses</th>
                         <th>Cabang</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -55,6 +56,13 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
+                                    @if ($user->status_user == 1)
+                                    <span class="badge badge-primary">Aktif</span>
+                                    @else
+                                    <span class="badge badge-danger">Tidak Aktif</span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
                                     <div class="dropdown">
                                         <button class="dropdown-toggle dropdown-toggle-nocaret btn-warning"
                                             data-toggle="dropdown">Option
@@ -66,11 +74,15 @@
 
                                             <a class="dropdown-item" href="javascript:void();"><i class="fa fa-key"></i>
                                                 Reset Password</a>
-                                            {{-- <a class="dropdown-item" href="javascript:void();"
-                                >Something else here</a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="javascript:void();"
-                                >Separated link</a> --}}
+                                                @if ($user->status_user == 1)
+                                                <a class="dropdown-item" href="{{ url('admin/data/user/nonaktif', ['id'=>$user->id_user]) }}"><i class="fa fa-user-times"></i>
+                                                    Non Aktif</a>
+                                                @else
+                                                <a class="dropdown-item" href="{{ url('admin/data/user/aktif', ['id'=>$user->id_user]) }}"><i class="fa fa-user-times"></i>
+                                                    Aktif</a>
+                                                @endif
+
+
                                         </div>
                                     </div>
                                 </td>

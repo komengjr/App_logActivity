@@ -21,6 +21,7 @@ class CreateTblBiodataTable extends Migration
             $table->string('nama_lengkap')->nullable();
             $table->string('tgl_lahir')->nullable();
             $table->string('tempat_lahir')->nullable();
+            $table->string('no_hp')->nullable();
             $table->string('alamat')->nullable();
             $table->text('gambar')->nullable();
             $table->timestamps();

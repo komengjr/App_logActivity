@@ -247,7 +247,7 @@
                             <li class="dropdown-divider"></li>
                             <li class="dropdown-item" style="cursor: pointer"
                                 onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();">
+                            document.getElementById('logout-form').submit();" id="keluarform">
                                 <i class="icon-power mr-2"></i> Logout
                             </li>
                         </ul>

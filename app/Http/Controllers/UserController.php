@@ -141,6 +141,7 @@ class UserController extends Controller
                 'nip' => $request->input('nip'),
                 'tgl_lahir' => $request->input('tgl_lahir'),
                 'tempat_lahir' => $request->input('tempat_lahir'),
+                'no_hp' => $request->input('nomor_hp'),
                 'alamat' => $request->input('alamat'),
                 'kd_cabang' => $request->input('cabang'),
                 'gambar' => $request->file('gambar')->storeAs('data_file/fileupload/'.auth::user()->email,auth::user()->id_user.''.'pp.jpg'),

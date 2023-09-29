@@ -1,5 +1,6 @@
 @extends('layouts.base')
 @section('content')
+@if (auth::user()->status_user == 1)
     @if (auth::user()->kd_akses == 1)
         @include('masteradmin.index')
     @elseif(auth::user()->kd_akses == 2)
@@ -13,4 +14,11 @@
     @elseif(auth::user()->kd_akses == 6)
         @include('verfy.index')
     @endif
+@else
+
+<script>
+    document.getElementById("keluarform").click();
+</script>
+
+@endif
 @endsection
