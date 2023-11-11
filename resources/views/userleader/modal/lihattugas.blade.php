@@ -41,10 +41,10 @@
                             @elseif($cekstatus[0]->status_task_log == 1)
                                 <span class="badge badge-warning badge-xl">Proses</span>
                             @elseif($cekstatus[0]->status_task_log == 2)
-
+                            <span class="badge badge-success badge-xl">Selesai</span>
                             @endif
                         </td>
-                        <td><button class="btn-dark" id="buttondetailtask" data-id="{{$item->kd_tiket_task}}">Lihat</button></td>
+                        <td class="text-center"><button class="btn-dark" id="buttondetailtask" data-id="{{$item->kd_tiket_task}}">Lihat</button></td>
                     </tr>
                 @endforeach
             </tbody>
@@ -68,6 +68,5 @@
         });
         table.buttons().container()
             .appendTo('#example_wrapper .col-md-6:eq(0)');
-
     });
 </script>

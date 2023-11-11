@@ -60,7 +60,7 @@ Route::post('masteradmin/dataworklist/postdata/edit',['as'=>'masteradmin/datawor
 Route::post('masteradmin/dataworklist/postdata/hapus',['as'=>'masteradmin/dataworklist/postdata/hapus','uses'=> 'MasterAdminController@dataworklisthapuspost']);
 
 Route::post('masteradmin/datagroupworklist/postdata/tambah',['as'=>'masteradmin/datagroupworklist/postdata/tambah','uses'=> 'MasterAdminController@datagroupworklisttambahpost']);
-Route::post('masteradmin/datagroupworklist/postdata/edit',['as'=>'masteradmin/datagroupworklist/postdata/tambah','uses'=> 'MasterAdminController@datagroupworklisteditpost']);
+Route::post('masteradmin/datagroupworklist/postdata/edit',['as'=>'masteradmin/datagroupworklist/postdata/edit','uses'=> 'MasterAdminController@datagroupworklisteditpost']);
 Route::post('masteradmin/datagroupworklist/postdata/hapus',['as'=>'masteradmin/datagroupworklist/postdata/hapus','uses'=> 'MasterAdminController@datagroupworklisthapuspost']);
 
 Route::post('masteradmin/datapersonworklist/postdata/tambah',['as'=>'masteradmin/datapersonworklist/postdata/tambah','uses'=> 'MasterAdminController@datapersonworklisttambahpost']);
@@ -72,6 +72,8 @@ Route::post('masteradmin/datatypeworklist/postdata/tambah',['as'=>'masteradmin/d
 // ADMIN ROUTE
 
 Route::get('schedule',['as'=>'schedule','uses'=> 'AdminController@schedule']);
+Route::get('piket',['as'=>'piket','uses'=> 'AdminController@piket']);
+Route::get('admin/tablepiket/{id}', 'AdminController@tablepiket')->name('admin.jadwalpiket');
 Route::get('schedule/datacalender/{id}',['as'=>'schedule/datacalender','uses'=> 'AdminController@datacalender']);
 Route::get('admin/datauser/tambah',['as'=>'admin/dataworklist/tambah','uses'=> 'AdminController@tambahdatauseradmin']);
 Route::get('admin/dataperiode/tambah',['as'=>'admin/dataperiode/tambah','uses'=> 'AdminController@tambahdataperiodeadmin']);
@@ -118,13 +120,13 @@ Route::post('admin/group/tambahgroup','AdminController@posttambahgroupbaru');
 Route::post('admin/data/datacabang/tambahverifikator','AdminController@tambahuserverifikator');
 
 Auth::routes();
-Route::get('datamaps', function () {
-    return view('maps');
-});
+// Route::get('datamaps', function () {
+//     return view('maps');
+// });
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/user/inputdatatiket', 'HomeController@inputdatatiketpersonal');
 Route::post('/user/inputdatatiketgroup', 'HomeController@inputdatatiketgroup');
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index');
 
 
 Route::post('/ubahpassword',['as'=>'all','uses'=> 'HomeController@ubahpassword']);
@@ -143,9 +145,9 @@ Route::get('user/userleader/modal/beritugas',['as'=>'user/userleader/modal/berit
 Route::get('user/userleader/modal/lihattugas',['as'=>'user/userleader/modal/lihattugas','uses'=> 'UserController@lihattugasuser']);
 Route::get('user/userleader/modal/periodekpi',['as'=>'user/userleader/modal/periodekpi','uses'=> 'UserController@periodekpi']);
 Route::get('user/userleader/table/detailtask/{id}',['as'=>'user/userleader/table/detailtask','uses'=> 'UserController@detaildatatask']);
+Route::post('user/userleader/table/detailtask/penilaian', 'UserController@penilaiantask');
 
-
-Route::get('user/user/task/kerjakan/{id}',['as'=>'user/userleader/table/detailtask','uses'=> 'UserController@kerjakandatatask']);
+Route::get('user/user/task/kerjakan/{id}',['as'=>'user/user/task/kerjakan','uses'=> 'UserController@kerjakandatatask']);
 Route::post('user/user/tiket/posttask', 'UserController@posttaskuser');
 
 Route::post('user/lengkapi/data', 'UserController@lengkapidatabiodata');

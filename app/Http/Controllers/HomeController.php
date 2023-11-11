@@ -9,21 +9,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
         if (auth::user()->kd_akses == 1) {
@@ -107,7 +98,6 @@ class HomeController extends Controller
             ->where('tbl_tiket_group_worklist.status_tiket',0)
             ->where('group_user.id_user',auth::user()->id_user)->get();
             $datalaporan = DB::table('tbl_tiket_laporan')
-            ->join('tbl_laporan','tbl_laporan.kd_laporan','=','tbl_tiket_laporan.kd_laporan')
             ->where('tbl_tiket_laporan.status_tiket',0)
             ->get();
 
@@ -181,7 +171,6 @@ class HomeController extends Controller
             $datalaporan = DB::table('tbl_tiket_laporan')
             ->where('tbl_tiket_laporan.status_tiket',0)
             ->get();
-
             $tugasselesai = DB::table('log_tiket_person_worklist')
             ->where('id_user',auth::user()->id_user)
             ->count();
@@ -195,7 +184,6 @@ class HomeController extends Controller
             ->join('worklist_person','worklist_person.kd_worklist_person','=','tbl_tiket_person_worklist.kd_worklist_person')
             ->join('tbl_worklist','tbl_worklist.kd_worklist','=','worklist_person.kd_worklist')
             ->where('worklist_person.id_user',auth::user()->id_user)
-            // ->where('tbl_tiket_person_worklist.status_tiket',0)
             ->where('tbl_tiket_person_worklist.tgl_buat', 'like', '%' . date('Y-m-d') . '%')
             ->count();
             if ($tugasselesai == 0) {

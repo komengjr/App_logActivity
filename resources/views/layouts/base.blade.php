@@ -7,25 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>App Log - {{ auth::user()->name }}</title>
+    <title>App Log - {{ Auth::user()->name }}</title>
     <!--favicon-->
     <link rel="icon" href="{{ asset('1.jpg', []) }}" type="image/x-icon" />
     <link href="{{ asset('assets/plugins/simplebar/css/simplebar.css', []) }}" rel="stylesheet" />
     {{-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css"> --}}
     <link href="{{ asset('assets/css/bootstrap.min.css', []) }}" rel="stylesheet" />
-
     <link href="{{ asset('assets/css/animate.css', []) }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/icons.css', []) }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/horizontal-menu.css', []) }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/app-style.css', []) }}" rel="stylesheet" />
-    <link href="{{ asset('assets/plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css', []) }}"
-        rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css', []) }}" rel="stylesheet"
-        type="text/css">
+
+    <link href="{{ asset('assets/plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css', []) }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css', []) }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('assets/plugins/notifications/css/lobibox.min.css', []) }}" />
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/dist/summernote-bs4.css', []) }}" />
     <link href="{{ asset('assets/plugins/select2/css/select2.min.css', []) }}" rel="stylesheet" />
     <link href="{{ asset('css/notif.scss', []) }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/app-style.css', []) }}" rel="stylesheet" />
+
     <style>
         .footerx {
             padding: 5px;
@@ -140,17 +139,17 @@
 <body>
 
     <!-- start loader -->
-    {{-- <div id="pageloader-overlay" class="visible incoming">
+    <div id="pageloader-overlay" class="visible incoming">
         <div class="loader-wrapper-outer">
             <div class="loader-wrapper-inner">
                 <div class="loader"></div>
             </div>
         </div>
-    </div> --}}
+    </div>
     <!-- end loader -->
 
     <!-- Start wrapper-->
-    <div id="wrapper">
+    <div id="wrapper" style="font-family: 'Chakra Petch', sans-serif;">
 
         <!--Start topbar header-->
         <header class="topbar-nav">
@@ -172,7 +171,7 @@
                 </ul>
 
                 <ul class="navbar-nav align-items-center right-nav-link">
-                    @if (auth::user()->kd_akses > 2 && auth::user()->kd_akses < 5)
+                    @if (Auth::user()->kd_akses > 2 && Auth::user()->kd_akses < 5)
                         @php
                             $jumlahnotif = 0;
                             $notif = DB::table('tbl_schedule')
@@ -183,7 +182,7 @@
                                     if (substr($value->tgl_start, 0, 10) <= date('Y-m-d')) {
                                         $cekdata = DB::table('tbl_schadule_log')
                                             ->where('kd_schedule', $value->kd_schedule)
-                                            ->where('id_user', auth::user()->id_user)
+                                            ->where('id_user', Auth::user()->id_user)
                                             ->count();
 
                                         if ($cekdata == 0) {
@@ -222,20 +221,20 @@
                                         <div class="avatar"><img class="align-self-start mr-3"
                                                 src="{{ asset('icon.png', []) }}" alt="user avatar"></div>
                                         <div class="media-body">
-                                            <h6 class="mt-2 user-title">{{ auth::user()->name }} (
-                                                @if (auth::user()->kd_akses == 1)
+                                            <h6 class="mt-2 user-title">{{ Auth::user()->name }} (
+                                                @if (Auth::user()->kd_akses == 1)
                                                     Super Admin
-                                                @elseif (auth::user()->kd_akses == 2)
+                                                @elseif (Auth::user()->kd_akses == 2)
                                                     Admin
-                                                @elseif (auth::user()->kd_akses == 3)
+                                                @elseif (Auth::user()->kd_akses == 3)
                                                     User Leader
-                                                @elseif (auth::user()->kd_akses == 4)
+                                                @elseif (Auth::user()->kd_akses == 4)
                                                     User
-                                                @elseif (auth::user()->kd_akses == 5)
+                                                @elseif (Auth::user()->kd_akses == 5)
                                                     Verifikator
                                                 @endif )
                                             </h6>
-                                            <p class="user-subtitle">{{ auth::user()->email }}</p>
+                                            <p class="user-subtitle">{{ Auth::user()->email }}</p>
                                         </div>
                                     </div>
                                 </a>
@@ -287,7 +286,7 @@
 
                     </ul>
                 </li>
-                @if (auth::user()->kd_akses < 3)
+                @if (Auth::user()->kd_akses < 3)
                     <li>
                         <a href="javascript:;">
                             <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
@@ -296,7 +295,10 @@
                         </a>
                         <ul>
                             <li><a href="{{ asset('schedule', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i>
-                                    Schedule</a>
+                                    Setting Jadwal</a>
+                            </li>
+                            <li><a href="{{ asset('piket', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i>
+                                    Jadwal User</a>
                             </li>
                         </ul>
                     </li>
@@ -398,7 +400,7 @@
 
         });
     </script>
-    @if (auth::user()->kd_akses > 2 && auth::user()->kd_akses < 5)
+    @if (Auth::user()->kd_akses > 2 && Auth::user()->kd_akses < 5)
         <script>
             function notifpesanbaru() {
                 Lobibox.notify('info', {

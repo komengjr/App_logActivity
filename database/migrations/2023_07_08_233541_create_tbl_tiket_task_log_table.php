@@ -20,6 +20,7 @@ class CreateTblTiketTaskLogTable extends Migration
             $table->string('status_task_log');
             $table->string('tgl_buat_task_log');
             $table->longtext('deskripsi_task_log');
+            $table->string('nilai_task')->nullable();
             $table->timestamps();
         });
     }

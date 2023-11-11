@@ -1,10 +1,10 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600&display=swap');
 
 /* General */
 html {
-  font-family: 'Mukta', sans-serif;
-  font-family: 'Roboto', sans-serif;
+    font-family: 'Chakra Petch', sans-serif;
+    /* font-family: 'Roboto', sans-serif; */
 	-webkit-text-size-adjust: 100%;
 	-ms-text-size-adjust: 100%;
 	-ms-overflow-style: scrollbar;
@@ -14,6 +14,7 @@ html {
 
 html{
   height: 100%;
+  font-family: 'Chakra Petch', sans-serif;
 }
 
 
@@ -23,7 +24,7 @@ html{
 
 body {
    	background-color: #f8f7ff;
-    font-family: 'Russo One', sans-serif;
+    font-family: 'Chakra Petch', sans-serif;
     font-size: 14px;
     color: #757575;
     letter-spacing: .5px;
@@ -345,10 +346,11 @@ hr {
 /* Page Content Wrapper */
 .content-wrapper {
     margin-left: 0px;
-	padding-top: 10px;
-	padding-left: 10px;
-    padding-right: 10px;
+	padding-top: 5px;
+	padding-left: 5px;
+    padding-right: 5px;
     padding-bottom: 50px;
+    background-color: #ffffff;
     overflow-x: hidden;
 	-webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
@@ -496,7 +498,7 @@ hr {
    padding: 0px 15px;
    z-index: 999;
    height: 60px;
-   background: #fff;
+   background: #ffffff;
    border-bottom: 1px solid #d5d4da;
 }
 
@@ -790,7 +792,8 @@ hr {
 
 .breadcrumb{
    padding: 0;
-   background-color: transparent;
+   /* background-color: transparent; */
+   background-color: #000;
 }
 
 .sidebar-menu li a i:first-child {
@@ -5916,6 +5919,7 @@ table.grid td {
     margin-left: 0px;
     padding-left: 10px;
     padding-right: 10px;
+
 }
 
 .footer {

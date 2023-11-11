@@ -156,6 +156,11 @@
                                         <input type="text" class="form-control" id="input-11" name="nip" />
                                     </div>
                                 </div>
+
+                                <h4 class="form-header text-uppercase">
+                                    <i class="fa fa-envelope-o"></i>
+                                    Contact Info & Bio
+                                </h4>
                                 <div class="form-group row">
                                     <label for="input-12" class="col-sm-2 col-form-label">Tempat Lahir</label>
                                     <div class="col-sm-4">
@@ -166,25 +171,25 @@
                                         <input type="date" class="form-control" id="input-13" name="tgl_lahir" />
                                     </div>
                                 </div>
-                                <h4 class="form-header text-uppercase">
-                                    <i class="fa fa-envelope-o"></i>
-                                    Contact Info & Bio
-                                </h4>
-
                                 <div class="form-group row">
                                     <label for="input-14" class="col-sm-2 col-form-label">E-mail</label>
                                     <div class="col-sm-4">
-                                        <input type="email" class="form-control" id="input-14" name="email" />
+                                        <input type="email" class="form-control" name="email" />
                                     </div>
+                                    <label for="input-14" class="col-sm-2 col-form-label">No HP / WA</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="input-14" name="nomor_hp" />
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+
                                     <label for="input-15" class="col-sm-2 col-form-label">Pilih Photo Profil</label>
                                     <div class="col-sm-4">
                                         <input type="file" class="form-control" id="input-15" name="gambar" />
                                     </div>
-                                </div>
-
-                                <div class="form-group row">
                                     <label for="input-16" class="col-sm-2 col-form-label">Pilih Cabang</label>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-4">
                                         <select name="cabang" id="" class="form-control single-select">
                                             <option value="">Pilih Asal Cabang</option>
                                             @foreach ($cabang as $item)
@@ -193,6 +198,7 @@
                                         </select>
                                     </div>
                                 </div>
+
 
                                 <div class="form-group row">
                                     <label for="input-17" class="col-sm-2 col-form-label">Alamat</label>

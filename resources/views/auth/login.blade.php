@@ -24,7 +24,7 @@
     <!-- end loader -->
 
     <!-- Start wrapper-->
-    <div id="wrapper" style="font-family: 'Russo One', sans-serif;" class="p-3">
+    <div id="wrapper"  class="p-3">
 
         {{-- <div class="loader-wrapper">
             <div class="lds-ring">
@@ -42,8 +42,7 @@
                     <div class="text-center m-0">
                         <img src="{{ asset('gif.gif', []) }}" alt="logo icon" width="300">
                     </div>
-                    <div class="card-title text-uppercase text-center py-3"
-                        style="font-family: "Copperplate", "Courier New" , Monospace;">Login Aplikasi</div>
+                    <div class="card-title text-uppercase text-center py-3">Login Aplikasi</div>
                     <form method="POST" action="login">
                         @csrf
                         <div class="form-group">

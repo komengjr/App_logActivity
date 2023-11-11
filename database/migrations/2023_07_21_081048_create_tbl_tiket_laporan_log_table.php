@@ -20,6 +20,7 @@ class CreateTblTiketLaporanLogTable extends Migration
             $table->string('keterangan');
             $table->string('tgl_buat');
             $table->string('lokasi');
+            $table->string('nilai_laporan');
             $table->timestamps();
         });
     }

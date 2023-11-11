@@ -22,7 +22,7 @@
                             echo $tbl_tiket_task->deskripsi_task;
                         @endphp
                     </div>
-                    <div class="card-body mb-5">
+                    <div class="card-body mb-5 pb-5">
                         <div class="card-title text-uppercase">Penyelesaian Task :</div>
                         @if ($tbl_tiket_task_log->isempty())
                             <span class="badge badge-danger badge-xl">Unfinished</span>
@@ -33,8 +33,24 @@
                         @endif
 
                     </div>
-                    <div class="footer">
-                        <button class="btn-dark" style="float: right;">Verif task</button>
+                    <div class="footer pt-3">
+                        @if ($tbl_tiket_task_log[0]->nilai_task != "")
+                        <button class="btn-dark" style="float: right;" disabled>Selesai</button>
+                        @else
+                        <form action="{{ url('user/userleader/table/detailtask/penilaian', []) }}" method="post">
+                            @csrf
+                            <div class="row pb-2">
+                                <select name="nilai" id="" class="form-control" required>
+                                    <option value="">Pilih Nilai</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                </select>
+                                <input type="text" name="id_laporan" value="{{$tbl_tiket_task_log[0]->kd_tiket_task}}">
+                            </div>
+                            <button type="submit" class="btn-dark" style="float: right;">Verif task</button>
+                        </form>
+                        @endif
+
                     </div>
                 </div>
             </div>

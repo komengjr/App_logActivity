@@ -128,7 +128,7 @@
                         hideClass: 'zoomOut',
                         icon: 'fa fa-check-circle',
                         width: 400,
-                        msg: '{{$message}}'
+                        msg: '{{ $message }}'
                     });
                 }
                 $(document).ready(function() {
@@ -189,7 +189,6 @@
                                     <div class="col-sm-4">
                                         <input type="text" class="form-control" id="input-14" name="nomor_hp" />
                                     </div>
-
                                 </div>
 
                                 <div class="form-group row">
@@ -203,7 +202,7 @@
                                         <select name="cabang" class="form-control single-select">
                                             <option value="">Pilih Asal Cabang</option>
                                             @foreach ($cabang as $item)
-                                                <option value="{{$item->kd_cabang}}">{{$item->nama_cabang}}</option>
+                                                <option value="{{ $item->kd_cabang }}">{{ $item->nama_cabang }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -256,6 +255,7 @@
 
                             <span class="btn btn-light dropdown-toggle-split rounded-0 texture-info">
                                 {{-- <span class="caret"></span> --}}
+                                <i class="fa fa-search"></i>
                             </span>
 
                         </div>
@@ -359,6 +359,21 @@
                                                     </div>
                                                     @php $jumlahtugashariini = $jumlahtugashariini + 1; @endphp
                                                 @endif
+                                            @endforeach
+                                            @foreach ($datalaporan as $datalaporan)
+                                                <div class="alert alert-danger alert-dismissible" role="alert"
+                                                    style="cursor: pointer;" data-toggle="modal"
+                                                    data-target="#showtask" id="buttontiketlaporan"
+                                                    data-id="{{ $datalaporan->id_tiket_laporan }}">
+                                                    <div class="alert-icon contrast-alert">
+                                                        <button><i class="fa fa-envelope"></i></button>
+                                                    </div>
+                                                    <div class="alert-message">
+                                                        <span><strong>Tugas Baru : </strong> <span
+                                                                style="color: black;">{{ $datalaporan->kd_kinerja }}</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             @endforeach
                                             <hr>
 
@@ -702,7 +717,7 @@
 <script>
     $(document).ready(function() {
         $('.single-select').select2();
-      });
+    });
 </script>
 <script src="{{ asset('assets/plugins/apexcharts/apexcharts.js', []) }}"></script>
 

@@ -217,6 +217,18 @@ class UserController extends Controller
         ->get();
         return view('userleader.modal.detailtask',['tbl_tiket_task'=>$tbl_tiket_task ,'tbl_tiket_task_log'=>$tbl_tiket_task_log ]);
     }
+    public function penilaiantask(Request $request)
+    {
+
+        DB::table('tbl_tiket_task_log')
+        ->where('kd_tiket_task',$request->input('id_laporan'))
+        ->update([
+                    'nilai_task' => $request->input('nilai'),
+                    'status_task_log' => 2,
+                ]);
+        Session::flash('sukses','Verifikasi Task Telah Selesai');
+        return redirect()->back();
+    }
     public function kerjakandatatask($id)
     {
         $tbl_tiket_task = DB::table('tbl_tiket_task')
