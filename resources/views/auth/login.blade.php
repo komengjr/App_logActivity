@@ -56,7 +56,7 @@
                 <li class="nav-item ">
                     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown"
                         href="#">
-                        <span class="user-profile"><img src="{{ asset('menu.PNG') }}" class="img-circle"
+                        <span class="user-profile"><img src="{{ asset('menu.png') }}" class="img-circle"
                                 alt="user avatar"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right ">
