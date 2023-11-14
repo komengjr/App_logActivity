@@ -218,32 +218,34 @@ class UserController extends Controller
     }
     public function postprintlaporan(Request $request)
     {
-        $startdate = $request->input('start');
+        // $startdate = $request->input('start');
         // $startdate = date_create_from_format('d-m-Y', $startdate);
         // $startdate = date_format($startdate, 'Y-m-d');
-        $startdate = strtotime(date("Y-m-d"));
+        // $startdate = strtotime(date("Y-m-d"));
 
-        $enddate = $request->input('end');
+        // $enddate = $request->input('end');
         // $enddate = date_create_from_format('d-m-Y', $enddate);
         // $enddate = date_format($enddate, 'Y-m-d');
-        $enddate = strtotime(date("Y-m-d"));
-        $harimasuk = array();
-        $harilibur = array();
+        // $enddate = strtotime(date("Y-m-d"));
+        // $harimasuk = array();
+        // $harilibur = array();
 
-        for ($i=$startdate; $i <= $enddate; $i += (60 * 60 * 24)) {
-            if (date('w', $i) !== '0') {
-                $harimasuk[] = $i;
-            } else {
-                $harilibur[] = $i;
-            }
+        // for ($i=$startdate; $i <= $enddate; $i += (60 * 60 * 24)) {
+        //     if (date('w', $i) !== '0') {
+        //         $harimasuk[] = $i;
+        //     } else {
+        //         $harilibur[] = $i;
+        //     }
 
-        }
-        $hendlecabang =DB::table('users_handler')
-        ->join('tbl_cabang','tbl_cabang.kd_cabang','=','users_handler.kd_cabang')
-        ->where('users_handler.id_user',Auth::user()->id_user)->get();
-        $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub',1)->get();
+        // }
+        // $hendlecabang =DB::table('users_handler')
+        // ->join('tbl_cabang','tbl_cabang.kd_cabang','=','users_handler.kd_cabang')
+        // ->where('users_handler.id_user',Auth::user()->id_user)->get();
+        // $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub',1)->get();
         // $image = base64_encode(file_get_contents(public_path('logo.png')));
-        $pdf = PDF::loadview('userleader.report.laporan',['dataharian'=>$dataharian,'harimasuk'=>$harimasuk,'hendlecabang'=>$hendlecabang])->setPaper('A3','landscape')->setOptions(['defaultFont' => 'Calibri']);
+        // $pdf = PDF::loadview('userleader.report.laporan',['dataharian'=>$dataharian,'harimasuk'=>$harimasuk,'hendlecabang'=>$hendlecabang])->setPaper('A3','landscape')->setOptions(['defaultFont' => 'Calibri']);
+        // return base64_encode($pdf->stream());
+        $pdf = PDF::loadview('userleader.report.laporan')->setPaper('A4','landscape')->setOptions(['defaultFont' => 'Calibri']);
         return base64_encode($pdf->stream());
     }
     public function detaildatatask($id)
