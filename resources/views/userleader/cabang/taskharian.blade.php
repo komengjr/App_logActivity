@@ -41,8 +41,8 @@
             @endforeach
         </ul>
         <div class="card-body text-right">
+            <button class="btn-dark" data-dismiss="modal">Tutup</button>
             <button type="submit" class="btn-success">Simpan</button>
-            {{-- <a href="javascript:void();" class="card-link">Another link</a> --}}
         </div>
     </div>
 </form>

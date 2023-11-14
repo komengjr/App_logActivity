@@ -175,3 +175,4 @@ Route::post('verifikator/datatask/tambahorder', 'VerifikatorController@posttamba
 
 // Route::post('ajaxRequest', [AdminController::class, 'ajaxRequestPost'])->name('ajaxRequest.post');
 // Route::get('data_peserta','AdminController@data_peserta');
+Route::get('log-eror-it', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);

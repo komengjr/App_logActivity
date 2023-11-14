@@ -17,6 +17,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "2.4",
         "nesbot/carbon": "^2.62",
+        "rap2hpoutre/laravel-log-viewer": "2.2.0",
         "simplesoftwareio/simple-qrcode": "^4.2"
     },
     "require-dev": {
