@@ -256,4 +256,48 @@ class UserController extends Controller
             Session::flash('sukses','Berhasil Menyelesaikan 1 Task');
             return redirect()->back();
     }
+    public function hendledatacabang()
+    {
+        $datahendlecabang = DB::table('users_handler')->join('tbl_cabang','tbl_cabang.kd_cabang','=','users_handler.kd_cabang')
+        ->where('users_handler.id_user',Auth::user()->id_user)->get();
+        return view('userleader.cabang.hendlecabang',['data'=>$datahendlecabang]);
+    }
+    public function taskharianhendledatacabang($id)
+    {
+        $cabang=DB::table('tbl_cabang')->where('kd_cabang',$id)->first();
+        $sub_kinerja = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub',1)->get();
+        return view('userleader.cabang.taskharian',['data'=>$sub_kinerja ,'cabang'=>$cabang]);
+    }
+    public function posthendlecabang(Request $request)
+    {
+        $data = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub',1)->get();
+        foreach ($data as $value) {
+            $cekdata = DB::table('users_handler_record_log')
+            ->where('kd_kinerja_sub',$value->kd_kinerja_sub)
+            ->where('id_user',Auth::user()->id_user)
+            ->where('kd_cabang',$request->input('kd_cabang'))
+            ->where('tgl_record',date('Y-m-d'))->first();
+
+            if ($cekdata) {
+                Session::flash('sukses','Sudah Mengerjakan Task Harian');
+                // return redirect()->back();
+            }else{
+                DB::table('users_handler_record_log')->insert(
+                    [
+                        'kd_kinerja_sub' => $value->kd_kinerja_sub,
+                        'id_user' => auth::user()->id_user,
+                        'kd_cabang' => $request->input('kd_cabang'),
+                        'tgl_record' => date('Y-m-d'),
+                        'ket_kinerja_sub' => $request->input('data'.$value->kd_kinerja_sub),
+                        'status_kinerja_sub' => 0,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
+
+            }
+
+        }
+        Session::flash('sukses','Berhasil Menyelesaikan Task Harian');
+        return redirect()->back();
+
+    }
 }

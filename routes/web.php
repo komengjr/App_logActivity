@@ -92,6 +92,7 @@ Route::get('admin/data/dataperiode',['as'=>'admin/data/dataperiode','uses'=> 'Ad
 Route::get('admin/data/datacabang',['as'=>'admin/data/datacabang','uses'=> 'AdminController@datacabang']);
 Route::get('admin/data/datacabang/tambah',['as'=>'admin/data/datacabang/tambah','uses'=> 'AdminController@tambahdatacabang']);
 Route::get('admin/data/datacabang/tambah/{id}',['as'=>'admin/data/datacabang/tambahid','uses'=> 'AdminController@tambahdataverifikatorcabang']);
+Route::get('admin/data/datahendlecabang/tambah/{id}',['as'=>'admin/data/datahendlecabang/tambah/','uses'=> 'AdminController@tambahdatahendlecabang']);
 Route::get('admin/data/datagroup',['as'=>'admin/data/datagroup','uses'=> 'AdminController@datagroup']);
 Route::get('admin/data/showtiketadmin/{id}',['as'=>'admin/data/showtiketadmin','uses'=> 'AdminController@showtiketadmin']);
 Route::get('admin/data/edittiketadmin/{id}',['as'=>'admin/data/edittiketadmin','uses'=> 'AdminController@edittiketadmin']);
@@ -118,6 +119,7 @@ Route::post('admin/datagroup/tambahusergroup','AdminController@tambahusergroupba
 Route::post('admin/datagroup/tambahcabanggroup','AdminController@tambahcabanggroupbaru');
 Route::post('admin/group/tambahgroup','AdminController@posttambahgroupbaru');
 Route::post('admin/data/datacabang/tambahverifikator','AdminController@tambahuserverifikator');
+Route::post('admin/data/datacabang/tambahhendlecabang','AdminController@tambahhendlecabang');
 
 Auth::routes();
 // Route::get('datamaps', function () {
@@ -148,6 +150,9 @@ Route::get('user/userleader/table/detailtask/{id}',['as'=>'user/userleader/table
 Route::post('user/userleader/table/detailtask/penilaian', 'UserController@penilaiantask');
 
 Route::get('user/user/task/kerjakan/{id}',['as'=>'user/user/task/kerjakan','uses'=> 'UserController@kerjakandatatask']);
+Route::get('user/user/handledatacabang',['as'=>'user/user/handledatacabang/','uses'=> 'UserController@hendledatacabang']);
+Route::get('user/user/handledatacabang/task/{id}',['as'=>'user/user/handledatacabang/task','uses'=> 'UserController@taskharianhendledatacabang']);
+Route::post('user/user/handledatacabang/postrecorddata', 'UserController@posthendlecabang');
 Route::post('user/user/tiket/posttask', 'UserController@posttaskuser');
 
 Route::post('user/lengkapi/data', 'UserController@lengkapidatabiodata');

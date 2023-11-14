@@ -253,9 +253,9 @@
 
                         <div class="btn-group float-sm-right" style="padding: 0px;">
 
-                            <span class="btn btn-light dropdown-toggle-split rounded-0 texture-info">
+                            <span class="btn btn-light dropdown-toggle-split rounded-0 texture-info" style="cursor: pointer;" data-toggle="modal" data-target="#modal-cabang-user" id="button-hendle-cabang-user">
                                 {{-- <span class="caret"></span> --}}
-                                <i class="fa fa-search"></i>
+                                <i class="fa fa-search"> </i>Cabang
                             </span>
 
                         </div>
@@ -631,6 +631,16 @@
 <div class="modal fade" id="showtask">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content border-danger" id="lihatdatatask">
+
+            <img src="{{ asset('gif.gif') }}" alt="" srcset="">
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-cabang-user">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content border-danger" id="menu-data-cabang-user" style="border: 0px; background: transparent;">
 
             <img src="{{ asset('gif.gif') }}" alt="" srcset="">
 

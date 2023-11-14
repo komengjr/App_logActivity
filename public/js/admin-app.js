@@ -426,4 +426,23 @@ $(document).on('click', '#buttontambahverifikator', function(e) {
                 );
         });
 });
+$(document).on('click', '#buttontambahhendlecabang', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    // console.log(id);
+    var url = 'admin/data/datahendlecabang/tambah/'+id;
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#divtablecabangadmin').html(data);
+        })
+        .fail(function() {
+            $('#divtablecabangadmin').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
 

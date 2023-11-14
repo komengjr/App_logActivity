@@ -20,6 +20,7 @@
                         <th style="width: 2px;" class="text-center">No</th>
                         <th style="width: 300px;">Nama Cabang</th>
                         <th>User</th>
+                        <th>Handle Cabang</th>
                         <th style="width: 200px;">Verifikator</th>
                         <th>Action</th>
                     </tr>
@@ -35,12 +36,22 @@
                                 <i class="fa fa-home"> </i> - {{ $datacabang->nama_cabang }}
                             </td>
 
-                            <td>
+                            <td style="width: 20%;">
                                 @php
                                     $user = DB::table('tbl_biodata')->where('kd_cabang',$datacabang->kd_cabang)->first();
                                 @endphp
                                 @if ($user)
                                 <i class="fa fa-user-o"> </i> - {{$user->nama_lengkap}}
+                                @endif
+                            </td>
+                            <td style="width: 20%;">
+                                @php
+                                $userhandler = DB::table('users_handler')
+                                ->join('tbl_biodata','tbl_biodata.id_user','=','users_handler.id_user')
+                                ->where('users_handler.kd_cabang',$datacabang->kd_cabang)->first();
+                                @endphp
+                                @if ($userhandler)
+                                <i class="fa fa-user-o"> </i> - {{$userhandler->nama_lengkap}}
                                 @endif
                             </td>
                             <td>
@@ -76,6 +87,8 @@
 
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="#" id="buttontambahhendlecabang" data-id="{{$datacabang->kd_cabang}}"><i class="fa fa-user"></i>
+                                            Tambah Hendle Cabang</a>
                                         <a class="dropdown-item" href="#" id="buttontambahverifikator" data-id="{{$datacabang->kd_cabang}}"><i class="fa fa-user"></i>
                                             Tambah Verifikator</a>
 

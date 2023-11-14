@@ -614,6 +614,14 @@ class AdminController extends Controller
         $cabang = DB::table('tbl_cabang')->where('kd_cabang', $id)->first();
         return view('admin.modal.cabang.tambahverifikator', ['id' => $id, 'cabang' => $cabang]);
     }
+    public function tambahdatahendlecabang($id)
+    {
+        $cabang = DB::table('tbl_cabang')->where('kd_cabang', $id)->first();
+        $user = DB::table('users')
+        ->join('tbl_biodata','tbl_biodata.id_user','=','users.id_user')
+        ->get();
+        return view('admin.modal.cabang.tambahhendlecabang', ['id' => $id, 'cabang' => $cabang, 'user'=> $user]);
+    }
     public function tambahuserverifikator(Request $request)
     {
         $cekuser = DB::table('users')->where('email', $request->input('username'))->count();
@@ -634,6 +642,24 @@ class AdminController extends Controller
             return redirect()->back();
         } else {
             Session::flash('gagal', 'User ' . $request->input('nama_lengkap') . ' Sudah Ada');
+            return redirect()->back();
+        }
+    }
+    public function tambahhendlecabang(Request $request)
+    {
+        $cekuser = DB::table('users')->where('id_user', $request->input('user'))->count();
+        if ($cekuser == 1) {
+            DB::table('users_handler')->insert(
+                [
+                    'id_user' => $request->input('user'),
+                    'kd_cabang' => $request->input('kd_cabang'),
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]
+            );
+            Session::flash('sukses', 'Berhasil Update');
+            return redirect()->back();
+        } else {
+            Session::flash('gagal', 'Gagal Update');
             return redirect()->back();
         }
     }

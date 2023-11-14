@@ -185,6 +185,36 @@ $(document).on('click', '#buttontikettask', function(e) {
             $('#lihatdatatask').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
         });
 });
+$(document).on('click', '#button-hendle-cabang-user', function(e) {
+    e.preventDefault();
+    // var id = $(this).data("id");
+    $.ajax({
+            url: 'user/user/handledatacabang/',
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#menu-data-cabang-user').html(data);
+        })
+        .fail(function() {
+            $('#menu-data-cabang-user').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
+        });
+});
+$(document).on('click', '#task-harian-hendler-user', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    $.ajax({
+            url: 'user/user/handledatacabang/task/'+id,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#body-hendler-cabang-user').html(data);
+        })
+        .fail(function() {
+            $('#body-hendler-cabang-user').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
+        });
+});
 
 
 function waktu() {
