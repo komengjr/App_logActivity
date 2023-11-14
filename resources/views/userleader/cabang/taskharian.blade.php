@@ -16,7 +16,7 @@
                         $cekdata = DB::table('users_handler_record_log')
                         ->where('kd_kinerja_sub',$item->kd_kinerja_sub)
                         ->where('kd_cabang',$cabang->kd_cabang)
-                        ->where('tgl_record',now('Y-m-d'))->first();
+                        ->where('tgl_record',date('Y-m-d'))->first();
                     @endphp
                     @if ($cekdata)
                         @if ($cekdata->ket_kinerja_sub == 'N')
