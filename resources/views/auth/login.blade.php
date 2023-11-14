@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
 </head>
 
-<body class="gradient-royal">
+<body class="gradient-royal m-2">
 
     <!-- start loader -->
 
@@ -69,7 +69,7 @@
         </nav>
         {{-- <div class="pb-5"></div>
         <div class="pb-5"></div> --}}
-        <div class="card card-authentication1 mx-auto my-5 pt-2">
+        <div class="card card-authentication1 mx-auto m-5 p-2">
             <div class="card-body">
                 <div class="card-content p-0">
                     <div class="text-center m-0">
