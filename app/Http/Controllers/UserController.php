@@ -219,9 +219,14 @@ class UserController extends Controller
     public function postprintlaporan(Request $request)
     {
         $startdate = $request->input('start');
-        $startdate = strtotime($startdate);
+        // $startdate = date_create_from_format('d-m-Y', $startdate);
+        // $startdate = date_format($startdate, 'Y-m-d');
+        $startdate = Strtotime($startdate);
+
         $enddate = $request->input('end');
-        $enddate = strtotime($enddate);
+        // $enddate = date_create_from_format('d-m-Y', $enddate);
+        // $enddate = date_format($enddate, 'Y-m-d');
+        $enddate = Strtotime($enddate);
         $harimasuk = array();
         $harilibur = array();
 
