@@ -17,14 +17,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body class="gradient-royal">
 
     <!-- start loader -->
 
     <!-- end loader -->
 
     <!-- Start wrapper-->
-    <div id="wrapper"  class="p-3">
+    <div id="wrapper ">
 
         {{-- <div class="loader-wrapper">
             <div class="lds-ring">
@@ -34,8 +34,41 @@
                 <div></div>
             </div>
         </div> --}}
-        <div class="pb-5"></div>
-        <div class="pb-5"></div>
+        <nav class="navbar navbar-expand gradient-dusk">
+            <ul class="navbar-nav mr-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void();">
+                        <div class="media align-items-center">
+                            <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
+                            <div class="media-body">
+                                <h5 class="logo-text"></h5>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+
+                </li>
+            </ul>
+
+            <ul class="navbar-nav align-items-center right-nav-link ">
+
+                <li class="nav-item ">
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown"
+                        href="#">
+                        <span class="user-profile"><img src="{{ asset('menu.PNG') }}" class="img-circle"
+                                alt="user avatar"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right ">
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item" style="cursor: pointer;"><i class="fa fa-tasks mr-2"></i> Case Baru</li>
+                        <li class="dropdown-divider"></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        {{-- <div class="pb-5"></div>
+        <div class="pb-5"></div> --}}
         <div class="card card-authentication1 mx-auto my-5 pt-2">
             <div class="card-body">
                 <div class="card-content p-0">

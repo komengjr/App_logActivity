@@ -146,12 +146,15 @@ Route::get('user/notifikasi/lihatnotifwaktu/',['as'=>'user/notifikasi/lihatnotif
 Route::get('user/userleader/modal/beritugas',['as'=>'user/userleader/modal/beritugas','uses'=> 'UserController@beritugasuser']);
 Route::get('user/userleader/modal/lihattugas',['as'=>'user/userleader/modal/lihattugas','uses'=> 'UserController@lihattugasuser']);
 Route::get('user/userleader/modal/periodekpi',['as'=>'user/userleader/modal/periodekpi','uses'=> 'UserController@periodekpi']);
+Route::get('user/userleader/modal/printlaporan',['as'=>'user/userleader/modal/printlaporan','uses'=> 'UserController@printlaporanuser']);
+Route::get('user/userleader/table/laporandatakinerja/{id}',['as'=>'user/userleader/table/laporandatakinerja/','uses'=> 'UserController@laporandatakinerja']);
 Route::get('user/userleader/table/detailtask/{id}',['as'=>'user/userleader/table/detailtask','uses'=> 'UserController@detaildatatask']);
 Route::post('user/userleader/table/detailtask/penilaian', 'UserController@penilaiantask');
 
 Route::get('user/user/task/kerjakan/{id}',['as'=>'user/user/task/kerjakan','uses'=> 'UserController@kerjakandatatask']);
 Route::get('user/user/handledatacabang',['as'=>'user/user/handledatacabang/','uses'=> 'UserController@hendledatacabang']);
 Route::get('user/user/handledatacabang/task/{id}',['as'=>'user/user/handledatacabang/task','uses'=> 'UserController@taskharianhendledatacabang']);
+Route::post('user/userleader/modal/postprintlaporan', 'UserController@postprintlaporan');
 Route::post('user/user/handledatacabang/postrecorddata', 'UserController@posthendlecabang');
 Route::post('user/user/tiket/posttask', 'UserController@posttaskuser');
 

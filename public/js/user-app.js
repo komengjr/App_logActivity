@@ -155,6 +155,20 @@ $(document).on('click', '#printkpi', function(e) {
             $('#bodyformdatainputtiket').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
         });
 });
+$(document).on('click', '#printlaporanuser', function(e) {
+    e.preventDefault();
+    $.ajax({
+            url: 'user/userleader/modal/printlaporan',
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#bodyformdatainputtiket').html(data);
+        })
+        .fail(function() {
+            $('#bodyformdatainputtiket').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
+        });
+});
 $(document).on('click', '#buttondetailtask', function(e) {
     e.preventDefault();
     var id = $(this).data("id");
@@ -168,6 +182,43 @@ $(document).on('click', '#buttondetailtask', function(e) {
         })
         .fail(function() {
             $('#detaildatatask').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
+        });
+});
+$(document).on('click', '#button-kinerja-user', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    $.ajax({
+            url: 'user/userleader/table/laporandatakinerja/'+id,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#bodyformdatainputtiket').html(data);
+        })
+        .fail(function() {
+            $('#bodyformdatainputtiket').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
+        });
+});
+$(document).on("click", "#submit-button-laporan-user", function (e) {
+    var data = $("#form-laporan-user").serialize();
+    e.preventDefault();
+    $.ajax({
+        url: 'user/userleader/modal/postprintlaporan/',
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
+        },
+        type: "POST",
+        data: data,
+        dataType: "html",
+    })
+        .done(function (data) {
+            $("#show-laporan-user").html('<iframe src="data:application/pdf;base64, '+data+'" style="width:100%;; height:500px;" frameborder="0"></iframe>');
+        })
+        .fail(function () {
+            console.log(data);
+            $("#show-laporan-user").html(
+                '<i class="fa fa-info-sign"></i> Gagal Baca'
+            );
         });
 });
 $(document).on('click', '#buttontikettask', function(e) {

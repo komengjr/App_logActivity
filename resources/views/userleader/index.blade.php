@@ -239,7 +239,7 @@
                                 class="profile" />
                             <h5 class="card-title">{{ $biodata->nama_lengkap }}</h5>
                             <p class="card-text">
-                                Welcome to the IT activity log application.
+                                Welcome to the IT activity log application
                             </p>
 
                             <div class="icon-block">
@@ -387,6 +387,7 @@
                                         <button data-toggle="modal" data-target="#input_tiketxx" id="printkpi"
                                             href="{{ asset('user/userleader/pdf/kpi') }}"
                                             class="btn-info mb-5 ml-2"><i class="fa fa-print"></i> Cetak</a>
+                                        <button data-toggle="modal" data-target="#input_tiketxx" id="printlaporanuser" class="btn-info mb-5 ml-2"><i class="fa fa-print"></i> Cetak Laporan</a>
                                             <button class="btn-warning mb-5 ml-2"><i class="fa fa-send"></i></button>
                                     </div>
                                     <br><br>
@@ -397,14 +398,13 @@
                                                 @foreach ($tbl_kinerja as $item)
                                                     @if ($item->jenis_kinerja == 1)
                                                         <tr>
-                                                            <td>{{ $item->kinerja }} </td>
+                                                            <td><a href="#" data-toggle="modal" data-target="#input_tiketxx" id="button-kinerja-user" data-id="{{$item->kd_kinerja}}">{{ $item->kinerja }}</a></td>
                                                             <td><span class="float-right font-weight-bold">0</span>
                                                             </td>
                                                         </tr>
                                                     @endif
                                                 @endforeach
                                             </tbody>
-
                                         </table>
                                     </div>
                                     <h6 class="mb-3 pt-3">B. Kinerja Individu</h6>
@@ -414,7 +414,7 @@
                                                 @foreach ($tbl_kinerja as $item1)
                                                     @if ($item1->jenis_kinerja == 2)
                                                         <tr>
-                                                            <td>{{ $item1->kinerja }}</td>
+                                                            <td><a href="#" data-toggle="modal" data-target="#input_tiketxx" id="button-kinerja-user" data-id="{{$item->kd_kinerja}}">{{ $item1->kinerja }}</a></td>
                                                             <td>
                                                                 <span class="float-right font-weight-bold">0</span>
                                                             </td>
@@ -619,7 +619,7 @@
 </div>
 
 <div class="modal fade" id="input_tiketxx">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content border-danger" id="bodyformdatainputtiket">
 
             <img src="{{ asset('gif.gif') }}" alt="" srcset="">

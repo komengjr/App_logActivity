@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use PDF;
+// use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class UserController extends Controller
 {
     public function __construct()
@@ -205,6 +207,39 @@ class UserController extends Controller
     {
         $tbl_periode = DB::table('tbl_periode')->get();
         return view('userleader.modal.periodekpi',['tbl_periode'=>$tbl_periode ]);
+    }
+    public function printlaporanuser()
+    {
+        return view('userleader.modal.printlaporanuser');
+    }
+    public function laporandatakinerja()
+    {
+        return view('userleader.modal.laporandatakinerja');
+    }
+    public function postprintlaporan(Request $request)
+    {
+        $startdate = $request->input('start');
+        $startdate = strtotime($startdate);
+        $enddate = $request->input('end');
+        $enddate = strtotime($enddate);
+        $harimasuk = array();
+        $harilibur = array();
+
+        for ($i=$startdate; $i <= $enddate; $i += (60 * 60 * 24)) {
+            if (date('w', $i) !== '0') {
+                $harimasuk[] = $i;
+            } else {
+                $harilibur[] = $i;
+            }
+
+        }
+        $hendlecabang =DB::table('users_handler')
+        ->join('tbl_cabang','tbl_cabang.kd_cabang','=','users_handler.kd_cabang')
+        ->where('users_handler.id_user',Auth::user()->id_user)->get();
+        $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub',1)->get();
+        $image = base64_encode(file_get_contents(public_path('logo.png')));
+        $pdf = PDF::loadview('userleader.report.laporan',compact('image'),['dataharian'=>$dataharian,'harimasuk'=>$harimasuk,'hendlecabang'=>$hendlecabang])->setPaper('A3','landscape')->setOptions(['defaultFont' => 'Calibri']);
+        return base64_encode($pdf->stream());
     }
     public function detaildatatask($id)
     {

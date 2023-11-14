@@ -209,10 +209,8 @@
                     @endif
 
                     <li class="nav-item">
-                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown"
-                            href="#">
-                            <span class="user-profile"><img src="{{ asset('icon.png', []) }}" class="img-circle"
-                                    alt="user avatar"></span>
+                        <a class="nav-link dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
+                            <span class="user-profile"><img src="{{ asset('icon.png', []) }}" class="img-circle" alt="user avatar"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li class="dropdown-item user-details">
