@@ -221,12 +221,12 @@ class UserController extends Controller
         $startdate = $request->input('start');
         // $startdate = date_create_from_format('d-m-Y', $startdate);
         // $startdate = date_format($startdate, 'Y-m-d');
-        $startdate = Strtotime($startdate);
+        $startdate = strtotime(date("Y-m-d"));
 
         $enddate = $request->input('end');
         // $enddate = date_create_from_format('d-m-Y', $enddate);
         // $enddate = date_format($enddate, 'Y-m-d');
-        $enddate = Strtotime($enddate);
+        $enddate = strtotime(date("Y-m-d"));
         $harimasuk = array();
         $harilibur = array();
 
