@@ -212,7 +212,7 @@ $(document).on("click", "#submit-button-laporan-user", function (e) {
         dataType: "html",
     })
         .done(function (data) {
-            $("#show-laporan-user").html('123');
+            $("#show-laporan-user").html('<iframe src="data:application/pdf;base64, '+data+'" style="width:100%;; height:500px;" frameborder="0"></iframe>');
         })
         .fail(function () {
             // console.log(data);
