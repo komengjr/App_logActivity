@@ -216,14 +216,14 @@ $(document).on('click', '#submit-button-laporan-user-coba', function(e) {
 });
 $(document).on("click", "#submit-button-laporan-user", function (e) {
     e.preventDefault();
-    var data = $("#form-laporan-user").serialize();
+    var datax = $("#form-laporan-user").serialize();
     $.ajax({
         url: 'user/userleader/modal/postprintlaporan/',
         // headers: {
         //     "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
         // },
         type: "POST",
-        data: data,
+        data: datax,
         dataType: "html",
     })
         .done(function (data) {
