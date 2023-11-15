@@ -219,9 +219,9 @@ $(document).on("click", "#submit-button-laporan-user", function (e) {
     e.preventDefault();
     $.ajax({
         url: 'user/userleader/modal/postprintlaporan/',
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
-        },
+        // headers: {
+        //     "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
+        // },
         type: "POST",
         data: data,
         dataType: "html",
