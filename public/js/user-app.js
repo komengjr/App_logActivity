@@ -219,7 +219,7 @@ $(document).on("click", "#submit-button-laporan-user", function (e) {
     var data = $("#form-laporan-user").serialize();
     console.log(data);
     $.ajax({
-        url: 'user/userleader/modal/postprintlaporan/',
+        url: 'user/userleader/modalreport/postprintlaporan',
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
         },
