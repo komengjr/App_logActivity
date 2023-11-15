@@ -154,6 +154,7 @@ Route::post('user/userleader/table/detailtask/penilaian', 'UserController@penila
 Route::get('user/user/task/kerjakan/{id}',['as'=>'user/user/task/kerjakan','uses'=> 'UserController@kerjakandatatask']);
 Route::get('user/user/handledatacabang',['as'=>'user/user/handledatacabang/','uses'=> 'UserController@hendledatacabang']);
 Route::get('user/user/handledatacabang/task/{id}',['as'=>'user/user/handledatacabang/task','uses'=> 'UserController@taskharianhendledatacabang']);
+Route::get('user/userleader/modal/postprintlaporan/{id}',['as'=>'user/userleader/modal/postprintlaporan/id','uses'=> 'UserController@postprintlaporanid']);
 Route::post('user/userleader/modal/postprintlaporan', 'UserController@postprintlaporan');
 Route::post('user/user/handledatacabang/postrecorddata', 'UserController@posthendlecabang');
 Route::post('user/user/tiket/posttask', 'UserController@posttaskuser');

@@ -199,6 +199,21 @@ $(document).on('click', '#button-kinerja-user', function(e) {
             $('#bodyformdatainputtiket').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
         });
 });
+$(document).on('click', '#submit-button-laporan-user-coba', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    $.ajax({
+            url: 'user/userleader/modal/postprintlaporan/'+id,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#bodyformdatainputtiket').html('<iframe src="data:application/pdf;base64, '+data+'" style="width:100%;; height:500px;" frameborder="0"></iframe>');
+        })
+        .fail(function() {
+            $('#bodyformdatainputtiket').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
+        });
+});
 $(document).on("click", "#submit-button-laporan-user", function (e) {
     var data = $("#form-laporan-user").serialize();
     e.preventDefault();

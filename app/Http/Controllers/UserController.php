@@ -246,6 +246,11 @@ class UserController extends Controller
         $pdf = PDF::loadview('userleader.report.laporan',['dataharian'=>$dataharian,'harimasuk'=>$harimasuk,'hendlecabang'=>$hendlecabang])->setPaper('A3','landscape')->setOptions(['defaultFont' => 'Calibri']);
         return base64_encode($pdf->stream());
     }
+    public function postprintlaporanid($id)
+    {
+        $pdf = PDF::loadview('userleader.report.laporancoba')->setPaper('A4','potrait')->setOptions(['defaultFont' => 'Calibri']);
+        return base64_encode($pdf->stream());
+    }
     public function detaildatatask($id)
     {
         $tbl_tiket_task = DB::table('tbl_tiket_task')
