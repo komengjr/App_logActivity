@@ -218,12 +218,12 @@ class UserController extends Controller
     }
     public function postprintlaporan(Request $request)
     {
-        $startdate = $request->input('start');
+        $startdate = $request->start;
         // $startdate = date_create_from_format('d-m-Y', $startdate);
         // $startdate = date_format($startdate, 'Y-m-d');
         $startdate = strtotime($startdate);
 
-        $enddate = $request->input('end');
+        $enddate = $request->end;
         // $enddate = date_create_from_format('d-m-Y', $enddate);
         // $enddate = date_format($enddate, 'Y-m-d');
         $enddate = strtotime($enddate);
