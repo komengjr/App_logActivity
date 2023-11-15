@@ -216,18 +216,18 @@ $(document).on('click', '#submit-button-laporan-user-coba', function(e) {
 });
 $(document).on("click", "#submit-button-laporan-user", function (e) {
     e.preventDefault();
-    var datax = $("#form-laporan-user").serialize();
+    var data = $("#form-laporan-user").serialize();
     $.ajax({
         url: 'user/userleader/modal/postprintlaporan/',
         // headers: {
         //     "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
         // },
         type: "POST",
-        data: datax,
+        data: data,
         dataType: "html",
     })
-        .done(function (data) {
-            $("#show-laporan-user").html('<iframe src="data:application/pdf;base64, '+data+'" style="width:100%;; height:500px;" frameborder="0"></iframe>');
+        .done(function (datapdf) {
+            $("#show-laporan-user").html('<iframe src="data:application/pdf;base64, '+datapdf+'" style="width:100%;; height:500px;" frameborder="0"></iframe>');
         })
         .fail(function () {
             // console.log(data);
