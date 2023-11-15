@@ -24,9 +24,9 @@
     </div>
 </form>
     <div class="modal-footer">
-        <button class="btn-primary" id="submit-button-laporan-user-coba">
+        {{-- <button class="btn-primary" id="submit-button-laporan-user-coba">
             <i class="fa fa-print" ></i> Print coba
-        </button>
+        </button> --}}
         <button class="btn-primary" id="submit-button-laporan-user">
             <i class="fa fa-print" ></i> Print Preview
         </button>

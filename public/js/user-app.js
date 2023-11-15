@@ -199,25 +199,28 @@ $(document).on('click', '#button-kinerja-user', function(e) {
             $('#bodyformdatainputtiket').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
         });
 });
-$(document).on('click', '#submit-button-laporan-user-coba', function(e) {
-    e.preventDefault();
-    var id = $(this).data("id");
-    $.ajax({
-            url: 'user/userleader/modal/postprintlaporan/'+id,
-            type: 'GET',
-            dataType: 'html'
-        })
-        .done(function(data) {
-            $('#show-laporan-user').html('<iframe src="data:application/pdf;base64, '+data+'" style="width:100%;; height:500px;" frameborder="0"></iframe>');
-        })
-        .fail(function() {
-            $('#show-laporan-user').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
-        });
-});
+// $(document).on('click', '#submit-button-laporan-user-coba', function(e) {
+//     e.preventDefault();
+//     var id = $(this).data("id");
+//     $.ajax({
+//             url: 'user/userleader/modal/postprintlaporan/'+id,
+//             type: 'GET',
+//             dataType: 'html'
+//         })
+//         .done(function(data) {
+//             $('#show-laporan-user').html('<iframe src="data:application/pdf;base64, '+data+'" style="width:100%;; height:500px;" frameborder="0"></iframe>');
+//         })
+//         .fail(function() {
+//             $('#show-laporan-user').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
+//         });
+// });
+
 $(document).on("click", "#submit-button-laporan-user", function (e) {
     e.preventDefault();
     var data = $("#form-laporan-user").serialize();
-    console.log(data);
+    $("#show-laporan-user").html(
+        "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
+    );
     $.ajax({
         url: 'user/userleader/modalreport/postprintlaporan',
         headers: {
@@ -233,7 +236,7 @@ $(document).on("click", "#submit-button-laporan-user", function (e) {
         .fail(function () {
             // console.log(data);
             $("#show-laporan-user").html(
-                data
+                'Gagal Baca'
             );
         });
 });
