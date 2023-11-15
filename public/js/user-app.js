@@ -217,6 +217,7 @@ $(document).on('click', '#submit-button-laporan-user-coba', function(e) {
 $(document).on("click", "#submit-button-laporan-user", function (e) {
     e.preventDefault();
     var data = $("#form-laporan-user").serialize();
+    console.log(data);
     $.ajax({
         url: 'user/userleader/modal/postprintlaporan/',
         headers: {
