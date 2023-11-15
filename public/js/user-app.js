@@ -215,8 +215,8 @@ $(document).on('click', '#submit-button-laporan-user-coba', function(e) {
         });
 });
 $(document).on("click", "#submit-button-laporan-user", function (e) {
-    var data = $("#form-laporan-user").serialize();
     e.preventDefault();
+    var data = $("#form-laporan-user").serialize();
     $.ajax({
         url: 'user/userleader/modal/postprintlaporan/',
         // headers: {
@@ -232,7 +232,7 @@ $(document).on("click", "#submit-button-laporan-user", function (e) {
         .fail(function () {
             // console.log(data);
             $("#show-laporan-user").html(
-                '<i class="fa fa-info-sign"></i> Gagal Baca'
+                data
             );
         });
 });
