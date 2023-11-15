@@ -6,7 +6,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form method="POST" enctype="multipart/form-data" id="form-laporan-user">
+<form id="form-laporan-user">
     @csrf
     <div class="modal-body">
 
