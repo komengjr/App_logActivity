@@ -22,6 +22,7 @@
         </div>
         <span id="show-laporan-user"></span>
     </div>
+</form>
     <div class="modal-footer">
         <button class="btn-primary" id="submit-button-laporan-user-coba">
             <i class="fa fa-print" ></i> Print coba
@@ -31,7 +32,7 @@
         </button>
     </div>
 
-</form>
+
 
 <script>
     $(document).ready(function() {
