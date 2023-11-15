@@ -208,10 +208,10 @@ $(document).on('click', '#submit-button-laporan-user-coba', function(e) {
             dataType: 'html'
         })
         .done(function(data) {
-            $('#bodyformdatainputtiket').html('<iframe src="data:application/pdf;base64, '+data+'" style="width:100%;; height:500px;" frameborder="0"></iframe>');
+            $('#show-laporan-user').html('<iframe src="data:application/pdf;base64, '+data+'" style="width:100%;; height:500px;" frameborder="0"></iframe>');
         })
         .fail(function() {
-            $('#bodyformdatainputtiket').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
+            $('#show-laporan-user').html('<i class="fa fa-info-sign"></i> Something went wrong, Please try again...');
         });
 });
 $(document).on("click", "#submit-button-laporan-user", function (e) {
