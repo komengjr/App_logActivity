@@ -16,6 +16,7 @@ class CreateUsersHandlerRecordLogTable extends Migration
         Schema::create('users_handler_record_log', function (Blueprint $table) {
             $table->id('id');
             $table->string('kd_kinerja_sub');
+            $table->string('kd_jenis_kinerja_sub');
             $table->string('id_user');
             $table->string('kd_cabang');
             $table->string('tgl_record');

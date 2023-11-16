@@ -170,6 +170,9 @@ Route::post('user/userleader/pdf/kpi', 'PdfController@printkpi');
 // VERIFIKATOR
 Route::get('verifikator/datatask/user/pengerjaan/{id}',['as'=>'verifikator/datatask/user/pengerjaan','uses'=> 'VerifikatorController@datatask']);
 Route::get('verifikator/datatask/tambahorder',['as'=>'verifikator/datatask/tambahorder','uses'=> 'VerifikatorController@tambahordertask']);
+Route::get('verifikator/datagraphic/task',['as'=>'verifikator/datagraphic/task','uses'=> 'VerifikatorController@datagraphic']);
+Route::post('verifikator/datagraphic/posttask',['as'=>'verifikator/datagraphic/posttask','uses'=> 'VerifikatorController@datapostgraphic']);
+Route::post('verifikator/datagraphic/viewtask',['as'=>'verifikator/datagraphic/viewtask','uses'=> 'VerifikatorController@dataviewtaskgraphic']);
 Route::post('verifikator/datatask/user/pdf', 'PdfController@printdataverif');
 Route::post('verifikator/datatask/user/verif', 'VerifikatorController@verifdatauser');
 Route::post('verifikator/datatask/user/unverif', 'VerifikatorController@unverifdatauser');

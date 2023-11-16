@@ -17,6 +17,7 @@ class CreateTblKinerjaSubTable extends Migration
             $table->id('id');
             $table->string('kd_kinerja_sub')->unique();
             $table->string('kd_kinerja');
+            $table->string('kd_jenis_kinerja');
             $table->string('kinerja_sub');
             $table->string('jenis_kinerja_sub');
             $table->string('status_kinerja_sub');

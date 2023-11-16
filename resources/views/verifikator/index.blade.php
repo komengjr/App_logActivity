@@ -89,10 +89,10 @@
 </style>
 <div class="content-wrapper">
     <div class="container-fluid">
-        <div class="row pt-2 pb-2">
-            <div class="col-sm-12">
-                <h4 class="page-title">Dashboard Verifikator {{auth::user()->name}}</h4>
-                <ol class="breadcrumb">
+        <div class="row pt-2 pb-2 ">
+            <div class="col-sm-12 ">
+                <h4 class="page-title">Dashboard Verifikator {{ auth::user()->name }}</h4>
+                <ol class="breadcrumb ">
                     <li class="breadcrumb-item"><a href="javaScript:void();">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="javaScript:void();">Verifikator</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Home</li>
@@ -146,29 +146,29 @@
             <div class="card-header">
                 Property Order Status
                 <div class="btn-group group-round btn-group-sm float-right">
-                    <button type="button" class="btn btn-info waves-effect waves-light">
+                    {{-- <button type="button" class="btn btn-info waves-effect waves-light">
                         Monthly
+                    </button> --}}
+                    <button type="button" class="btn btn-info waves-effect waves-light" data-toggle="modal" data-target="#modal-cabang-verivikator" id="button-grapic-cabang-verifikator">
+                        Menu
                     </button>
-                    <button type="button" class="btn btn-info waves-effect waves-light">
-                        Weekly
-                    </button>
-                    <button type="button" class="btn btn-info waves-effect waves-light">
+                    {{-- <button type="button" class="btn btn-info waves-effect waves-light">
                         Daily
-                    </button>
+                    </button> --}}
                 </div>
             </div>
             <div class="card-body">
                 <div class="row align-items-center">
-                    <div class="col-12 col-lg-3 text-center">
-                        <p class="mt-4">Total Orders</p>
-                        <h4 class="mb-0">{{$jumlahorder}}</h4>
+                    <div class="col-12 col-lg-2 text-center">
+                        <p class="mt-4">Total Tindakan</p>
+                        <h4 class="mb-0">{{ $jumlahorder }}</h4>
                         <hr />
                         <p>Total Verifikasi</p>
-                        <h4 class="mb-0 text-info">{{$jumlahverif}}</h4>
+                        <h4 class="mb-0 text-info">{{ $jumlahverif }}</h4>
                     </div>
-                    <div class="col-12 col-lg-9">
-                        <div class="chart-container-11">
-                            <canvas id="dash2-chart1"></canvas>
+                    <div class="col-12 col-lg-10 col-xl-10">
+                        <div class="chart-container">
+                            <div id="recruitment-cost"></div>
                         </div>
                     </div>
                 </div>
@@ -193,7 +193,9 @@
                                     <a class="dropdown-item" href="javascript:void();">Another action</a>
                                     <a class="dropdown-item" href="javascript:void();">Something else here</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#" id="buttontambahorderverify" data-toggle="modal" data-target="#modalverif"><i class="fa fa-ticket"></i> Tambah Order</a>
+                                    <a class="dropdown-item" href="#" id="buttontambahorderverify"
+                                        data-toggle="modal" data-target="#modalverif"><i class="fa fa-ticket"></i>
+                                        Tambah Order</a>
                                 </div>
                             </div>
                         </div>
@@ -229,13 +231,13 @@
                                         </td>
                                         <td data-label="Status">
                                             @if ($tiket->status_task == 1)
-                                            <span class="badge-dot">
-                                                <i class="bg-danger"></i> pending
-                                            </span>
+                                                <span class="badge-dot">
+                                                    <i class="bg-danger"></i> pending
+                                                </span>
                                             @else
-                                            <span class="badge-dot">
-                                                <i class="bg-success"></i> Selesai
-                                            </span>
+                                                <span class="badge-dot">
+                                                    <i class="bg-success"></i> Selesai
+                                                </span>
                                             @endif
 
 
@@ -243,8 +245,7 @@
                                         </td>
                                         <td class="text-center">
                                             <button class="btn-info" data-toggle="modal" data-target="#modalverif"
-                                                id="modalveriflihatschedule"
-                                                data-id="{{ $tiket->kd_tiket_task }}"><i
+                                                id="modalveriflihatschedule" data-id="{{ $tiket->kd_tiket_task }}"><i
                                                     class="fa fa-file-text"></i></button>
                                             {{-- <button class="btn-warning"><i class="fa fa-send"></i></button> --}}
                                         </td>
@@ -299,10 +300,149 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal-cabang-verivikator">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content border-danger" id="menu-data-cabang-verifikator">
+
+            <img src="{{ asset('gif.gif') }}" alt="" srcset="">
+
+        </div>
+    </div>
+</div>
 <script src="{{ asset('js/verif.js', []) }}"></script>
 <script src="{{ url('assets/plugins/Chart.js/Chart.min.js', []) }}"></script>
-<script src="{{ url('assets/js/dashboard-property-listing.js', []) }}"></script>
-
+{{-- <script src="{{ url('assets/js/dashboard-property-listing.js', []) }}"></script> --}}
 
 <!-- Apex Chart JS -->
 <script src="{{ asset('assets/plugins/apexcharts/apexcharts.js', []) }}"></script>
+{{-- <script src="assets/plugins/apexcharts/apexcharts.js"></script> --}}
+{{-- <script src="{{ asset('assets/js/dashboard-human-resources.js') }}"></script> --}}
+<script>
+    $(function() {
+        "use strict";
+
+        // chart 1
+
+        var options = {
+            chart: {
+                height: 325,
+                type: 'bar',
+                stacked: false,
+                foreColor: '#4e4e4e',
+                toolbar: {
+                    show: false
+                },
+                dropShadow: {
+                    // enabled: true,
+                    opacity: 0.1,
+                    blur: 3,
+                    left: -7,
+                    top: 22,
+                }
+            },
+            plotOptions: {
+                bar: {
+                    columnWidth: '50%',
+                    endingShape: 'rounded',
+                    dataLabels: {
+                        position: 'top', // top, center, bottom
+                    },
+                }
+            },
+            dataLabels: {
+                enabled: false,
+                formatter: function(val) {
+                    return parseInt(val);
+                },
+                offsetY: -20,
+                style: {
+                    fontSize: '14px',
+                    colors: ["#304758"]
+                }
+            },
+            stroke: {
+                show: true,
+                width: [0, 0, 0],
+                dashArray: [0, 0, 0],
+                curve: 'smooth'
+                // colors: ['transparent']
+            },
+            grid: {
+                show: true,
+                borderColor: 'rgba(0, 0, 0, 0.10)',
+            },
+            series: [{
+                name: 'Server',
+                data: [3, 4, 3, 4, 4, 4, 4]
+            }, {
+                name: 'Networking',
+                data: [4, 4, 4, 4, 4, 4, 4]
+            }, {
+                name: 'PC',
+                data: [3, 3, 3, 3, 3, 3, 3]
+            }, {
+                name: 'Messages',
+                data: [2, 2, 2, 2, 2, 2, 2]
+            }],
+            xaxis: {
+                categories: ['11-11-2023', '12-11-2023', '13-11-2023', '14-11-2023', '15-11-2023', '16-11-2023', '17-11-2023'],
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'dark',
+                    gradientToColors: ['#009efd', '#ff6a00', '#000428'],
+                    shadeIntensity: 1,
+                    type: 'vertical',
+                    opacityFrom: 1,
+                    opacityTo: 1,
+                    stops: [0, 100, 100, 100]
+                },
+            },
+            colors: ["#2af598", "#ee0979", '#0072ff'],
+            tooltip: {
+                theme: 'dark',
+                y: {
+                    formatter: function(val) {
+                        return "" + val + " Task"
+                    }
+                }
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        height: 330,
+                        stacked: true,
+                    },
+                    legend: {
+                        show: !0,
+                        position: "top",
+                        horizontalAlign: "left",
+                        offsetX: -20,
+                        fontSize: "10px",
+                        markers: {
+                            radius: 50,
+                            width: 10,
+                            height: 10
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            columnWidth: '30%'
+                        }
+                    }
+                }
+            }]
+        }
+
+        var chart = new ApexCharts(
+            document.querySelector("#recruitment-cost"),
+            options
+        );
+
+        chart.render();
+
+    });
+</script>

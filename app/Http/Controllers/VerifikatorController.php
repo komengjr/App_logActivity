@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use PDF;
 class VerifikatorController extends Controller
 {
     public function __construct()
@@ -58,5 +59,36 @@ class VerifikatorController extends Controller
     {
         $kinerja = DB::table('tbl_kinerja')->get();
         return view('verifikator.modal.tambahorder',['kinerja'=>$kinerja]);
+    }
+    public function datagraphic()
+    {
+        $kinerja = DB::table('tbl_kinerja')->get();
+        return view('verifikator.modal.modalviewgrapic',['kinerja'=>$kinerja]);
+    }
+    public function datapostgraphic(Request $request)
+    {
+        // $image = base64_encode(file_get_contents(public_path('logo.png')));
+        $pdf = PDF::loadview('verifikator.report.datagrapic')->setPaper('A4','landscape')->setOptions(['defaultFont' => 'Calibri']);
+        return base64_encode($pdf->stream());
+    }
+    public function dataviewtaskgraphic(Request $request)
+    {
+        $startdate = $request->start;
+        $startdate = strtotime($startdate);
+
+        $enddate = $request->end;
+        $enddate = strtotime($enddate);
+        $harimasuk = array();
+
+
+        for ($i=$startdate; $i <= $enddate; $i += (60 * 60 * 24)) {
+            if (date('w', $i) !== '0') {
+                $harimasuk[] = $i;
+            } else {
+                // $harilibur[] = $i;
+            }
+
+        }
+        return view('verifikator.report.dataview',['harimasuk'=>$harimasuk]);
     }
 }

@@ -386,6 +386,7 @@
         $(document).ready(function() {
             //Default data table
             $('#default-datatable').DataTable();
+            $('#default-datatable1').DataTable();
 
 
             var table = $('#example').DataTable({
