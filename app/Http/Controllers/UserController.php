@@ -242,8 +242,8 @@ class UserController extends Controller
         ->join('tbl_cabang','tbl_cabang.kd_cabang','=','users_handler.kd_cabang')
         ->where('users_handler.id_user',Auth::user()->id_user)->get();
         $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub',1)->get();
-        // $image = base64_encode(file_get_contents(public_path('logo.png')));
-        $pdf = PDF::loadview('userleader.report.laporan',['dataharian'=>$dataharian,'harimasuk'=>$harimasuk,'hendlecabang'=>$hendlecabang])->setPaper('A3','landscape')->setOptions(['defaultFont' => 'Calibri']);
+        $image = base64_encode(file_get_contents(public_path('logo.png')));
+        $pdf = PDF::loadview('userleader.report.laporan',['dataharian'=>$dataharian,'harimasuk'=>$harimasuk,'hendlecabang'=>$hendlecabang],compact('image'))->setPaper('A3','landscape')->setOptions(['defaultFont' => 'Calibri']);
         return base64_encode($pdf->stream());
     }
     public function postprintlaporanid($id)

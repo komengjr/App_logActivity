@@ -296,7 +296,7 @@
                                     Setting Jadwal</a>
                             </li>
                             <li><a href="{{ asset('piket', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i>
-                                    Jadwal User</a>
+                                    Handle User</a>
                             </li>
                         </ul>
                     </li>

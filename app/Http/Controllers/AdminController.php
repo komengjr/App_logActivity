@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
 use App\Piket;
+use App\Cabang;
 
 class AdminController extends Controller
 {
@@ -713,13 +714,13 @@ class AdminController extends Controller
         $searchValue = $search_arr['value']; // Search value
 
         // Total records
-        $totalRecords = Piket::select('count(*) as allcount')->count();
-        $totalRecordswithFilter = Piket::select('count(*) as allcount')->where('tgl_piket', 'like', '%' . $searchValue . '%')->count();
+        $totalRecords = Cabang::select('count(*) as allcount')->count();
+        $totalRecordswithFilter = Cabang::select('count(*) as allcount')->where('nama_cabang', 'like', '%' . $searchValue . '%')->count();
 
         // Fetch records
         $records = Piket::orderBy($columnName, $columnSortOrder)
-            ->where('tbl_piket_user.tgl_piket', 'like', '%' . $searchValue . '%')
-            ->select('tbl_piket_user.*')
+            ->where('nama_cabang', 'like', '%' . $searchValue . '%')
+            ->select('tbl_cabang.*')
             ->skip($start)
             ->take($rowperpage)
             ->get();
@@ -728,8 +729,8 @@ class AdminController extends Controller
         $no = 1;
         foreach ($records as $record) {
             $id = $no++;
-            $id_piket = $record->id_piket;
-            $id_user = $record->id_user;
+            $kd_cabang = $record->kd_cabang;
+            $nama_cabang = $record->nama_cabang;
             $kd_cabang = $record->kd_cabang;
             $tgl_piket = $record->tgl_piket;
             $status_piket = $record->status_piket;

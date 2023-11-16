@@ -386,8 +386,8 @@
                                     <div style="float: right;">
                                         <button data-toggle="modal" data-target="#input_tiketxx" id="printkpi"
                                             href="{{ asset('user/userleader/pdf/kpi') }}"
-                                            class="btn-info mb-5 ml-2"><i class="fa fa-print"></i> Cetak</a>
-                                        <button data-toggle="modal" data-target="#input_tiketxx" id="printlaporanuser" class="btn-info mb-5 ml-2"><i class="fa fa-print"></i> Cetak Laporan</a>
+                                            class="btn-info mb-5 ml-2"><i class="fa fa-print"></i> Cetak</a></button>
+                                        <button data-toggle="modal" data-target="#input_tiketxx" id="printlaporanuser" class="btn-info mb-5 ml-2"><i class="fa fa-print"></i> Cetak Laporan</a></button>
                                             <button class="btn-warning mb-5 ml-2"><i class="fa fa-send"></i></button>
                                     </div>
                                     <br><br>

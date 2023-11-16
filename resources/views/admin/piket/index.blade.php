@@ -23,11 +23,9 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Id Piket</th>
-                                            <th>User</th>
-                                            <th>Cabang</th>
-                                            <th>Tanggal Piket</th>
-                                            <th>Status Piket</th>
+                                            <th>Kode Cabang</th>
+                                            <th>Handle Cabang</th>
+                                            <th>Backup Cabang</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -57,24 +55,12 @@
                         "width": "4%"
                     },
                     {
-                        data: 'id_piket'
+                        data: 'kd_cabang'
                     },
                     {
-                        data: 'id_user',
-                        className: 'text-right'
+                        data: 'nama_cabang',
                     },
-                    {
-                        data: 'kd_cabang',
-                        className: 'text-right'
-                    },
-                    {
-                        data: 'tgl_piket',
-                        className: 'text-right'
-                    },
-                    {
-                        data: 'status_piket',
-                        className: 'text-right'
-                    },
+
                     {
                         data: 'btn',
                         className: 'text-center',
