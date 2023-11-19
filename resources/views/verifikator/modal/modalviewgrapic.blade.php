@@ -6,7 +6,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form id="form-modal-verifikator">
+<form id="form-modal-verifikator-view">
     @csrf
     <div class="modal-body">
 

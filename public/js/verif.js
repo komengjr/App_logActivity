@@ -82,11 +82,11 @@ $(document).on("click", "#submit-button-verifikator-user", function (e) {
 });
 $(document).on("click", "#submit-button-verifikator-user-view", function (e) {
     e.preventDefault();
-    var data = $("#form-modal-verifikator").serialize();
+    var data = $("#form-modal-verifikator-view").serialize();
     console.log(data);
-    $("#show-laporan-verifikator").html(
-        "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
-    );
+    // $("#show-laporan-verifikator").html(
+    //     "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
+    // );
     $.ajax({
         url: 'verifikator/datagraphic/postviewtask/',
         // headers: {
