@@ -62,7 +62,7 @@ $(document).on("click", "#submit-button-verifikator-user", function (e) {
         "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
     );
     $.ajax({
-        url: 'verifikator/datagraphic/posttask/',
+        url: 'postverifikator/datagraphic/posttask/',
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
         },
@@ -74,7 +74,6 @@ $(document).on("click", "#submit-button-verifikator-user", function (e) {
             $("#show-laporan-verifikator").html('<iframe src="data:application/pdf;base64, '+datapdf+'" style="width:100%;; height:500px;" frameborder="0"></iframe>');
         })
         .fail(function () {
-            // console.log(data);
             $("#show-laporan-verifikator").html(
                 'Gagal Baca'
             );
@@ -83,10 +82,10 @@ $(document).on("click", "#submit-button-verifikator-user", function (e) {
 $(document).on("click", "#submit-button-verifikator-user-view", function (e) {
     e.preventDefault();
     var data = $("#form-modal-verifikator-view").serialize();
-    console.log(data);
-    // $("#show-laporan-verifikator").html(
-    //     "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
-    // );
+    // console.log(data);
+    $("#show-laporan-verifikator").html(
+        "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
+    );
     $.ajax({
         url: 'postverifikator/datagraphic/postviewtask',
         // headers: {
