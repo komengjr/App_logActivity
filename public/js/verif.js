@@ -88,7 +88,7 @@ $(document).on("click", "#submit-button-verifikator-user-view", function (e) {
     //     "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
     // );
     $.ajax({
-        url: 'verifikator/datagraphic/postviewtask/',
+        url: 'postverifikator/datagraphic/postviewtask',
         // headers: {
         //     "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
         // },
