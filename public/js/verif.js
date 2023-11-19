@@ -83,14 +83,15 @@ $(document).on("click", "#submit-button-verifikator-user", function (e) {
 $(document).on("click", "#submit-button-verifikator-user-view", function (e) {
     e.preventDefault();
     var data = $("#form-modal-verifikator").serialize();
+    console.log(data);
     $("#show-laporan-verifikator").html(
         "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
     );
     $.ajax({
-        url: 'verifikator/datagraphic/postviewtask',
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
-        },
+        url: 'verifikator/datagraphic/postviewtask/',
+        // headers: {
+        //     "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
+        // },
         type: "POST",
         data: data,
         dataType: "html",
