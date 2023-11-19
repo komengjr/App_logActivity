@@ -693,70 +693,13 @@ class AdminController extends Controller
 
     public function piket()
     {
-        return view('admin.piket.index');
+        $data = DB::table('tbl_cabang')->get();
+        return view('admin.piket.index',['data'=>$data]);
     }
-    public function tablepiket(Request $request,$id)
+    public function datahandlecabang($id)
     {
-
-        ## Read value
-        $draw = $request->get('draw');
-        $start = $request->get("start");
-        $rowperpage = $request->get("length"); // Rows display per page
-
-        $columnIndex_arr = $request->get('order');
-        $columnName_arr = $request->get('columns');
-        $order_arr = $request->get('order');
-        $search_arr = $request->get('search');
-
-        $columnIndex = $columnIndex_arr[0]['column']; // Column index
-        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
-        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
-        $searchValue = $search_arr['value']; // Search value
-
-        // Total records
-        $totalRecords = Cabang::select('count(*) as allcount')->count();
-        $totalRecordswithFilter = Cabang::select('count(*) as allcount')->where('nama_cabang', 'like', '%' . $searchValue . '%')->count();
-
-        // Fetch records
-        $records = Piket::orderBy($columnName, $columnSortOrder)
-            ->where('nama_cabang', 'like', '%' . $searchValue . '%')
-            ->select('tbl_cabang.*')
-            ->skip($start)
-            ->take($rowperpage)
-            ->get();
-
-        $data_arr = array();
-        $no = 1;
-        foreach ($records as $record) {
-            $id = $no++;
-            $kd_cabang = $record->kd_cabang;
-            $nama_cabang = $record->nama_cabang;
-            $kd_cabang = $record->kd_cabang;
-            $tgl_piket = $record->tgl_piket;
-            $status_piket = $record->status_piket;
-
-            $data_arr[] = array(
-                "id" => $id,
-                "id_piket" => $id_piket,
-                "id_user" => $id_user,
-                "kd_cabang" => $kd_cabang,
-                "tgl_piket" => $tgl_piket,
-                "status_piket" => $status_piket,
-                "btn" => "
-                <button class='btn-warning' data-id='" . $id . "' id='button-edit-paket-pelanggan'><i class='fa fa-pencil'></i></button>
-                <button class='btn-danger' data-id='" . $id . "' id='button-edit-paket-pelanggan'><i class='fa fa-trash'></i></button>
-                "
-            );
-        }
-
-        $response = array(
-            "draw" => intval($draw),
-            "iTotalRecords" => $totalRecords,
-            "iTotalDisplayRecords" => $totalRecordswithFilter,
-            "aaData" => $data_arr
-        );
-
-        echo json_encode($response);
-        exit;
+        $data = DB::table('tbl_cabang')->where('kd_cabang',$id)->get();
+        return view('admin.cabang.datahandlecabang',['data'=>$data]);
     }
+
 }

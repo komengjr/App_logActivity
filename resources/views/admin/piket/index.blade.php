@@ -1,14 +1,32 @@
 @extends('layouts.base')
 @section('content')
+    <style>
+        .full_modal-dialog {
+            width: 98% !important;
+            height: 92% !important;
+            min-width: 98% !important;
+            min-height: 92% !important;
+            max-width: 98% !important;
+            max-height: 92% !important;
+            padding: 0 !important;
+            margin: 1% !important;
+        }
+
+        .full_modal-content {
+            height: 99% !important;
+            min-height: 99% !important;
+            max-height: 99% !important;
+        }
+    </style>
     <div class="content-wrapper">
         <div class="container-fluid">
             <div class="row pt-2 pb-2">
                 <div class="col-sm-12">
-                    <h4 class="page-title">Dashboard Admin</h4>
+                    <h4 class="page-title"></h4>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javaScript:void();">Menu</a></li>
-                        <li class="breadcrumb-item"><a href="javaScript:void();">Jadwal</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Piket</li>
+                        <li class="breadcrumb-item"><a href="javaScript:void();">Data</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Cabang</li>
                     </ol>
                 </div>
 
@@ -16,21 +34,57 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-header"><i class="fa fa-table"></i> Data Table Example</div>
+                        <div class="card-header"><i class="fa fa-table"></i> Data Cabang</div>
                         <div class="card-body">
-                            <div class="table-responsive">
+                            <div class="">
                                 <table id="default-datatable" class="styled-table">
                                     <thead>
                                         <tr>
                                             <th>No</th>
                                             <th>Kode Cabang</th>
-                                            <th>Handle Cabang</th>
+                                            <th>Nama Cabang</th>
+                                            <th>Alamat</th>
                                             <th>Backup Cabang</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
+                                        @php
+                                            $no = 1;
+                                        @endphp
+                                        @foreach ($data as $item)
+                                            <tr>
+                                                <td data-label="No">{{ $no++ }}</td>
+                                                <td data-label="Kode Cabang">{{ $item->kd_cabang }}</td>
+                                                <td data-label="Nama Cabang">{{ $item->nama_cabang }}</td>
+                                                <td data-label="Alamat">{{ $item->alamat }}</td>
+                                                <td></td>
+                                                <td class="text-center">
+                                                    <div class="dropdown">
+                                                        <a href="javascript:void();" class=" dropdown-toggle-nocaret"
+                                                            data-toggle="dropdown">
+                                                            <i class="icon-options"></i>
+                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <a class="dropdown-item" href="#" data-toggle="modal"
+                                                                data-target="#modal-admin" id="button-modal-setting-hendle"
+                                                                data-id="{{ $item->kd_cabang }}"><i
+                                                                    class="fa fa-file-text"></i> Setting Hendle</a>
+                                                            <a class="dropdown-item" href="javascript:void();"
+                                                                data-toggle="modal" data-target="#showdatamaps"
+                                                                id="tugasuserlainnya"><i class="fa fa-file-text"></i> Task
+                                                                Cabang</a>
+                                                            {{-- <a class="dropdown-item" href="javascript:void();">Another action</a> --}}
+                                                            <div class="dropdown-divider"></div>
+                                                            <a href="javaScript:void();" class="dropdown-item"
+                                                                data-toggle="modal" data-target="#inputtiketbaruadmin"
+                                                                id="buttonadminbuattiket"><i class="fa fa-tasks"></i>
+                                                                Monitoring Cabang</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
 
                                 </table>
@@ -41,36 +95,15 @@
             </div><!-- End Row-->
         </div>
     </div>
-    <script type="text/javascript">
-        $(document).ready(function() {
-
-            // DataTable
-            var table = $('#default-datatable').DataTable({
-                // responsive: true
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('admin.jadwalpiket', ['id' => 12]) }}",
-                columns: [{
-                        data: 'id',
-                        "width": "4%"
-                    },
-                    {
-                        data: 'kd_cabang'
-                    },
-                    {
-                        data: 'nama_cabang',
-                    },
-
-                    {
-                        data: 'btn',
-                        className: 'text-center',
-                        "width": "4%"
-                    }
-                ]
-
-            });
-            // console.log(columns);
-            // new $.fn.dataTable.FixedHeader(table);
-        });
-    </script>
+    <div class="modal fade" id="modal-admin">
+        <div class="modal-dialog modal-dialog-centered full_modal-dialog" id="button-modal-admin-show">
+            <div class="modal-content full_modal-content">
+                <div class="text-center">
+                    <img src="{{ asset('loading1.gif', []) }}" alt="" srcset="" width="250"
+                        style="height: auto;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ asset('js/admin-app.js', []) }}"></script>
 @endsection

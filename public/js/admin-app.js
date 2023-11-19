@@ -445,4 +445,23 @@ $(document).on('click', '#buttontambahhendlecabang', function(e) {
                 );
         });
 });
+$(document).on('click', '#button-modal-setting-hendle', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    // console.log(id);
+    var url = 'admin/data/cabang/menuhandle/'+id;
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#button-modal-admin-show').html(data);
+        })
+        .fail(function() {
+            $('#button-modal-admin-show').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
 

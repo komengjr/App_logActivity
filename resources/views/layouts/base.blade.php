@@ -293,10 +293,10 @@
                         </a>
                         <ul>
                             <li><a href="{{ asset('schedule', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i>
-                                    Setting Jadwal</a>
+                                    Data Jadwal</a>
                             </li>
-                            <li><a href="{{ asset('piket', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i>
-                                    Handle User</a>
+                            <li><a href="{{ asset('cabang', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i>
+                                    Data Cabang</a>
                             </li>
                         </ul>
                     </li>

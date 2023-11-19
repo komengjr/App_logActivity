@@ -72,7 +72,8 @@ Route::post('masteradmin/datatypeworklist/postdata/tambah',['as'=>'masteradmin/d
 // ADMIN ROUTE
 
 Route::get('schedule',['as'=>'schedule','uses'=> 'AdminController@schedule']);
-Route::get('piket',['as'=>'piket','uses'=> 'AdminController@piket']);
+Route::get('cabang',['as'=>'piket','uses'=> 'AdminController@piket']);
+Route::get('admin/data/cabang/menuhandle/{id}',['as'=>'admin/data/cabang/menuhandle/','uses'=> 'AdminController@datahandlecabang']);
 Route::get('admin/tablepiket/{id}', 'AdminController@tablepiket')->name('admin.jadwalpiket');
 Route::get('schedule/datacalender/{id}',['as'=>'schedule/datacalender','uses'=> 'AdminController@datacalender']);
 Route::get('admin/datauser/tambah',['as'=>'admin/dataworklist/tambah','uses'=> 'AdminController@tambahdatauseradmin']);
