@@ -71,7 +71,7 @@ class VerifikatorController extends Controller
         $pdf = PDF::loadview('verifikator.report.datagrapic')->setPaper('A4','landscape')->setOptions(['defaultFont' => 'Calibri']);
         return base64_encode($pdf->stream());
     }
-    public function dataviewtaskgraphic(Request $request)
+    public function postdataviewtaskgraphic(Request $request)
     {
         $startdate = $request->start;
         $startdate = strtotime($startdate);

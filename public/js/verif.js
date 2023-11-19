@@ -87,7 +87,7 @@ $(document).on("click", "#submit-button-verifikator-user-view", function (e) {
         "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
     );
     $.ajax({
-        url: 'verifikator/datagraphic/viewtask/',
+        url: 'verifikator/datagraphic/postviewtask',
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
         },
