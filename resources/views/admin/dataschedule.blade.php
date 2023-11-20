@@ -1,6 +1,6 @@
 @extends('layouts.base')
 @section('content')
-    <div class="content-wrapper">
+    <div class="content-wrapper ">
         <div class="container-fluid">
             <!-- Breadcrumb-->
             <div class="row pt-2 pb-2">

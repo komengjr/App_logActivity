@@ -42,8 +42,7 @@ class HomeController extends Controller
         }
         elseif(auth::user()->kd_akses == 2) {
             $cabang = DB::table('tbl_cabang')->get();
-            $user = DB::table('users')->where('kd_akses', '>','2')->get();
-            $jumlahuser = DB::table('users')->where('kd_akses', '>','2')->Where('kd_akses', '<', 5)->count();
+            $user = DB::table('users')->whereBetween('users.kd_akses', [3, 4])->get();
             $data_tiket = DB::table('tbl_tiket_group_worklist')
             ->join('group_worklist','group_worklist.kd_worklist_group','=','tbl_tiket_group_worklist.kd_worklist_group')
             ->join('tbl_worklist','tbl_worklist.kd_worklist','group_worklist.kd_worklist')
@@ -56,9 +55,7 @@ class HomeController extends Controller
             ->select('tbl_tiket_group_worklist.*','tbl_tiket_person_worklist.*')
             ->count();
             $data = $data_tiket1->merge($data_tiket);
-            // dd($data);
             $periode = DB::table('tbl_periode')->where('status_periode',1)->get();
-            $tperiode = DB::table('tbl_periode')->where('status_periode',1)->count();
             $datateam = DB::table('tbl_tiket_group_worklist')->count();
             $datateamselesai = DB::table('tbl_tiket_group_worklist')->where('status_tiket',2)->count();
             if ($datateamselesai == 0) {
@@ -66,7 +63,6 @@ class HomeController extends Controller
             } else {
                 $persendatateamselesai = ($datateamselesai/$datateam)*100;
             }
-
             $dataindividu = DB::table('tbl_tiket_person_worklist')->count();
             $dataindividuselesai = DB::table('tbl_tiket_person_worklist')->where('status_tiket',2)->count();
             if ($dataindividuselesai == 0) {
@@ -75,12 +71,10 @@ class HomeController extends Controller
                 $persendataindividuselesai = ($dataindividuselesai/$dataindividu)*100;
             }
             $group = DB::table('tbl_group')->count();
-            $jumlahcabang = DB::table('tbl_cabang')->count();
             return view('index',['cabang'=>$cabang , 'user' => $user , 'tiket' => $data ,
-                        'jumlah_tiket' => $jumlah_tiket, 'jumlahuser'=>$jumlahuser, 'periode'=>$periode,
-                        'tperiode'=>$tperiode, 'datateam'=>$datateam, 'dataindividu'=>$dataindividu,
+                        'jumlah_tiket' => $jumlah_tiket,  'periode'=>$periode,'datateam'=>$datateam, 'dataindividu'=>$dataindividu,
                         'persendatateamselesai'=>$persendatateamselesai, 'persendataindividuselesai'=>$persendataindividuselesai,
-                        'group'=>$group,'jumlahcabang'=>$jumlahcabang,
+                        'group'=>$group
                     ]);
         }
         elseif (auth::user()->kd_akses == 3 ) {

@@ -9,7 +9,7 @@
 <div class="modal-body" id="body-hendler-cabang-user">
     <div class="row">
         @foreach ($data as $item)
-        <div class="col">
+        <div class="col-md-6">
             <div class="card">
                 {{-- <img src="https://via.placeholder.com/800x500" class="card-img-top" alt="Card image cap"> --}}
                 <div class="card-body">
@@ -17,7 +17,7 @@
                     <p class="card-text">{{$item->alamat}}</p>
                 </div>
                 <ul class="list-group list-group-flush list shadow-none">
-                    <li class="list-group-item d-flex justify-content-between align-items-center"><a href="#" id="task-harian-hendler-user" data-id="{{$item->kd_cabang}}">Monitoring Harian</a>
+                    <li class="list-group-item d-flex justify-content-between align-items-center"><i class="fa fa-tasks"></i> <a href="#" id="task-harian-hendler-user" data-id="{{$item->kd_cabang}}"> <span class="badge badge-info p-2">Monitoring Harian</span></a>
                         <span class="badge badge-info badge-pill">
                             @php
                                 $datarecord = DB::table('users_handler_record_log')
@@ -25,6 +25,16 @@
                                 ->where('tgl_record',date('Y-m-d'))->count();
                             @endphp
                             {{$datarecord}}
+                        </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center"><i class="fa fa-tasks"></i> <a href="#" id="task-bulan-hendler-user" data-id="{{$item->kd_cabang}}">Monitoring Bulanan</a>
+                        <span class="badge badge-danger badge-pill">
+                           0
+                        </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center"><i class="fa fa-tasks"></i> <a href="#" id="task-tahunan-hendler-user" data-id="{{$item->kd_cabang}}">Monitoring Tahunan</a>
+                        <span class="badge badge-danger badge-pill">
+                           0
                         </span>
                     </li>
                 </ul>

@@ -451,12 +451,16 @@ class AdminController extends Controller
     }
     public function tambahperiodebaru(Request $request)
     {
+        $dateawal = strtotime($request->input('start'));
+        $dateawal = date('Y-m-d', $dateawal);
+        $dateakhir = strtotime($request->input('end'));
+        $dateakhir = date('Y-m-d', $dateakhir);
         DB::table('tbl_periode')->insert(
             [
                 'bulan' => $request->input('bulan'),
                 'tahun' => $request->input('tahun'),
-                'awal_tgl' => $request->input('start'),
-                'akhir_tgl' => $request->input('end'),
+                'awal_tgl' => $dateawal,
+                'akhir_tgl' => $dateakhir,
                 'status_periode' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
             ]
@@ -689,7 +693,7 @@ class AdminController extends Controller
             'pre_test' => $pre_test,
         ]);
     }
-    // PIKET USER
+    // DATA CABANG
 
     public function piket()
     {
@@ -698,8 +702,56 @@ class AdminController extends Controller
     }
     public function datahandlecabang($id)
     {
-        $data = DB::table('tbl_cabang')->where('kd_cabang',$id)->get();
-        return view('admin.cabang.datahandlecabang',['data'=>$data]);
+        $data = DB::table('tbl_cabang')->where('kd_cabang',$id)->first();
+        $datarecord = DB::table('users_handler_backup')
+        ->select('users_handler_backup.*','tbl_biodata.nama_lengkap')
+        ->join('tbl_biodata','tbl_biodata.id_user','=','users_handler_backup.id_user')
+        ->where('users_handler_backup.kd_cabang',$id)->get();
+        return view('admin.cabang.datahandlecabang',['data'=>$data,'datarecord'=>$datarecord]);
+    }
+    public function tambahdatauserhandlecabang($id)
+    {
+        $data = DB::table('users')
+        ->join('tbl_biodata','tbl_biodata.id_user','=','users.id_user')
+        ->whereBetween('users.kd_akses', [3, 4])->get();
+        return view('admin.cabang.formtambahuserhandlecabang',['id'=>$id,'data'=>$data]);
+    }
+    public function posttambahuserbackuphandle(Request $request)
+    {
+        DB::table('users_handler_backup')->insert([
+            'id_user'=>$request->user,
+            'kd_cabang'=>$request->cabang,
+            'tgl_hendler_backup'=>date('Y-m-d'),
+            'created_at'=>date('Y-m-d H:i:s'),
+        ]);
+        Session::flash('sukses', 'Berhasil Membuat Jadwal Handle User ');
+        return redirect()->back();
+    }
+    public function taskorder()
+    {
+        $dataharian = DB::table('tbl_kinerja_sub')
+        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_kinerja_sub.kd_kinerja')
+        ->where('tbl_kinerja_sub.jenis_kinerja_sub',1)->get();
+        $databulanan = DB::table('tbl_kinerja_sub')
+        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_kinerja_sub.kd_kinerja')
+        ->where('tbl_kinerja_sub.jenis_kinerja_sub',2)->get();
+        $datakinerja = DB::table('tbl_kinerja')->get();
+        return view('admin.taskorder.taskorder',['dataharian'=>$dataharian,'databulanan'=>$databulanan, 'datakinerja'=>$datakinerja]);
+    }
+    public function postmonitoringharian(Request $request)
+    {
+        DB::table('tbl_kinerja_sub')->insert([
+            'kd_kinerja_sub'=>$request->kinerja.'-'.Str::random(5),
+            'kd_kinerja'=>$request->kinerja,
+            'kd_jenis_kinerja'=>$request->jenis,
+            'kinerja_sub'=>$request->order,
+            'jenis_kinerja_sub'=>1,
+            'status_kinerja_sub'=>1,
+            'point_kinerja_sub'=>$request->poin,
+            'created_at'=>date('Y-m-d H:i:s'),
+        ]);
+        Session::flash('sukses', 'Berhasil Membuat Order Monitoring Harian ');
+        return redirect()->back();
     }
 
 }

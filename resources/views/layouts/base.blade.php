@@ -288,15 +288,18 @@
                     <li>
                         <a href="javascript:;">
                             <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
-                            <span class="title">Data</span>
+                            <span class="title">Menu</span>
                             <span class="arrow"></span>
                         </a>
                         <ul>
                             <li><a href="{{ asset('schedule', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i>
-                                    Data Jadwal</a>
+                                    Menu Jadwal</a>
                             </li>
                             <li><a href="{{ asset('cabang', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i>
-                                    Data Cabang</a>
+                                    Menu Cabang</a>
+                            </li>
+                            <li><a href="{{ asset('taskorder', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i>
+                                    Menu Task</a>
                             </li>
                         </ul>
                     </li>
@@ -387,6 +390,7 @@
             //Default data table
             $('#default-datatable').DataTable();
             $('#default-datatable1').DataTable();
+            $('#default-datatable2').DataTable();
 
 
             var table = $('#example').DataTable({

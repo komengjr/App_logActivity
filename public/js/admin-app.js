@@ -464,4 +464,22 @@ $(document).on('click', '#button-modal-setting-hendle', function(e) {
                 );
         });
 });
+$(document).on('click', '#button-tambah-user-handle-cabang', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    var url = 'admin/data/cabang/menuhandle/tambahdata/'+id;
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#menu-data-user-handle-cabang').html(data);
+        })
+        .fail(function() {
+            $('#menu-data-user-handle-cabang').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
 

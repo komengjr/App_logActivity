@@ -148,7 +148,7 @@
                         </p>
                         <div class="">
                             <h4 class="mb-0 py-3 text-primary">
-                                {{ $jumlahuser }}
+                                {{ $user->count() }}
                                 <span class="float-right"><i class="fa fa-search" style="cursor: pointer;"
                                         data-toggle="modal" data-target="#showdatamaps" id="datauseradmin"></i></span>
                             </h4>
@@ -175,7 +175,7 @@
                         </p>
                         <div class="">
                             <h4 class="mb-0 py-3 text-success">
-                                {{ $jumlahcabang }}
+                                {{ $cabang->count() }}
                                 <span class="float-right"><i class="fa fa-search" style="cursor: pointer;"
                                         data-toggle="modal" data-target="#showdatamaps" id="datacabang"></i></span>
                             </h4>
@@ -228,7 +228,7 @@
                         </p>
                         <div class="">
                             <h4 class="mb-0 py-3 text-danger">
-                                {{$tperiode}}
+                                {{$periode->count()}}
                                 <span class="float-right"><i class="fa fa-search" style="cursor: pointer;"
                                         data-toggle="modal" data-target="#showdatamaps" id="dataperiode"></i></span>
                             </h4>
@@ -460,8 +460,6 @@
     </div>
 </div>
 <script src="{{ asset('js/admin-app.js', []) }}"></script>
-{{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKXKdHQdtqgPVl2HI2RnUa_1bjCxRCQo4&callback=initialize" async defer></script> --}}
-{{-- <script src="http://maps.googleapis.com/maps/api/js"></script> --}}
 <script>
     $(document).ready(function() {
         //Default data table
@@ -479,207 +477,10 @@
             .appendTo("#example_wrapper .col-md-6:eq(0)");
     });
 </script>
-{{-- <script>
-    let map;
-    let infoWindow;
-    let mapOptions;
-    let bounds;
-
-    function initialize() {
-        // Data yang disimpan dalam variabel array locations
-        var locations = [
-            @foreach ($cabang as $item)
-                ["<h6><?php echo $item->nama_cabang; ?></h6><p>{{  $item->alamat }}</p><button data-toggle='modal' data-target='#showdatamaps' class='btn-info' id='buttontampilmapscabang' data-id='<?php echo $item->kd_cabang; ?>'><i class='fa fa-eye'> </i> Show Data</button>",+
-                "<?php echo $item->latitude; ?>", "<?php echo $item->longtitude; ?>"],
-            @endforeach
-
-        ];
-
-        // Lokasi folder dari icon
-        var iconMarker = 'icon/';
-
-        // variabel uniqueIcons untuk menyimpan icon yang berbeda-bedan
-        var uniqueIcons = [
-            // @foreach ($cabang as $item)
-                iconMarker + '1.png',
-                iconMarker + '1.gif',
-                // iconMarker + '3.png',
-
-            // @endforeach
-        ]
-        var iconsLength = uniqueIcons.length;
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 10,
-            center: new google.maps.LatLng(4.845582, 96.271539),
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            mapTypeControl: true,
-            streetViewControl: true,
-            panControl: true,
-            zoomControlOptions: {
-                position: google.maps.ControlPosition.LEFT_BOTTOM
-            }
-        });
-
-        var infowindow = new google.maps.InfoWindow();
-
-        var markers = new Array();
-
-        var iconCounter = 0;
-
-        // Membuat marker dengan icon yang berbeda-beda
-        for (var i = 0; i < locations.length; i++) {
-            var marker = new google.maps.Marker({
-                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                map: map,
-
-                mapTypeId: 'satellite',
-                icon: uniqueIcons[iconCounter]
-            });
-
-            markers.push(marker);
-
-            // Membuah event click dan menambah infowindows
-            google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                return function() {
-                    infowindow.setContent(locations[i][0]);
-                    infowindow.open(map, marker);
-                }
-            })(marker, i));
-
-            iconCounter++;
-
-            if (iconCounter >= iconsLength) {
-                iconCounter = 0;
-            }
-        }
-
-        function autoCenter() {
-
-            var bounds = new google.maps.LatLngBounds();
-
-            for (var i = 0; i < markers.length; i++) {
-                bounds.extend(markers[i].position);
-            }
-
-            map.fitBounds(bounds);
-        }
-        autoCenter();
-    };
-</script> --}}
-<!-- Apex Chart JS -->
 <script src="{{ asset('assets/plugins/apexcharts/apexcharts.js', []) }}"></script>
-{{-- <script src="{{ url('assets/plugins/apexcharts/apex-custom-script.js', []) }}"></script> --}}
-{{-- <script src="{{ url('assets/js/dashboard-human-resources.js', []) }}"></script> --}}
 <script>
     $(function() {
         "use strict";
-
-        // chart 1
-
-
-
-        // chart 2
-
-        // var options = {
-        //     chart: {
-        //         height: 365,
-        //         type: 'radialBar',
-        //     },
-        //     plotOptions: {
-        //         radialBar: {
-        //             //startAngle: -135,
-        //             //endAngle: 135,
-        //             hollow: {
-        //                 margin: 12,
-        //                 size: '45%',
-        //                 background: '#fff',
-        //                 image: undefined,
-        //                 imageOffsetX: 0,
-        //                 imageOffsetY: 0,
-        //                 position: 'front',
-        //                 dropShadow: {
-        //                     enabled: true,
-        //                     top: 3,
-        //                     left: 0,
-        //                     blur: 4,
-        //                     opacity: 0.24
-        //                 }
-        //             },
-        //             track: {
-        //                 background: '#eeedfb',
-        //                 strokeWidth: '100%',
-        //                 margin: 5, // margin is in pixels
-        //                 dropShadow: {
-        //                     enabled: false,
-        //                     top: -3,
-        //                     left: 0,
-        //                     blur: 4,
-        //                     opacity: 0.35
-        //                 }
-        //             },
-        //             dataLabels: {
-        //                 name: {
-        //                     color: '#000',
-        //                     fontSize: '14px',
-        //                     offsetY: -5
-        //                 },
-        //                 value: {
-        //                     color: '#000',
-        //                     fontSize: '25px',
-        //                     offsetY: 5
-        //                 },
-        //                 total: {
-        //                     show: true,
-        //                     label: 'Total',
-        //                     color: '#000',
-        //                     formatter: function(w) {
-        //                         // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-        //                         return 300
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     },
-        //     stroke: {
-        //         lineCap: "round",
-        //     },
-        //     fill: {
-        //         type: 'gradient',
-        //         gradient: {
-        //             shade: 'dark',
-        //             gradientToColors: ['#d13adf', '#d13adf', '#f7971e', '#08a50e'],
-        //             shadeIntensity: 1,
-        //             opacityFrom: 1,
-        //             opacityTo: 1,
-        //             stops: [0, 100, 100, 100]
-        //         },
-        //     },
-        //     colors: ["#8f50ff", "#f1076f", "#ffd200", "#cddc35","#8f50ff", "#f1076f", "#ffd200", "#cddc35"],
-        //     series: [90, 80, 70, 60,90, 80, 70, 60],
-        //     labels: ['Career Page', 'Referral', 'Agency', 'Job Boards','Career Page', 'Referral', 'Agency', 'Job Boards'],
-        //     responsive: [{
-        //         breakpoint: 1280,
-        //         options: {
-        //             chart: {
-        //                 height: 350
-        //             }
-        //         }
-        //     }]
-
-        // }
-
-        // var chart = new ApexCharts(
-        //     document.querySelector("#application-by-source"),
-        //     options
-        // );
-
-        // chart.render();
-
-
-
-
-        // chart 3
 
         var options = {
             chart: {
@@ -764,10 +565,6 @@
         );
 
         chart.render();
-
-
-
-
 
         // chart 4
 
@@ -854,9 +651,6 @@
         );
 
         chart.render();
-
-
-
 
         // chart 5
 
@@ -1110,7 +904,10 @@
                                 ->where('id_user', $userx->id_user)
                                 ->where('status_tiket', 2)
                                 ->count();
-                            $totaltiketselesai = $totaltiketuser + $totaltiketuser1;
+                            $totaltiketuser2 = DB::table('users_handler_record_log')
+                                ->where('id_user', $userx->id_user)
+                                ->count();
+                            $totaltiketselesai = $totaltiketuser + $totaltiketuser1 + $totaltiketuser2;
                         @endphp
                             '{{ $totaltiketselesai }}',
                     @endforeach

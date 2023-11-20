@@ -398,8 +398,8 @@
                                                 @foreach ($tbl_kinerja as $item)
                                                     @if ($item->jenis_kinerja == 1)
                                                         <tr>
-                                                            <td><a href="#" data-toggle="modal" data-target="#input_tiketxx" id="button-kinerja-user" data-id="{{$item->kd_kinerja}}">{{ $item->kinerja }}</a></td>
-                                                            <td><span class="float-right font-weight-bold">0</span>
+                                                            <td data-label="Nama Kinerja"><a href="#" data-toggle="modal" data-target="#input_tiketxx" id="button-kinerja-user" data-id="{{$item->kd_kinerja}}">{{ $item->kinerja }}</a></td>
+                                                            <td data-label="Total Penyelesaian"><span class="float-right font-weight-bold">0</span>
                                                             </td>
                                                         </tr>
                                                     @endif
@@ -414,8 +414,8 @@
                                                 @foreach ($tbl_kinerja as $item1)
                                                     @if ($item1->jenis_kinerja == 2)
                                                         <tr>
-                                                            <td><a href="#" data-toggle="modal" data-target="#input_tiketxx" id="button-kinerja-user" data-id="{{$item->kd_kinerja}}">{{ $item1->kinerja }}</a></td>
-                                                            <td>
+                                                            <td data-label="Nama Kinerja"><a href="#" data-toggle="modal" data-target="#input_tiketxx" id="button-kinerja-user" data-id="{{$item->kd_kinerja}}">{{ $item1->kinerja }}</a></td>
+                                                            <td data-label="Total Penyelesaian">
                                                                 <span class="float-right font-weight-bold">0</span>
                                                             </td>
                                                         </tr>
@@ -779,7 +779,11 @@
                             $totaldatatiketgroup = DB::table('tbl_tiket_group_worklist')
                                 ->whereBetween('tgl_buat', [$periodtotal->awal_tgl, $periodtotal->akhir_tgl])
                                 ->count();
-                            $totaltiket = $totaldatatiketperson + $totaldatatiketgroup;
+                            $totalharian = DB::table('users_handler_record_log')
+                                ->where('id_user',Auth::user()->id_user)
+                                ->whereBetween('tgl_record', [$periodtotal->awal_tgl, $periodtotal->akhir_tgl])
+                                ->count();
+                            $totaltiket = $totaldatatiketperson + $totaldatatiketgroup + $totalharian;
                         @endphp
                             '{{ $totaltiket }}',
                     @endforeach

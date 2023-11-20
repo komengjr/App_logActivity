@@ -1,32 +1,38 @@
 <div class="modal-content border-danger">
     <div class="modal-header bg-info">
         <h5 class="modal-title text-white">
-            <button class="btn-primary"><i class="fa fa-refresh"></i></button>
+            <span class="badge badge-secondary p-2">{{$data->nama_cabang}}</span>
         </h5>
         <span>
-            <button class="btn-success text-float-right" id="buttontambahcabangbaru"><i class="fa fa-plus"></i> Tambah
-                Cabang</button>
+            <button class="btn-success text-float-right" id="button-tambah-user-handle-cabang" data-id="{{$data->kd_cabang}}"><i class="fa fa-plus"></i> Handle User</button>
             <button type="button" class="btn-danger" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </span>
 
     </div>
-    <div class="modal-body" id="divtablecabangadmin">
-        <div class="row">
+    <div class="modal-body" id="menu-data-user-handle-cabang">
+        <div class="row" >
             <table class="styled-table" id="default-datatablex2">
                 <thead>
                     <tr>
                         <th style="width: 2px;" class="text-center">No</th>
-                        <th style="width: 300px;">Nama Cabang</th>
                         <th>User</th>
-                        <th>Handle Cabang</th>
-                        <th style="width: 200px;">Verifikator</th>
+                        <th>Tanggal Handle Cabang</th>
+                        <th>Tanggal Buat</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-
+                    @foreach ($datarecord as $item)
+                        <tr>
+                            <td  style="width: 2px;">1</td>
+                            <td>{{$item->nama_lengkap}}</td>
+                            <td>{{$item->tgl_hendler_backup}}</td>
+                            <td>{{$item->created_at}}</td>
+                            <td><button class="btn-warning">edit</button></td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

@@ -18,7 +18,7 @@
             max-height: 99% !important;
         }
     </style>
-    <div class="content-wrapper">
+    <div class="content-wrapper gradient-meridian">
         <div class="container-fluid">
             <div class="row pt-2 pb-2">
                 <div class="col-sm-12">
@@ -31,6 +31,26 @@
                 </div>
 
             </div>
+            @if ($message = Session::get('sukses'))
+                <button class="btn btn-warning" onclick="sukses_notifikasi()" id="buttonnotif" hidden></button>
+                <script>
+                    function sukses_notifikasi() {
+                        Lobibox.notify('success', {
+                            pauseDelayOnHover: true,
+                            continueDelayOnInactiveTab: false,
+                            position: 'center top',
+                            showClass: 'zoomIn',
+                            hideClass: 'zoomOut',
+                            icon: 'fa fa-check-circle',
+                            width: 400,
+                            msg: '{{ $message }}'
+                        });
+                    }
+                    $(document).ready(function() {
+                        $('#buttonnotif').click();
+                    });
+                </script>
+            @endif
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
@@ -44,7 +64,8 @@
                                             <th>Kode Cabang</th>
                                             <th>Nama Cabang</th>
                                             <th>Alamat</th>
-                                            <th>Backup Cabang</th>
+                                            <th>Total Order Cabang</th>
+                                            <th>Total Handle User</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -58,7 +79,15 @@
                                                 <td data-label="Kode Cabang">{{ $item->kd_cabang }}</td>
                                                 <td data-label="Nama Cabang">{{ $item->nama_cabang }}</td>
                                                 <td data-label="Alamat">{{ $item->alamat }}</td>
-                                                <td></td>
+                                                <td data-label="Total Order">
+
+                                                </td>
+                                                <td class="text-right">
+                                                    @php
+                                                        $total = DB::table('users_handler_backup')->where('kd_cabang',$item->kd_cabang)->count();
+                                                    @endphp
+                                                    {{$total}}
+                                                </td>
                                                 <td class="text-center">
                                                     <div class="dropdown">
                                                         <a href="javascript:void();" class=" dropdown-toggle-nocaret"

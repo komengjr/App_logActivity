@@ -73,7 +73,9 @@ Route::post('masteradmin/datatypeworklist/postdata/tambah',['as'=>'masteradmin/d
 
 Route::get('schedule',['as'=>'schedule','uses'=> 'AdminController@schedule']);
 Route::get('cabang',['as'=>'piket','uses'=> 'AdminController@piket']);
+
 Route::get('admin/data/cabang/menuhandle/{id}',['as'=>'admin/data/cabang/menuhandle/','uses'=> 'AdminController@datahandlecabang']);
+Route::get('admin/data/cabang/menuhandle/tambahdata/{id}',['as'=>'admin/data/cabang/menuhandle/tambahdata/','uses'=> 'AdminController@tambahdatauserhandlecabang']);
 Route::get('admin/tablepiket/{id}', 'AdminController@tablepiket')->name('admin.jadwalpiket');
 Route::get('schedule/datacalender/{id}',['as'=>'schedule/datacalender','uses'=> 'AdminController@datacalender']);
 Route::get('admin/datauser/tambah',['as'=>'admin/dataworklist/tambah','uses'=> 'AdminController@tambahdatauseradmin']);
@@ -121,6 +123,10 @@ Route::post('admin/datagroup/tambahcabanggroup','AdminController@tambahcabanggro
 Route::post('admin/group/tambahgroup','AdminController@posttambahgroupbaru');
 Route::post('admin/data/datacabang/tambahverifikator','AdminController@tambahuserverifikator');
 Route::post('admin/data/datacabang/tambahhendlecabang','AdminController@tambahhendlecabang');
+Route::post('admin/data/cabang/menuhandle/posttambahdata','AdminController@posttambahuserbackuphandle');
+
+Route::get('taskorder',['as'=>'taskorder','uses'=> 'AdminController@taskorder']);
+Route::post('taskorder/postmonitoringharian','AdminController@postmonitoringharian');
 
 Auth::routes();
 // Route::get('datamaps', function () {

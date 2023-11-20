@@ -1,18 +1,18 @@
 @extends('layouts.base')
 @section('content')
     <link href='{{ asset('assets/plugins/fullcalendar/css/fullcalendar.css', []) }}' rel='stylesheet' />
-    <div class="content-wrapper">
+    <div class="content-wrapper gradient-meridian">
         <div class="container-fluid">
 
 
             <!-- Breadcrumb-->
-            <div class="row pt-2 pb-4">
+            <div class="row pt-3 pb-4">
                 <div class="col-sm-12">
-                    <h4 class="page-title">Calendar</h4>
+                    {{-- <h4 class="page-title">Calendar</h4> --}}
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javaScript:void();">Dashtreme</a></li>
-                        <li class="breadcrumb-item"><a href="javaScript:void();">Calendar</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Calendar</li>
+                        <li class="breadcrumb-item"><a href="javaScript:void();">Menu</a></li>
+                        <li class="breadcrumb-item"><a href="javaScript:void();">Data</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Jadwal</li>
                     </ol>
                     <div class="btn-group float-sm-right">
                         <button type="button"
