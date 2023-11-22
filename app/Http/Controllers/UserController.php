@@ -330,7 +330,9 @@ class UserController extends Controller
     {
         $datahendlecabang = DB::table('users_handler')->join('tbl_cabang','tbl_cabang.kd_cabang','=','users_handler.kd_cabang')
         ->where('users_handler.id_user',Auth::user()->id_user)->get();
-        return view('userleader.cabang.hendlecabang',['data'=>$datahendlecabang]);
+        $cekdata = DB::table('users_handler_backup')->join('tbl_cabang','tbl_cabang.kd_cabang','=','users_handler_backup.kd_cabang')
+        ->where('users_handler_backup.id_user',Auth::user()->id_user)->where('tgl_hendler_backup',date('Y-m-d'))->get();
+        return view('userleader.cabang.hendlecabang',['data'=>$datahendlecabang,'cekdata'=>$cekdata]);
     }
     public function taskharianhendledatacabang($id)
     {

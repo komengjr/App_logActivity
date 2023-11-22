@@ -254,19 +254,21 @@
                     <div class="card-header text-uppercase">Column Chart
                         <div class="card-action">
                             <div class="dropdown">
-                                <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret"
-                                    data-toggle="dropdown">
+                                <button class="dropdown-toggle-nocaret btn-dark" data-toggle="dropdown">
                                     <i class="icon-options"></i>
-                                </a>
+                                </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#showdatamaps" id="jadwaltugasuser"><i class="fa fa-file-text"></i> Semua Task Order</a>
+                                    {{-- <a class="dropdown-item" href="#" data-toggle="modal" data-target="#showdatamaps" id="jadwaltugasuser"><i class="fa fa-file-text"></i> Semua Task Order</a>
                                     <a class="dropdown-item" href="javascript:void();" data-toggle="modal" data-target="#showdatamaps" id="tugasuserlainnya"><i class="fa fa-file-text"></i> Task Lainnya</a>
-                                    {{-- <a class="dropdown-item" href="javascript:void();">Another action</a> --}}
+
                                     <div class="dropdown-divider"></div>
                                     <a href="javaScript:void();" class="dropdown-item" data-toggle="modal"
                                         data-target="#inputtiketbaruadmin" id="buttonadminbuattiket"><i
                                             class="fa fa-tasks"></i>
-                                        Buat Tiket</a>
+                                        Buat Tiket</a> --}}
+                                    <a href="javaScript:void();" class="dropdown-item" data-toggle="modal" data-target="#modal-dashboard-admin" id="button-view-data-admin"><i
+                                            class="fa fa-tasks"></i>
+                                        View Data</a>
                                 </div>
                             </div>
                         </div>
@@ -309,7 +311,7 @@
                     <div class="card-body">
                         <div class="media align-items-center">
                             <div class="media-body">
-                                <h3 class="mt-3 mb-0">92</h3>
+                                <h3 class="mt-3 mb-0">0</h3>
                                 <p class="mb-0">Data Kinerja</p>
                             </div>
                             <div class="card-content dash-array-chart-box">
@@ -431,6 +433,16 @@
 <div class="modal fade" id="showdatamaps">
     <div class="modal-dialog modal-dialog-centered modal-xl" id="bodyformdatamapscabang">
         <div class="modal-content border-danger" style="background: transparent;">
+            <div class="text-center">
+                <img src="{{ asset('loading1.gif', []) }}" alt="" srcset="" width="250"
+                    style="height: auto;">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-dashboard-admin">
+    <div class="modal-dialog modal-dialog-centered modal-xl" id="show-menu-dashboard-admin">
+        <div class="modal-content border-danger">
             <div class="text-center">
                 <img src="{{ asset('loading1.gif', []) }}" alt="" srcset="" width="250"
                     style="height: auto;">
@@ -995,7 +1007,10 @@
                             $totaldatatiketgroup = DB::table('tbl_tiket_group_worklist')
                                 ->whereBetween('tgl_buat', [$periodtotal->awal_tgl, $periodtotal->akhir_tgl])
                                 ->count();
-                            $totaltiket = $totaldatatiketperson + $totaldatatiketgroup;
+                            $monitoringharian = DB::table('users_handler_record_log')
+                                ->whereBetween('tgl_record', [$periodtotal->awal_tgl, $periodtotal->akhir_tgl])
+                                ->count();
+                            $totaltiket = $totaldatatiketperson + $totaldatatiketgroup + $monitoringharian;
                         @endphp
                             '{{ $totaltiket }}',
                     @endforeach
@@ -1013,7 +1028,10 @@
                                 ->where('status_tiket', 2)
                                 ->whereBetween('tgl_buat', [$periodtota2->awal_tgl, $periodtota2->akhir_tgl])
                                 ->count();
-                            $totaltiketselesai = $totaldatatiketpersonselesai + $totaldatatiketgroupselesai;
+                            $monitoringharian = DB::table('users_handler_record_log')
+                                ->whereBetween('tgl_record', [$periodtota2->awal_tgl, $periodtota2->akhir_tgl])
+                                ->count();
+                            $totaltiketselesai = $totaldatatiketpersonselesai + $totaldatatiketgroupselesai + $monitoringharian;
                         @endphp
                             '{{ $totaltiketselesai }}',
                     @endforeach
@@ -1031,6 +1049,7 @@
                                 ->where('status_tiket', 0)
                                 ->whereBetween('tgl_buat', [$periodtota3->awal_tgl, $periodtota3->akhir_tgl])
                                 ->count();
+
                             $totaltikettidakselesai = $totaldatatiketpersontidakselesai + $totaldatatiketgrouptidakselesai;
                         @endphp
                             '{{ $totaltikettidakselesai }}',

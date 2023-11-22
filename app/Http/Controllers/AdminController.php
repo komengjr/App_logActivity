@@ -753,5 +753,22 @@ class AdminController extends Controller
         Session::flash('sukses', 'Berhasil Membuat Order Monitoring Harian ');
         return redirect()->back();
     }
+    public function dashboardviewdata()
+    {
+        return view('admin.dashboard.formviewdata');
+    }
+    public function monitoringdatauser(Request $request)
+    {
+        if ($request->start == "" || $request->end == "") {
+            return "<span class='badge badge-warning shadow-warning m-1'>Data Tanggal Harus Diisi</span>";
+        } else {
+            $tglstart = $request->start;
+            $tglend = $request->end;
+            $datacabang = DB::table('tbl_cabang')->get();
+            return view('admin.dashboard.monitoringdata',['datacabang'=>$datacabang, 'tglstart'=>$tglstart, 'tglend'=>$tglend]);
+        }
+
+
+    }
 
 }

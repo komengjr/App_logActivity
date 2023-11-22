@@ -482,4 +482,45 @@ $(document).on('click', '#button-tambah-user-handle-cabang', function(e) {
                 );
         });
 });
-
+$(document).on('click', '#button-view-data-admin', function(e) {
+    e.preventDefault();
+    var url = 'admin/dashboard/viewdata';
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#show-menu-dashboard-admin').html(data);
+        })
+        .fail(function() {
+            $('#show-menu-dashboard-admin').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
+$(document).on("click", "#button-monitoring-user", function (e) {
+    e.preventDefault();
+    var data = $("#form-dashboard-admin").serialize();
+    $("#show-modal-view-dashboard").html(
+        "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
+    );
+    $.ajax({
+        url: 'postadmin/dashboard/monitoringdata',
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
+        },
+        type: "POST",
+        data: data,
+        dataType: "html",
+    })
+        .done(function (datapdf) {
+            $("#show-modal-view-dashboard").html(datapdf);
+        })
+        .fail(function () {
+            // console.log(data);
+            $("#show-modal-view-dashboard").html(
+                'Gagal Baca'
+            );
+        });
+});
