@@ -139,6 +139,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/user/inputdatatiket', 'HomeController@inputdatatiketpersonal');
 Route::post('/user/inputdatatiketgroup', 'HomeController@inputdatatiketgroup');
 Route::get('/', 'HomeController@index');
+Route::get('/newcase', 'PublicController@newcase');
+Route::get('/caricabang/{id}', 'PublicController@caricabang');
+Route::get('/pilihcabang/{id}', 'PublicController@pilihcabang');
+Route::post('/simpan-newcase', 'PublicController@postnewcase');
 
 
 Route::post('/ubahpassword',['as'=>'all','uses'=> 'HomeController@ubahpassword']);

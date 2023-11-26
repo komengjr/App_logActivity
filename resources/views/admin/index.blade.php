@@ -258,17 +258,8 @@
                                     <i class="icon-options"></i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    {{-- <a class="dropdown-item" href="#" data-toggle="modal" data-target="#showdatamaps" id="jadwaltugasuser"><i class="fa fa-file-text"></i> Semua Task Order</a>
-                                    <a class="dropdown-item" href="javascript:void();" data-toggle="modal" data-target="#showdatamaps" id="tugasuserlainnya"><i class="fa fa-file-text"></i> Task Lainnya</a>
-
-                                    <div class="dropdown-divider"></div>
-                                    <a href="javaScript:void();" class="dropdown-item" data-toggle="modal"
-                                        data-target="#inputtiketbaruadmin" id="buttonadminbuattiket"><i
-                                            class="fa fa-tasks"></i>
-                                        Buat Tiket</a> --}}
                                     <a href="javaScript:void();" class="dropdown-item" data-toggle="modal" data-target="#modal-dashboard-admin" id="button-view-data-admin"><i
-                                            class="fa fa-tasks"></i>
-                                        View Data</a>
+                                            class="fa fa-tasks"></i>View Data</a>
                                 </div>
                             </div>
                         </div>
@@ -738,7 +729,7 @@
                 dashArray: 4,
             },
             colors: ["#00f260"],
-            series: [83],
+            series: [0],
             labels: ['interviews'],
 
         }
@@ -1092,8 +1083,6 @@
         );
 
         chart.render();
-
-
 
     });
 </script>

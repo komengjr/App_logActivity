@@ -61,7 +61,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right ">
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item" style="cursor: pointer;"><i class="fa fa-tasks mr-2"></i> Case Baru</li>
+                        <li class="dropdown-item" style="cursor: pointer;"><a href="{{ url('newcase', []) }}"><i class="fa fa-tasks mr-2"></i> Case Baru</a></li>
                         <li class="dropdown-divider"></li>
                     </ul>
                 </li>
@@ -73,7 +73,7 @@
             <div class="card-body">
                 <div class="card-content p-0">
                     <div class="text-center m-0">
-                        <img src="{{ asset('gif.gif', []) }}" alt="logo icon" width="300">
+                        {{-- <img src="{{ asset('gif.gif', []) }}" alt="logo icon" width="300"> --}}
                     </div>
                     <div class="card-title text-uppercase text-center py-3">Login Aplikasi</div>
                     <form method="POST" action="login">
