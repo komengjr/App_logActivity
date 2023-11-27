@@ -359,9 +359,11 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="primarymodal">
+    <div class="modal fade" id="modal-laporan-user">
         <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content border-primary" id="bodytask_kinerja">
+            <div class="modal-content border-danger" id="bodytask_kinerja">
+
+                gfd
 
             </div>
         </div>

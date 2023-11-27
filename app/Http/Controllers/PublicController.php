@@ -12,7 +12,17 @@ class PublicController extends Controller
     }
     public function postnewcase(Request $request)
     {
-        return redirect()->back();
+        DB::table('tbl_laporan_user')->insert([
+            'tiket_laporan'=>$request->tiket,
+            'kd_cabang'=>$request->kd_cabang,
+            'nama_user'=>$request->nama,
+            'nip_user'=>$request->nip,
+            'divisi'=>$request->divisi,
+            'deskripsi_laporan'=>$request->deskripsi,
+            'status_laporan'=>0,
+            'tgl_laporan'=>date('Y-m-d H:i:s'),
+        ]);
+        return($request->tiket);
     }
     public function caricabang($id)
     {
@@ -21,6 +31,8 @@ class PublicController extends Controller
     }
     public function pilihcabang($id)
     {
-        return view('pilihcabang');
+        $tiket = $id."_".date('Y-m-d').'_'.date('H:i:s').'_'. mt_rand(100, 999);
+        $data = DB::table('tbl_cabang')->select('nama_cabang','kd_cabang','alamat')->where('kd_cabang',$id)->first();
+        return view('pilihcabang',['data'=>$data,'tiket'=>$tiket]);
     }
 }

@@ -287,9 +287,7 @@
             }
         }
     </style>
-    <script>
-        document.getElementById('caricabang').value = "";
-    </script>
+
 </head>
 
 <body class="gradient-forest m-3">
@@ -350,7 +348,7 @@
                     </div>
                     <div class="col-lg-8 col-md-6">
                         <div class="form-wizard">
-                            <form action="{{ url('simpan-newcase', []) }}" method="post" role="form">
+                            <form action="#" method="post" role="form" id="form-case">
                                 @csrf
                                 <div class="form-wizard-header">
                                     <p>Fill all form field to go next step</p>
@@ -361,86 +359,94 @@
                                         <li><span>4</span></li>
                                     </ul>
                                 </div>
-                                <fieldset class="wizard-fieldset show">
-                                    <h5>Personal Cabang</h5>
-                                    <div  id="fix-data-cabang">
+                                <div>
+                                    <fieldset class="wizard-fieldset show">
+                                        <h5>Personal Cabang</h5>
+                                        <div id="fix-data-cabang">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control wizard-required"
+                                                    name="cabang" id="caricabang" onkeydown="search(this)" required>
+                                                <label for="fname" class="wizard-form-text-label">Pilih Cabang
+                                                    *</label>
+                                                <div class="wizard-form-error"></div>
+                                                <input type="text" class="form-control wizard-required"
+                                                    style="display: none">
+                                            </div>
+                                            <div class="row" id="tampil-data-cabang">
+                                                <input type="text" class="form-control wizard-required"
+                                                    style="display: none">
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <a href="javascript:;" class="form-wizard-next-btn float-right">Next</a>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="wizard-fieldset">
+                                        <h5>Personal Information</h5>
                                         <div class="form-group">
-                                            <input type="text" class="form-control wizard-required" name="cabang"
-                                                id="caricabang" onkeydown="search(this)" required>
-                                            <label for="fname" class="wizard-form-text-label">Pilih Cabang *</label>
+                                            <input type="email" class="form-control wizard-required" id="email" name="nama">
+                                            <label for="email" class="wizard-form-text-label">Nama Personal
+                                                *</label>
                                             <div class="wizard-form-error"></div>
-                                            <input type="text" class="form-control wizard-required"
-                                                style="display: none">
                                         </div>
-                                        <div class="row" id="tampil-data-cabang">
+                                        <div class="form-group">
                                             <input type="text" class="form-control wizard-required"
-                                                style="display: none">
-
+                                                id="username" name="nip">
+                                            <label for="username" class="wizard-form-text-label">NIP *</label>
+                                            <div class="wizard-form-error"></div>
                                         </div>
-                                    </div>
-                                    <div class="form-group clearfix">
-                                        <a href="javascript:;" class="form-wizard-next-btn float-right">Next</a>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="wizard-fieldset">
-                                    <h5>Personal Information</h5>
-                                    <div class="form-group">
-                                        <input type="email" class="form-control wizard-required" id="email">
-                                        <label for="email" class="wizard-form-text-label">Nama Personal *</label>
-                                        <div class="wizard-form-error"></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control wizard-required" id="username">
-                                        <label for="username" class="wizard-form-text-label">NIP *</label>
-                                        <div class="wizard-form-error"></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control wizard-required" id="pwd">
-                                        <label for="pwd" class="wizard-form-text-label">Divisi *</label>
-                                        <div class="wizard-form-error"></div>
-                                        <span class="wizard-password-eye"><i class="far fa-eye"></i></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control wizard-required" id="cpwd">
-                                        <label for="cpwd" class="wizard-form-text-label">Bagian *</label>
-                                        <div class="wizard-form-error"></div>
-                                    </div>
-                                    <div class="form-group clearfix">
-                                        <a href="javascript:;"
-                                            class="form-wizard-previous-btn float-left">Previous</a>
-                                        <a href="javascript:;" class="form-wizard-next-btn float-right">Next</a>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="wizard-fieldset">
-                                    <h5>Deskripsi Laporan</h5>
-                                    <div class="form-group">
-                                        <textarea class="form-control wizard-required" id="bname" cols="30" rows="10"></textarea>
-                                        <label for="bname" class="wizard-form-text-label">Deskripsi *</label>
-                                        <div class="wizard-form-error"></div>
-                                    </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control wizard-required"
+                                                name="divisi">
+                                            <label for="pwd" class="wizard-form-text-label">Divisi *</label>
+                                            <div class="wizard-form-error"></div>
+                                            <span class="wizard-password-eye"><i class="far fa-eye"></i></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control wizard-required"
+                                                id="cpwd">
+                                            <label for="cpwd" class="wizard-form-text-label">Bagian *</label>
+                                            <div class="wizard-form-error"></div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <a href="javascript:;"
+                                                class="form-wizard-previous-btn float-left">Previous</a>
+                                            <a href="javascript:;" class="form-wizard-next-btn float-right">Next</a>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="wizard-fieldset">
+                                        <h5>Deskripsi Laporan</h5>
+                                        <div class="form-group">
+                                            <textarea class="form-control wizard-required" id="bname" cols="30" rows="10" name="deskripsi"></textarea>
+                                            <label for="bname" class="wizard-form-text-label">Deskripsi *</label>
+                                            <div class="wizard-form-error"></div>
+                                        </div>
 
-                                    <div class="form-group clearfix">
-                                        <a href="javascript:;"
-                                            class="form-wizard-previous-btn float-left">Previous</a>
-                                        <a href="javascript:;" class="form-wizard-next-btn float-right">Next</a>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="wizard-fieldset">
-                                    <h5>Payment Information</h5>
+                                        <div class="form-group clearfix">
+                                            <a href="javascript:;"
+                                                class="form-wizard-previous-btn float-left">Previous</a>
+                                            <a href="javascript:;" class="form-wizard-next-btn float-right">Next</a>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="wizard-fieldset">
+                                        <h5>Detail Information</h5>
 
-                                    <div class="form-group">
-                                        <input type="text" class="form-control wizard-required" id="honame"
-                                            required>
-                                        <label for="honame" class="wizard-form-text-label">Holder Name*</label>
-                                        <div class="wizard-form-error"></div>
-                                    </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control wizard-required" id="honame"
+                                                required>
+                                            <label for="honame" class="wizard-form-text-label">Holder Name*</label>
+                                            <div class="wizard-form-error"></div>
+                                        </div>
 
-                                    <div class="form-group clearfix">
-                                        <a href="javascript:;"
-                                            class="form-wizard-previous-btn float-left">Previous</a>
-                                        <a href="#" class="form-wizard-submit float-right">Submit</a>
-                                    </div>
-                                </fieldset>
+                                        <div class="form-group clearfix" id="loading-button">
+                                            <a href="javascript:;"
+                                                class="form-wizard-previous-btn float-left">Previous</a>
+                                            <a href="#" class="form-wizard-submit float-right"
+                                                id="button-simpan-kasus">Submit</a>
+                                        </div>
+                                    </fieldset>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -454,142 +460,45 @@
 
     </div><!--wrapper-->
 
-    <script src="assets/js/jquery.min.js"></script>
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/public.js') }}"></script>
     <script src="{{ asset('assets/js/popper.min.js', []) }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js', []) }}"></script>
     <script src="{{ asset('assets/js/horizontal-menu.js', []) }}"></script>
     <script src="{{ asset('assets/js/app-script.js', []) }}"></script>
+    <script src="{{ asset('assets/plugins/alerts-boxes/js/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/alerts-boxes/js/sweet-alert-script.js') }}"></script>
     <script>
-        jQuery(document).ready(function() {
-
-            // click on next button
-            jQuery('.form-wizard-next-btn').click(function() {
-                var parentFieldset = jQuery(this).parents('.wizard-fieldset');
-                var currentActiveStep = jQuery(this).parents('.form-wizard').find(
-                    '.form-wizard-steps .active');
-                var next = jQuery(this);
-                var nextWizardStep = true;
-                parentFieldset.find('.wizard-required').each(function() {
-                    var thisValue = jQuery(this).val();
-
-                    if (thisValue == "") {
-                        jQuery(this).siblings(".wizard-form-error").slideDown();
-                        nextWizardStep = false;
-                    } else {
-                        jQuery(this).siblings(".wizard-form-error").slideUp();
-                    }
-                });
-                if (nextWizardStep) {
-                    next.parents('.wizard-fieldset').removeClass("show", "400");
-                    currentActiveStep.removeClass('active').addClass('activated').next().addClass('active',
-                        "400");
-                    next.parents('.wizard-fieldset').next('.wizard-fieldset').addClass("show", "400");
-                    jQuery(document).find('.wizard-fieldset').each(function() {
-                        if (jQuery(this).hasClass('show')) {
-                            var formAtrr = jQuery(this).attr('data-tab-content');
-                            jQuery(document).find('.form-wizard-steps .form-wizard-step-item').each(
-                                function() {
-                                    if (jQuery(this).attr('data-attr') == formAtrr) {
-                                        jQuery(this).addClass('active');
-                                        var innerWidth = jQuery(this).innerWidth();
-                                        var position = jQuery(this).position();
-                                        jQuery(document).find('.form-wizard-step-move').css({
-                                            "left": position.left,
-                                            "width": innerWidth
-                                        });
-                                    } else {
-                                        jQuery(this).removeClass('active');
-                                    }
-                                });
-                        }
-                    });
-                }
-            });
-            //click on previous button
-            jQuery('.form-wizard-previous-btn').click(function() {
-                var counter = parseInt(jQuery(".wizard-counter").text());;
-                var prev = jQuery(this);
-                var currentActiveStep = jQuery(this).parents('.form-wizard').find(
-                    '.form-wizard-steps .active');
-                prev.parents('.wizard-fieldset').removeClass("show", "400");
-                prev.parents('.wizard-fieldset').prev('.wizard-fieldset').addClass("show", "400");
-                currentActiveStep.removeClass('active').prev().removeClass('activated').addClass('active',
-                    "400");
-                jQuery(document).find('.wizard-fieldset').each(function() {
-                    if (jQuery(this).hasClass('show')) {
-                        var formAtrr = jQuery(this).attr('data-tab-content');
-                        jQuery(document).find('.form-wizard-steps .form-wizard-step-item').each(
-                            function() {
-                                if (jQuery(this).attr('data-attr') == formAtrr) {
-                                    jQuery(this).addClass('active');
-                                    var innerWidth = jQuery(this).innerWidth();
-                                    var position = jQuery(this).position();
-                                    jQuery(document).find('.form-wizard-step-move').css({
-                                        "left": position.left,
-                                        "width": innerWidth
-                                    });
-                                } else {
-                                    jQuery(this).removeClass('active');
-                                }
-                            });
-                    }
-                });
-            });
-            //click on form submit button
-            jQuery(document).on("click", ".form-wizard .form-wizard-submit", function() {
-                var parentFieldset = jQuery(this).parents('.wizard-fieldset');
-                var currentActiveStep = jQuery(this).parents('.form-wizard').find(
-                    '.form-wizard-steps .active');
-                parentFieldset.find('.wizard-required').each(function() {
-                    var thisValue = jQuery(this).val();
-                    if (thisValue == "") {
-                        jQuery(this).siblings(".wizard-form-error").slideDown();
-                    } else {
-                        jQuery(this).siblings(".wizard-form-error").slideUp();
-                    }
-                });
-            });
-            // focus on input field check empty or not
-            jQuery(".form-control").on('focus', function() {
-                var tmpThis = jQuery(this).val();
-                if (tmpThis == '') {
-                    jQuery(this).parent().addClass("focus-input");
-                } else if (tmpThis != '') {
-                    jQuery(this).parent().addClass("focus-input");
-                }
-            }).on('blur', function() {
-                var tmpThis = jQuery(this).val();
-                if (tmpThis == '') {
-                    jQuery(this).parent().removeClass("focus-input");
-                    jQuery(this).siblings('.wizard-form-error').slideDown("3000");
-                } else if (tmpThis != '') {
-                    jQuery(this).parent().addClass("focus-input");
-                    jQuery(this).siblings('.wizard-form-error').slideUp("3000");
-                }
-            });
-        });
-    </script>
-    <script>
-        function search(ele) {
-            if (event.key === 'Enter') {
-                var id = document.getElementById('caricabang').value;
+        $(document).on("click", "#button-simpan-kasus", function(e) {
+            e.preventDefault();
+            var data = $("#form-case").serialize();
+            $("#loading-button").html(
+                "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
+            );
+            setTimeout(() => {
                 $.ajax({
-                        url: '../caricabang/' + id,
-                        type: 'GET',
-                        dataType: 'html'
+                        url: 'simpan-newcase',
+                        headers: {
+                            "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
+                        },
+                        type: "POST",
+                        data: data,
+                        dataType: "html",
                     })
-                    .done(function(data) {
-                        document.getElementById('caricabang').value = "";
-                        $('#tampil-data-cabang').html(data);
+                    .done(function(datapdf) {
+                        swal("Berhasil Input", "Dengan Nomor Tiket : " +datapdf+"-", "success");
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
                     })
                     .fail(function() {
-                        $('#tampil-data-cabang').html(
-                            '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                        // console.log(data);
+                        $("#show-modal-view-dashboard").html(
+                            'Gagal Baca'
                         );
                     });
-
-            }
-        }
+            }, 1500);
+        });
     </script>
 </body>
 

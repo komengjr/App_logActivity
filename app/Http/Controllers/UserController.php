@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use PDF;
+
 // use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class UserController extends Controller
 {
@@ -18,74 +19,85 @@ class UserController extends Controller
     }
     public function lihattiketpersonal($id)
     {
-        return view('userleader.modal.test',['id'=>$id]);
+        return view('userleader.modal.test', ['id' => $id]);
     }
     public function lihattiketgroup($id)
     {
-        return view('userleader.modal.tiketgroup',['id'=>$id]);
+        return view('userleader.modal.tiketgroup', ['id' => $id]);
     }
     public function lihatnotifikasiwaktu()
     {
-        $jumlahnotif = 0;
-        $notif = DB::table('tbl_schedule')
-            ->where('status_schedule', 1)
-            ->get();
-        foreach ($notif as $value) {
+        // $jumlahnotif = 0;
+        // $notif = DB::table('tbl_schedule')
+        //     ->where('status_schedule', 1)
+        //     ->get();
+        // foreach ($notif as $value) {
+        //     if (substr($value->tgl_akhir, 0, 10) >= date('Y-m-d')){
+        //         if (substr($value->tgl_start, 0, 10) <= date('Y-m-d')) {
+        //         $cekdata = DB::table('tbl_schadule_log')->where('kd_schedule',$value->kd_schedule)->where('id_user',auth::user()->id_user)->count();
 
-            if (substr($value->tgl_akhir, 0, 10) >= date('Y-m-d')){
-                if (substr($value->tgl_start, 0, 10) <= date('Y-m-d')) {
-                $cekdata = DB::table('tbl_schadule_log')->where('kd_schedule',$value->kd_schedule)->where('id_user',auth::user()->id_user)->count();
-
-                if ($cekdata == 0){
-                    $jumlahnotif = $jumlahnotif + 1;
-                }else{
-
-                }
-            }
-            }
-        }
-        return view('waktu',['id'=>$jumlahnotif]);
+        //         if ($cekdata == 0){
+        //             $jumlahnotif = $jumlahnotif + 1;
+        //         }else{
+        //         }
+        //     }
+        //     }
+        // }
+        $jumlahnotif = DB::table('tbl_laporan_user')
+            ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
+            ->where('users_handler.id_user', Auth::user()->id_user)
+            ->where('tbl_laporan_user.status_laporan', 0)->count();
+        return view('waktu', ['id' => $jumlahnotif]);
     }
     public function lihatnotifikasi($id)
     {
-        $datachedule = DB::table('tbl_schedule')
-                        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
-                        ->where('status_schedule',1)->get();
-        return view('notif',['id'=>$id , 'datachedule'=>$datachedule]);
+        $datapesan = DB::table('tbl_laporan_user')
+            ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
+            ->where('users_handler.id_user', Auth::user()->id_user)
+            ->where('tbl_laporan_user.status_laporan', 0)->get();
+        return view('notifikasi.notifpesan', ['id' => $id, 'datapesan' => $datapesan]);
+        // $datachedule = DB::table('tbl_schedule')
+        //                 ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
+        //                 ->where('status_schedule',1)->get();
+        // return view('notifikasi.notifpesan',['id'=>$id , 'datachedule'=>$datachedule]);
     }
     public function lihattaskkinerja($id)
     {
-        $datachedule = DB::table('tbl_schedule')
-                        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
-                        ->where('kd_schedule',$id)->get();
-        return view('userleader.modal.taskkinerja',['id'=>$id,'datachedule'=>$datachedule]);
+        $datalaporan = DB::table('tbl_laporan_user')
+            // ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
+            ->where('tiket_laporan', $id)->first();
+        return view('notifikasi.formtask', ['id' => $id, 'datalaporan' => $datalaporan]);
+        // $datachedule = DB::table('tbl_schedule')
+        //                 ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
+        //                 ->where('kd_schedule',$id)->get();
+        // return view('userleader.modal.taskkinerja',['id'=>$id,'datachedule'=>$datachedule]);
     }
     public function lihattugaspersonal()
     {
         $worklistperson = DB::table('tbl_tiket_person_worklist')
-        ->join('worklist_person','worklist_person.kd_worklist_person','=','tbl_tiket_person_worklist.kd_worklist_person')
-        ->join('tbl_worklist','tbl_worklist.kd_worklist','=','worklist_person.kd_worklist')
-        ->where('worklist_person.id_user',auth::user()->id_user)
-        ->where('tbl_tiket_person_worklist.status_tiket',0)
-        ->get();
+            ->join('worklist_person', 'worklist_person.kd_worklist_person', '=', 'tbl_tiket_person_worklist.kd_worklist_person')
+            ->join('tbl_worklist', 'tbl_worklist.kd_worklist', '=', 'worklist_person.kd_worklist')
+            ->where('worklist_person.id_user', auth::user()->id_user)
+            ->where('tbl_tiket_person_worklist.status_tiket', 0)
+            ->get();
         $groupworklist = DB::table('tbl_tiket_group_worklist')
-        ->join('group_worklist','group_worklist.kd_group','=','tbl_tiket_group_worklist.kd_group')
-        ->join('tbl_worklist','tbl_worklist.kd_worklist','=','group_worklist.kd_worklist')
-        ->join('group_user','group_user.kd_group','=','group_worklist.kd_group')
-        ->where('group_user.id_user',auth::user()->id_user)->get();
+            ->join('group_worklist', 'group_worklist.kd_group', '=', 'tbl_tiket_group_worklist.kd_group')
+            ->join('tbl_worklist', 'tbl_worklist.kd_worklist', '=', 'group_worklist.kd_worklist')
+            ->join('group_user', 'group_user.kd_group', '=', 'group_worklist.kd_group')
+            ->where('group_user.id_user', auth::user()->id_user)->get();
         // dd($groupworklist);
-        return view('userleader.modal.tbltugaspersonal',['worklistperson'=>$worklistperson,'groupworklist'=>$groupworklist]);
+        return view('userleader.modal.tbltugaspersonal', ['worklistperson' => $worklistperson, 'groupworklist' => $groupworklist]);
     }
     public function laporantambah()
     {
         $type_laporan = DB::table('type_laporan')->get();
         $kinerja = DB::table('tbl_kinerja')->get();
-        return view('userleader.modal.laporan',['type_laporan'=>$type_laporan,'kinerja'=>$kinerja]);
+        return view('userleader.modal.laporan', ['type_laporan' => $type_laporan, 'kinerja' => $kinerja]);
     }
     public function posttambahlaporan(Request $request)
     {
-        $kd_laporan = "laporan-".Str::random(10);
-        $no_tiket = "tiket/laporan/".date('Y-m-d')."/".date('H:i:s')."/".Str::random(5);
+        $kd_laporan = "laporan-" . Str::random(10);
+        $no_tiket = "tiket/laporan/" . date('Y-m-d') . "/" . date('H:i:s') . "/" . Str::random(5);
 
         DB::table('tbl_tiket_laporan')->insert(
             [
@@ -96,9 +108,10 @@ class UserController extends Controller
                 'status_tiket' => 0,
                 'tgl_buat' => date('Y-m-d H:i:s'),
                 'created_at' => date('Y-m-d H:i:s'),
-            ]);
-        Session::flash('sukses','Berhasil Membuat Laporan Dengan Kode Tiket : '.$no_tiket);
-		return redirect()->back();
+            ]
+        );
+        Session::flash('sukses', 'Berhasil Membuat Laporan Dengan Kode Tiket : ' . $no_tiket);
+        return redirect()->back();
     }
     public function postpenyelesaianlaporan(Request $request)
     {
@@ -109,29 +122,30 @@ class UserController extends Controller
                 'keterangan' => $request->input('keterangan'),
                 'tgl_buat' => date('Y-m-d H:i:s'),
                 'created_at' => date('Y-m-d H:i:s'),
-            ]);
+            ]
+        );
         DB::table('tbl_tiket_laporan')
-        ->where('no_tiket',$request->input('no_tiket'))
-        ->update([
-                    'status_tiket' => 1,
-                ]);
-        Session::flash('sukses','Berhasil Penyelesaian data laporan');
-		return redirect()->back();
+            ->where('no_tiket', $request->input('no_tiket'))
+            ->update([
+                'status_tiket' => 1,
+            ]);
+        Session::flash('sukses', 'Berhasil Penyelesaian data laporan');
+        return redirect()->back();
     }
     public function lihatdatalaporan($id)
     {
         $data = DB::table('tbl_tiket_laporan')
-        ->join('users','users.id_user','=','tbl_tiket_laporan.id_user')
-        ->where('tbl_tiket_laporan.id_tiket_laporan',$id)
-        ->get();
-        return view('userleader.modal.detaillaporan',['data'=>$data]);
+            ->join('users', 'users.id_user', '=', 'tbl_tiket_laporan.id_user')
+            ->where('tbl_tiket_laporan.id_tiket_laporan', $id)
+            ->get();
+        return view('userleader.modal.detaillaporan', ['data' => $data]);
     }
     public function lihatlaporan($id)
     {
         $data = DB::table('tbl_tiket_laporan')
-        ->where('id_tiket_laporan',$id)
-        ->get();
-        return view('userleader.modal.detaillaporan',['data'=>$data]);
+            ->where('id_tiket_laporan', $id)
+            ->get();
+        return view('userleader.modal.detaillaporan', ['data' => $data]);
     }
 
     public function lengkapidatabiodata(Request $request)
@@ -146,31 +160,46 @@ class UserController extends Controller
                 'no_hp' => $request->input('nomor_hp'),
                 'alamat' => $request->input('alamat'),
                 'kd_cabang' => $request->input('cabang'),
-                'gambar' => $request->file('gambar')->storeAs('data_file/fileupload/'.auth::user()->email,auth::user()->id_user.''.'pp.jpg'),
+                'gambar' => $request->file('gambar')->storeAs('data_file/fileupload/' . auth::user()->email, auth::user()->id_user . '' . 'pp.jpg'),
                 'created_at' => date('Y-m-d H:i:s'),
-            ]);
-            Session::flash('sukses','Berhasil Melengkapi Data Profil');
-            return redirect()->back();
+            ]
+        );
+        Session::flash('sukses', 'Berhasil Melengkapi Data Profil');
+        return redirect()->back();
     }
     public function postschedule(Request $request)
     {
-        DB::table('tbl_schadule_log')->insert(
+        // DB::table('tbl_schadule_log')->insert(
+        //     [
+        //         'kd_schedule' => $request->input('id'),
+        //         'id_user' => auth::user()->id_user,
+        //         'deskripsi_schedule' => $request->input('keterangan'),
+        //         'status_schedule_user' => 1,
+        //         'created_at' => date('Y-m-d H:i:s'),
+        //     ]);
+        DB::table('tbl_laporan_user_log')->insert(
             [
-                'kd_schedule' => $request->input('id'),
-                'id_user' => auth::user()->id_user,
-                'deskripsi_schedule' => $request->input('keterangan'),
-                'status_schedule_user' => 1,
+                'tiket_laporan' => $request->tiket,
+                'id_user' => Auth::user()->id_user,
+                'deskripsi_penyelesaian' => $request->keterangan,
                 'created_at' => date('Y-m-d H:i:s'),
+            ]
+        );
+        DB::table('tbl_laporan_user')
+            ->where('tiket_laporan', $request->tiket)
+            ->update([
+                'tgl_selesai_laporan' => date('Y-m-d H:i:s'),
+                'status_laporan' => 1,
             ]);
-            Session::flash('sukses','Berhasil Menyelesaikan 1 Task');
-            return redirect()->back();
+        Session::flash('sukses', 'Berhasil Menyelesaikan 1 Laporan');
+        return redirect()->back();
     }
     public function buattikettask(Request $request)
     {
         // $id_group = DB::table('group_user')->where('id_group_user',$request->input('usercabang'))->first();
         DB::table('tbl_tiket_task')->insert(
             [
-                'kd_tiket_task' => "task-".Str::random(50),
+                'kd_tiket_task' => "task-" . Str::random(50),
                 'id_leader' => auth::user()->id_user,
                 'kd_cabang' => $request->input('usercabang'),
                 'kd_kinerja' => $request->input('kd_kinerja'),
@@ -179,34 +208,35 @@ class UserController extends Controller
                 'deskripsi_task' => $request->input('keterangan'),
                 'status_task' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
-            ]);
-            Session::flash('sukses','Berhasil Menyelesaikan 1 Task');
-            return redirect()->back();
+            ]
+        );
+        Session::flash('sukses', 'Berhasil Menyelesaikan 1 Task');
+        return redirect()->back();
     }
 
     public function beritugasuser()
     {
         $groupcabang = DB::table('handler_cabang')
-        ->join('group_user','group_user.kd_group','=','handler_cabang.kd_group')
-        ->join('tbl_cabang','tbl_cabang.kd_cabang','=','handler_cabang.kd_cabang')
-        ->where('group_user.id_user',auth::user()->id_user)->get();
-        $kinerja = DB::table('tbl_kinerja')->where('status_kinerja',1)->get();
-        return view('userleader.modal.beritugas',['kinerja'=>$kinerja,'groupcabang'=>$groupcabang]);
+            ->join('group_user', 'group_user.kd_group', '=', 'handler_cabang.kd_group')
+            ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'handler_cabang.kd_cabang')
+            ->where('group_user.id_user', auth::user()->id_user)->get();
+        $kinerja = DB::table('tbl_kinerja')->where('status_kinerja', 1)->get();
+        return view('userleader.modal.beritugas', ['kinerja' => $kinerja, 'groupcabang' => $groupcabang]);
     }
     public function lihattugasuser()
     {
         $datatikettask = DB::table('tbl_tiket_task')
-        ->select('tbl_tiket_task.*','tbl_cabang.nama_cabang','tbl_kinerja.kinerja')
-        ->join('tbl_cabang','tbl_cabang.kd_cabang','=','tbl_tiket_task.kd_cabang')
-        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
-        ->where('tbl_tiket_task.id_leader',auth::user()->id_user)->get();
-        $kinerja = DB::table('tbl_kinerja')->where('status_kinerja',1)->get();
-        return view('userleader.modal.lihattugas',['kinerja'=>$kinerja , 'datatikettask'=>$datatikettask]);
+            ->select('tbl_tiket_task.*', 'tbl_cabang.nama_cabang', 'tbl_kinerja.kinerja')
+            ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'tbl_tiket_task.kd_cabang')
+            ->join('tbl_kinerja', 'tbl_kinerja.kd_kinerja', '=', 'tbl_tiket_task.kd_kinerja')
+            ->where('tbl_tiket_task.id_leader', auth::user()->id_user)->get();
+        $kinerja = DB::table('tbl_kinerja')->where('status_kinerja', 1)->get();
+        return view('userleader.modal.lihattugas', ['kinerja' => $kinerja, 'datatikettask' => $datatikettask]);
     }
     public function periodekpi()
     {
         $tbl_periode = DB::table('tbl_periode')->get();
-        return view('userleader.modal.periodekpi',['tbl_periode'=>$tbl_periode ]);
+        return view('userleader.modal.periodekpi', ['tbl_periode' => $tbl_periode]);
     }
     public function printlaporanuser()
     {
@@ -230,7 +260,7 @@ class UserController extends Controller
         $harimasuk = array();
         // $harilibur = array();
 
-        for ($i=$startdate; $i <= $enddate; $i += (60 * 60 * 24)) {
+        for ($i = $startdate; $i <= $enddate; $i += (60 * 60 * 24)) {
             if (date('w', $i) !== '0') {
                 $harimasuk[] = $i;
             } else {
@@ -238,12 +268,12 @@ class UserController extends Controller
             }
 
         }
-        $hendlecabang =DB::table('users_handler')
-        ->join('tbl_cabang','tbl_cabang.kd_cabang','=','users_handler.kd_cabang')
-        ->where('users_handler.id_user',Auth::user()->id_user)->get();
-        $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub',1)->get();
+        $hendlecabang = DB::table('users_handler')
+            ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
+            ->where('users_handler.id_user', Auth::user()->id_user)->get();
+        $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
         $image = base64_encode(file_get_contents(public_path('logo.png')));
-        $pdf = PDF::loadview('userleader.report.laporan',['dataharian'=>$dataharian,'harimasuk'=>$harimasuk,'hendlecabang'=>$hendlecabang],compact('image'))->setPaper('A3','landscape')->setOptions(['defaultFont' => 'Calibri']);
+        $pdf = PDF::loadview('userleader.report.laporan', ['dataharian' => $dataharian, 'harimasuk' => $harimasuk, 'hendlecabang' => $hendlecabang], compact('image'))->setPaper('A3', 'landscape')->setOptions(['defaultFont' => 'Calibri']);
         return base64_encode($pdf->stream());
     }
     public function postprintlaporanid($id)
@@ -260,7 +290,7 @@ class UserController extends Controller
         $harimasuk = array();
         // $harilibur = array();
 
-        for ($i=$startdate; $i <= $enddate; $i += (60 * 60 * 24)) {
+        for ($i = $startdate; $i <= $enddate; $i += (60 * 60 * 24)) {
             if (date('w', $i) !== '0') {
                 $harimasuk[] = $i;
             } else {
@@ -268,47 +298,47 @@ class UserController extends Controller
             }
 
         }
-        $hendlecabang =DB::table('users_handler')
-        ->join('tbl_cabang','tbl_cabang.kd_cabang','=','users_handler.kd_cabang')
-        ->where('users_handler.id_user',Auth::user()->id_user)->get();
-        $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub',1)->get();
+        $hendlecabang = DB::table('users_handler')
+            ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
+            ->where('users_handler.id_user', Auth::user()->id_user)->get();
+        $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
         // $image = base64_encode(file_get_contents(public_path('logo.png')));
-        $pdf = PDF::loadview('userleader.report.laporan',['dataharian'=>$dataharian,'harimasuk'=>$harimasuk,'hendlecabang'=>$hendlecabang])->setPaper('A3','landscape')->setOptions(['defaultFont' => 'Calibri']);
+        $pdf = PDF::loadview('userleader.report.laporan', ['dataharian' => $dataharian, 'harimasuk' => $harimasuk, 'hendlecabang' => $hendlecabang])->setPaper('A3', 'landscape')->setOptions(['defaultFont' => 'Calibri']);
         return base64_encode($pdf->stream());
     }
     public function detaildatatask($id)
     {
         $tbl_tiket_task = DB::table('tbl_tiket_task')
-        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
-        ->where('tbl_tiket_task.kd_tiket_task',$id)
-        ->first();
+            ->join('tbl_kinerja', 'tbl_kinerja.kd_kinerja', '=', 'tbl_tiket_task.kd_kinerja')
+            ->where('tbl_tiket_task.kd_tiket_task', $id)
+            ->first();
         $tbl_tiket_task_log = DB::table('tbl_tiket_task_log')
-        ->where('kd_tiket_task',$id)
-        ->get();
-        return view('userleader.modal.detailtask',['tbl_tiket_task'=>$tbl_tiket_task ,'tbl_tiket_task_log'=>$tbl_tiket_task_log ]);
+            ->where('kd_tiket_task', $id)
+            ->get();
+        return view('userleader.modal.detailtask', ['tbl_tiket_task' => $tbl_tiket_task, 'tbl_tiket_task_log' => $tbl_tiket_task_log]);
     }
     public function penilaiantask(Request $request)
     {
 
         DB::table('tbl_tiket_task_log')
-        ->where('kd_tiket_task',$request->input('id_laporan'))
-        ->update([
-                    'nilai_task' => $request->input('nilai'),
-                    'status_task_log' => 2,
-                ]);
-        Session::flash('sukses','Verifikasi Task Telah Selesai');
+            ->where('kd_tiket_task', $request->input('id_laporan'))
+            ->update([
+                'nilai_task' => $request->input('nilai'),
+                'status_task_log' => 2,
+            ]);
+        Session::flash('sukses', 'Verifikasi Task Telah Selesai');
         return redirect()->back();
     }
     public function kerjakandatatask($id)
     {
         $tbl_tiket_task = DB::table('tbl_tiket_task')
-        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
-        ->where('tbl_tiket_task.kd_tiket_task',$id)
-        ->first();
+            ->join('tbl_kinerja', 'tbl_kinerja.kd_kinerja', '=', 'tbl_tiket_task.kd_kinerja')
+            ->where('tbl_tiket_task.kd_tiket_task', $id)
+            ->first();
         $tbl_tiket_task_log = DB::table('tbl_tiket_task_log')
-        ->where('kd_tiket_task',$id)
-        ->get();
-        return view('user.modal.kerjakantask',['tbl_tiket_task'=>$tbl_tiket_task ,'tbl_tiket_task_log'=>$tbl_tiket_task_log ]);
+            ->where('kd_tiket_task', $id)
+            ->get();
+        return view('user.modal.kerjakantask', ['tbl_tiket_task' => $tbl_tiket_task, 'tbl_tiket_task_log' => $tbl_tiket_task_log]);
     }
 
     public function posttaskuser(Request $request)
@@ -322,53 +352,55 @@ class UserController extends Controller
                 'status_task_log' => 1,
                 'deskripsi_task_log' => $request->input('keterangan'),
                 'created_at' => date('Y-m-d H:i:s'),
-            ]);
-            Session::flash('sukses','Berhasil Menyelesaikan 1 Task');
-            return redirect()->back();
+            ]
+        );
+        Session::flash('sukses', 'Berhasil Menyelesaikan 1 Task');
+        return redirect()->back();
     }
     public function hendledatacabang()
     {
-        $datahendlecabang = DB::table('users_handler')->join('tbl_cabang','tbl_cabang.kd_cabang','=','users_handler.kd_cabang')
-        ->where('users_handler.id_user',Auth::user()->id_user)->get();
-        $cekdata = DB::table('users_handler_backup')->join('tbl_cabang','tbl_cabang.kd_cabang','=','users_handler_backup.kd_cabang')
-        ->where('users_handler_backup.id_user',Auth::user()->id_user)->where('tgl_hendler_backup',date('Y-m-d'))->get();
-        return view('userleader.cabang.hendlecabang',['data'=>$datahendlecabang,'cekdata'=>$cekdata]);
+        $datahendlecabang = DB::table('users_handler')->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
+            ->where('users_handler.id_user', Auth::user()->id_user)->get();
+        $cekdata = DB::table('users_handler_backup')->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler_backup.kd_cabang')
+            ->where('users_handler_backup.id_user', Auth::user()->id_user)->where('tgl_hendler_backup', date('Y-m-d'))->get();
+        return view('userleader.cabang.hendlecabang', ['data' => $datahendlecabang, 'cekdata' => $cekdata]);
     }
     public function taskharianhendledatacabang($id)
     {
-        $cabang=DB::table('tbl_cabang')->where('kd_cabang',$id)->first();
-        $sub_kinerja = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub',1)->get();
-        return view('userleader.cabang.taskharian',['data'=>$sub_kinerja ,'cabang'=>$cabang]);
+        $cabang = DB::table('tbl_cabang')->where('kd_cabang', $id)->first();
+        $sub_kinerja = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
+        return view('userleader.cabang.taskharian', ['data' => $sub_kinerja, 'cabang' => $cabang]);
     }
     public function posthendlecabang(Request $request)
     {
-        $data = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub',1)->get();
+        $data = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
         foreach ($data as $value) {
             $cekdata = DB::table('users_handler_record_log')
-            ->where('kd_kinerja_sub',$value->kd_kinerja_sub)
-            ->where('id_user',Auth::user()->id_user)
-            ->where('kd_cabang',$request->input('kd_cabang'))
-            ->where('tgl_record',date('Y-m-d'))->first();
+                ->where('kd_kinerja_sub', $value->kd_kinerja_sub)
+                ->where('id_user', Auth::user()->id_user)
+                ->where('kd_cabang', $request->input('kd_cabang'))
+                ->where('tgl_record', date('Y-m-d'))->first();
 
             if ($cekdata) {
-                Session::flash('sukses','Sudah Mengerjakan Task Harian');
+                Session::flash('sukses', 'Sudah Mengerjakan Task Harian');
                 // return redirect()->back();
-            }else{
+            } else {
                 DB::table('users_handler_record_log')->insert(
                     [
                         'kd_kinerja_sub' => $value->kd_kinerja_sub,
                         'id_user' => auth::user()->id_user,
                         'kd_cabang' => $request->input('kd_cabang'),
                         'tgl_record' => date('Y-m-d'),
-                        'ket_kinerja_sub' => $request->input('data'.$value->kd_kinerja_sub),
+                        'ket_kinerja_sub' => $request->input('data' . $value->kd_kinerja_sub),
                         'status_kinerja_sub' => 0,
                         'created_at' => date('Y-m-d H:i:s'),
-                    ]);
+                    ]
+                );
 
             }
 
         }
-        Session::flash('sukses','Berhasil Menyelesaikan Task Harian');
+        Session::flash('sukses', 'Berhasil Menyelesaikan Task Harian');
         return redirect()->back();
 
     }
