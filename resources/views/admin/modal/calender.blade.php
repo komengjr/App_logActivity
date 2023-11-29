@@ -12,6 +12,17 @@
 
         </select>
     </div>
+    <div class="form-group">
+        <label for="input-1">Pilih Tujuan Cabang</label>
+
+        <select name="cabang" id="cabang" class="form-control single-select1">
+            <option value="">Pilih Tujuan Cabang</option>
+            @foreach ($cabang as $cabang)
+                <option value="{{ $cabang->kd_cabang }}">{{ $cabang->nama_cabang }}</option>
+            @endforeach
+
+        </select>
+    </div>
     <div class="body" id="optionkinerjaadminx">
 
     </div>
@@ -50,6 +61,7 @@
 <script src="{{ asset('assets/plugins/summernote/dist/summernote-bs4.min.js', []) }}"></script>
 <script type="text/javascript">
     $('.single-select').select2();
+    $('.single-select1').select2();
 
 
     $('#dateragne-picker .input-daterange').datepicker({

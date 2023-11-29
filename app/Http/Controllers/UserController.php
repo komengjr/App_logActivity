@@ -55,7 +55,10 @@ class UserController extends Controller
             ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
             ->where('users_handler.id_user', Auth::user()->id_user)
             ->where('tbl_laporan_user.status_laporan', 0)->get();
-        return view('notifikasi.notifpesan', ['id' => $id, 'datapesan' => $datapesan]);
+        $dataschadule = DB::table('tbl_schedule')
+        ->join('users_handler','users_handler.kd_cabang','=','tbl_schedule.kd_cabang')->where('users_handler.id_user',Auth::user()->id_user)->where('tbl_schedule.status_schedule',1)->get();
+        // dd($dataschadule);
+        return view('notifikasi.notifpesan', ['id' => $id, 'datapesan' => $datapesan, 'dataschedule'=>$dataschadule]);
         // $datachedule = DB::table('tbl_schedule')
         //                 ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
         //                 ->where('status_schedule',1)->get();

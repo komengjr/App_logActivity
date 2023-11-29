@@ -13,7 +13,7 @@
                     ->count();
             @endphp
             @if ($cekdata == 0)
-                <li class="list-group-item">
+                <li class="list-group-item ">
                     <a href="#" data-toggle="modal" data-target="#primarymodal" id="task_kinerja"
                         data-id="{{ $item->kd_schedule }}">
                         <div class="media">

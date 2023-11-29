@@ -169,6 +169,7 @@
                             var title = document.getElementById('txt_name').value;
                             var judul = document.getElementById('judul').value;
                             var ket = document.getElementById('ket').value;
+                            var cabang = document.getElementById('cabang').value;
 
                             var user_name = "Rohit";
                             document.cookie = "name = " + user_name;
@@ -190,6 +191,7 @@
                                         judul: title,
                                         date: start._d,
                                         ket: ket,
+                                        cabang: cabang,
                                         end: tglskrng + " 24:00:00",
                                     },
                                     success: function(data) {

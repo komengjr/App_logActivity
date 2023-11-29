@@ -19,6 +19,7 @@ class PublicController extends Controller
             'nip_user'=>$request->nip,
             'divisi'=>$request->divisi,
             'deskripsi_laporan'=>$request->deskripsi,
+            'email'=>$request->email,
             'status_laporan'=>0,
             'tgl_laporan'=>date('Y-m-d H:i:s'),
         ]);

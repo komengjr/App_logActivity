@@ -17,6 +17,7 @@ class CreateTblScheduleTable extends Migration
             $table->id('id_schedue');
             $table->string('kd_schedule')->unique();
             $table->string('kd_kinerja');
+            $table->string('kd_cabang');
             $table->string('tgl_start');
             $table->string('tgl_akhir');
             $table->string('ket_schedule');

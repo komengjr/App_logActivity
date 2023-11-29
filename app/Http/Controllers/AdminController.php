@@ -487,7 +487,8 @@ class AdminController extends Controller
         $tgl = date('m/d/Y', $datex);
         if (auth::user()->kd_akses == 2) {
             $data = DB::table('tbl_kinerja')->get();
-            return view('admin.modal.calender', ['data' => $data, 'id' => $tgl]);
+            $cabang = DB::table('tbl_cabang')->get();
+            return view('admin.modal.calender', ['data' => $data, 'id' => $tgl, 'cabang'=>$cabang]);
         }
 
     }
@@ -503,6 +504,7 @@ class AdminController extends Controller
             [
                 'kd_schedule' => Str::random(50),
                 'kd_kinerja' => $request->judul,
+                'kd_cabang' => $request->cabang,
                 'tgl_start' => date('Y-m-d', $datex),
                 'tgl_akhir' => date('Y-m-d', $dateend) . ' ' . $datejamend,
                 'ket_schedule' => $request->ket,

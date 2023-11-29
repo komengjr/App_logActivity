@@ -25,6 +25,7 @@ class CreateTblLaporanUserTable extends Migration
             $table->string('tgl_laporan');
             $table->string('tgl_selesai_laporan')->nullable();
             $table->string('id_user')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }

@@ -34,7 +34,7 @@
                 <div></div>
             </div>
         </div> --}}
-        <nav class="navbar navbar-expand bg-dark">
+        <nav class="navbar navbar-expand gradient-dusk">
             <ul class="navbar-nav mr-auto align-items-center">
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void();">

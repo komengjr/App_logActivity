@@ -17,7 +17,7 @@
         body {
             background-color: #ffffff;
             color: #444444;
-            font-family: 'Roboto', sans-serif;
+            /* font-family: 'Roboto', sans-serif; */
             font-size: 16px;
             font-weight: 300;
             margin: 0;
@@ -287,7 +287,9 @@
             }
         }
     </style>
+    <style>
 
+    </style>
 </head>
 
 <body class="gradient-forest m-3">
@@ -305,33 +307,17 @@
     <!-- Start wrapper-->
     <div id="wrapper gradient-fores">
 
-        <nav class="navbar navbar-expand gradient-lovekiss">
-            <ul class="navbar-nav mr-auto align-items-center">
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:void();">
-                        <div class="media align-items-center">
-                            <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
-                            <div class="media-body">
-                                {{-- <h5 class="logo-text"></h5> --}}
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item">
-
-                </li>
-            </ul>
-
-            <ul class="navbar-nav align-items-center right-nav-link" style="text-align: right;">
+        <nav class="navbar navbar-expand bg-dark" style="justify-content: left;">
+            <ul class="navbar-nav right-nav-link">
                 <li class="nav-item ">
                     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
                         <span class="user-profile"><img src="{{ asset('menu.png') }}" class="img-circle"
                                 alt="user avatar"></span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-right ">
+                    <ul class="dropdown-menu dropdown-menu-right" style="float: right;">
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item" style="cursor: pointer;"><a href="{{ url('newcase', []) }}"><i
-                                    class="fa fa-tasks mr-2"></i> Case Baru</a></li>
+                        <li class="dropdown-item" style="cursor: pointer;"><a href="{{ url('login', []) }}"><i
+                                    class="fa fa-tasks mr-2" style="float: right;"></i> Login</a></li>
                         <li class="dropdown-divider"></li>
                     </ul>
                 </li>
@@ -403,12 +389,12 @@
                                             <div class="wizard-form-error"></div>
                                             <span class="wizard-password-eye"><i class="far fa-eye"></i></span>
                                         </div>
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <input type="text" class="form-control wizard-required"
                                                 id="cpwd">
                                             <label for="cpwd" class="wizard-form-text-label">Bagian *</label>
                                             <div class="wizard-form-error"></div>
-                                        </div>
+                                        </div> --}}
                                         <div class="form-group clearfix">
                                             <a href="javascript:;"
                                                 class="form-wizard-previous-btn float-left">Previous</a>
@@ -433,9 +419,9 @@
                                         <h5>Detail Information</h5>
 
                                         <div class="form-group">
-                                            <input type="text" class="form-control wizard-required" id="honame"
+                                            <input type="text" name="email" class="form-control wizard-required" id="honame"
                                                 required>
-                                            <label for="honame" class="wizard-form-text-label">Holder Name*</label>
+                                            <label for="honame" class="wizard-form-text-label">Email </label>
                                             <div class="wizard-form-error"></div>
                                         </div>
 
@@ -473,7 +459,7 @@
             e.preventDefault();
             var data = $("#form-case").serialize();
             $("#loading-button").html(
-                "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
+                '<span class="badge badge-info m-1">Mohon Menunggu..</span>'
             );
             setTimeout(() => {
                 $.ajax({
