@@ -169,6 +169,9 @@ Route::post('user/userleader/table/detailtask/penilaian', 'UserController@penila
 Route::get('user/user/task/kerjakan/{id}',['as'=>'user/user/task/kerjakan','uses'=> 'UserController@kerjakandatatask']);
 Route::get('user/user/handledatacabang',['as'=>'user/user/handledatacabang/','uses'=> 'UserController@hendledatacabang']);
 Route::get('user/user/handledatacabang/task/{id}',['as'=>'user/user/handledatacabang/task','uses'=> 'UserController@taskharianhendledatacabang']);
+Route::get('user/user/handledatacabang/customtask/{id}',['as'=>'user/user/handledatacabang/customtask/','uses'=> 'UserController@customtaskhendledatacabang']);
+Route::get('user/user/handlecabang/customtask/lengkapidata/{id}',['as'=>'user/user/handledatacabang/customtask/lengkapidata/','uses'=> 'UserController@lengkapicustomtaskhendledatacabang']);
+Route::get('user/user/handlecabang/customtask/lengkapisubdata/{id}',['as'=>'user/user/handledatacabang/customtask/lengkapisubdata/','uses'=> 'UserController@lengkapisubcustomtaskhendledatacabang']);
 // Route::get('user/userleader/modal/postprintlaporan/{id}',['as'=>'user/userleader/modal/postprintlaporan/id','uses'=> 'UserController@postprintlaporanid']);
 Route::post('user/userleader/modalreport/postprintlaporan',['as'=>'user/userleader/modalreport/postprintlaporan','uses'=> 'UserController@postprintlaporan']);
 // Route::post('user/userleader/modalreport/postprintlaporan', 'UserController@postprintlaporan');
@@ -177,10 +180,12 @@ Route::post('user/user/tiket/posttask', 'UserController@posttaskuser');
 
 Route::post('user/lengkapi/data', 'UserController@lengkapidatabiodata');
 Route::post('user/userleader/postschedule', 'UserController@postschedule');
+Route::post('user/userleader/postscheduleadmin', 'UserController@postscheduleadmin');
 Route::post('user/userleader/buattikettask', 'UserController@buattikettask');
 Route::post('user/userleader/pdf/kpi', 'PdfController@printkpi');
 
-
+// MASTER DATA
+Route::get('master-data-hardware',['as'=>'master-data-hardware','uses'=> 'MasterUserController@masterdatahardware']);
 
 // VERIFIKATOR
 Route::get('verifikator/datatask/user/pengerjaan/{id}',['as'=>'verifikator/datatask/user/pengerjaan','uses'=> 'VerifikatorController@datatask']);

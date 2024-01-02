@@ -32,19 +32,19 @@
                                 </span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center"><i
-                                    class="fa fa-tasks"></i> <a href="#" id="task-bulan-hendler-user"
-                                    data-id="{{ $item->kd_cabang }}">Monitoring Bulanan</a>
+                                    class="fa fa-tasks"></i> <a href="#" id="task-custom-hendler-user"
+                                    data-id="{{ $item->kd_cabang }}"><span class="badge badge-warning p-2">Custom Task</span></a>
                                 <span class="badge badge-danger badge-pill">
                                     0
                                 </span>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center"><i
+                            {{-- <li class="list-group-item d-flex justify-content-between align-items-center"><i
                                     class="fa fa-tasks"></i> <a href="#" id="task-tahunan-hendler-user"
                                     data-id="{{ $item->kd_cabang }}">Monitoring Tahunan</a>
                                 <span class="badge badge-danger badge-pill">
                                     0
                                 </span>
-                            </li>
+                            </li> --}}
                         </ul>
                         <div class="card-body text-right">
                             <button class="btn-dark" data-dismiss="modal">Tutup</button>
@@ -78,19 +78,19 @@
                         </span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center"><i
-                            class="fa fa-tasks"></i> <a href="#" id="task-bulan-hendler-user"
-                            data-id="{{ $cekdata->kd_cabang }}">Monitoring Bulanan</a>
+                            class="fa fa-tasks"></i> <a href="#" id="task-custom-hendler-user"
+                            data-id="{{ $item->kd_cabang }}">Custom Task</a>
                         <span class="badge badge-danger badge-pill">
                             0
                         </span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center"><i
+                    {{-- <li class="list-group-item d-flex justify-content-between align-items-center"><i
                             class="fa fa-tasks"></i> <a href="#" id="task-tahunan-hendler-user"
                             data-id="{{ $cekdata->kd_cabang }}">Monitoring Tahunan</a>
                         <span class="badge badge-danger badge-pill">
                             0
                         </span>
-                    </li>
+                    </li> --}}
                 </ul>
                 <div class="card-body text-right">
                     <button class="btn-dark" data-dismiss="modal">Tutup</button>

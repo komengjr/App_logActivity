@@ -43,10 +43,13 @@ class UserController extends Controller
         //     }
         //     }
         // }
-        $jumlahnotif = DB::table('tbl_laporan_user')
+        $dataschedule = DB::table('tbl_schedule')->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_schedule.kd_cabang')
+            ->where('tbl_schedule.status_schedule', 0)->where('users_handler.id_user', Auth::user()->id_user)->count();
+        $datalaporan = DB::table('tbl_laporan_user')
             ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
             ->where('users_handler.id_user', Auth::user()->id_user)
             ->where('tbl_laporan_user.status_laporan', 0)->count();
+        $jumlahnotif = $datalaporan + $dataschedule;
         return view('waktu', ['id' => $jumlahnotif]);
     }
     public function lihatnotifikasi($id)
@@ -56,9 +59,9 @@ class UserController extends Controller
             ->where('users_handler.id_user', Auth::user()->id_user)
             ->where('tbl_laporan_user.status_laporan', 0)->get();
         $dataschadule = DB::table('tbl_schedule')
-        ->join('users_handler','users_handler.kd_cabang','=','tbl_schedule.kd_cabang')->where('users_handler.id_user',Auth::user()->id_user)->where('tbl_schedule.status_schedule',1)->get();
+            ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_schedule.kd_cabang')->where('users_handler.id_user', Auth::user()->id_user)->where('tbl_schedule.status_schedule', 0)->get();
         // dd($dataschadule);
-        return view('notifikasi.notifpesan', ['id' => $id, 'datapesan' => $datapesan, 'dataschedule'=>$dataschadule]);
+        return view('notifikasi.notifpesan', ['id' => $id, 'datapesan' => $datapesan, 'dataschedule' => $dataschadule]);
         // $datachedule = DB::table('tbl_schedule')
         //                 ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
         //                 ->where('status_schedule',1)->get();
@@ -78,7 +81,7 @@ class UserController extends Controller
     public function lihattaskkinerjaadmin($id)
     {
         $datalaporan = DB::table('tbl_schedule')
-        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
+            ->join('tbl_kinerja', 'tbl_kinerja.kd_kinerja', '=', 'tbl_schedule.kd_kinerja')
             ->where('tbl_schedule.kd_schedule', $id)->first();
         return view('notifikasi.formtaskadmin', ['id' => $id, 'datalaporan' => $datalaporan]);
     }
@@ -200,6 +203,34 @@ class UserController extends Controller
             ->update([
                 'tgl_selesai_laporan' => date('Y-m-d H:i:s'),
                 'status_laporan' => 1,
+            ]);
+        Session::flash('sukses', 'Berhasil Menyelesaikan 1 Laporan');
+        return redirect()->back();
+    }
+    public function postscheduleadmin(Request $request)
+    {
+        // DB::table('tbl_schadule_log')->insert(
+        //     [
+        //         'kd_schedule' => $request->input('id'),
+        //         'id_user' => auth::user()->id_user,
+        //         'deskripsi_schedule' => $request->input('keterangan'),
+        //         'status_schedule_user' => 1,
+        //         'created_at' => date('Y-m-d H:i:s'),
+        //     ]);
+        DB::table('tbl_schadule_log')->insert(
+            [
+                'kd_schedule' => $request->tiket,
+                'id_user' => Auth::user()->id_user,
+                'deskripsi_schedule' => $request->keterangan,
+                'status_schedule_user' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]
+        );
+        DB::table('tbl_schedule')
+            ->where('kd_schedule', $request->tiket)
+            ->update([
+                'updated_at' => date('Y-m-d H:i:s'),
+                'status_schedule' => 1,
             ]);
         Session::flash('sukses', 'Berhasil Menyelesaikan 1 Laporan');
         return redirect()->back();
@@ -380,6 +411,22 @@ class UserController extends Controller
         $cabang = DB::table('tbl_cabang')->where('kd_cabang', $id)->first();
         $sub_kinerja = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
         return view('userleader.cabang.taskharian', ['data' => $sub_kinerja, 'cabang' => $cabang]);
+    }
+    public function customtaskhendledatacabang($id)
+    {
+        $cabang = DB::table('tbl_cabang')->where('kd_cabang', $id)->first();
+        $sub_kinerja = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
+        return view('userleader.cabang.customtask', ['data' => $sub_kinerja, 'cabang' => $cabang]);
+    }
+    public function lengkapicustomtaskhendledatacabang($id)
+    {
+        return view('userleader.customtask.lengkapi');
+    }
+    public function lengkapisubcustomtaskhendledatacabang($id)
+    {
+        $cabang = DB::table('tbl_cabang')->where('kd_cabang', $id)->first();
+        $sub_kinerja = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
+        return view('userleader.customtask.lengkapisubdata', ['data' => $sub_kinerja, 'cabang' => $cabang]);
     }
     public function posthendlecabang(Request $request)
     {

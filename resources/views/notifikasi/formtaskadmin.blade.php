@@ -6,7 +6,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form action="{{ asset('user/userleader/postschedule') }}" method="post" enctype="multipart/form-data">
+<form action="{{ asset('user/userleader/postscheduleadmin') }}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="modal-body">
         <div class="col">

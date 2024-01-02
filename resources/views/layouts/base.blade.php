@@ -284,6 +284,18 @@
 
                     </ul>
                 </li>
+                <li>
+                    <a href="javascript:;">
+                        <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
+                        <span class="title">Master Data</span>
+                        <span class="arrow"></span>
+                    </a>
+                    <!-- Level Two-->
+                    <ul>
+                        <li><a href="{{ asset('master-data-hardware', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i> Data Hardware</a></li>
+
+                    </ul>
+                </li>
                 @if (Auth::user()->kd_akses < 3)
                     <li>
                         <a href="javascript:;">

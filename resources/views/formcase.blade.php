@@ -404,6 +404,12 @@
                                     <fieldset class="wizard-fieldset">
                                         <h5>Deskripsi Laporan</h5>
                                         <div class="form-group">
+                                            <input type="text" class="form-control wizard-required"
+                                                name="divisi">
+                                            <label for="bname" class="wizard-form-text-label">C *</label>
+                                            <div class="wizard-form-error"></div>
+                                        </div>
+                                        <div class="form-group">
                                             <textarea class="form-control wizard-required" id="bname" cols="30" rows="10" name="deskripsi"></textarea>
                                             <label for="bname" class="wizard-form-text-label">Deskripsi *</label>
                                             <div class="wizard-form-error"></div>
