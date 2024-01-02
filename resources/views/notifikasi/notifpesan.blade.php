@@ -4,7 +4,7 @@
 </li>
 @foreach ($dataschedule as $dataschedule)
     <li class="list-group-item bg-danger">
-        <a href="#" data-toggle="modal" data-target="#modal-laporan-user" id="task_kinerja"
+        <a href="#" data-toggle="modal" data-target="#modal-laporan-user" id="task_kinerja_admin"
             data-id="{{ $dataschedule->kd_schedule }}">
             <div class="media">
                 <div class="alert-icon contrast-alert m-2">

@@ -75,6 +75,13 @@ class UserController extends Controller
         //                 ->where('kd_schedule',$id)->get();
         // return view('userleader.modal.taskkinerja',['id'=>$id,'datachedule'=>$datachedule]);
     }
+    public function lihattaskkinerjaadmin($id)
+    {
+        $datalaporan = DB::table('tbl_schedule')
+        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
+            ->where('tbl_schedule.kd_schedule', $id)->first();
+        return view('notifikasi.formtaskadmin', ['id' => $id, 'datalaporan' => $datalaporan]);
+    }
     public function lihattugaspersonal()
     {
         $worklistperson = DB::table('tbl_tiket_person_worklist')

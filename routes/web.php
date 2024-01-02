@@ -156,6 +156,7 @@ Route::get('user/laporan/lihatdatalaporan/{id}',['as'=>'user/laporan/lihatdatala
 Route::get('user/laporan/lihatlaporan/{id}',['as'=>'user/laporan/lihatlaporan','uses'=> 'UserController@lihatlaporan']);
 Route::get('user/notifikasi/lihatnotif/{id}',['as'=>'user/notifikasi/lihatnotif','uses'=> 'UserController@lihatnotifikasi']);
 Route::get('user/task/kinerja/{id}',['as'=>'user/task/kinerja','uses'=> 'UserController@lihattaskkinerja']);
+Route::get('user/task/kinerja-admin/{id}',['as'=>'user/task/kinerja-admin','uses'=> 'UserController@lihattaskkinerjaadmin']);
 Route::get('user/notifikasi/lihatnotifwaktu/',['as'=>'user/notifikasi/lihatnotifwaktu/','uses'=> 'UserController@lihatnotifikasiwaktu']);
 Route::get('user/userleader/modal/beritugas',['as'=>'user/userleader/modal/beritugas','uses'=> 'UserController@beritugasuser']);
 Route::get('user/userleader/modal/lihattugas',['as'=>'user/userleader/modal/lihattugas','uses'=> 'UserController@lihattugasuser']);

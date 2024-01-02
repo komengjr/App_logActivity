@@ -9,22 +9,41 @@
     <meta name="author" content="" /> --}}
     <title> Pramita - Panel Login</title>
     <!--favicon-->
-    <link rel="icon" href="{{ asset('icon.png', []) }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/images/logo-icon.png', []) }}" type="image/x-icon">
     <link href="{{ asset('assets/css/bootstrap.min.css', []) }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/animate.css', []) }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/icons.css', []) }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/app-style.css', []) }}" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
 </head>
+<style>
+    body {
+        background-image: url('vendor/bg.jpg');
+        height: 100%;
+        /* width: 100%; */
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 
-<body class="gradient-royal m-2">
+    /* For width 400px and larger: */
+    @media only screen and (max-width: 550px) {
+        body {
+            background-image: url('vendor/bg.png');
+
+        }
+    }
+</style>
+
+<body class="m-2">
 
     <!-- start loader -->
 
     <!-- end loader -->
 
     <!-- Start wrapper-->
-    <div id="wrapper ">
+    <div id="wrapper">
 
         {{-- <div class="loader-wrapper">
             <div class="lds-ring">
@@ -34,7 +53,7 @@
                 <div></div>
             </div>
         </div> --}}
-        <nav class="navbar navbar-expand bg-dark">
+        <nav class="navbar navbar-expand bg-transparant">
             <ul class="navbar-nav mr-auto align-items-center">
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void();">
@@ -54,14 +73,14 @@
             <ul class="navbar-nav align-items-center right-nav-link ">
 
                 <li class="nav-item ">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown"
-                        href="#">
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
                         <span class="user-profile"><img src="{{ asset('menu.png') }}" class="img-circle"
                                 alt="user avatar"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right ">
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item" style="cursor: pointer;"><a href="{{ url('newcase', []) }}"><i class="fa fa-tasks mr-2"></i> Case Baru</a></li>
+                        <li class="dropdown-item" style="cursor: pointer;"><a href="{{ url('newcase', []) }}"><i
+                                    class="fa fa-tasks mr-2"></i> Case Baru</a></li>
                         <li class="dropdown-divider"></li>
                     </ul>
                 </li>
@@ -69,8 +88,9 @@
         </nav>
         {{-- <div class="pb-5"></div>
         <div class="pb-5"></div> --}}
-        <div class="card card-authentication1 mx-auto m-5 p-2">
-            <div class="card-body">
+        <div class="pb-5"></div>
+        <div class="card card-authentication1 mx-auto m-5 ">
+            <div class="card-body pt-5">
                 <div class="card-content p-0">
                     <div class="text-center m-0">
                         {{-- <img src="{{ asset('gif.gif', []) }}" alt="logo icon" width="300"> --}}
