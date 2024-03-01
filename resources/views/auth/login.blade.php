@@ -53,7 +53,7 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto" >
+                <ul class="navbar-nav mr-auto">
                     {{-- <li class="nav-item active">
                         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                     </li>
@@ -77,9 +77,11 @@
                     </li> --}}
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
-                    <a href="{{ url('newcase', []) }}" class="btn btn-outline-warning mx-2"><i class="fa fa-window-restore"></i> NEW CASE</a>
+                    <a href="{{ url('newcase', []) }}" class="btn btn-outline-warning mx-2"><i
+                            class="fa fa-window-restore"></i> NEW CASE</a>
 
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-lock"></i> Login</button>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-lock"></i>
+                        Login</button>
                 </form>
             </div>
         </nav>
@@ -118,62 +120,76 @@
         </nav> --}}
         {{-- <div class="pb-5"></div>
         <div class="pb-5"></div> --}}
-        <div class="pb-5"></div>
-        <div class="card card-authentication1 mx-auto m-5 ">
-            <div class="card-body pt-5">
-                <div class="card-content p-0">
-                    {{-- <div class="text-center m-0">
-                        <img src="{{ asset('gif.gif', []) }}" alt="logo icon" width="300">
-                    </div> --}}
-
-                    <div class="card-title text-uppercase text-center py-3">Login Aplikasi</div>
-
-                    <form method="POST" action="login">
-                        @csrf
-                        <div class="form-group">
-                            <label for="exampleInputUsername" class="sr-only">Username</label>
-                            <div class="position-relative has-icon-right">
-                                <!-- <input type="text" id="exampleInputUsername" class="form-control input-shadow" placeholder="Enter Username"> -->
-                                <input id="email" type="text"
-                                    class="form-control @error('email') is-invalid @enderror input-shadow"
-                                    name="email"placeholder="Enter Username" value="{{ old('email') }}" required
-                                    autocomplete="email" autofocus>
-                                <div class="form-control-position">
-                                    <i class="icon-user"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword" class="sr-only">Password</label>
-                            <div class="position-relative has-icon-right">
-                                {{-- <input type="password" id="exampleInputPassword" class="form-control input-shadow" placeholder="Enter Password"> --}}
-                                <input id="password" type="password"
-                                    class="form-control @error('password') is-invalid @enderror input-shadow"
-                                    name="password" placeholder="Enter Password" required
-                                    autocomplete="current-password">
-                                <div class="form-control-position">
-                                    <i class="icon-lock"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-6">
-                                <div class="icheck-material-info">
-                                    <input type="checkbox" id="user-checkbox" checked="" />
-                                    <label for="user-checkbox">Remember me</label>
-                                </div>
-                            </div>
-                            <div class="form-group col-6 text-right">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-info btn-block">masuk</button>
-
-
-                    </form>
+        <div class="pb-5" style="padding-top: 3%;"></div>
+        <div class="card-authentication2 mx-auto my-5 p-2">
+            <div class="card-group">
+                <div class="card mb-0">
+                    <div class="bg-signin2"></div>
+                    <div class="card-img-overlay rounded-left my-4">
+                        <h2 class="text-white">LOG APP</h2>
+                        <h5 class="text-white">MANAGEMENT SOFTWARE</h5>
+                        <p class="card-text text-white pt-5">There are many variations of passages of Lorem Ipsum
+                            available, but the majority have suffered alteration in some form, by injected humour, or
+                            randomised words which don't look even slightly believable.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="card-footer text-center py-3">
-                <p class="text-dark mb-0">Copyright © 2023</p>
+
+                <div class="card mb-0 ">
+                    <div class="card-body bg-light">
+                        <div class="card-content p-3">
+                            <div class="text-center">
+                                {{-- <img src="assets/images/logo-icon.png" alt="logo icon"> --}}
+                            </div>
+                            <div class="card-title text-uppercase text-center py-3">Sign In</div>
+                            <form method="POST" action="login">
+                                @csrf
+                                <div class="form-group">
+                                    <div class="position-relative has-icon-left">
+                                        <label for="exampleInputUsername" class="sr-only">Username</label>
+                                        <input id="email" type="text"
+                                            class="form-control @error('email') is-invalid @enderror input-shadow"
+                                            name="email"placeholder="Enter Username" value="{{ old('email') }}"
+                                            required autocomplete="email" autofocus>
+                                        <div class="form-control-position">
+                                            <i class="icon-user"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="position-relative has-icon-left">
+                                        <label for="exampleInputPassword" class="sr-only">Password</label>
+                                        <input id="password" type="password"
+                                            class="form-control @error('password') is-invalid @enderror input-shadow"
+                                            name="password" placeholder="Enter Password" required
+                                            autocomplete="current-password">
+                                        <div class="form-control-position">
+                                            <i class="icon-lock"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row mr-0 ml-0">
+                                    <div class="form-group col-6">
+                                        <div class="icheck-material-primary">
+                                            <input type="checkbox" id="user-checkbox" checked="" />
+                                            <label for="user-checkbox">Remember me</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-6 text-right">
+                                        {{-- <a href="authentication-reset-password2.html">Reset Password</a> --}}
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block waves-effect waves-light">Sign
+                                    In</button>
+                                <div class="text-center pt-3">
+
+
+                                    <hr>
+                                    <p class="text-dark mb-0">Copyright © 2023</p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
