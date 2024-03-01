@@ -9,7 +9,7 @@
 <form action="{{ asset('user/userleader/postscheduleadmin') }}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="modal-body">
-        <div class="col">
+        <div class="col-md-6">
             Deskripsi :
 
             @php
@@ -17,6 +17,9 @@
             @endphp
 
             <input type="text" name="tiket" value="{{ $datalaporan->kd_schedule }}" hidden>
+        </div>
+        <div class="col-md-6">
+            <button class="btn-success"><i class="fa fa-info"></i></button>
         </div>
         <div class="col">
             <label for="">Penyelesaian</label>

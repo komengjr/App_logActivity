@@ -388,6 +388,31 @@ $(document).on("click", "#button-lengkapi-custom-subtask", function (e) {
             });
         });
 });
+$(document).on("click", "#button-respon-laporan-user", function (e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    $.ajax({
+        url: "user/user/handlecabang/respon-laporan-user/" + id,
+        type: "GET",
+        dataType: "html",
+    })
+        .done(function (data) {
+            $("#menu-respon-laporan-user").html(data);
+        })
+        .fail(function () {
+            Lobibox.notify("error", {
+                pauseDelayOnHover: true,
+                icon: "fa fa-info-circle",
+                continueDelayOnInactiveTab: false,
+                position: "center top",
+                showClass: "bounceIn",
+                hideClass: "bounceOut",
+                sound: false,
+                width: 400,
+                msg: "Hubungi Administrator Jika terjadi Eror",
+            });
+        });
+});
 
 function waktu() {
     var id = 123;

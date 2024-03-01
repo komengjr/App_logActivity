@@ -70,9 +70,10 @@ class UserController extends Controller
     public function lihattaskkinerja($id)
     {
         $datalaporan = DB::table('tbl_laporan_user')
-            // ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
             ->where('tiket_laporan', $id)->first();
-        return view('notifikasi.formtask', ['id' => $id, 'datalaporan' => $datalaporan]);
+        $date = date_create($datalaporan->tgl_respon_laporan);
+        date_add($date, date_interval_create_from_date_string('1 hours'));
+        return view('notifikasi.formtask', ['id' => $id, 'datalaporan' => $datalaporan,'date'=>$date]);
         // $datachedule = DB::table('tbl_schedule')
         //                 ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
         //                 ->where('kd_schedule',$id)->get();
@@ -182,14 +183,7 @@ class UserController extends Controller
     }
     public function postschedule(Request $request)
     {
-        // DB::table('tbl_schadule_log')->insert(
-        //     [
-        //         'kd_schedule' => $request->input('id'),
-        //         'id_user' => auth::user()->id_user,
-        //         'deskripsi_schedule' => $request->input('keterangan'),
-        //         'status_schedule_user' => 1,
-        //         'created_at' => date('Y-m-d H:i:s'),
-        //     ]);
+
         DB::table('tbl_laporan_user_log')->insert(
             [
                 'tiket_laporan' => $request->tiket,
@@ -202,7 +196,7 @@ class UserController extends Controller
             ->where('tiket_laporan', $request->tiket)
             ->update([
                 'tgl_selesai_laporan' => date('Y-m-d H:i:s'),
-                'status_laporan' => 1,
+                'status_laporan' => 2,
             ]);
         Session::flash('sukses', 'Berhasil Menyelesaikan 1 Laporan');
         return redirect()->back();
@@ -314,7 +308,7 @@ class UserController extends Controller
             ->where('users_handler.id_user', Auth::user()->id_user)->get();
         $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
         $image = base64_encode(file_get_contents(public_path('logo.png')));
-        $pdf = PDF::loadview('userleader.report.laporan', ['dataharian' => $dataharian, 'harimasuk' => $harimasuk, 'hendlecabang' => $hendlecabang], compact('image'))->setPaper('A3', 'landscape')->setOptions(['defaultFont' => 'Calibri']);
+        $pdf = PDF::loadview('userleader.report.laporan', ['dataharian' => $dataharian, 'harimasuk' => $harimasuk, 'hendlecabang' => $hendlecabang], compact('image'))->setPaper('A3', 'landscape')->setOptions(['defaultFont' => 'Courier']);
         return base64_encode($pdf->stream());
     }
     public function postprintlaporanid($id)
@@ -461,4 +455,23 @@ class UserController extends Controller
         return redirect()->back();
 
     }
+    public function respondatalaporanuser($id)
+    {
+
+        $dataawal = DB::table('tbl_laporan_user')->where('tiket_laporan', $id)->first();
+        if ($dataawal->tgl_respon_laporan == "") {
+            DB::table('tbl_laporan_user')->where('tiket_laporan', $id)->update(
+                [
+                    'status_laporan' => 1,
+                    'tgl_respon_laporan' => date('Y-m-d H:i:s'),
+                ]
+            );
+        }
+        $data = DB::table('tbl_laporan_user')->where('tiket_laporan', $id)->first();
+        $date = date_create($data->tgl_respon_laporan);
+        date_add($date, date_interval_create_from_date_string('1 hours'));
+        return view('userleader.modal.wakturesponuser', ['data' => $data, 'date' => $date]);
+    }
 }
+
+

@@ -13,9 +13,11 @@
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
+        "irazasyed/telegram-bot-sdk": "^3.9",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "2.4",
+        "longman/telegram-bot": "^0.82.0",
         "nesbot/carbon": "^2.62",
         "rap2hpoutre/laravel-log-viewer": "2.2.0",
         "simplesoftwareio/simple-qrcode": "^4.2"

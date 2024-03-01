@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-// Route::post('/v1/posts/store', 'api\v1\PostsController@store');
+Route::post('bot/getupdates',['as'=>'bot/getupdates','uses'=> 'ApiController@getupdates']);
+Route::post('bot/sendmessage',['as'=>'bot/sendmessage','uses'=> 'ApiController@sendmessage']);
+

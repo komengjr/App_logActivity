@@ -172,6 +172,7 @@ Route::get('user/user/handledatacabang/task/{id}',['as'=>'user/user/handledataca
 Route::get('user/user/handledatacabang/customtask/{id}',['as'=>'user/user/handledatacabang/customtask/','uses'=> 'UserController@customtaskhendledatacabang']);
 Route::get('user/user/handlecabang/customtask/lengkapidata/{id}',['as'=>'user/user/handledatacabang/customtask/lengkapidata/','uses'=> 'UserController@lengkapicustomtaskhendledatacabang']);
 Route::get('user/user/handlecabang/customtask/lengkapisubdata/{id}',['as'=>'user/user/handledatacabang/customtask/lengkapisubdata/','uses'=> 'UserController@lengkapisubcustomtaskhendledatacabang']);
+Route::get('user/user/handlecabang/respon-laporan-user/{id}',['as'=>'user/user/handlecabang/respon-laporan-user/','uses'=> 'UserController@respondatalaporanuser']);
 // Route::get('user/userleader/modal/postprintlaporan/{id}',['as'=>'user/userleader/modal/postprintlaporan/id','uses'=> 'UserController@postprintlaporanid']);
 Route::post('user/userleader/modalreport/postprintlaporan',['as'=>'user/userleader/modalreport/postprintlaporan','uses'=> 'UserController@postprintlaporan']);
 // Route::post('user/userleader/modalreport/postprintlaporan', 'UserController@postprintlaporan');
@@ -185,7 +186,11 @@ Route::post('user/userleader/buattikettask', 'UserController@buattikettask');
 Route::post('user/userleader/pdf/kpi', 'PdfController@printkpi');
 
 // MASTER DATA
-Route::get('master-data-hardware',['as'=>'master-data-hardware','uses'=> 'MasterUserController@masterdatahardware']);
+Route::get('master-data-user',['as'=>'master-data-hardware','uses'=> 'MasterUserController@masterdatahardware']);
+Route::post('master-data-user/laporan/detail',['as'=>'master-data-user/laporan/detail','uses'=> 'MasterUserController@masterdatalaporandetail']);
+Route::post('master-data-user/laporan/monitoring/harian',['as'=>'master-data-user/laporan/monitoring/harian','uses'=> 'MasterUserController@masterdatalaporanharian']);
+Route::post('master-data-user/laporan/monitoring/harian/preview',['as'=>'master-data-user/laporan/monitoring/harian/preview','uses'=> 'MasterUserController@masterpreviewmonitoringharian']);
+Route::post('master-data-user/laporan/monitoring/kerusakan',['as'=>'master-data-user/laporan/monitoring/kerusakan','uses'=> 'MasterUserController@masterdatalaporankerusakan']);
 
 // VERIFIKATOR
 Route::get('verifikator/datatask/user/pengerjaan/{id}',['as'=>'verifikator/datatask/user/pengerjaan','uses'=> 'VerifikatorController@datatask']);

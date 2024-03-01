@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
-use App\Piket;
-use App\Cabang;
-
+// use App\Piket;
+// use App\Cabang;
+use Telegram\Bot\Laravel\Facades\Telegram;
 class AdminController extends Controller
 {
     public function __construct()
@@ -725,6 +725,12 @@ class AdminController extends Controller
             'kd_cabang'=>$request->cabang,
             'tgl_hendler_backup'=>date('Y-m-d'),
             'created_at'=>date('Y-m-d H:i:s'),
+        ]);
+        $datauser = DB::table('tbl_biodata')->where('id_user',$request->user)->first();
+        $datacabang = DB::table('tbl_cabang')->where('kd_cabang',$request->cabang)->first();
+        Telegram::sendMessage([
+            'chat_id' => '-1002095197699',
+            'text' => 'Ada Tugas Untuk '.$datauser->nama_lengkap.' Untuk Handle Cabang :'.$datacabang->nama_cabang,
         ]);
         Session::flash('sukses', 'Berhasil Membuat Jadwal Handle User ');
         return redirect()->back();

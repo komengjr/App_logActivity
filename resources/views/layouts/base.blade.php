@@ -292,7 +292,7 @@
                     </a>
                     <!-- Level Two-->
                     <ul>
-                        <li><a href="{{ asset('master-data-hardware', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i> Data Hardware</a></li>
+                        <li><a href="{{ asset('master-data-user', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i> Data User</a></li>
 
                     </ul>
                 </li>
@@ -427,6 +427,7 @@
                     position: 'center top',
                     showClass: 'zoomIn',
                     hideClass: 'zoomOut',
+                    sound: false,
                     width: 400,
                     msg: 'Ada Pesan Baru Yang belum dibaca'
                 });

@@ -24,9 +24,12 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                        $no =1;
+                    @endphp
                     @foreach ($datarecord as $item)
                         <tr>
-                            <td  style="width: 2px;">1</td>
+                            <td  style="width: 2px;">{{$no++}}</td>
                             <td>{{$item->nama_lengkap}}</td>
                             <td>{{$item->tgl_hendler_backup}}</td>
                             <td>{{$item->created_at}}</td>

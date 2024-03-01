@@ -36,24 +36,54 @@
     }
 </style>
 
-<body class="m-2">
+<body class="">
 
     <!-- start loader -->
 
     <!-- end loader -->
 
     <!-- Start wrapper-->
-    <div id="wrapper">
+    <div class="wrapper">
 
-        {{-- <div class="loader-wrapper">
-            <div class="lds-ring">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+            <a class="navbar-brand text-white" href="#">LOG APP</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto" >
+                    {{-- <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                    </li> --}}
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <a href="{{ url('newcase', []) }}" class="btn btn-outline-warning mx-2"><i class="fa fa-window-restore"></i> NEW CASE</a>
+
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-lock"></i> Login</button>
+                </form>
             </div>
-        </div> --}}
-        <nav class="navbar navbar-expand bg-transparant">
+        </nav>
+        {{-- <nav class="navbar navbar-expand bg-transparant">
             <ul class="navbar-nav mr-auto align-items-center">
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void();">
@@ -85,17 +115,19 @@
                     </ul>
                 </li>
             </ul>
-        </nav>
+        </nav> --}}
         {{-- <div class="pb-5"></div>
         <div class="pb-5"></div> --}}
         <div class="pb-5"></div>
         <div class="card card-authentication1 mx-auto m-5 ">
             <div class="card-body pt-5">
                 <div class="card-content p-0">
-                    <div class="text-center m-0">
-                        {{-- <img src="{{ asset('gif.gif', []) }}" alt="logo icon" width="300"> --}}
-                    </div>
+                    {{-- <div class="text-center m-0">
+                        <img src="{{ asset('gif.gif', []) }}" alt="logo icon" width="300">
+                    </div> --}}
+
                     <div class="card-title text-uppercase text-center py-3">Login Aplikasi</div>
+
                     <form method="POST" action="login">
                         @csrf
                         <div class="form-group">
@@ -141,7 +173,7 @@
                 </div>
             </div>
             <div class="card-footer text-center py-3">
-                <p class="text-dark mb-0">Copyright © 2022</p>
+                <p class="text-dark mb-0">Copyright © 2023</p>
             </div>
         </div>
 
@@ -149,7 +181,9 @@
         <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
         <!--End Back To Top Button-->
 
-
+        <footer class="bg-dark shadow-sm p-2 text-center fixed-bottom">
+            <p class="mb-0 text-white">Copyright © 2023. All right reserved.</p>
+        </footer>
 
     </div>
     <!--wrapper-->

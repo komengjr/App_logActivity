@@ -56,6 +56,15 @@
                     <div class="card">
                         <div class="card-header"><i class="fa fa-table"></i> Data Cabang</div>
                         <div class="card-body">
+                            <form action="{{ url('api/bot/sendmessage', []) }}" method="post">
+                                @csrf
+                                <input type="text" name="pesan" id="pesan">
+                                <button type="submit" class="btn-warning">sendmasgae</button>
+                            </form>
+                            <form action="{{ url('api/bot/getupdates', []) }}" method="post">
+                                @csrf
+                                <button type="submit" class="btn-warning">update</button>
+                            </form>
                             <div class="">
                                 <table id="default-datatable" class="styled-table">
                                     <thead>
@@ -84,9 +93,11 @@
                                                 </td>
                                                 <td class="text-right">
                                                     @php
-                                                        $total = DB::table('users_handler_backup')->where('kd_cabang',$item->kd_cabang)->count();
+                                                        $total = DB::table('users_handler_backup')
+                                                            ->where('kd_cabang', $item->kd_cabang)
+                                                            ->count();
                                                     @endphp
-                                                    {{$total}}
+                                                    {{ $total }}
                                                 </td>
                                                 <td class="text-center">
                                                     <div class="dropdown">
@@ -124,6 +135,7 @@
             </div><!-- End Row-->
         </div>
     </div>
+
     <div class="modal fade" id="modal-admin">
         <div class="modal-dialog modal-dialog-centered full_modal-dialog" id="button-modal-admin-show">
             <div class="modal-content full_modal-content">
