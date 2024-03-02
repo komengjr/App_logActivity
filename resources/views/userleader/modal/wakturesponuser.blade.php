@@ -1,15 +1,19 @@
 <div class="row">
     <div class="col-12">
-        <span>Waktu masuk Laporan</span>
+        <label for="">Waktu masuk Laporan</label>
         <span class="badge badge-pill badge-dark m-1" style="float:right;">{{ $data->tgl_laporan }}</span>
     </div>
     <div class="col-12">
-        <span>Waktu Respon Laporan</span>
+        <label for="">Waktu Respon Laporan</label>
         <span class="badge badge-pill badge-success m-1" style="float:right;">{{ $data->tgl_respon_laporan }}</span>
     </div>
     <div class="col-12">
         <label for="">Waktu Penyelesaian Laporan</label>
         <span class="badge badge-pill badge-warning m-1" style="float:right;" id="sisa"></span>
+    </div>
+    <div class="col-12 pt-2">
+        <label for="">Penyelesaian</label>
+        <textarea name="keterangan" class="form-control" id="summernoteEditor88" cols="5" rows="10" required></textarea>
     </div>
 </div>
 {{-- <span class="badge badge-pill badge-warning m-1" style="float:right;" id="demo">{{$data->tgl_respon_laporan}}</span> --}}
@@ -41,4 +45,10 @@
             document.getElementById("sisa").innerHTML = "EXPIRED";
         }
     }, 1000);
+</script>
+<script>
+    $('#summernoteEditor88').summernote({
+        height: 400,
+        tabsize: 2
+    });
 </script>

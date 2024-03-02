@@ -48,7 +48,7 @@ class UserController extends Controller
         $datalaporan = DB::table('tbl_laporan_user')
             ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
             ->where('users_handler.id_user', Auth::user()->id_user)
-            ->where('tbl_laporan_user.status_laporan', 0)->count();
+            ->where('tbl_laporan_user.status_laporan', '<',2)->count();
         $jumlahnotif = $datalaporan + $dataschedule;
         return view('waktu', ['id' => $jumlahnotif]);
     }
@@ -57,7 +57,7 @@ class UserController extends Controller
         $datapesan = DB::table('tbl_laporan_user')
             ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
             ->where('users_handler.id_user', Auth::user()->id_user)
-            ->where('tbl_laporan_user.status_laporan', 0)->get();
+            ->where('tbl_laporan_user.status_laporan', '<',2)->get();
         $dataschadule = DB::table('tbl_schedule')
             ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_schedule.kd_cabang')->where('users_handler.id_user', Auth::user()->id_user)->where('tbl_schedule.status_schedule', 0)->get();
         // dd($dataschadule);
@@ -411,6 +411,10 @@ class UserController extends Controller
         $cabang = DB::table('tbl_cabang')->where('kd_cabang', $id)->first();
         $sub_kinerja = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
         return view('userleader.cabang.customtask', ['data' => $sub_kinerja, 'cabang' => $cabang]);
+    }
+    public function tambahcustomtaskhendledatacabang()
+    {
+        return view('userleader.cabang.custom-task.form-custom');
     }
     public function lengkapicustomtaskhendledatacabang($id)
     {

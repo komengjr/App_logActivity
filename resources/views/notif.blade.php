@@ -36,7 +36,7 @@
 @endforeach
 @if ($datachedule->isEmpty())
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        Kamu Belum Mempunyai Task apapun
+        Kamu Belum Mempunyai Task apapunw
         <span class="badge badge-primary">0</span>
     </li>
 @else

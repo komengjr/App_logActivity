@@ -42,7 +42,7 @@
 @if ($datapesan->isEmpty())
     <li class="list-group-item d-flex justify-content-between align-items-center">
         Kamu Belum Mempunyai Task apapun
-        <span class="badge badge-primary">0</span>
+        <span class="badge badge-primary"> 0</span>
     </li>
 @else
     <li class="list-group-item text-center">

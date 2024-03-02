@@ -337,7 +337,7 @@
                             <form action="#" method="post" role="form" id="form-case">
                                 @csrf
                                 <div class="form-wizard-header">
-                                    <p>Fill all form field to go next step</p>
+                                    <p>Form Pengisian Laporan * <span style="color: #d70b0b;">Perhatian Untuk Semua Harus Diisi</span></p>
                                     <ul class="list-unstyled form-wizard-steps clearfix">
                                         <li class="active"><span>1</span></li>
                                         <li><span>2</span></li>
@@ -352,8 +352,8 @@
                                             <div class="form-group">
                                                 <input type="text" class="form-control wizard-required"
                                                     name="cabang" id="caricabang" onkeydown="search(this)" required>
-                                                <label for="fname" class="wizard-form-text-label">Pilih Cabang
-                                                    *</label>
+                                                <label for="fname" class="wizard-form-text-label">Cari Nama Cabang
+                                                    * <span style="color: #d70b0b;">Ex. Pramita Pontianak</span></label>
                                                 <div class="wizard-form-error"></div>
                                                 <input type="text" class="form-control wizard-required"
                                                     style="display: none">
@@ -404,9 +404,12 @@
                                     <fieldset class="wizard-fieldset">
                                         <h5>Deskripsi Laporan</h5>
                                         <div class="form-group">
-                                            <input type="text" class="form-control wizard-required"
-                                                name="divisi">
-                                            <label for="bname" class="wizard-form-text-label">C *</label>
+                                            <select name="kategori_laporan" class="form-control wizard-required" id="">
+                                                <option value=""></option>
+                                                <option value="ER-001">Eror Pada Software</option>
+                                                <option value="ER-002">Eror Pada Hardware</option>
+                                            </select>
+                                            <label for="bname" class="wizard-form-text-label">Kategori</label>
                                             <div class="wizard-form-error"></div>
                                         </div>
                                         <div class="form-group">
@@ -428,6 +431,12 @@
                                             <input type="text" name="email" class="form-control wizard-required" id="honame"
                                                 required>
                                             <label for="honame" class="wizard-form-text-label">Email </label>
+                                            <div class="wizard-form-error"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" name="telegram" class="form-control wizard-required" id="honame"
+                                                required>
+                                            <label for="honame" class="wizard-form-text-label">Telegram </label>
                                             <div class="wizard-form-error"></div>
                                         </div>
 
