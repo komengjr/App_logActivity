@@ -81,7 +81,7 @@
                         <a class="nav-link disabled" href="#">Disabled</a>
                     </li> --}}
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
+                <form class="form-inline my-0 my-lg-0">
                     <a href="{{ url('newcase', []) }}" class="btn btn-outline-warning mx-2"><i
                             class="fa fa-window-restore"></i> NEW CASE</a>
 
@@ -126,7 +126,7 @@
         {{-- <div class="pb-5"></div>
         <div class="pb-5"></div> --}}
         <div class="pb-5" style="padding-top: 3%;"></div>
-        <div class="card-authentication2 mx-auto my-5" style="padding-left: 2px; padding-right: 2px">
+        <div class="card-authentication2 mx-auto my-2" style="padding-left: 4px; padding-right: 4px">
             <div class="card-group">
                 <div class="card mb-0">
                     <div class="bg-signin2"></div>
