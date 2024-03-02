@@ -143,7 +143,7 @@
                     <div class="card-body bg-light">
                         <div class="card-content p-3">
                             <div class="text-center">
-                                {{-- <img src="assets/images/logo-icon.png" alt="logo icon"> --}}
+                                <img src="assets/images/logo-icon.png" alt="logo icon" width="110">
                             </div>
                             <div class="card-title text-uppercase text-center py-3">Sign In</div>
                             <form method="POST" action="login">

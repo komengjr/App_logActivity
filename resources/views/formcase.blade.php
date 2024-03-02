@@ -318,7 +318,10 @@
                         <li class="dropdown-divider"></li>
                         <li class="dropdown-item" style="cursor: pointer;"><a href="{{ url('login', []) }}"><i
                                     class="fa fa-tasks mr-2" style="float: right;"></i> Login</a></li>
+
                         <li class="dropdown-divider"></li>
+                        <li class="dropdown-item" style="cursor: pointer;"><a href="{{ url('cek-status-laporan', []) }}"><i
+                            class="fa fa-tasks mr-2" style="float: right;"></i> Status Laporan</a></li>
                     </ul>
                 </li>
             </ul>

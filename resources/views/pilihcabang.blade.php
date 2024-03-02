@@ -40,7 +40,7 @@
 <div class="card gradient-meridian">
     <div class="card-body">
         <h4 class="card-title" style="color: rgb(255, 255, 255);">{{ $data->nama_cabang }}</h4>
-        <h6>Praesent commodo cursus magna.</h6>
+        <h6 style="color: rgb(240, 186, 186);">Tiket Ini Harap Disimpan Agar Bisa di Approve dengan yang pembuat laporan</h6>
         <p style="color: rgb(255, 255, 255);">{{ $data->alamat }}</p>
         <hr>
         <span class="badge badge-success m-1" >{{ $tiket }}</span> <button class="btn-dark btn-sm"

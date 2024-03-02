@@ -414,7 +414,8 @@ class UserController extends Controller
     }
     public function tambahcustomtaskhendledatacabang()
     {
-        return view('userleader.cabang.custom-task.form-custom');
+        $kinerja = DB::table('tbl_kinerja')->get();
+        return view('userleader.cabang.custom-task.form-custom',['kinerja'=>$kinerja]);
     }
     public function lengkapicustomtaskhendledatacabang($id)
     {
