@@ -31,7 +31,12 @@
     @media only screen and (max-width: 550px) {
         body {
             background-image: url('vendor/bg.png');
+            height: 100%;
 
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
     }
 </style>
@@ -121,7 +126,7 @@
         {{-- <div class="pb-5"></div>
         <div class="pb-5"></div> --}}
         <div class="pb-5" style="padding-top: 3%;"></div>
-        <div class="card-authentication2 mx-auto my-5 p-2">
+        <div class="card-authentication2 mx-auto my-5" style="padding-left: 2px; padding-right: 2px">
             <div class="card-group">
                 <div class="card mb-0">
                     <div class="bg-signin2"></div>
