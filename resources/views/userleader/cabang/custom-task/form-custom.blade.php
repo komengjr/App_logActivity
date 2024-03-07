@@ -6,7 +6,8 @@
             <h5 class="mb-0">Form Custom</h5>
         </div>
         <hr>
-        <form class="row g-3">
+        <form class="row g-3" id="form-post-custom-task">
+            @csrf
             <div class="col-md-6">
                 <label for="inputLastName1" class="form-label">Point Kinerja</label>
 
@@ -17,6 +18,14 @@
                         @endforeach
                     </select>
 
+            </div>
+            <div class="col-md-6">
+                <label for="inputLastName2" class="form-label">Kategori</label>
+                <select name="" class="form-control single-select-kinerja" id="">
+                    <option value="">Pilih Kategori</option>
+                    <option value="bulan">Hardware</option>
+                    <option value="tahun">Software</option>
+                </select>
             </div>
             <div class="col-md-6">
                 <label for="inputLastName2" class="form-label">Tugas</label>
@@ -31,7 +40,7 @@
             </div>
 
             <div class="col-12 pt-3">
-                <button type="submit" class="btn btn-primary px-5">Simpan</button>
+                <button type="button" id="button-simpan-custom-task-user" class="btn btn-primary px-5">Simpan</button>
             </div>
         </form>
     </div>

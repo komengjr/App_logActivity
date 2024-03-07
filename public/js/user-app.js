@@ -414,6 +414,30 @@ $(document).on("click", "#button-respon-laporan-user", function (e) {
         });
 });
 
+//CUSTOM
+$(document).on("click", "#button-simpan-custom-task-user", function(e) {
+    e.preventDefault();
+    var data = $("#form-post-custom-task").serialize();
+    $("#menu-custom-handle-user").html(
+        "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
+    );
+    $.ajax({
+            url: "user/user/handlecabang/customtask/new-data/simpan",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
+            },
+            type: "POST",
+            data: data,
+            dataType: "html",
+        })
+        .done(function(data) {
+            $("#menu-custom-handle-user").html(data);
+        })
+        .fail(function() {
+            $("#menu-custom-handle-user").html("Gagal Baca");
+        });
+});
+
 function waktu() {
     var id = 123;
     $("#nitifikasipesan").html("");

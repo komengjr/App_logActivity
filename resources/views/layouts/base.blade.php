@@ -261,14 +261,27 @@
         <nav>
             <!-- Menu Toggle btn-->
             <div class="menu-toggle">
-                {{-- <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon"> --}}
-                {{-- <p><marquee direction="right">Teks ini ke kanan</marquee></p> --}}
-                <button type="button" id="menu-btn">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+                <div class="row mt-1">
+                    <div class="col-3 col-lg-3 col-xl-3 mt-2" style="text-align: center;">
+                        <img src="{{ asset('assets/images/payment-icons/mastro-dark.png') }}" alt="" srcset="" width="50">
+                    </div>
+                    <div class="col-3 col-lg-3 col-xl-3 mt-2" style="text-align: center;">
+                        <img src="{{ asset('assets/images/payment-icons/paypal-dark.png') }}" alt="" srcset="" width="50">
+                    </div>
+                    <div class="col-3 col-lg-3 col-xl-3 mt-2" style="text-align: center;">
+                        <img src="{{ asset('assets/images/payment-icons/visa-dark.png') }}" alt="" srcset="" width="50">
+                    </div>
+                    <div class="col-3 col-lg-3 col-xl-3 ">
+                        <button type="button" id="menu-btn">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+
+                </div>
             </div>
+
 
             <ul id="respMenu" class="horizontal-menu">
 

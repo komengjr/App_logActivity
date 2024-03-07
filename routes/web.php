@@ -173,6 +173,7 @@ Route::get('user/user/handledatacabang/customtask/{id}',['as'=>'user/user/handle
 Route::get('user/user/handlecabang/customtask/lengkapidata/{id}',['as'=>'user/user/handledatacabang/customtask/lengkapidata/','uses'=> 'UserController@lengkapicustomtaskhendledatacabang']);
 Route::get('user/user/handlecabang/customtask/lengkapisubdata/{id}',['as'=>'user/user/handledatacabang/customtask/lengkapisubdata/','uses'=> 'UserController@lengkapisubcustomtaskhendledatacabang']);
 Route::post('user/user/handlecabang/customtask/new-data',['as'=>'user/user/handledatacabang/customtask/new-data/','uses'=> 'UserController@tambahcustomtaskhendledatacabang']);
+Route::post('user/user/handlecabang/customtask/new-data/simpan',['as'=>'user/user/handledatacabang/customtask/new-data/simpan','uses'=> 'UserController@simpantambahcustomtaskhendledatacabang']);
 Route::get('user/user/handlecabang/respon-laporan-user/{id}',['as'=>'user/user/handlecabang/respon-laporan-user/','uses'=> 'UserController@respondatalaporanuser']);
 // Route::get('user/userleader/modal/postprintlaporan/{id}',['as'=>'user/userleader/modal/postprintlaporan/id','uses'=> 'UserController@postprintlaporanid']);
 Route::post('user/userleader/modalreport/postprintlaporan',['as'=>'user/userleader/modalreport/postprintlaporan','uses'=> 'UserController@postprintlaporan']);

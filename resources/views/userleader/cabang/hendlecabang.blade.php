@@ -1,3 +1,10 @@
+<style>
+    #badge-pointer:hover {
+        background: #000428;
+        color: #fcfcfc;
+        border: 0;
+    }
+</style>
 <div class="modal-body" id="body-hendler-cabang-user">
     <div class="row">
         @foreach ($data as $item)
@@ -19,9 +26,9 @@
                         <ul class="list-group list-group-flush list shadow-none">
                             <li class="list-group-item d-flex justify-content-between align-items-center"><i
                                     class="fa fa-tasks"></i> <a href="#" id="task-harian-hendler-user"
-                                    data-id="{{ $item->kd_cabang }}"> <span class="badge badge-info p-2">Monitoring
+                                    data-id="{{ $item->kd_cabang }}"> <span class="badge badge-info p-2" id="badge-pointer">Monitoring
                                         Harian</span></a>
-                                <span class="badge badge-info badge-pill">
+                                <span class="badge badge-info badge-pill" >
                                     @php
                                         $datarecord = DB::table('users_handler_record_log')
                                             ->where('kd_cabang', $item->kd_cabang)
@@ -33,7 +40,7 @@
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center"><i
                                     class="fa fa-tasks"></i> <a href="#" id="task-custom-hendler-user"
-                                    data-id="{{ $item->kd_cabang }}"><span class="badge badge-warning p-2">Custom Task</span></a>
+                                    data-id="{{ $item->kd_cabang }}"><span class="badge badge-warning p-2" id="badge-pointer">Custom Task</span></a>
                                 <span class="badge badge-danger badge-pill">
                                     0
                                 </span>
@@ -65,7 +72,7 @@
                 <ul class="list-group list-group-flush list shadow-none">
                     <li class="list-group-item d-flex justify-content-between align-items-center"><i
                             class="fa fa-tasks"></i> <a href="#" id="task-harian-hendler-user"
-                            data-id="{{ $cekdata->kd_cabang }}"> <span class="badge badge-info p-2">Monitoring
+                            data-id="{{ $cekdata->kd_cabang }}"> <span class="badge badge-info p-2" id="badge-pointer">Monitoring
                                 Harian</span></a>
                         <span class="badge badge-info badge-pill">
                             @php
@@ -79,7 +86,7 @@
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center"><i
                             class="fa fa-tasks"></i> <a href="#" id="task-custom-hendler-user"
-                            data-id="{{ $item->kd_cabang }}">Custom Task</a>
+                            data-id="{{ $item->kd_cabang }}" id="badge-pointer">Custom Task</a>
                         <span class="badge badge-danger badge-pill">
                             0
                         </span>

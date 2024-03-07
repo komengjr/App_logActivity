@@ -417,6 +417,10 @@ class UserController extends Controller
         $kinerja = DB::table('tbl_kinerja')->get();
         return view('userleader.cabang.custom-task.form-custom',['kinerja'=>$kinerja]);
     }
+    public function simpantambahcustomtaskhendledatacabang(Request $request)
+    {
+        return view('userleader.cabang.custom-task.table-custom-task');
+    }
     public function lengkapicustomtaskhendledatacabang($id)
     {
         return view('userleader.customtask.lengkapi');

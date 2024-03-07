@@ -1,5 +1,14 @@
 @php $jumlahtugashariini = 0; @endphp
 <style>
+    #button-hendle-cabang-user:hover {
+        background: #000428;
+        background: -webkit-linear-gradient(45deg, #000428, #004e92) !important;
+        background: linear-gradient(45deg, #000428, #004e92) !important;
+        color: #3c2f2f;
+        border: 0;
+    }
+</style>
+<style>
     @media only screen and (max-width: 800px) {
 
         td,
@@ -253,9 +262,11 @@
 
                         <div class="btn-group float-sm-right" style="padding: 0px;">
 
-                            <span class="btn btn-light dropdown-toggle-split rounded-0 texture-info" style="cursor: pointer;" data-toggle="modal" data-target="#modal-cabang-user" id="button-hendle-cabang-user">
+                            <span class="btn btn-light dropdown-toggle-split rounded-0 texture-info"
+                                style="cursor: pointer;" data-toggle="modal" data-target="#modal-cabang-user"
+                                id="button-hendle-cabang-user">
                                 {{-- <span class="caret"></span> --}}
-                                <i class="fa fa-search"> </i>Cabang
+                                <span class="badge bg-warning p-2"><strong>Handel Cabang</strong></span>
                             </span>
 
                         </div>
@@ -282,36 +293,50 @@
                                         <span class="hidden-xs">Edit</span></a>
                                 </li>
                             </ul>
-                            <div class="tab-content p-3">
-                                <div class="tab-pane active" id="profile">
-                                    <h5 class="mb-3">User Profile</h5>
+                            <div class="tab-content p-0">
+                                <div class="tab-pane active" id="profile" style="padding-top: 30px;">
+                                    {{-- <h5 class="mb-3">User Profile</h5> --}}
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h6 style="text-decoration: underline;">Nomor Induk Pegawai</h6>
-                                            <p>{{ $biodata->nip }}</p>
-                                            <h6 style="text-decoration: underline;">Tempat / Tanggal Lahir</h6>
-                                            <p>
-                                                {{ $biodata->tempat_lahir }} / {{ $biodata->tgl_lahir }}
-                                            </p>
-                                            <h6 style="text-decoration: underline;">Alamat</h6>
-                                            <p>
-                                                {{ $biodata->alamat }}
-                                            </p>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6 style="text-decoration: underline;"><span
+                                                            class="badge bg-dark text-white p-2">Nomor Induk
+                                                            Pegawai</span></h6>
+                                                    <p>{{ $biodata->nip }}</p>
+                                                    <h6 style="text-decoration: underline;"><span
+                                                            class="badge bg-dark text-white p-2">Tempat / Tanggal
+                                                            Lahir</span></h6>
+                                                    <p>
+                                                        {{ $biodata->tempat_lahir }} / {{ $biodata->tgl_lahir }}
+                                                    </p>
+                                                    <h6 style="text-decoration: underline;"><span
+                                                            class="badge bg-dark text-white p-2">Alamat</span></h6>
+                                                    <p>
+                                                        {{ $biodata->alamat }}
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <h6 style="text-decoration: underline;">Cabang Group</h6>
-                                            @foreach ($groupcabang as $groupcabang)
-                                                <a href="javascript:void();"
-                                                    class="badge badge-dark badge-pill">{{ $groupcabang->nama_cabang }}</a>
-                                            @endforeach
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6 style="text-decoration: underline;">Cabang Group</h6>
+                                                    @foreach ($groupcabang as $groupcabang)
+                                                        <a href="javascript:void();"
+                                                            class="badge badge-dark badge-pill">{{ $groupcabang->nama_cabang }}</a>
+                                                    @endforeach
 
-                                            <hr />
-                                            <button class="btn-warning" data-toggle="modal"
-                                                data-target="#input_tiketxx" id="buttonmemberitugasuser"><i
-                                                    class="fa fa-pencil"></i> Beri Tugas</button>
-                                            <button class="btn-dark" data-toggle="modal" data-target="#showtask"
-                                                id="buttonlihattugasuser"><i class="fa fa-eye"></i> Lihat
-                                                Tugas</button>
+                                                    <hr />
+                                                    <button class="btn-warning" data-toggle="modal"
+                                                        data-target="#input_tiketxx" id="buttonmemberitugasuser"><i
+                                                            class="fa fa-pencil"></i> Beri Tugas</button>
+                                                    <button class="btn-dark" data-toggle="modal"
+                                                        data-target="#showtask" id="buttonlihattugasuser"><i
+                                                            class="fa fa-eye"></i> Lihat
+                                                        Tugas</button>
+                                                </div>
+                                            </div>
 
 
                                         </div>
@@ -382,13 +407,15 @@
                                     <!--/row-->
                                 </div>
 
-                                <div class="tab-pane" id="messages">
+                                <div class="tab-pane" id="messages" style="padding-top: 20px;">
                                     <div style="float: right;">
                                         <button data-toggle="modal" data-target="#input_tiketxx" id="printkpi"
                                             href="{{ asset('user/userleader/pdf/kpi') }}"
                                             class="btn-info mb-5 ml-2"><i class="fa fa-print"></i> Cetak</a></button>
-                                        <button data-toggle="modal" data-target="#input_tiketxx" id="printlaporanuser" class="btn-info mb-5 ml-2"><i class="fa fa-print"></i> Cetak Laporan</a></button>
-                                            <button class="btn-warning mb-5 ml-2"><i class="fa fa-send"></i></button>
+                                        <button data-toggle="modal" data-target="#input_tiketxx"
+                                            id="printlaporanuser" class="btn-info mb-5 ml-2"><i
+                                                class="fa fa-print"></i> Cetak Laporan</a></button>
+                                        <button class="btn-warning mb-5 ml-2"><i class="fa fa-send"></i></button>
                                     </div>
                                     <br><br>
                                     <h6 class="mb-3">A. Kinerja Team</h6>
@@ -398,8 +425,13 @@
                                                 @foreach ($tbl_kinerja as $item)
                                                     @if ($item->jenis_kinerja == 1)
                                                         <tr>
-                                                            <td data-label="Nama Kinerja"><a href="#" data-toggle="modal" data-target="#input_tiketxx" id="button-kinerja-user" data-id="{{$item->kd_kinerja}}">{{ $item->kinerja }}</a></td>
-                                                            <td data-label="Total Penyelesaian"><span class="float-right font-weight-bold">0</span>
+                                                            <td data-label="Nama Kinerja"><a href="#"
+                                                                    data-toggle="modal" data-target="#input_tiketxx"
+                                                                    id="button-kinerja-user"
+                                                                    data-id="{{ $item->kd_kinerja }}">{{ $item->kinerja }}</a>
+                                                            </td>
+                                                            <td data-label="Total Penyelesaian"><span
+                                                                    class="float-right font-weight-bold">0</span>
                                                             </td>
                                                         </tr>
                                                     @endif
@@ -414,7 +446,11 @@
                                                 @foreach ($tbl_kinerja as $item1)
                                                     @if ($item1->jenis_kinerja == 2)
                                                         <tr>
-                                                            <td data-label="Nama Kinerja"><a href="#" data-toggle="modal" data-target="#input_tiketxx" id="button-kinerja-user" data-id="{{$item->kd_kinerja}}">{{ $item1->kinerja }}</a></td>
+                                                            <td data-label="Nama Kinerja"><a href="#"
+                                                                    data-toggle="modal" data-target="#input_tiketxx"
+                                                                    id="button-kinerja-user"
+                                                                    data-id="{{ $item->kd_kinerja }}">{{ $item1->kinerja }}</a>
+                                                            </td>
                                                             <td data-label="Total Penyelesaian">
                                                                 <span class="float-right font-weight-bold">0</span>
                                                             </td>
@@ -427,7 +463,7 @@
                                     </div>
                                 </div>
 
-                                <div class="tab-pane" id="edit">
+                                <div class="tab-pane" id="edit" style="padding-top: 20px;">
                                     <form>
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label form-control-label">Nama
@@ -640,7 +676,8 @@
 
 <div class="modal fade" id="modal-cabang-user">
     <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content border-danger" id="menu-data-cabang-user" style="border: 0px; background: transparent;">
+        <div class="modal-content border-danger" id="menu-data-cabang-user"
+            style="border: 0px; background: transparent;">
 
             <img src="{{ asset('gif.gif') }}" alt="" srcset="">
 
@@ -780,7 +817,7 @@
                                 ->whereBetween('tgl_buat', [$periodtotal->awal_tgl, $periodtotal->akhir_tgl])
                                 ->count();
                             $totalharian = DB::table('users_handler_record_log')
-                                ->where('id_user',Auth::user()->id_user)
+                                ->where('id_user', Auth::user()->id_user)
                                 ->whereBetween('tgl_record', [$periodtotal->awal_tgl, $periodtotal->akhir_tgl])
                                 ->count();
                             $totaltiket = $totaldatatiketperson + $totaldatatiketgroup + $totalharian;
