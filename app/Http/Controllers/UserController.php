@@ -429,8 +429,8 @@ class UserController extends Controller
     {
         $url = "http://inventory.pramita.co.id:8000/api/datainventaris/pa";
 
-        $response = file_get_contents($url, true);
-        $newsData = json_decode($response);
+        // $response = file_get_contents($url, true);
+        // $newsData = json_decode($response);
         //  Initiate curl
         $ch = curl_init();
         // Will return the response, if false it print the response
@@ -445,7 +445,8 @@ class UserController extends Controller
         // Will dump a beauty json :3
         var_dump(json_decode($result, true));
         dd($result);
-        return view('userleader.customtask.lengkapi', ['data' => $newsData]);
+        return view('userleader.customtask.lengkapi');
+        // return view('userleader.customtask.lengkapi', ['data' => $newsData]);
     }
     public function lengkapisubcustomtaskhendledatacabang($id)
     {
