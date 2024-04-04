@@ -429,7 +429,7 @@ class UserController extends Controller
     {
         $url = "http://inventory.pramita.co.id:8000/api/datainventaris/pa";
 
-        $response = @file_get_contents($url);
+        $response = @file_get_contents($url ,false, $context);
         $newsData = json_decode($response);
         dd($response);
         return view('userleader.customtask.lengkapi',['data'=>$newsData]);
