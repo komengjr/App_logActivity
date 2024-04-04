@@ -22,7 +22,7 @@ class MasterUserController extends Controller
             $data = DB::table('tbl_laporan_user')->limit(5)->get();
         } elseif (Auth::user()->kd_akses > 2) {
             $data = DB::table('tbl_laporan_user')
-                ->where('kd_cabang', Auth::user()->cabang)->limit(5)->get();
+                ->where('kd_cabang', Auth::user()->cabang)->get();
         }
         $datacabang = DB::table('tbl_cabang')->get();
         return view('userleader.masterdata.view', ['data' => $data, 'datacabang' => $datacabang]);

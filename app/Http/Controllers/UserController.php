@@ -419,11 +419,20 @@ class UserController extends Controller
     }
     public function simpantambahcustomtaskhendledatacabang(Request $request)
     {
+        // $url = urlencode ("http://inventory.pramita.co.id:8000/api/datainventaris/pa");
+
+        // $json = json_decode(file_get_contents($url), true);
+
         return view('userleader.cabang.custom-task.table-custom-task');
     }
     public function lengkapicustomtaskhendledatacabang($id)
     {
-        return view('userleader.customtask.lengkapi');
+        $url = "http://inventory.pramita.co.id:8000/api/datainventaris/pa";
+
+        $response = file_get_contents($url);
+        $newsData = json_decode($response);
+        // dd($newsData);
+        return view('userleader.customtask.lengkapi',['data'=>$newsData]);
     }
     public function lengkapisubcustomtaskhendledatacabang($id)
     {

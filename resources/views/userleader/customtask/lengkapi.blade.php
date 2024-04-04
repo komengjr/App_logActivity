@@ -24,25 +24,25 @@
                     <tr>
                         <th>Icon</th>
                         <th>Nama</th>
-                        <th>Status </th>
+                        <th>No Inventaris </th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($data as $item)
                     <tr>
                         <td>
-                            <img alt="Image placeholder" src="https://via.placeholder.com/110x110" class="product-img">
+                            <img alt="Image placeholder" src="http://inventory.pramita.co.id:8000/{{$item->gambar}}" class="product-img">
                         </td>
-                        <td>Komputer A</td>
+                        <td>{{$item->nama_barang}}</td>
                         <td>
-                            <span class="badge-dot">
-                                <i class="bg-danger"></i> pending
-                            </span>
+                            {{$item->no_inventaris}}
                         </td>
                         <td><button class="btn-warning" id="button-lengkapi-custom-subtask" data-id="123">Lengkapi</button>
                         </td>
                     </tr>
-
+                    @endforeach
+                {{-- {{$data}} --}}
                 </tbody>
             </table>
         </div>

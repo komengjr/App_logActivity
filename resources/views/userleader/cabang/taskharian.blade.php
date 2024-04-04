@@ -1,48 +1,112 @@
-<form action="{{ url('user/user/handledatacabang/postrecorddata', []) }}" method="post">
-    @csrf
-    <div class="card">
-        {{-- <img src="https://via.placeholder.com/800x500" class="card-img-top" alt="Card image cap"> --}}
-        <div class="card-body bg-dark">
-            <h5 class="card-title" style="color: white;">Monitoring Harian {{$cabang->nama_cabang}}</h5>
-            <input type="text" name="kd_cabang" value="{{$cabang->kd_cabang}}" id="" hidden>
-            {{-- <p class="card-text">{{$item->alamat}}</p> --}}
-        </div>
-        <ul class="list-group list-group-flush list shadow-none">
-            @foreach ($data as $item)
+<style>
+    #acording-button:hover{
+        background: rgb(147, 162, 162);
+        cursor: pointer;
+    }
+</style>
+<div class="card">
+    {{-- <img src="https://via.placeholder.com/800x500" class="card-img-top" alt="Card image cap"> --}}
+    <div class="card-body bg-dark">
+        <h5 class="card-title" style="color: white;"><span class="badge badge-info">Monitoring Harian
+                {{ $cabang->nama_cabang }}</span></h5>
 
-            <li class="list-group-item d-flex justify-content-between align-items-center">{{$item->kinerja_sub}}
-                <span>
-                    @php
-                        $cekdata = DB::table('users_handler_record_log')
-                        ->where('kd_kinerja_sub',$item->kd_kinerja_sub)
-                        ->where('kd_cabang',$cabang->kd_cabang)
-                        ->where('tgl_record',date('Y-m-d'))->first();
-                    @endphp
-                    @if ($cekdata)
-                        @if ($cekdata->ket_kinerja_sub == 'N')
-                            <span class="badge badge-success m-1">Normal</span>
-                        @elseif ($cekdata->ket_kinerja_sub == 'I')
-                            <span class="badge badge-warning m-1">Interminten</span>
-                        @elseif ($cekdata->ket_kinerja_sub == 'TN')
-                            <span class="badge badge-danger m-1">Tidak Normal</span>
-                        @endif
-                    @else
-                    <select class="form-control" name="data{{$item->kd_kinerja_sub}}" id="" required>
-                        <option value="">Pilih Kondisi</option>
-                        <option value="N">Normal</option>
-                        <option value="I">Interminten</option>
-                        <option value="TN">Tidak Normal</option>
-                    </select>
-                    @endif
-
-                </span>
-            </li>
-
-            @endforeach
-        </ul>
-        <div class="card-body text-right">
-            <button class="btn-dark" data-dismiss="modal">Tutup</button>
-            <button type="submit" class="btn-success">Simpan</button>
-        </div>
+        {{-- <p class="card-text">{{$item->alamat}}</p> --}}
     </div>
-</form>
+    <ul class="list-group list-group-flush list shadow-none">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="accordion1">
+                        <div class="card mb-2">
+                            <div class="card-header" data-toggle="collapse" data-target="#collapse-1" id="acording-button">
+                                <h5><span class="badge badge-dark">Quest One ( Laporan Kritis )</span></h5>
+                            </div>
+
+                            <div id="collapse-1" class="collapse" data-parent="#accordion1">
+                                <form action="{{ url('user/user/handledatacabang/postrecorddata', []) }}"
+                                    method="post">
+                                    @csrf
+                                    <input type="text" name="kd_cabang" value="{{ $cabang->kd_cabang }}" id="" hidden>
+                                    <div class="card-body">
+                                        @foreach ($data as $item)
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center">
+                                                {{ $item->kinerja_sub }}
+                                                <span>
+                                                    @php
+                                                        $cekdata = DB::table('users_handler_record_log')
+                                                            ->where('kd_kinerja_sub', $item->kd_kinerja_sub)
+                                                            ->where('kd_cabang', $cabang->kd_cabang)
+                                                            ->where('tgl_record', date('Y-m-d'))
+                                                            ->first();
+                                                    @endphp
+                                                    @if ($cekdata)
+                                                        @if ($cekdata->ket_kinerja_sub == 'N')
+                                                            <span class="badge badge-success m-1">Normal</span>
+                                                        @elseif ($cekdata->ket_kinerja_sub == 'I')
+                                                            <span class="badge badge-warning m-1">Interminten</span>
+                                                        @elseif ($cekdata->ket_kinerja_sub == 'TN')
+                                                            <span class="badge badge-danger m-1">Tidak Normal</span>
+                                                        @endif
+                                                    @else
+                                                        <select class="form-control"
+                                                            name="data{{ $item->kd_kinerja_sub }}" focus
+                                                            id="data{{ $item->kd_kinerja_sub }}" autofocus required>
+                                                            <option value="">Pilih Kondisi</option>
+                                                            <option value="N">Normal</option>
+                                                            <option value="I">Interminten</option>
+                                                            <option value="TN">Tidak Normal</option>
+                                                        </select>
+                                                    @endif
+
+                                                </span>
+                                            </li>
+                                        @endforeach
+                                    </div>
+                                    <div class="card-body text-right">
+                                        <button type="submit" class="btn-success">Simpan</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card mb-1">
+                            <div class="card-header " data-toggle="collapse"  data-target="#collapse-2" id="acording-button">
+                                <h5><span class="badge badge-dark">Quest Two ( Backup Harian )</span></h5>
+                            </div>
+                            <div id="collapse-2" class="collapse" data-parent="#accordion1">
+                                <div class="card-body pb-0 mb-0">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="">Judul</label>
+                                            <input type="text" class="form-control" name="" id="">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="">Deskripsi</label>
+                                            <textarea name="keterangan" class="form-control" id="summernoteEditor" cols="5" rows="10" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body text-right pt-0">
+                                    <button type="submit" class="btn-success">Simpan</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ul>
+    <div class="card-body text-right modal-footer">
+        <button class="btn-dark" data-dismiss="modal">Tutup</button>
+
+    </div>
+</div>
+<script src="{{ asset('assets/plugins/summernote/dist/summernote-bs4.min.js', []) }}"></script>
+<script>
+    $('#summernoteEditor').summernote({
+        height: 200,
+        tabsize: 2
+    });
+</script>

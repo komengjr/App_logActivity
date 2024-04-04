@@ -1,5 +1,19 @@
 @php $jumlahtugashariini = 0; @endphp
 <style>
+    #buttontikettask:hover {
+        background: #c2c6e5;
+        background: -webkit-linear-gradient(45deg, #d0d4f8, #004e92) !important;
+        background: linear-gradient(45deg, #aeafba, #004e92) !important;
+        color: #fefefe;
+        border: 0;
+    }
+    #button-hendle-cabang-user:hover {
+        background: #000428;
+        background: -webkit-linear-gradient(45deg, #000428, #004e92) !important;
+        background: linear-gradient(45deg, #000428, #004e92) !important;
+        color: #3c2f2f;
+        border: 0;
+    }
     @media only screen and (max-width: 800px) {
 
         td,
@@ -119,7 +133,7 @@
                         hideClass: 'zoomOut',
                         icon: 'fa fa-check-circle',
                         width: 400,
-                        msg: '{{$message}}'
+                        msg: '{{ $message }}'
                     });
                 }
                 $(document).ready(function() {
@@ -193,7 +207,7 @@
                                         <select name="cabang" id="" class="form-control single-select">
                                             <option value="">Pilih Asal Cabang</option>
                                             @foreach ($cabang as $item)
-                                                <option value="{{$item->kd_cabang}}">{{$item->nama_cabang}}</option>
+                                                <option value="{{ $item->kd_cabang }}">{{ $item->nama_cabang }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -243,9 +257,11 @@
                         </div>
 
                         <div class="btn-group float-sm-right" style="padding: 0px;">
-                            <span class="btn btn-light dropdown-toggle-split rounded-0 texture-info" style="cursor: pointer;" data-toggle="modal" data-target="#modal-cabang-user" id="button-hendle-cabang-user">
+                            <span class="btn btn-light dropdown-toggle-split rounded-0 texture-info"
+                                style="cursor: pointer;" data-toggle="modal" data-target="#modal-cabang-user"
+                                id="button-hendle-cabang-user">
                                 {{-- <span class="caret"></span> --}}
-                                <i class="fa fa-search"> </i>Cabang
+                                <span class="badge bg-warning p-2"><strong>Handel Cabang</strong></span>
                             </span>
                         </div>
                     </div>
@@ -271,102 +287,126 @@
                                         <span class="hidden-xs">Edit</span></a>
                                 </li>
                             </ul>
-                            <div class="tab-content p-3">
-                                <div class="tab-pane active" id="profile">
-                                    <h5 class="mb-3">User Profile</h5>
+                            <div class="tab-content p-0">
+                                <div class="tab-pane active" id="profile" style="padding-top: 30px;">
+                                    {{-- <h5 class="mb-3">User Profile</h5> --}}
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h6 style="text-decoration: underline;">Nomor Induk Pegawai</h6>
-                                            <p>{{ $biodata->nip }}</p>
-                                            <h6 style="text-decoration: underline;">Tempat / Tanggal Lahir</h6>
-                                            <p>
-                                                {{ $biodata->tempat_lahir }} / {{ $biodata->tgl_lahir }}
-                                            </p>
-                                            <h6 style="text-decoration: underline;">Alamat</h6>
-                                            <p>
-                                                {{ $biodata->alamat }}
-                                            </p>
-                                        </div>
-                                        {{-- <div class="col-md-6">
-                                            <h6 style="text-decoration: underline;">Cabang Group</h6>
-                                            @foreach ($groupcabang as $groupcabang)
-                                                <a href="javascript:void();" class="badge badge-dark badge-pill">{{$groupcabang->nama_cabang}}</a>
-                                            @endforeach
-
-
-                                        </div> --}}
-                                        <div class="col-md-12">
-                                            <h5 class="mt-2 mb-3">
-                                                <span class="fa fa-clock-o ion-clock float-right"></span>
-                                                Aktifitas Group
-                                            </h5>
-                                            @foreach ($groupworklist as $groupworklist)
-                                                <div class="alert alert-danger alert-dismissible" role="alert"
-                                                    style="cursor: pointer;" data-toggle="modal"
-                                                    data-target="#input_tiketxx" id="buttontiketgroup"
-                                                    data-id="{{ $groupworklist->id_tiket_group_worklist }}">
-                                                    {{-- <button type="button" class="close" data-dismiss="alert">&times;</button> --}}
-                                                    <div class="alert-icon contrast-alert">
-                                                        <button><i class="fa fa-exclamation-triangle"></i></button>
-                                                    </div>
-                                                    <div class="alert-message" style="text-align: justify;">
-                                                        <span><strong>Tugas Group :</strong> <span
-                                                                style="color: black;">{{ $groupworklist->nama_worklist }}</span>
-                                                            <strong>Dengan
-                                                                No Tiket :</strong> <span
-                                                                style="color: black;">{{ $groupworklist->no_tiket }}</span></span>
-                                                    </div>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6 style="text-decoration: underline;"><span
+                                                            class="badge bg-dark text-white p-2">Nomor Induk
+                                                            Pegawai</span></h6>
+                                                    <p>{{ $biodata->nip }}</p>
+                                                    <h6 style="text-decoration: underline;"><span
+                                                            class="badge bg-dark text-white p-2">Tempat / Tanggal
+                                                            Lahir</span></h6>
+                                                    <p>
+                                                        {{ $biodata->tempat_lahir }} / {{ $biodata->tgl_lahir }}
+                                                    </p>
+                                                    <h6 style="text-decoration: underline;"><span
+                                                            class="badge bg-dark text-white p-2">Alamat</span></h6>
+                                                    <p>
+                                                        {{ $biodata->alamat }}
+                                                    </p>
                                                 </div>
-                                                @php $jumlahtugashariini = $jumlahtugashariini + 1; @endphp
-                                            @endforeach
-                                            @foreach ($worklistperson as $worklistperson)
-                                                @if (substr($worklistperson->tgl_buat, 0, 10) == date('Y-m-d'))
-                                                    <div class="alert alert-warning alert-dismissible" role="alert"
-                                                        style="cursor: pointer;" data-toggle="modal"
-                                                        data-target="#input_tiketxx" id="buttontiketpersonal"
-                                                        data-id="{{ $worklistperson->id_tiket_worklist_person }}">
-                                                        <div class="alert-icon contrast-alert">
-                                                            <button><i class="fa fa-exclamation-triangle"></i></button>
-                                                        </div>
-                                                        <div class="alert-message">
-                                                            <span><strong>Tugas Baru : </strong> <span
-                                                                    style="color: black;">{{ $worklistperson->nama_worklist }}</span>
-                                                                Dengan
-                                                                No
-                                                                Tiket <span
-                                                                    style="color: black">{{ $worklistperson->no_tiket }}</span></span>
-                                                        </div>
-                                                    </div>
-                                                    @php $jumlahtugashariini = $jumlahtugashariini + 1; @endphp
-                                                @endif
-                                            @endforeach
-                                            @foreach ($data_tiket_task as $data_tiket_task)
-                                                @if ($data_tiket_task->tgl_end <= date('Y-m-d'))
-                                                    @php
-                                                        $cektasktiket = DB::table('tbl_tiket_task_log')
-                                                            ->where('kd_tiket_task', $data_tiket_task->kd_tiket_task)
-                                                            ->get();
-                                                    @endphp
-                                                    @if ($cektasktiket->isEmpty())
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6 style="text-decoration: underline;">Cabang Group</h6>
+                                                    <hr />
+                                                    @foreach ($groupcabang as $groupcabang)
+                                                        <a href="javascript:void();"
+                                                            class="badge badge-primary p-2">{{ $groupcabang->nama_cabang }}</a>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="mt-2 mb-3">
+                                                        <span class="fa fa-clock-o ion-clock float-right"></span>
+                                                        Aktifitas Group
+                                                    </h5>
+                                                    <hr>
+                                                    @foreach ($groupworklist as $groupworklist)
                                                         <div class="alert alert-danger alert-dismissible"
                                                             role="alert" style="cursor: pointer;"
-                                                            data-toggle="modal" data-target="#showtask"
-                                                            id="buttontikettask"
-                                                            data-id="{{ $data_tiket_task->kd_tiket_task }}">
+                                                            data-toggle="modal" data-target="#input_tiketxx"
+                                                            id="buttontiketgroup"
+                                                            data-id="{{ $groupworklist->id_tiket_group_worklist }}">
+                                                            {{-- <button type="button" class="close" data-dismiss="alert">&times;</button> --}}
                                                             <div class="alert-icon contrast-alert">
-                                                                <button><i class="fa fa-envelope"></i></button>
+                                                                <button><i
+                                                                        class="fa fa-exclamation-triangle"></i></button>
                                                             </div>
-                                                            <div class="alert-message">
-                                                                <span><strong>Tugas Baru : </strong> <span
-                                                                        style="color: black;">{{ $data_tiket_task->kinerja }}</span>
-                                                                </span>
+                                                            <div class="alert-message" style="text-align: justify;">
+                                                                <span><strong>Tugas Group :</strong> <span
+                                                                        style="color: black;">{{ $groupworklist->nama_worklist }}</span>
+                                                                    <strong>Dengan
+                                                                        No Tiket :</strong> <span
+                                                                        style="color: black;">{{ $groupworklist->no_tiket }}</span></span>
                                                             </div>
                                                         </div>
-                                                    @endif
-                                                @endif
-                                            @endforeach
-                                            @foreach ($datalaporan as $datalaporan)
-
+                                                        @php $jumlahtugashariini = $jumlahtugashariini + 1; @endphp
+                                                    @endforeach
+                                                    @foreach ($worklistperson as $worklistperson)
+                                                        @if (substr($worklistperson->tgl_buat, 0, 10) == date('Y-m-d'))
+                                                            <div class="alert alert-warning alert-dismissible"
+                                                                role="alert" style="cursor: pointer;"
+                                                                data-toggle="modal" data-target="#input_tiketxx"
+                                                                id="buttontiketpersonal"
+                                                                data-id="{{ $worklistperson->id_tiket_worklist_person }}">
+                                                                <div class="alert-icon contrast-alert">
+                                                                    <button><i
+                                                                            class="fa fa-exclamation-triangle"></i></button>
+                                                                </div>
+                                                                <div class="alert-message">
+                                                                    <span><strong>Tugas Baru : </strong> <span
+                                                                            style="color: black;">{{ $worklistperson->nama_worklist }}</span>
+                                                                        Dengan
+                                                                        No
+                                                                        Tiket <span
+                                                                            style="color: black">{{ $worklistperson->no_tiket }}</span></span>
+                                                                </div>
+                                                            </div>
+                                                            @php $jumlahtugashariini = $jumlahtugashariini + 1; @endphp
+                                                        @endif
+                                                    @endforeach
+                                                    @foreach ($data_tiket_task as $data_tiket_task)
+                                                        @if ($data_tiket_task->tgl_end <= date('Y-m-d'))
+                                                            @php
+                                                                $cektasktiket = DB::table('tbl_tiket_task_log')
+                                                                    ->where(
+                                                                        'kd_tiket_task',
+                                                                        $data_tiket_task->kd_tiket_task,
+                                                                    )
+                                                                    ->get();
+                                                            @endphp
+                                                            @if ($cektasktiket->isEmpty())
+                                                                <div class="alert alert-danger alert-dismissible"
+                                                                    role="alert" style="cursor: pointer;"
+                                                                    data-toggle="modal" data-target="#showtask"
+                                                                    id="buttontikettask"
+                                                                    data-id="{{ $data_tiket_task->kd_tiket_task }}">
+                                                                    <div class="alert-icon contrast-alert">
+                                                                        <button><i class="fa fa-envelope"></i></button>
+                                                                    </div>
+                                                                    <div class="alert-message">
+                                                                        <span><strong>Tugas Baru : </strong> <span
+                                                                                style="color: black;">{{ $data_tiket_task->kinerja }}</span>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+                                                        @endif
+                                                    @endforeach
+                                                    @foreach ($datalaporan as $datalaporan)
                                                         <div class="alert alert-danger alert-dismissible"
                                                             role="alert" style="cursor: pointer;"
                                                             data-toggle="modal" data-target="#showtask"
@@ -381,22 +421,25 @@
                                                                 </span>
                                                             </div>
                                                         </div>
+                                                    @endforeach
 
-                                            @endforeach
-                                            <hr>
+                                                </div>
+                                            </div>
 
                                         </div>
                                     </div>
                                     <!--/row-->
                                 </div>
 
-                                <div class="tab-pane" id="messages">
+                                <div class="tab-pane" id="messages" style="padding-top: 30px;">
                                     <div style="float: right;">
                                         <button data-toggle="modal" data-target="#input_tiketxx" id="printkpi"
                                             href="{{ asset('user/userleader/pdf/kpi') }}"
                                             class="btn-info mb-5 ml-2"><i class="fa fa-print"></i> Cetak</a></button>
-                                            <button data-toggle="modal" data-target="#input_tiketxx" id="printlaporanuser" class="btn-info mb-5 ml-2"><i class="fa fa-print"></i> Cetak Laporan</a></button>
-                                            <button class="btn-warning mb-5 ml-2"><i class="fa fa-send"></i></button>
+                                        <button data-toggle="modal" data-target="#input_tiketxx"
+                                            id="printlaporanuser" class="btn-info mb-5 ml-2"><i
+                                                class="fa fa-print"></i> Cetak Laporan</a></button>
+                                        <button class="btn-warning mb-5 ml-2"><i class="fa fa-send"></i></button>
                                     </div>
                                     <br><br>
                                     <h6 class="mb-3">A. Kinerja Team</h6>
@@ -436,7 +479,7 @@
                                     </div>
                                 </div>
 
-                                <div class="tab-pane" id="edit">
+                                <div class="tab-pane" id="edit" style="padding-top: 30px;">
                                     <form>
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label form-control-label">Nama
@@ -563,7 +606,8 @@
 </div>
 <div class="modal fade" id="modal-cabang-user">
     <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content border-danger" id="menu-data-cabang-user" style="border: 0px; background: transparent;">
+        <div class="modal-content border-danger" id="menu-data-cabang-user"
+            style="border: 0px; background: transparent;">
 
             <img src="{{ asset('gif.gif') }}" alt="" srcset="">
 
@@ -573,7 +617,7 @@
 <script>
     $(document).ready(function() {
         $('.single-select').select2();
-      });
+    });
 </script>
 <script src="{{ asset('js/user-app.js', []) }}"></script>
 <script src="assets/plugins/jquery-validation/js/jquery.validate.min.js"></script>

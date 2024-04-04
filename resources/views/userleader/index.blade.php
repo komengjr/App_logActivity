@@ -324,7 +324,7 @@
                                                     <h6 style="text-decoration: underline;">Cabang Group</h6>
                                                     @foreach ($groupcabang as $groupcabang)
                                                         <a href="javascript:void();"
-                                                            class="badge badge-dark badge-pill">{{ $groupcabang->nama_cabang }}</a>
+                                                            class="badge badge-primary p-2">{{ $groupcabang->nama_cabang }}</a>
                                                     @endforeach
 
                                                     <hr />
@@ -341,66 +341,76 @@
 
                                         </div>
                                         <div class="col-md-12">
-                                            <h5 class="mt-2 mb-3">
-                                                <span class="fa fa-clock-o ion-clock float-right"></span>
-                                                Task Group
-                                            </h5>
-                                            @foreach ($groupworklist as $groupworklist)
-                                                <div class="alert alert-danger alert-dismissible" role="alert"
-                                                    style="cursor: pointer;" data-toggle="modal"
-                                                    data-target="#input_tiketxx" id="buttontiketgroup"
-                                                    data-id="{{ $groupworklist->id_tiket_group_worklist }}">
-                                                    {{-- <button type="button" class="close" data-dismiss="alert">&times;</button> --}}
-                                                    <div class="alert-icon contrast-alert">
-                                                        <button><i class="fa fa-exclamation-triangle"></i></button>
-                                                    </div>
-                                                    <div class="alert-message" style="text-align: justify;">
-                                                        <span><strong>Tugas Group :</strong> <span
-                                                                style="color: black;">{{ $groupworklist->nama_worklist }}</span>
-                                                            <strong>Dengan
-                                                                No Tiket :</strong> <span
-                                                                style="color: black;">{{ $groupworklist->no_tiket }}</span></span>
-                                                    </div>
-                                                </div>
-                                                @php $jumlahtugashariini = $jumlahtugashariini + 1; @endphp
-                                            @endforeach
-                                            @foreach ($worklistperson as $worklistperson)
-                                                @if (substr($worklistperson->tgl_buat, 0, 10) == date('Y-m-d'))
-                                                    <div class="alert alert-warning alert-dismissible" role="alert"
-                                                        style="cursor: pointer;" data-toggle="modal"
-                                                        data-target="#input_tiketxx" id="buttontiketpersonal"
-                                                        data-id="{{ $worklistperson->id_tiket_worklist_person }}">
-                                                        <div class="alert-icon contrast-alert">
-                                                            <button><i class="fa fa-exclamation-triangle"></i></button>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="mt-2 mb-3">
+                                                        <span class="fa fa-clock-o ion-clock float-right"></span>
+                                                        Task Group
+                                                    </h5>
+                                                    <hr>
+                                                    @foreach ($groupworklist as $groupworklist)
+                                                        <div class="alert alert-danger alert-dismissible"
+                                                            role="alert" style="cursor: pointer;"
+                                                            data-toggle="modal" data-target="#input_tiketxx"
+                                                            id="buttontiketgroup"
+                                                            data-id="{{ $groupworklist->id_tiket_group_worklist }}">
+                                                            {{-- <button type="button" class="close" data-dismiss="alert">&times;</button> --}}
+                                                            <div class="alert-icon contrast-alert">
+                                                                <button><i
+                                                                        class="fa fa-exclamation-triangle"></i></button>
+                                                            </div>
+                                                            <div class="alert-message" style="text-align: justify;">
+                                                                <span><strong>Tugas Group :</strong> <span
+                                                                        style="color: black;">{{ $groupworklist->nama_worklist }}</span>
+                                                                    <strong>Dengan
+                                                                        No Tiket :</strong> <span
+                                                                        style="color: black;">{{ $groupworklist->no_tiket }}</span></span>
+                                                            </div>
                                                         </div>
-                                                        <div class="alert-message">
-                                                            <span><strong>Tugas Baru : </strong> <span
-                                                                    style="color: black;">{{ $worklistperson->nama_worklist }}</span>
-                                                                Dengan
-                                                                No
-                                                                Tiket <span
-                                                                    style="color: black">{{ $worklistperson->no_tiket }}</span></span>
+                                                        @php $jumlahtugashariini = $jumlahtugashariini + 1; @endphp
+                                                    @endforeach
+                                                    @foreach ($worklistperson as $worklistperson)
+                                                        @if (substr($worklistperson->tgl_buat, 0, 10) == date('Y-m-d'))
+                                                            <div class="alert alert-warning alert-dismissible"
+                                                                role="alert" style="cursor: pointer;"
+                                                                data-toggle="modal" data-target="#input_tiketxx"
+                                                                id="buttontiketpersonal"
+                                                                data-id="{{ $worklistperson->id_tiket_worklist_person }}">
+                                                                <div class="alert-icon contrast-alert">
+                                                                    <button><i
+                                                                            class="fa fa-exclamation-triangle"></i></button>
+                                                                </div>
+                                                                <div class="alert-message">
+                                                                    <span><strong>Tugas Baru : </strong> <span
+                                                                            style="color: black;">{{ $worklistperson->nama_worklist }}</span>
+                                                                        Dengan
+                                                                        No
+                                                                        Tiket <span
+                                                                            style="color: black">{{ $worklistperson->no_tiket }}</span></span>
+                                                                </div>
+                                                            </div>
+                                                            @php $jumlahtugashariini = $jumlahtugashariini + 1; @endphp
+                                                        @endif
+                                                    @endforeach
+                                                    @foreach ($datalaporan as $datalaporan)
+                                                        <div class="alert alert-danger alert-dismissible"
+                                                            role="alert" style="cursor: pointer;"
+                                                            data-toggle="modal" data-target="#showtask"
+                                                            id="buttontiketlaporan"
+                                                            data-id="{{ $datalaporan->id_tiket_laporan }}">
+                                                            <div class="alert-icon contrast-alert">
+                                                                <button><i class="fa fa-envelope"></i></button>
+                                                            </div>
+                                                            <div class="alert-message">
+                                                                <span><strong>Tugas Baru : </strong> <span
+                                                                        style="color: black;">{{ $datalaporan->kd_kinerja }}</span>
+                                                                </span>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    @php $jumlahtugashariini = $jumlahtugashariini + 1; @endphp
-                                                @endif
-                                            @endforeach
-                                            @foreach ($datalaporan as $datalaporan)
-                                                <div class="alert alert-danger alert-dismissible" role="alert"
-                                                    style="cursor: pointer;" data-toggle="modal"
-                                                    data-target="#showtask" id="buttontiketlaporan"
-                                                    data-id="{{ $datalaporan->id_tiket_laporan }}">
-                                                    <div class="alert-icon contrast-alert">
-                                                        <button><i class="fa fa-envelope"></i></button>
-                                                    </div>
-                                                    <div class="alert-message">
-                                                        <span><strong>Tugas Baru : </strong> <span
-                                                                style="color: black;">{{ $datalaporan->kd_kinerja }}</span>
-                                                        </span>
-                                                    </div>
+                                                    @endforeach
                                                 </div>
-                                            @endforeach
-                                            <hr>
+                                            </div>
+                                            {{-- <hr> --}}
 
                                         </div>
                                     </div>

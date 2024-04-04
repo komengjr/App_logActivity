@@ -128,8 +128,8 @@
                             </div>
                         </div>
 
-                        <ul class="list-group list-group-flush shadow-none">
-                            @foreach ($data as $item)
+                            <div class="card-body" style="padding:1%;"></div>
+                            {{-- @foreach ($data as $item)
                                 <li class="list-group-item" id="button-user-log" style="cursor: pointer;"
                                     data-toggle="modal" data-target="#modal-master-data-user"
                                     data-id="{{ $item->tiket_laporan }}">
@@ -168,21 +168,69 @@
                                         </div>
                                     </div>
                                 </li>
-                            @endforeach
-                        </ul>
+                            @endforeach --}}
+                            <table id="example1" class="table table-striped table-bordered" style="width:100%;"
+                                border="1">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Detail Report</th>
+                                        <th>Waktu Laporan Masuk</th>
+                                        <th>Waktu Terima Laporan</th>
+                                        <th>Waktu Selesai Laporan</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $no = 1;
+                                    @endphp
+                                    @foreach ($data as $item)
+                                        <tr id="button-user-log" style="cursor: pointer;"
+                                        data-toggle="modal" data-target="#modal-master-data-user"
+                                        data-id="{{ $item->tiket_laporan }}">
+                                            <td>{{ $no++ }}</td>
+                                            <td>
+                                                <h6 class="mb-0">{{ $item->deskripsi_laporan }}</h6>
+                                                <p style="font-size: 10px;">( {{ $item->nama_user }} ) - PRAMITA PONTIANAK
+                                                </p>
+                                                <small class="small-font mt-0">
+                                                    @if ($item->status_laporan == 0)
+                                                        <span class="badge bg-danger text-white">Belum</span>
+                                                    @elseif ($item->status_laporan == 1)
+                                                        <span class="badge bg-warning">Proses</span>
+                                                    @elseif ($item->status_laporan == 2)
+                                                        <span class="badge bg-success text-white">Selesai</span>
+                                                    @endif
+                                                </small>
+                                            </td>
+                                            <td>
+                                                <h6 class="mb-2"><span class="badge bg-dark text-white">Waktu Laporan
+                                                        Masuk</span></h6>
+                                                <p class="mb-0">{{ $item->tgl_laporan }}</p>
+                                            </td>
+                                            <td>
+                                                <h6 class="mb-2"><span class="badge bg-primary text-white">Waktu Terima
+                                                        Laporan</span></h6>
+                                                <p class="mb-0">{{ $item->tgl_respon_laporan }}</p>
+                                            </td>
+                                            <td>
+                                                <h6 class="mb-2"><span class="badge bg-success text-white">Waktu Selesai
+                                                        Laporan</span></h6>
+                                                <p class="mb-0">{{ $item->tgl_selesai_laporan }}</p>
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+
+                            </table>
+
 
                         <div class="card-footer text-center bg-transparent border-0">
                             {{-- <a href="javascript:void();">View all listings</a> --}}
                         </div>
-                        <div class="col-lg-12">
-                            <ul class="pagination pagination-separate pagination-outline-success" style="float: right;">
-                                <li class="page-item"><a class="page-link" href="javascript:void();">Previous</a></li>
-                                <li class="page-item active"><a class="page-link" href="javascript:void();">1</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void();">2</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void();">3</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void();">Next</a></li>
-                            </ul>
-                        </div>
+
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -268,6 +316,24 @@
     <script>
         $(document).ready(function() {
             $('.single-select').select2();
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            //Default data table
+            $('#default-datatable').DataTable();
+            $('#default-datatable1').DataTable();
+            $('#default-datatable2').DataTable();
+
+
+            var table = $('#example1').DataTable({
+                lengthChange: false,
+                // buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+            });
+
+            table.buttons().container()
+                .appendTo('#example_wrapper .col-md-6:eq(0)');
+
         });
     </script>
     <script>
@@ -367,7 +433,9 @@
         $(document).on("click", "#button-privew-monitoring-harian", function(e) {
             e.preventDefault();
             var data = $("#form-monitoring-harian").serialize();
-            $("#show-monitoring-harian").html('<div style="text-align: center; padding:2%;"><div class="spinner-border" role="status" > <span class="sr-only">Loading...</span> </div></div>');
+            $("#show-monitoring-harian").html(
+                '<div style="text-align: center; padding:2%;"><div class="spinner-border" role="status" > <span class="sr-only">Loading...</span> </div></div>'
+            );
             $.ajax({
                     url: "master-data-user/laporan/monitoring/harian/preview",
                     headers: {
