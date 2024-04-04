@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Http;
+
+use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -428,23 +429,13 @@ class UserController extends Controller
     public function lengkapicustomtaskhendledatacabang($id)
     {
         $url = "http://inventory.pramita.co.id:8000/api/datainventaris/pa";
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        // SSL important
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-        $output = curl_exec($ch);
-        curl_close($ch);
-
-
-        $this -> response['response'] = json_decode($output);
-        // $response = file_get_contents($url, true);
-        // $newsData = json_decode($response);
+        // $get_result_arr = json_decode($response->getContent($url), true);
+        // echo $result;
+        $response = file_get_contents($url, true);
+        $newsData = json_decode($response);
         //  Initiate curl
 
-        dd($output);
+        dd($newsData);
         return view('userleader.customtask.lengkapi');
         // return view('userleader.customtask.lengkapi', ['data' => $newsData]);
     }
