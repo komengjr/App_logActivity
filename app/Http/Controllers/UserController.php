@@ -427,7 +427,7 @@ class UserController extends Controller
     }
     public function lengkapicustomtaskhendledatacabang($id)
     {
-        $url = "http://182.253.189.108/:8000/api/datainventaris/pa";
+        $url = "http://inventory.pramita.co.id:8000/api/datainventaris/pa";
 
         $response = file_get_contents($url);
         $newsData = json_decode($response);
