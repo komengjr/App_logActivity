@@ -431,7 +431,7 @@ class UserController extends Controller
 
         $response = @file_get_contents($url);
         $newsData = json_decode($response);
-        // dd($newsData);
+        dd($newsData);
         return view('userleader.customtask.lengkapi',['data'=>$newsData]);
     }
     public function lengkapisubcustomtaskhendledatacabang($id)
