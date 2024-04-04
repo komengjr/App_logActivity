@@ -48,7 +48,7 @@ class UserController extends Controller
         $datalaporan = DB::table('tbl_laporan_user')
             ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
             ->where('users_handler.id_user', Auth::user()->id_user)
-            ->where('tbl_laporan_user.status_laporan', '<',2)->count();
+            ->where('tbl_laporan_user.status_laporan', '<', 2)->count();
         $jumlahnotif = $datalaporan + $dataschedule;
         return view('waktu', ['id' => $jumlahnotif]);
     }
@@ -57,7 +57,7 @@ class UserController extends Controller
         $datapesan = DB::table('tbl_laporan_user')
             ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
             ->where('users_handler.id_user', Auth::user()->id_user)
-            ->where('tbl_laporan_user.status_laporan', '<',2)->get();
+            ->where('tbl_laporan_user.status_laporan', '<', 2)->get();
         $dataschadule = DB::table('tbl_schedule')
             ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_schedule.kd_cabang')->where('users_handler.id_user', Auth::user()->id_user)->where('tbl_schedule.status_schedule', 0)->get();
         // dd($dataschadule);
@@ -73,7 +73,7 @@ class UserController extends Controller
             ->where('tiket_laporan', $id)->first();
         $date = date_create($datalaporan->tgl_respon_laporan);
         date_add($date, date_interval_create_from_date_string('1 hours'));
-        return view('notifikasi.formtask', ['id' => $id, 'datalaporan' => $datalaporan,'date'=>$date]);
+        return view('notifikasi.formtask', ['id' => $id, 'datalaporan' => $datalaporan, 'date' => $date]);
         // $datachedule = DB::table('tbl_schedule')
         //                 ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
         //                 ->where('kd_schedule',$id)->get();
@@ -415,7 +415,7 @@ class UserController extends Controller
     public function tambahcustomtaskhendledatacabang()
     {
         $kinerja = DB::table('tbl_kinerja')->get();
-        return view('userleader.cabang.custom-task.form-custom',['kinerja'=>$kinerja]);
+        return view('userleader.cabang.custom-task.form-custom', ['kinerja' => $kinerja]);
     }
     public function simpantambahcustomtaskhendledatacabang(Request $request)
     {
@@ -429,10 +429,23 @@ class UserController extends Controller
     {
         $url = "http://inventory.pramita.co.id:8000/api/datainventaris/pa";
 
-        $response = @file_get_contents($url ,true);
+        $response = file_get_contents($url, true);
         $newsData = json_decode($response);
-        dd($response);
-        return view('userleader.customtask.lengkapi',['data'=>$newsData]);
+        //  Initiate curl
+        $ch = curl_init();
+        // Will return the response, if false it print the response
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Set the url
+        curl_setopt($ch, CURLOPT_URL, $url);
+        // Execute
+        $result = curl_exec($ch);
+        // Closing
+        curl_close($ch);
+
+        // Will dump a beauty json :3
+        var_dump(json_decode($result, true));
+        dd($result);
+        return view('userleader.customtask.lengkapi', ['data' => $newsData]);
     }
     public function lengkapisubcustomtaskhendledatacabang($id)
     {
