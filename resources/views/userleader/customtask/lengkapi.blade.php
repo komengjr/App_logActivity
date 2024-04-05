@@ -32,16 +32,11 @@
                     @foreach ($data as $item)
                     <tr>
                         <td>
-                            {{-- <img alt="Image placeholder" src="http://inventory.pramita.co.id:8000/{{$item->gambar}}" class="product-img"> --}}
-                            a
+                            <img alt="Image placeholder" src="http://inventory.pramita.co.id:8000/{{$item->gambar}}" class="product-img">
                         </td>
+                        <td>{{$item->nama_barang}}</td>
                         <td>
-                            b
-                            {{-- {{$item->nama_barang}} --}}
-                        </td>
-                        <td>
-                            c
-                            {{-- {{$item->no_inventaris}} --}}
+                            {{$item->no_inventaris}}
                         </td>
                         <td><button class="btn-warning" id="button-lengkapi-custom-subtask" data-id="123">Lengkapi</button>
                         </td>
