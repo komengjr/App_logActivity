@@ -443,7 +443,7 @@ class UserController extends Controller
     public function simpantambahcustomtasksubhendledatacabang(Request $request)
     {
         $user = DB::table('tbl_biodata')->where('id_user', Auth::user()->id_user)->first();
-        $cek = DB::table('custom_task_sub')->where('kd_custom_task', $request->kode)->where('id_inventaris', $id)->first();
+        $cek = DB::table('custom_task_sub')->where('kd_custom_task', $request->kode)->where('id_inventaris', $request->id)->first();
         if ($cek) {
             Session::flash('sukses', 'Data Sudah Di Selesaikan');
             return redirect()->back();
