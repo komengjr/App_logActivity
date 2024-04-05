@@ -435,9 +435,9 @@ class UserController extends Controller
         $newsData = json_decode($response);
         //  Initiate curl
 
-        dd($newsData);
-        return view('userleader.customtask.lengkapi');
-        // return view('userleader.customtask.lengkapi', ['data' => $newsData]);
+        // dd($newsData);
+        // return view('userleader.customtask.lengkapi');
+        return view('userleader.customtask.lengkapi', ['data' => $newsData]);
     }
     public function lengkapisubcustomtaskhendledatacabang($id)
     {
