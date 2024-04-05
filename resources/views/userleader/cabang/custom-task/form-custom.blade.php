@@ -11,7 +11,7 @@
             <div class="col-md-6">
                 <label for="inputLastName1" class="form-label">Point Kinerja</label>
 
-                    <select name="" class="form-control single-select-kinerja" id="">
+                    <select name="kd_kinerja" class="form-control single-select-kinerja" id="">
                         <option value="">Pilih Point Kinerja</option>
                         @foreach ($kinerja as $kinerja)
                             <option value="{{$kinerja->kd_kinerja}}">{{$kinerja->kinerja}}</option>
@@ -21,22 +21,22 @@
             </div>
             <div class="col-md-6">
                 <label for="inputLastName2" class="form-label">Kategori</label>
-                <select name="" class="form-control single-select-kinerja" id="">
+                <select name="kategori_task" class="form-control single-select-kinerja" id="">
                     <option value="">Pilih Kategori</option>
-                    <option value="bulan">Hardware</option>
-                    <option value="tahun">Software</option>
+                    <option value="hardware">Hardware</option>
+                    <option value="software">Software</option>
                 </select>
             </div>
-            <div class="col-md-6">
-                <label for="inputLastName2" class="form-label">Tugas</label>
+            <div class="col-md-12">
+                <label for="inputLastName2" class="form-label">Judul Tugas</label>
                 <div class="input-group"> <span class="input-group-text"><i class="fa fa-cog"></i></span>
-                    <input type="text" class="form-control border-start-0" id="inputLastName2" placeholder="Maintenance Bulanan">
+                    <input type="text" name="judul_task" class="form-control border-start-0" id="inputLastName2" placeholder="Maintenance Bulanan">
                 </div>
             </div>
 
             <div class="col-12">
                 <label for="inputAddress3" class="form-label">Deskripsi Tugas</label>
-                <textarea class="form-control" id="inputAddress3" placeholder="Maintenance Bulanan Alat Inventaris" rows="3"></textarea>
+                <textarea class="form-control" name="desk_task" id="inputAddress3" placeholder="Maintenance Bulanan Alat Inventaris" rows="3"></textarea>
             </div>
 
             <div class="col-12 pt-3">

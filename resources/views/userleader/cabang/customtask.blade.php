@@ -30,39 +30,58 @@
                             </div>
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table align-items-center table-flush">
+                    <div class="table-responsive pt-3 pb-3">
+                        <table class="table align-items-center table-flush" id="default-table-custom-task"
+                            border="1">
                             <thead>
                                 <tr>
                                     <th>Icon</th>
                                     <th>Kinerja</th>
-                                    <th>Jenis Kinerja</th>
+                                    <th>Nama Task</th>
                                     <th>Status</th>
-                                    <th>Completion</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- <tr>
-                                    <td>
-                                        <img alt="Image placeholder" src="https://via.placeholder.com/110x110"
-                                            class="product-img">
-                                    </td>
-                                    <td>Maintenance Komputer</td>
-                                    <td>Pemeliharaan Hardware</td>
-                                    <td>
-                                        <span class="badge-dot">
-                                            <i class="bg-danger"></i> pending
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div class="progress shadow" style="height: 4px">
-                                            <div class="progress-bar gradient-ibiza" role="progressbar"
-                                                style="width: 60%"></div>
-                                        </div>
-                                    </td>
-                                    <td><button class="btn-warning" id="button-lengkapi-custon-task" data-id="123">Lengkapi</button> </td>
-                                </tr> --}}
+                                @foreach ($data as $data)
+                                    <tr>
+                                        <td>
+                                            <img alt="Image placeholder" src="https://via.placeholder.com/110x110"
+                                                class="product-img">
+                                        </td>
+                                        <td>{{ $data->kinerja }}</td>
+                                        <td>{{ $data->nama_task }}</td>
+                                        <td>
+                                            @if ($data->status_custom_task == 0)
+                                                <span class="badge-dot">
+                                                    <i class="bg-danger"></i> Proses
+                                                </span>
+                                            @else
+                                                <span class="badge-dot">
+                                                    <i class="bg-success"></i> Selesai
+                                                </span>
+                                            @endif
+
+                                        </td>
+
+                                        <td class="text-center">
+                                            {{-- <button class="btn-warning" >Lengkapi</button> --}}
+                                            <div class="dropdown">
+                                                <a href="javascript:void();"
+                                                    class="btn btn-info btn-sm dropdown-toggle-nocaret"
+                                                    data-toggle="dropdown">
+                                                    <i class="fa fa-tasks text-white"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    {{-- <a class="dropdown-item" href="javascript:void();">Action</a>
+                                                            <a class="dropdown-item" href="javascript:void();">Another action</a>
+                                                            <a class="dropdown-item" href="javascript:void();">Something else here</a> --}}
+                                                    {{-- <div class="dropdown-divider"></div> --}}
+                                                    <a class="dropdown-item" href="#" id="button-lengkapi-custon-task" data-id="{{ $data->kd_custom_task }}"><i class="fa fa-check-square-o"></i> Checklist Komputer PC</a>
+                                                </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
 
                             </tbody>
                         </table>
@@ -103,5 +122,9 @@
     });
 </script>
 <script>
+    $(document).ready(function() {
 
+        $('#default-table-custom-task').DataTable();
+
+    });
 </script>

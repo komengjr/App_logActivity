@@ -17,8 +17,10 @@
     <link href="{{ asset('assets/css/icons.css', []) }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/horizontal-menu.css', []) }}" rel="stylesheet" />
 
-    <link href="{{ asset('assets/plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css', []) }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css', []) }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css', []) }}"
+        rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css', []) }}" rel="stylesheet"
+        type="text/css">
     <link rel="stylesheet" href="{{ asset('assets/plugins/notifications/css/lobibox.min.css', []) }}" />
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/dist/summernote-bs4.css', []) }}" />
     <link href="{{ asset('assets/plugins/select2/css/select2.min.css', []) }}" rel="stylesheet" />
@@ -174,9 +176,7 @@
                     @if (Auth::user()->kd_akses > 2 && Auth::user()->kd_akses < 5)
                         @php
                             $jumlahnotif = 0;
-                            $notif = DB::table('tbl_schedule')
-                                ->where('status_schedule', 1)
-                                ->get();
+                            $notif = DB::table('tbl_schedule')->where('status_schedule', 1)->get();
                             foreach ($notif as $value) {
                                 if (substr($value->tgl_akhir, 0, 10) >= date('Y-m-d')) {
                                     if (substr($value->tgl_start, 0, 10) <= date('Y-m-d')) {
@@ -210,7 +210,8 @@
 
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-                            <span class="user-profile"><img src="{{ asset('icon.png', []) }}" class="img-circle" alt="user avatar"></span>
+                            <span class="user-profile"><img src="{{ asset('icon.png', []) }}" class="img-circle"
+                                    alt="user avatar"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li class="dropdown-item user-details">
@@ -244,7 +245,8 @@
                             <li class="dropdown-divider"></li>
                             <li class="dropdown-item" style="cursor: pointer"
                                 onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();" id="keluarform">
+                            document.getElementById('logout-form').submit();"
+                                id="keluarform">
                                 <i class="icon-power mr-2"></i> Logout
                             </li>
                         </ul>
@@ -263,13 +265,16 @@
             <div class="menu-toggle">
                 <div class="row mt-1">
                     <div class="col-3 col-lg-3 col-xl-3 mt-2" style="text-align: center;">
-                        <img src="{{ asset('assets/images/payment-icons/mastro-dark.png') }}" alt="" srcset="" width="50">
+                        <img src="{{ asset('assets/images/payment-icons/mastro-dark.png') }}" alt=""
+                            srcset="" width="50">
                     </div>
                     <div class="col-3 col-lg-3 col-xl-3 mt-2" style="text-align: center;">
-                        <img src="{{ asset('assets/images/payment-icons/paypal-dark.png') }}" alt="" srcset="" width="50">
+                        <img src="{{ asset('assets/images/payment-icons/paypal-dark.png') }}" alt=""
+                            srcset="" width="50">
                     </div>
                     <div class="col-3 col-lg-3 col-xl-3 mt-2" style="text-align: center;">
-                        <img src="{{ asset('assets/images/payment-icons/visa-dark.png') }}" alt="" srcset="" width="50">
+                        <img src="{{ asset('assets/images/payment-icons/visa-dark.png') }}" alt=""
+                            srcset="" width="50">
                     </div>
                     <div class="col-3 col-lg-3 col-xl-3 ">
                         <button type="button" id="menu-btn">
@@ -305,7 +310,8 @@
                     </a>
                     <!-- Level Two-->
                     <ul>
-                        <li><a href="{{ asset('master-data-user', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i> Data User</a></li>
+                        <li><a href="{{ asset('master-data-user', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i>
+                                Data User</a></li>
 
                     </ul>
                 </li>
@@ -471,7 +477,44 @@
             setInterval('showTime()', 2000);
         </script>
     @endif
-
+    <script>
+        $(document).on("click", "#button-lengkapi-custom-subtask", function(e) {
+            e.preventDefault();
+            var id = $(this).data("id");
+            var no = $(this).data("no");
+            var nama = $(this).data("nama");
+            var kode = $(this).data("kode");
+            $.ajax({
+                    url: "user/user/handlecabang/customtask/lengkapisubdata/" + id,
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        id: id,
+                        no: no,
+                        nama: nama,
+                        kode: kode,
+                    },
+                    dataType: "html",
+                })
+                .done(function(data) {
+                    $("#menu-custom-handle-user").html(data);
+                })
+                .fail(function() {
+                    Lobibox.notify("error", {
+                        pauseDelayOnHover: true,
+                        icon: "fa fa-info-circle",
+                        continueDelayOnInactiveTab: false,
+                        position: "center top",
+                        showClass: "bounceIn",
+                        hideClass: "bounceOut",
+                        sound: false,
+                        width: 400,
+                        msg: "Hubungi Administrator Jika terjadi Eror",
+                    });
+                });
+        });
+    </script>
 </body>
 
 </html>

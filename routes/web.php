@@ -171,9 +171,10 @@ Route::get('user/user/handledatacabang',['as'=>'user/user/handledatacabang/','us
 Route::get('user/user/handledatacabang/task/{id}',['as'=>'user/user/handledatacabang/task','uses'=> 'UserController@taskharianhendledatacabang']);
 Route::get('user/user/handledatacabang/customtask/{id}',['as'=>'user/user/handledatacabang/customtask/','uses'=> 'UserController@customtaskhendledatacabang']);
 Route::get('user/user/handlecabang/customtask/lengkapidata/{id}',['as'=>'user/user/handledatacabang/customtask/lengkapidata/','uses'=> 'UserController@lengkapicustomtaskhendledatacabang']);
-Route::get('user/user/handlecabang/customtask/lengkapisubdata/{id}',['as'=>'user/user/handledatacabang/customtask/lengkapisubdata/','uses'=> 'UserController@lengkapisubcustomtaskhendledatacabang']);
+Route::post('user/user/handlecabang/customtask/lengkapisubdata/{id}',['as'=>'user/user/handledatacabang/customtask/lengkapisubdata/','uses'=> 'UserController@lengkapisubcustomtaskhendledatacabang']);
 Route::post('user/user/handlecabang/customtask/new-data',['as'=>'user/user/handledatacabang/customtask/new-data/','uses'=> 'UserController@tambahcustomtaskhendledatacabang']);
 Route::post('user/user/handlecabang/customtask/new-data/simpan',['as'=>'user/user/handledatacabang/customtask/new-data/simpan','uses'=> 'UserController@simpantambahcustomtaskhendledatacabang']);
+Route::post('user/user/handlecabang/customtasksub/new-data/simpan',['as'=>'user/user/handledatacabang/customtasksub/new-data/simpan','uses'=> 'UserController@simpantambahcustomtasksubhendledatacabang']);
 Route::get('user/user/handlecabang/respon-laporan-user/{id}',['as'=>'user/user/handlecabang/respon-laporan-user/','uses'=> 'UserController@respondatalaporanuser']);
 // Route::get('user/userleader/modal/postprintlaporan/{id}',['as'=>'user/userleader/modal/postprintlaporan/id','uses'=> 'UserController@postprintlaporanid']);
 Route::post('user/userleader/modalreport/postprintlaporan',['as'=>'user/userleader/modalreport/postprintlaporan','uses'=> 'UserController@postprintlaporan']);

@@ -17,6 +17,7 @@ class CreateCustomTaskTable extends Migration
             $table->id('id_custom');
             $table->string('kd_custom_task')->unique();
             $table->string('kd_kinerja');
+            $table->string('kd_cabang');
             $table->string('kategori_task');
             $table->string('nama_task');
             $table->string('tgl_buat_custom');

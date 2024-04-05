@@ -409,9 +409,13 @@ class UserController extends Controller
     }
     public function customtaskhendledatacabang($id)
     {
+        $user = DB::table('tbl_biodata')->where('id_user', Auth::user()->id_user)->first();
         $cabang = DB::table('tbl_cabang')->where('kd_cabang', $id)->first();
-        $sub_kinerja = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
-        return view('userleader.cabang.customtask', ['data' => $sub_kinerja, 'cabang' => $cabang]);
+        // $sub_kinerja = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
+        $data = DB::table('custom_task')
+            ->join('tbl_kinerja', 'tbl_kinerja.kd_kinerja', '=', 'custom_task.kd_kinerja')
+            ->where('custom_task.kd_cabang', $user->kd_cabang)->get();
+        return view('userleader.cabang.customtask', ['cabang' => $cabang, 'data' => $data]);
     }
     public function tambahcustomtaskhendledatacabang()
     {
@@ -420,30 +424,65 @@ class UserController extends Controller
     }
     public function simpantambahcustomtaskhendledatacabang(Request $request)
     {
-        // $url = urlencode ("http://inventory.pramita.co.id:8000/api/datainventaris/pa");
+        $user = DB::table('tbl_biodata')->where('id_user', Auth::user()->id_user)->first();
+        DB::table('custom_task')->insert([
+            'kd_custom_task' => 'TASK_' . date('Y-m-d_H:i:s') . mt_rand(1000000, 9999999),
+            'kd_kinerja' => $request->kd_kinerja,
+            'kd_cabang' => $user->kd_cabang,
+            'kategori_task' => $request->kategori_task,
+            'nama_task' => $request->judul_task,
+            'tgl_buat_custom' => date('Y-m-d H:i:s'),
+            'deskripsi_custom_task' => $request->desk_task,
+            'status_custom_task' => 0,
+        ]);
+        $data = DB::table('custom_task')
+            ->join('tbl_kinerja', 'tbl_kinerja.kd_kinerja', '=', 'custom_task.kd_kinerja')
+            ->where('custom_task.kd_cabang', $user->kd_cabang)->get();
+        return view('userleader.cabang.custom-task.table-custom-task', ['data' => $data]);
+    }
+    public function simpantambahcustomtasksubhendledatacabang(Request $request)
+    {
+        $user = DB::table('tbl_biodata')->where('id_user', Auth::user()->id_user)->first();
+        $cek = DB::table('custom_task_sub')->where('kd_custom_task', $request->kode)->where('id_inventaris', $id)->first();
+        if ($cek) {
+            Session::flash('sukses', 'Data Sudah Di Selesaikan');
+            return redirect()->back();
+        } else {
+            DB::table('custom_task_sub')->insert([
+                'kd_custom_task' => $request->kode,
+                'nama_barang' => $request->nama_barang,
+                'id_inventaris' => $request->id,
+                'no_inventaris' => $request->no_inventaris,
+                'deskripsi_barang' => $request->keterangan,
+                'status_barang' => 1,
+            ]);
+            Session::flash('sukses', 'Berhasil Menyelesaikan 1 Task');
+            return redirect()->back();
+        }
 
-        // $json = json_decode(file_get_contents($url), true);
-
-        return view('userleader.cabang.custom-task.table-custom-task');
     }
     public function lengkapicustomtaskhendledatacabang($id)
     {
-        $url = "http://192.168.50.247/api/datainventaris/pa";
+        $cek = DB::table('custom_task')->where('kd_custom_task', $id)->first();
+        $url = "http://192.168.50.247/api/datainventaris/" . $cek->kd_cabang;
         // $get_result_arr = json_decode($response->getContent($url), true);
         // echo $result;
         $response = file_get_contents($url, true);
         $newsData = json_decode($response);
         //  Initiate curl
-
+        $data = DB::table('custom_task')->where('kd_custom_task', $id)->first();
         // dd($newsData);
         // return view('userleader.customtask.lengkapi');
-        return view('userleader.customtask.lengkapi', ['data' => $newsData]);
+        return view('userleader.customtask.lengkapi', ['newsData' => $newsData, 'data' => $data]);
     }
-    public function lengkapisubcustomtaskhendledatacabang($id)
+    public function lengkapisubcustomtaskhendledatacabang(Request $request)
     {
-        $cabang = DB::table('tbl_cabang')->where('kd_cabang', $id)->first();
-        $sub_kinerja = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
-        return view('userleader.customtask.lengkapisubdata', ['data' => $sub_kinerja, 'cabang' => $cabang]);
+        $nama_barang = $request->nama;
+        $no_inventaris = $request->no;
+        $id = $request->id;
+        $kode = $request->kode;
+        // $sub_kinerja = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
+        return view('userleader.customtask.lengkapisubdata', ['nama_barang' => $nama_barang, 'no_inventaris' => $no_inventaris, 'id' => $id, 'kode' => $kode]);
     }
     public function posthendlecabang(Request $request)
     {

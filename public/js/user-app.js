@@ -349,6 +349,9 @@ $(document).on("click", "#task-custom-hendler-user", function (e) {
 $(document).on("click", "#button-lengkapi-custon-task", function (e) {
     e.preventDefault();
     var id = $(this).data("id");
+    $("#menu-custom-handle-user").html(
+        '<div style="text-align: center; padding:2%;"><div class="spinner-border" role="status" > <span class="sr-only">Loading...</span> </div></div>'
+    );
     $.ajax({
         url: "user/user/handlecabang/customtask/lengkapidata/" + id,
         type: "GET",
@@ -363,31 +366,7 @@ $(document).on("click", "#button-lengkapi-custon-task", function (e) {
             );
         });
 });
-$(document).on("click", "#button-lengkapi-custom-subtask", function (e) {
-    e.preventDefault();
-    var id = $(this).data("id");
-    $.ajax({
-        url: "user/user/handlecabang/customtask/lengkapisubdata/" + id,
-        type: "GET",
-        dataType: "html",
-    })
-        .done(function (data) {
-            $("#menu-custom-handle-user").html(data);
-        })
-        .fail(function () {
-            Lobibox.notify("error", {
-                pauseDelayOnHover: true,
-                icon: "fa fa-info-circle",
-                continueDelayOnInactiveTab: false,
-                position: "center top",
-                showClass: "bounceIn",
-                hideClass: "bounceOut",
-                sound: false,
-                width: 400,
-                msg: "Hubungi Administrator Jika terjadi Eror",
-            });
-        });
-});
+
 $(document).on("click", "#button-respon-laporan-user", function (e) {
     e.preventDefault();
     var id = $(this).data("id");
@@ -415,25 +394,25 @@ $(document).on("click", "#button-respon-laporan-user", function (e) {
 });
 
 //CUSTOM
-$(document).on("click", "#button-simpan-custom-task-user", function(e) {
+$(document).on("click", "#button-simpan-custom-task-user", function (e) {
     e.preventDefault();
     var data = $("#form-post-custom-task").serialize();
     $("#menu-custom-handle-user").html(
         "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
     );
     $.ajax({
-            url: "user/user/handlecabang/customtask/new-data/simpan",
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
-            },
-            type: "POST",
-            data: data,
-            dataType: "html",
-        })
-        .done(function(data) {
+        url: "user/user/handlecabang/customtask/new-data/simpan",
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
+        },
+        type: "POST",
+        data: data,
+        dataType: "html",
+    })
+        .done(function (data) {
             $("#menu-custom-handle-user").html(data);
         })
-        .fail(function() {
+        .fail(function () {
             $("#menu-custom-handle-user").html("Gagal Baca");
         });
 });

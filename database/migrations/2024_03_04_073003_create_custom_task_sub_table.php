@@ -17,6 +17,9 @@ class CreateCustomTaskSubTable extends Migration
             $table->id();
             $table->string('kd_custom_task');
             $table->string('nama_barang');
+            $table->string('id_inventaris');
+            $table->string('no_inventaris');
+            $table->text('deskripsi_barang');
             $table->string('status_barang');
             $table->timestamps();
         });
