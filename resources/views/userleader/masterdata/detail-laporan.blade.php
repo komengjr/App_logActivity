@@ -68,7 +68,9 @@
                             <p class="lead">Problem :</p>
 
                             <p class="bg-light p-2 mt-3 rounded">
-                                {{$data->deskripsi_laporan}}
+                                @php
+                                    echo $data->deskripsi_laporan;
+                                @endphp
                             </p>
                         </div>
                         <!-- /.col -->

@@ -51,7 +51,10 @@
 
                     <div class="col-12">
                         <label for="inputAddress3" class="form-label">Deskripsi Laporan</label>
-                        <textarea class="form-control" id="inputAddress3" placeholder="Enter Address" rows="3" disabled>{{ $datalaporan->deskripsi_laporan }}</textarea>
+                        {{-- <textarea class="form-control" id="inputAddress3" placeholder="Enter Address" rows="3" disabled>{{  }}</textarea> --}}
+                        @php
+                            echo $datalaporan->deskripsi_laporan;
+                        @endphp
                     </div>
 
                     <div class="col-12 pt-3" id="menu-respon-laporan-user">

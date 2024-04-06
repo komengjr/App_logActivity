@@ -15,6 +15,11 @@
         <label for="">Penyelesaian</label>
         <textarea name="keterangan" class="form-control" id="summernoteEditor88" cols="5" rows="10" required></textarea>
     </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn-primary">
+            <i class="fa fa-check-square-o"></i> Simpan
+        </button>
+    <div class="modal-footer">
 </div>
 {{-- <span class="badge badge-pill badge-warning m-1" style="float:right;" id="demo">{{$data->tgl_respon_laporan}}</span> --}}
 <script>

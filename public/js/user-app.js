@@ -106,6 +106,7 @@ $(document).on("click", "#buttonshowdetaillaporan", function (e) {
 $(document).on("click", "#task_kinerja", function (e) {
     e.preventDefault();
     var id = $(this).data("id");
+    $("#bodytask_kinerja").html('<div style="text-align: center; padding:2%;"><div class="spinner-border" role="status" > <span class="sr-only">Loading...</span> </div></div>');
     $.ajax({
         url: "user/task/kinerja/" + id,
         type: "GET",
