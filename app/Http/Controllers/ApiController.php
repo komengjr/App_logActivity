@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Telegram\Bot\Laravel\Facades\Telegram;
+use Telegram;
 use Illuminate\Http\Request;
 
 class ApiController extends Controller
