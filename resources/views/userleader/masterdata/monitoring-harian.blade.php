@@ -46,11 +46,11 @@
     </div>
 </form>
     <div class="modal-footer">
-        {{-- <button class="btn-primary" id="submit-button-laporan-user-coba">
-            <i class="fa fa-print" ></i> Print coba
-        </button> --}}
+        <button class="btn-primary" id="submit-button-laporan-user-coba">
+            <i class="fa fa-print" ></i> Preview Backup Harian
+        </button>
         <button class="btn-primary" id="button-privew-monitoring-harian">
-            <i class="fa fa-print" ></i> Print Preview
+            <i class="fa fa-print" ></i> Preview Laporan Kritis
         </button>
     </div>
 

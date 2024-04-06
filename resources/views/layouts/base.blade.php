@@ -69,7 +69,7 @@
                 border-bottom: 1px solid #eee;
                 position: relative;
                 padding-left: 50%;
-                background-color: #bcc6c1;
+                background-color: #ebeceb;
                 text-align: left;
             }
 

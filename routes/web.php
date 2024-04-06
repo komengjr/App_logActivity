@@ -180,6 +180,7 @@ Route::get('user/user/handlecabang/respon-laporan-user/{id}',['as'=>'user/user/h
 Route::post('user/userleader/modalreport/postprintlaporan',['as'=>'user/userleader/modalreport/postprintlaporan','uses'=> 'UserController@postprintlaporan']);
 // Route::post('user/userleader/modalreport/postprintlaporan', 'UserController@postprintlaporan');
 Route::post('user/user/handledatacabang/postrecorddata', 'UserController@posthendlecabang');
+Route::post('user/user/handledatacabang/postrecorddatabackup', 'UserController@posthendlecabangbackupharian');
 Route::post('user/user/tiket/posttask', 'UserController@posttaskuser');
 
 Route::post('user/lengkapi/data', 'UserController@lengkapidatabiodata');
@@ -193,6 +194,7 @@ Route::get('master-data-user',['as'=>'master-data-hardware','uses'=> 'MasterUser
 Route::post('master-data-user/laporan/detail',['as'=>'master-data-user/laporan/detail','uses'=> 'MasterUserController@masterdatalaporandetail']);
 Route::post('master-data-user/laporan/monitoring/harian',['as'=>'master-data-user/laporan/monitoring/harian','uses'=> 'MasterUserController@masterdatalaporanharian']);
 Route::post('master-data-user/laporan/monitoring/harian/preview',['as'=>'master-data-user/laporan/monitoring/harian/preview','uses'=> 'MasterUserController@masterpreviewmonitoringharian']);
+Route::post('master-data-user/laporan/monitoring/harian/previewbackupharian',['as'=>'master-data-user/laporan/monitoring/harian/previewbackupharian','uses'=> 'MasterUserController@masterpreviewbackupharianmonitoringharian']);
 Route::post('master-data-user/laporan/monitoring/kerusakan',['as'=>'master-data-user/laporan/monitoring/kerusakan','uses'=> 'MasterUserController@masterdatalaporankerusakan']);
 
 // VERIFIKATOR

@@ -74,21 +74,47 @@
                                 <h5><span class="badge badge-dark">Quest Two ( Backup Harian )</span></h5>
                             </div>
                             <div id="collapse-2" class="collapse" data-parent="#accordion1">
-                                <div class="card-body pb-0 mb-0">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label for="">Judul</label>
-                                            <input type="text" class="form-control" name="" id="">
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label for="">Deskripsi</label>
-                                            <textarea name="keterangan" class="form-control" id="summernoteEditor" cols="5" rows="10" required></textarea>
-                                        </div>
+                                @php
+                                    $cekbackup = DB::table('users_backup_harian')->where('kd_cabang',$cabang->kd_cabang)->where('tgl_backup_harian',date('Y-m-d'))->first();
+                                @endphp
+                                @if ($cekbackup)
+                                    <div class="card-body">
+                                        <i class="fa fa-check-circle"></i>
                                     </div>
-                                </div>
-                                <div class="card-body text-right pt-0">
-                                    <button type="submit" class="btn-success">Simpan</button>
-                                </div>
+                                @else
+                                    <form action="{{ url('user/user/handledatacabang/postrecorddatabackup', []) }}" method="post">
+                                        @csrf
+                                        <div class="card-body pb-0 mb-0">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="">SISTEM</label>
+                                                    <select name="sistem_backup" class="form-control" id="" required>
+                                                        <option value="">Pilih Status</option>
+                                                        <option value="OK">OK</option>
+                                                        <option value="NOT OK">NOT OK</option>
+                                                    </select>
+                                                    <input type="text" name="kd_cabang" id="" value="{{ $cabang->kd_cabang }}" hidden>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="">PROSES BACK UP</label>
+                                                    <select name="proses_backup" class="form-control" id="" required>
+                                                        <option value="">Pilih Status</option>
+                                                        <option value="OK">OK</option>
+                                                        <option value="NOT OK">NOT OK</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="">Deskripsi</label>
+                                                    <textarea name="deskripsi_backup" class="form-control" id="summernoteEditor" cols="5" rows="10" required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body text-right pt-0">
+                                            <button type="submit" class="btn-success">Simpan</button>
+                                        </div>
+                                    </form>
+                                @endif
+
                             </div>
                         </div>
 

@@ -414,13 +414,14 @@ class UserController extends Controller
         // $sub_kinerja = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
         $data = DB::table('custom_task')
             ->join('tbl_kinerja', 'tbl_kinerja.kd_kinerja', '=', 'custom_task.kd_kinerja')
-            ->where('custom_task.kd_cabang', $user->kd_cabang)->get();
+            ->where('custom_task.kd_cabang', $id)->get();
         return view('userleader.cabang.customtask', ['cabang' => $cabang, 'data' => $data]);
     }
-    public function tambahcustomtaskhendledatacabang()
+    public function tambahcustomtaskhendledatacabang(Request $request)
     {
         $kinerja = DB::table('tbl_kinerja')->get();
-        return view('userleader.cabang.custom-task.form-custom', ['kinerja' => $kinerja]);
+        $kd_cabang = $request->id;
+        return view('userleader.cabang.custom-task.form-custom', ['kinerja' => $kinerja,'kd_cabang'=>$kd_cabang]);
     }
     public function simpantambahcustomtaskhendledatacabang(Request $request)
     {
@@ -428,7 +429,7 @@ class UserController extends Controller
         DB::table('custom_task')->insert([
             'kd_custom_task' => 'TASK_' . date('Y-m-d_H:i:s') . mt_rand(1000000, 9999999),
             'kd_kinerja' => $request->kd_kinerja,
-            'kd_cabang' => $user->kd_cabang,
+            'kd_cabang' => $request->kd_cabang,
             'kategori_task' => $request->kategori_task,
             'nama_task' => $request->judul_task,
             'tgl_buat_custom' => date('Y-m-d H:i:s'),
@@ -437,7 +438,7 @@ class UserController extends Controller
         ]);
         $data = DB::table('custom_task')
             ->join('tbl_kinerja', 'tbl_kinerja.kd_kinerja', '=', 'custom_task.kd_kinerja')
-            ->where('custom_task.kd_cabang', $user->kd_cabang)->get();
+            ->where('custom_task.kd_cabang', $request->kd_cabang)->get();
         return view('userleader.cabang.custom-task.table-custom-task', ['data' => $data]);
     }
     public function simpantambahcustomtasksubhendledatacabang(Request $request)
@@ -513,6 +514,22 @@ class UserController extends Controller
             }
 
         }
+        Session::flash('sukses', 'Berhasil Menyelesaikan Task Harian');
+        return redirect()->back();
+
+    }
+    public function posthendlecabangbackupharian(Request $request)
+    {
+        DB::table('users_backup_harian')->insert([
+            'kd_users_backup_harian'=>'BACKUP_' . date('Y-m-d_H:i:s') . mt_rand(1000000, 9999999),
+            'sistem_backup_harian'=>$request->sistem_backup,
+            'proses_backup_harian'=>$request->proses_backup,
+            'deskripsi_backup_harian'=>$request->deskripsi_backup,
+            'status_backup_harian'=>1,
+            'tgl_backup_harian'=>date('Y-m-d'),
+            'kd_cabang'=>$request->kd_cabang,
+            'created_at'=>date('Y-m-d H:i:s'),
+        ]);
         Session::flash('sukses', 'Berhasil Menyelesaikan Task Harian');
         return redirect()->back();
 

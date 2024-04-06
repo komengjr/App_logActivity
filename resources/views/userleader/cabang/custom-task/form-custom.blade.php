@@ -31,6 +31,7 @@
                 <label for="inputLastName2" class="form-label">Judul Tugas</label>
                 <div class="input-group"> <span class="input-group-text"><i class="fa fa-cog"></i></span>
                     <input type="text" name="judul_task" class="form-control border-start-0" id="inputLastName2" placeholder="Maintenance Bulanan">
+                    <input type="text" name="kd_cabang" id="" value="{{$kd_cabang}}" hidden>
                 </div>
             </div>
 

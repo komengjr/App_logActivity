@@ -4,7 +4,7 @@
         <h5 class="card-title" style="color: white;">Cabang {{ $cabang->nama_cabang }} <button style="float: right;"
                 class="btn-danger" data-dismiss="modal"><i class="fa fa-close"></i></button></h5>
         {{-- <p class="card-text">{{$item->alamat}}</p> --}}
-
+            <input type="text" value="{{ $cabang->kd_cabang }}" id="kd_cabang" hidden>
     </div>
     <div class="modal-body" id="menu-custom-handle-user">
         <div class="row">
@@ -24,15 +24,15 @@
                                     <a class="dropdown-item" href="javascript:void();">Another action</a>
                                     <a class="dropdown-item" href="javascript:void();">Something else here</a> --}}
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#" id="button-tambah-custom-task"><i
-                                            class="fa fa-check-square-o"></i> Tambah Baru</a>
+                                    <a class="dropdown-item" href="#" id="button-tambah-custom-task" data-id="{{ $cabang->kd_cabang }}"><i
+                                            class="fa fa-check-square-o" ></i> Tambah Baru</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="table-responsive pt-3 pb-3">
                         <table class="table align-items-center table-flush" id="default-table-custom-task"
-                            border="1">
+                            border="1" style="text-align: justify;">
                             <thead>
                                 <tr>
                                     <th>Icon</th>
@@ -94,9 +94,11 @@
 <script>
     $(document).on("click", "#button-tambah-custom-task", function(e) {
         e.preventDefault();
+        var id = $(this).data("id");
         $("#menu-form-custom-task").html(
             '<div class="card"><div style="text-align: center; padding:2%;"><div class="spinner-border" role="status" > <span class="sr-only"></span> </div></div></div>'
         );
+        console.log(id);
         $.ajax({
                 url: "../../user/user/handlecabang/customtask/new-data",
                 type: "POST",
@@ -104,6 +106,7 @@
                 data: {
                     "_token": "{{ csrf_token() }}",
                     "tiket": 123,
+                    "id":id,
                 },
                 dataType: 'html',
             })

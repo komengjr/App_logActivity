@@ -169,7 +169,7 @@
                                     </div>
                                 </li>
                             @endforeach --}}
-                            <table id="example1" class="table table-striped table-bordered" style="width:100%;"
+                            <table id="example1" class="styled-table table-striped table-bordered" style="width:100%; text-align: left;"
                                 border="1">
                                 <thead>
                                     <tr>
@@ -189,9 +189,9 @@
                                         <tr id="button-user-log" style="cursor: pointer;"
                                         data-toggle="modal" data-target="#modal-master-data-user"
                                         data-id="{{ $item->tiket_laporan }}">
-                                            <td>{{ $no++ }}</td>
-                                            <td>
-                                                <h6 class="mb-0">{{ $item->deskripsi_laporan }}</h6>
+                                            <td data-label="No :">{{ $no++ }}</td>
+                                            <td data-label="Deskripsi Laporan :">
+                                                <h6 class="mb-2">{{ $item->deskripsi_laporan }}</h6>
                                                 <p style="font-size: 10px;">( {{ $item->nama_user }} ) - PRAMITA PONTIANAK
                                                 </p>
                                                 <small class="small-font mt-0">
@@ -204,17 +204,17 @@
                                                     @endif
                                                 </small>
                                             </td>
-                                            <td>
+                                            <td data-label="Waktu Laporan Masuk :">
                                                 <h6 class="mb-2"><span class="badge bg-dark text-white">Waktu Laporan
                                                         Masuk</span></h6>
                                                 <p class="mb-0">{{ $item->tgl_laporan }}</p>
                                             </td>
-                                            <td>
+                                            <td data-label="Waktu Terima Laporan :">
                                                 <h6 class="mb-2"><span class="badge bg-primary text-white">Waktu Terima
                                                         Laporan</span></h6>
                                                 <p class="mb-0">{{ $item->tgl_respon_laporan }}</p>
                                             </td>
-                                            <td>
+                                            <td data-label="Waktu Selesai Laporan :">
                                                 <h6 class="mb-2"><span class="badge bg-success text-white">Waktu Selesai
                                                         Laporan</span></h6>
                                                 <p class="mb-0">{{ $item->tgl_selesai_laporan }}</p>
@@ -263,7 +263,7 @@
                                         <h6 class="mb-0">Monitoring Harian</h6>
                                     </div>
                                     <div class="date">
-                                        Submited List: 250
+                                        <i class="fa fa-check-circle"></i>
                                     </div>
                                 </div>
                             </li>
@@ -276,7 +276,33 @@
                                         <h6 class="mb-0">Monitoring Laporan Kerusakan</h6>
                                     </div>
                                     <div class="date">
-                                        Submited List: 250
+                                        <i class="fa fa-check-circle"></i>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item" id="button-report-monitoring-kerusakan" data-toggle="modal"
+                                data-target="#modal-master-data-user">
+                                <div class="media align-items-center">
+                                    <img src="{{ asset('assets/images/avatar/3.png') }}" alt="user avatar"
+                                        class="customer-img rounded">
+                                    <div class="media-body ml-3">
+                                        <h6 class="mb-0">Maintenance Hardware & Software</h6>
+                                    </div>
+                                    <div class="date">
+                                        <i class="fa fa-check-circle"></i>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item" id="button-report-monitoring-kerusakan" data-toggle="modal"
+                                data-target="#modal-master-data-user">
+                                <div class="media align-items-center">
+                                    <img src="{{ asset('assets/images/avatar/2.png') }}" alt="user avatar"
+                                        class="customer-img rounded">
+                                    <div class="media-body ml-3">
+                                        <h6 class="mb-0">Grafik Penilaian</h6>
+                                    </div>
+                                    <div class="date">
+                                        <i class="fa fa-check-circle"></i>
                                     </div>
                                 </div>
                             </li>
@@ -438,6 +464,35 @@
             );
             $.ajax({
                     url: "master-data-user/laporan/monitoring/harian/preview",
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
+                    },
+                    type: "POST",
+                    data: data,
+                    dataType: "html",
+                })
+                .done(function(datapdf) {
+                    $("#show-monitoring-harian").html(
+                        '<iframe src="data:application/pdf;base64, ' +
+                        datapdf +
+                        '" style="width:100%;; height:500px;" frameborder="0"></iframe>'
+                    );
+                })
+                .fail(function() {
+                    // console.log(data);
+                    $("#show-monitoring-harian").html("Gagal Baca");
+                });
+        });
+    </script>
+    <script>
+        $(document).on("click", "#submit-button-laporan-user-coba", function(e) {
+            e.preventDefault();
+            var data = $("#form-monitoring-harian").serialize();
+            $("#show-monitoring-harian").html(
+                '<div style="text-align: center; padding:2%;"><div class="spinner-border" role="status" > <span class="sr-only">Loading...</span> </div></div>'
+            );
+            $.ajax({
+                    url: "master-data-user/laporan/monitoring/harian/previewbackupharian",
                     headers: {
                         "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
                     },
