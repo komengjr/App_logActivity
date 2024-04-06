@@ -12,6 +12,7 @@
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
     <!-- Bootstrap core CSS-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/dist/summernote-bs4.css', []) }}" />
     <link href="assets/css/app-style.css" rel="stylesheet" />
     <style>
         body {
@@ -407,16 +408,26 @@
                                     <fieldset class="wizard-fieldset">
                                         <h5>Deskripsi Laporan</h5>
                                         <div class="form-group">
+                                            <select name="tingkat_laporan" class="form-control wizard-required" id="">
+                                                <option value=""></option>
+                                                <option value="1">Rendah</option>
+                                                <option value="2">Sedang</option>
+                                                <option value="3">Tinggi</option>
+                                            </select>
+                                            <label for="bname" class="wizard-form-text-label">Tingkat Laporan</label>
+                                            <div class="wizard-form-error"></div>
+                                        </div>
+                                        <div class="form-group">
                                             <select name="kategori_laporan" class="form-control wizard-required" id="">
                                                 <option value=""></option>
-                                                <option value="ER-001">Eror Pada Software</option>
-                                                <option value="ER-002">Eror Pada Hardware</option>
+                                                <option value="ER-001">Software</option>
+                                                <option value="ER-002">Hardware</option>
                                             </select>
                                             <label for="bname" class="wizard-form-text-label">Kategori</label>
                                             <div class="wizard-form-error"></div>
                                         </div>
                                         <div class="form-group">
-                                            <textarea class="form-control wizard-required" id="bname" cols="30" rows="10" name="deskripsi"></textarea>
+                                            <textarea class="form-control wizard-required" id="summernoteEditor" cols="30" rows="10" name="deskripsi"></textarea>
                                             <label for="bname" class="wizard-form-text-label">Deskripsi *</label>
                                             <div class="wizard-form-error"></div>
                                         </div>
@@ -503,6 +514,13 @@
                     });
             }, 1500);
         });
+    </script>
+    <script src="{{ asset('assets/plugins/summernote/dist/summernote-bs4.min.js', []) }}"></script>
+    <script>
+     $('#summernoteEditor').summernote({
+              height: 400,
+              tabsize: 2
+          });
     </script>
 </body>
 

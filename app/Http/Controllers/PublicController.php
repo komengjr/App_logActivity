@@ -24,6 +24,7 @@ class PublicController extends Controller
             'email'=>$request->email,
             'no_hp'=>$request->telegram,
             'status_laporan'=>0,
+            'tingkat_laporan'=>$request->tingkat_laporan,
             'tgl_laporan'=>date('Y-m-d H:i:s'),
         ]);
         return($request->tiket);

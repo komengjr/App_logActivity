@@ -174,7 +174,7 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Detail Report</th>
+                                        <th>User Laporan</th>
                                         <th>Waktu Laporan Masuk</th>
                                         <th>Waktu Terima Laporan</th>
                                         <th>Waktu Selesai Laporan</th>
@@ -191,8 +191,15 @@
                                         data-id="{{ $item->tiket_laporan }}">
                                             <td data-label="No :">{{ $no++ }}</td>
                                             <td data-label="Deskripsi Laporan :">
-                                                <h6 class="mb-2">{{ $item->deskripsi_laporan }}</h6>
-                                                <p style="font-size: 10px;">( {{ $item->nama_user }} ) - PRAMITA PONTIANAK
+                                                <h6 class="mb-1">{{ $item->nama_user }}</h6>
+                                                <p style="font-size: 15px;" class="mt-0">
+                                                    @if ($item->tingkat_laporan == 1)
+                                                        <span class="badge badge-info">Kasus Rendah</span>
+                                                    @elseif($item->tingkat_laporan == 2)
+                                                        <span class="badge badge-warning">Kasus Sedang</span>
+                                                    @elseif($item->tingkat_laporan == 3)
+                                                        <span class="badge badge-danger">Kasus Tinggi</span>
+                                                    @endif
                                                 </p>
                                                 <small class="small-font mt-0">
                                                     @if ($item->status_laporan == 0)
