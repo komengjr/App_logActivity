@@ -1,7 +1,4 @@
-<li class="list-group-item d-flex justify-content-between align-items-center">
-    {{-- Kamu Punya 123 Task Yang harus diselesaikan
-    <span class="badge badge-primary">213</span> --}}
-</li>
+
 @foreach ($dataschedule as $dataschedule)
     <li class="list-group-item bg-danger">
         <a href="#" data-toggle="modal" data-target="#modal-laporan-user" id="task_kinerja_admin"
