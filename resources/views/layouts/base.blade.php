@@ -39,6 +39,11 @@
             text-align: center;
             border: 2px solid #2c717f;
         }
+
+        #task_kinerja:hover {
+            background: rgb(170, 170, 176);
+            cursor: pointer;
+        }
     </style>
     <style>
         @media only screen and (max-width: 800px) {

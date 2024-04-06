@@ -23,9 +23,8 @@
 @endforeach
 <div class="pt-2"></div>
 @foreach ($datapesan as $data)
-    <li class="list-group-item bg-warning">
-        <a href="#" data-toggle="modal" data-target="#modal-laporan-user" id="task_kinerja"
-            data-id="{{ $data->tiket_laporan }}">
+    <li class="list-group-item " data-toggle="modal" data-target="#modal-laporan-user" id="task_kinerja"data-id="{{ $data->tiket_laporan }}">
+        <a>
             <div class="media">
                 <div class="alert-icon contrast-alert m-2">
                     <button><i class="fa fa-envelope"></i></button>
@@ -46,6 +45,6 @@
     </li>
 @else
     <li class="list-group-item text-center">
-        <a href="#">See All Messages</a>
+        <a href="{{ url('master-data-user', []) }}">See All Messages</a>
     </li>
 @endif
