@@ -20,7 +20,7 @@ class MasterUserController extends Controller
     {
         $user = DB::table('tbl_biodata')->where('id_user', Auth::user()->id_user)->first();
         if (Auth::user()->kd_akses == 2) {
-            $data = DB::table('tbl_laporan_user')->limit(5)->get();
+            $data = DB::table('tbl_laporan_user')->limit(10)->get();
         } elseif (Auth::user()->kd_akses > 2) {
             $data = DB::table('tbl_laporan_user')
                 ->where('kd_cabang', $user->kd_cabang)->get();

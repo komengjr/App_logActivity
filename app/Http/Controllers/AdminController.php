@@ -11,8 +11,10 @@ use Illuminate\Support\Facades\Session;
 // use App\Piket;
 // use App\Cabang;
 use Telegram\Bot\Laravel\Facades\Telegram;
+
 class AdminController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -488,7 +490,7 @@ class AdminController extends Controller
         if (auth::user()->kd_akses == 2) {
             $data = DB::table('tbl_kinerja')->get();
             $cabang = DB::table('tbl_cabang')->get();
-            return view('admin.modal.calender', ['data' => $data, 'id' => $tgl, 'cabang'=>$cabang]);
+            return view('admin.modal.calender', ['data' => $data, 'id' => $tgl, 'cabang' => $cabang]);
         }
 
     }
@@ -625,9 +627,9 @@ class AdminController extends Controller
     {
         $cabang = DB::table('tbl_cabang')->where('kd_cabang', $id)->first();
         $user = DB::table('users')
-        ->join('tbl_biodata','tbl_biodata.id_user','=','users.id_user')
-        ->get();
-        return view('admin.modal.cabang.tambahhendlecabang', ['id' => $id, 'cabang' => $cabang, 'user'=> $user]);
+            ->join('tbl_biodata', 'tbl_biodata.id_user', '=', 'users.id_user')
+            ->get();
+        return view('admin.modal.cabang.tambahhendlecabang', ['id' => $id, 'cabang' => $cabang, 'user' => $user]);
     }
     public function tambahuserverifikator(Request $request)
     {
@@ -700,37 +702,37 @@ class AdminController extends Controller
     public function piket()
     {
         $data = DB::table('tbl_cabang')->get();
-        return view('admin.piket.index',['data'=>$data]);
+        return view('admin.piket.index', ['data' => $data]);
     }
     public function datahandlecabang($id)
     {
-        $data = DB::table('tbl_cabang')->where('kd_cabang',$id)->first();
+        $data = DB::table('tbl_cabang')->where('kd_cabang', $id)->first();
         $datarecord = DB::table('users_handler_backup')
-        ->select('users_handler_backup.*','tbl_biodata.nama_lengkap')
-        ->join('tbl_biodata','tbl_biodata.id_user','=','users_handler_backup.id_user')
-        ->where('users_handler_backup.kd_cabang',$id)->get();
-        return view('admin.cabang.datahandlecabang',['data'=>$data,'datarecord'=>$datarecord]);
+            ->select('users_handler_backup.*', 'tbl_biodata.nama_lengkap')
+            ->join('tbl_biodata', 'tbl_biodata.id_user', '=', 'users_handler_backup.id_user')
+            ->where('users_handler_backup.kd_cabang', $id)->get();
+        return view('admin.cabang.datahandlecabang', ['data' => $data, 'datarecord' => $datarecord]);
     }
     public function tambahdatauserhandlecabang($id)
     {
         $data = DB::table('users')
-        ->join('tbl_biodata','tbl_biodata.id_user','=','users.id_user')
-        ->whereBetween('users.kd_akses', [3, 4])->get();
-        return view('admin.cabang.formtambahuserhandlecabang',['id'=>$id,'data'=>$data]);
+            ->join('tbl_biodata', 'tbl_biodata.id_user', '=', 'users.id_user')
+            ->whereBetween('users.kd_akses', [3, 4])->get();
+        return view('admin.cabang.formtambahuserhandlecabang', ['id' => $id, 'data' => $data]);
     }
     public function posttambahuserbackuphandle(Request $request)
     {
         DB::table('users_handler_backup')->insert([
-            'id_user'=>$request->user,
-            'kd_cabang'=>$request->cabang,
-            'tgl_hendler_backup'=>date('Y-m-d'),
-            'created_at'=>date('Y-m-d H:i:s'),
+            'id_user' => $request->user,
+            'kd_cabang' => $request->cabang,
+            'tgl_hendler_backup' => date('Y-m-d'),
+            'created_at' => date('Y-m-d H:i:s'),
         ]);
-        $datauser = DB::table('tbl_biodata')->where('id_user',$request->user)->first();
-        $datacabang = DB::table('tbl_cabang')->where('kd_cabang',$request->cabang)->first();
+        $datauser = DB::table('tbl_biodata')->where('id_user', $request->user)->first();
+        $datacabang = DB::table('tbl_cabang')->where('kd_cabang', $request->cabang)->first();
         Telegram::sendMessage([
             'chat_id' => '-1002095197699',
-            'text' => 'Ada Tugas Untuk '.$datauser->nama_lengkap.' Untuk Handle Cabang :'.$datacabang->nama_cabang,
+            'text' => 'Ada Tugas Untuk ' . $datauser->nama_lengkap . ' Untuk Handle Cabang :' . $datacabang->nama_cabang,
         ]);
         Session::flash('sukses', 'Berhasil Membuat Jadwal Handle User ');
         return redirect()->back();
@@ -738,25 +740,25 @@ class AdminController extends Controller
     public function taskorder()
     {
         $dataharian = DB::table('tbl_kinerja_sub')
-        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_kinerja_sub.kd_kinerja')
-        ->where('tbl_kinerja_sub.jenis_kinerja_sub',1)->get();
+            ->join('tbl_kinerja', 'tbl_kinerja.kd_kinerja', '=', 'tbl_kinerja_sub.kd_kinerja')
+            ->where('tbl_kinerja_sub.jenis_kinerja_sub', 1)->get();
         $databulanan = DB::table('tbl_kinerja_sub')
-        ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_kinerja_sub.kd_kinerja')
-        ->where('tbl_kinerja_sub.jenis_kinerja_sub',2)->get();
+            ->join('tbl_kinerja', 'tbl_kinerja.kd_kinerja', '=', 'tbl_kinerja_sub.kd_kinerja')
+            ->where('tbl_kinerja_sub.jenis_kinerja_sub', 2)->get();
         $datakinerja = DB::table('tbl_kinerja')->get();
-        return view('admin.taskorder.taskorder',['dataharian'=>$dataharian,'databulanan'=>$databulanan, 'datakinerja'=>$datakinerja]);
+        return view('admin.taskorder.taskorder', ['dataharian' => $dataharian, 'databulanan' => $databulanan, 'datakinerja' => $datakinerja]);
     }
     public function postmonitoringharian(Request $request)
     {
         DB::table('tbl_kinerja_sub')->insert([
-            'kd_kinerja_sub'=>$request->kinerja.'-'.Str::random(5),
-            'kd_kinerja'=>$request->kinerja,
-            'kd_jenis_kinerja'=>$request->jenis,
-            'kinerja_sub'=>$request->order,
-            'jenis_kinerja_sub'=>1,
-            'status_kinerja_sub'=>1,
-            'point_kinerja_sub'=>$request->poin,
-            'created_at'=>date('Y-m-d H:i:s'),
+            'kd_kinerja_sub' => $request->kinerja . '-' . Str::random(5),
+            'kd_kinerja' => $request->kinerja,
+            'kd_jenis_kinerja' => $request->jenis,
+            'kinerja_sub' => $request->order,
+            'jenis_kinerja_sub' => 1,
+            'status_kinerja_sub' => 1,
+            'point_kinerja_sub' => $request->poin,
+            'created_at' => date('Y-m-d H:i:s'),
         ]);
         Session::flash('sukses', 'Berhasil Membuat Order Monitoring Harian ');
         return redirect()->back();
@@ -773,10 +775,73 @@ class AdminController extends Controller
             $tglstart = $request->start;
             $tglend = $request->end;
             $datacabang = DB::table('tbl_cabang')->get();
-            return view('admin.dashboard.monitoringdata',['datacabang'=>$datacabang, 'tglstart'=>$tglstart, 'tglend'=>$tglend]);
+            return view('admin.dashboard.monitoringdata', ['datacabang' => $datacabang, 'tglstart' => $tglstart, 'tglend' => $tglend]);
+        }
+    }
+    public function masterdatakinerja()
+    {
+        if (Auth::user()->kd_akses == 2) {
+            $data = DB::table('tbl_kinerja')->get();
+            return view('admin.masterdata.datakinerja',['data'=>$data]);
         }
 
 
+    }
+    public function masterdatakinerjadetail(Request $request)
+    {
+        if (Auth::user()->kd_akses == 2) {
+            $var = DB::table('tbl_kinerja')->where('kd_kinerja',$request->data)->first();
+            $data = DB::table('tbl_kinerja_detail')->where('kd_kinerja',$request->data)->get();
+            return view('admin.masterdata.sub-data-kinerja',[
+                'data'=> $data,
+                'var'=> $var,
+            ]);
+        }
+
+
+    }
+    public function masterdatakinerjadetailform(Request $request)
+    {
+        if (Auth::user()->kd_akses == 2) {
+            $var = DB::table('tbl_kinerja_detail')->where('kd_kinerja_detail',$request->data)->first();
+            $data = DB::table('tbl_kinerja_form')->where('kd_kinerja_detail',$request->data)->get();
+            return view('admin.masterdata.sub-data-kinerja-form',[
+                'data'=> $data,
+                'var'=> $var,
+            ]);
+        }
+    }
+    public function tambahmasterdatakinerjadetail(Request $request)
+    {
+        if (Auth::user()->kd_akses == 2) {
+            DB::table('tbl_kinerja_detail')->insert([
+                'kd_kinerja_detail' => Str::random(15),
+                'kd_kinerja' => $request->id_kinerja,
+                'kinerja_detail' => $request->detail_kinerja,
+                'kinerja_detail_jenis' => $request->jenis_kinerja,
+                'kinerja_detail_length_date' => $request->waktu,
+                'kinerja_detail_status' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+            Session::flash('sukses', 'Berhasil Membuat Template Kinerja');
+            return redirect()->back();
+        }
+    }
+    public function masterdatakinerjadetailfieldform(Request $request)
+    {
+        if (Auth::user()->kd_akses == 2) {
+            DB::table('tbl_kinerja_form')->insert([
+                'kd_kinerja_form'=> 'field'.Str::random(15),
+                'kd_kinerja'=>'sadad',
+                'kd_kinerja_detail'=>$request->id_field,
+                'nama_form'=>$request->field,
+                'type_form'=>$request->type,
+                'status_form'=>1,
+                'posisi_form'=>$request->posisi,
+            ]);
+            $data = DB::table('tbl_kinerja_form')->where('kd_kinerja_detail',$request->id_field)->get();
+            return view('admin.masterdata.table-field-form-kinerja',['data'=>$data]);
+        }
     }
 
 }

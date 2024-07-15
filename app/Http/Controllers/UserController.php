@@ -464,17 +464,69 @@ class UserController extends Controller
     }
     public function lengkapicustomtaskhendledatacabang($id)
     {
-        $cek = DB::table('custom_task')->where('kd_custom_task', $id)->first();
-        $url = "http://192.168.50.247/api/datainventaris/" . $cek->kd_cabang;
+        $cekdata = DB::table('custom_task')->where('kd_custom_task',$id)->first();
+        if ($cekdata->kd_kinerja == 'P001') {
+            return view('userleader.customtask.melengkapi',['data'=>$cekdata]);
+        }
+        elseif($cekdata->kd_kinerja == 'P002') {
+            return view('userleader.customtask.melengkapi',['data'=>$cekdata]);
+        }
+        elseif($cekdata->kd_kinerja == 'P003') {
+            return view('userleader.customtask.melengkapi',['data'=>$cekdata]);
+        }
+        elseif($cekdata->kd_kinerja == 'P004') {
+            return view('userleader.customtask.melengkapi',['data'=>$cekdata]);
+        }
+        elseif($cekdata->kd_kinerja == 'P005') {
+            return view('userleader.customtask.melengkapi',['data'=>$cekdata]);
+        }
+        elseif($cekdata->kd_kinerja == 'P006') {
+            return 'P006';
+        }
+        elseif($cekdata->kd_kinerja == 'P008') {
+            return 'P007';
+        }
+        elseif($cekdata->kd_kinerja == 'P009') {
+
+            $cek = DB::table('custom_task')->where('kd_custom_task', $id)->first();
+            $url = "http://192.168.50.247/api/datainventaris/" . $cek->kd_cabang . "/05.04.03";
+            // $get_result_arr = json_decode($response->getContent($url), true);
+            // echo $result;
+            $response = file_get_contents($url, true);
+            $newsData = json_decode($response);
+            //  Initiate curl
+            $data = DB::table('custom_task')->where('kd_custom_task', $id)->first();
+            // dd($newsData);
+            // return view('userleader.customtask.lengkapi');
+            return view('userleader.customtask.lengkapi', ['newsData' => $newsData, 'data' => $data]);
+        }
+        elseif($cekdata->kd_kinerja == 'P010') {
+            return 'P007';
+        }
+        elseif($cekdata->kd_kinerja == 'P011') {
+            $cek = DB::table('custom_task')->where('kd_custom_task', $id)->first();
+            return view('userleader.customtask.cari-data-inventaris',['data'=>$cekdata]);
+        }
+
+
+    }
+    public function caridatainventaris_formcustomtasksub(Request $request)
+    {
+        $url = "http://192.168.50.247/api/datanoinventaris/" . $request->kode_costum_cabang."/".$request->nama;
         // $get_result_arr = json_decode($response->getContent($url), true);
         // echo $result;
         $response = file_get_contents($url, true);
         $newsData = json_decode($response);
-        //  Initiate curl
-        $data = DB::table('custom_task')->where('kd_custom_task', $id)->first();
-        // dd($newsData);
-        // return view('userleader.customtask.lengkapi');
-        return view('userleader.customtask.lengkapi', ['newsData' => $newsData, 'data' => $data]);
+        return view('userleader.customtask.maintenance.maintenance_barang', ['newsData' => $newsData]);
+    }
+    public function pilihdatainventaris_formcustomtasksub(Request $request)
+    {
+        $no = $request->no;
+        $nama = $request->nama;
+        return view('userleader.customtask.maintenance.data-barang',[
+            'no'=>$no,
+            'nama'=>$nama
+        ]);
     }
     public function lengkapisubcustomtaskhendledatacabang(Request $request)
     {

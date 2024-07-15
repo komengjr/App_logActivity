@@ -128,6 +128,7 @@ Route::post('admin/data/datacabang/tambahverifikator','AdminController@tambahuse
 Route::post('admin/data/datacabang/tambahhendlecabang','AdminController@tambahhendlecabang');
 Route::post('admin/data/cabang/menuhandle/posttambahdata','AdminController@posttambahuserbackuphandle');
 
+
 Route::get('taskorder',['as'=>'taskorder','uses'=> 'AdminController@taskorder']);
 Route::post('taskorder/postmonitoringharian','AdminController@postmonitoringharian');
 
@@ -175,6 +176,8 @@ Route::post('user/user/handlecabang/customtask/lengkapisubdata/{id}',['as'=>'use
 Route::post('user/user/handlecabang/customtask/new-data',['as'=>'user/user/handledatacabang/customtask/new-data/','uses'=> 'UserController@tambahcustomtaskhendledatacabang']);
 Route::post('user/user/handlecabang/customtask/new-data/simpan',['as'=>'user/user/handledatacabang/customtask/new-data/simpan','uses'=> 'UserController@simpantambahcustomtaskhendledatacabang']);
 Route::post('user/user/handlecabang/customtasksub/new-data/simpan',['as'=>'user/user/handledatacabang/customtasksub/new-data/simpan','uses'=> 'UserController@simpantambahcustomtasksubhendledatacabang']);
+Route::post('user/user/handlecabang/formcustomtasksub/caridatainventaris',['as'=>'caridatainventaris-formcustomtasksub','uses'=> 'UserController@caridatainventaris_formcustomtasksub']);
+Route::post('user/user/handlecabang/formcustomtasksub/pilihdatainventaris',['as'=>'pilihdatainventaris-formcustomtasksub','uses'=> 'UserController@pilihdatainventaris_formcustomtasksub']);
 Route::get('user/user/handlecabang/respon-laporan-user/{id}',['as'=>'user/user/handlecabang/respon-laporan-user/','uses'=> 'UserController@respondatalaporanuser']);
 // Route::get('user/userleader/modal/postprintlaporan/{id}',['as'=>'user/userleader/modal/postprintlaporan/id','uses'=> 'UserController@postprintlaporanid']);
 Route::post('user/userleader/modalreport/postprintlaporan',['as'=>'user/userleader/modalreport/postprintlaporan','uses'=> 'UserController@postprintlaporan']);
@@ -197,6 +200,11 @@ Route::post('master-data-user/laporan/monitoring/harian/preview',['as'=>'master-
 Route::post('master-data-user/laporan/monitoring/harian/previewbackupharian',['as'=>'master-data-user/laporan/monitoring/harian/previewbackupharian','uses'=> 'MasterUserController@masterpreviewbackupharianmonitoringharian']);
 Route::post('master-data-user/laporan/monitoring/kerusakan',['as'=>'master-data-user/laporan/monitoring/kerusakan','uses'=> 'MasterUserController@masterdatalaporankerusakan']);
 
+Route::get('master-data-kinerja',['as'=>'master-data-kinerja','uses'=> 'AdminController@masterdatakinerja']);
+Route::post('master-data-kinerja/detaildata',['as'=>'master-data-kinerja-detail-data','uses'=> 'AdminController@masterdatakinerjadetail']);
+Route::post('master-data-kinerja/simpandetaildata',['as'=>'simpan-master-data-kinerja-detail-data','uses'=> 'AdminController@tambahmasterdatakinerjadetail']);
+Route::post('master-data-kinerja/detaildata/form',['as'=>'master-data-kinerja-detail-data-form','uses'=> 'AdminController@masterdatakinerjadetailform']);
+Route::post('master-data-kinerja/detaildata/fieldform',['as'=>'master-data-kinerja-detail-data-fieldform','uses'=> 'AdminController@masterdatakinerjadetailfieldform']);
 // VERIFIKATOR
 Route::get('verifikator/datatask/user/pengerjaan/{id}',['as'=>'verifikator/datatask/user/pengerjaan','uses'=> 'VerifikatorController@datatask']);
 Route::get('verifikator/datatask/tambahorder',['as'=>'verifikator/datatask/tambahorder','uses'=> 'VerifikatorController@tambahordertask']);

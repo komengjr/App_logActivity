@@ -324,7 +324,7 @@
                                                     <h6 style="text-decoration: underline;">Cabang Group</h6>
                                                     @foreach ($groupcabang as $groupcabang)
                                                         <a href="javascript:void();"
-                                                            class="badge badge-primary p-2">{{ $groupcabang->nama_cabang }}</a>
+                                                            class="badge badge-primary p-2 m-1">{{ $groupcabang->nama_cabang }}</a>
                                                     @endforeach
 
                                                     <hr />

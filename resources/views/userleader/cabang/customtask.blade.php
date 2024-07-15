@@ -77,7 +77,7 @@
                                                             <a class="dropdown-item" href="javascript:void();">Another action</a>
                                                             <a class="dropdown-item" href="javascript:void();">Something else here</a> --}}
                                                     {{-- <div class="dropdown-divider"></div> --}}
-                                                    <a class="dropdown-item" href="#" id="button-lengkapi-custon-task" data-id="{{ $data->kd_custom_task }}"><i class="fa fa-check-square-o"></i> Checklist Komputer PC</a>
+                                                    <a class="dropdown-item" href="#" id="button-lengkapi-custon-task" data-id="{{ $data->kd_custom_task }}"><i class="fa fa-check-square-o"></i> Lengkapi Data</a>
                                                 </div>
                                         </td>
                                     </tr>
