@@ -17,20 +17,20 @@ class PublicController extends Controller
     }
     public function postnewcase(Request $request)
     {
-        // DB::table('tbl_laporan_user')->insert([
-        //     'tiket_laporan' => $request->tiket,
-        //     'kd_cabang' => $request->kd_cabang,
-        //     'nama_user' => $request->nama,
-        //     'nip_user' => $request->nip,
-        //     'divisi' => $request->divisi,
-        //     'kategori_laporan' => $request->kategori_laporan,
-        //     'deskripsi_laporan' => $request->deskripsi,
-        //     'email' => $request->email,
-        //     'no_hp' => $request->telegram,
-        //     'status_laporan' => 0,
-        //     'tingkat_laporan' => $request->tingkat_laporan,
-        //     'tgl_laporan' => date('Y-m-d H:i:s'),
-        // ]);
+        DB::table('tbl_laporan_user')->insert([
+            'tiket_laporan' => $request->tiket,
+            'kd_cabang' => $request->kd_cabang,
+            'nama_user' => $request->nama,
+            'nip_user' => $request->nip,
+            'divisi' => $request->divisi,
+            'kategori_laporan' => $request->kategori_laporan,
+            'deskripsi_laporan' => $request->deskripsi,
+            'email' => $request->email,
+            'no_hp' => $request->telegram,
+            'status_laporan' => 0,
+            'tingkat_laporan' => $request->tingkat_laporan,
+            'tgl_laporan' => date('Y-m-d H:i:s'),
+        ]);
         $datacabang = DB::table('tbl_cabang')->where('kd_cabang', $request->kd_cabang)->first();
         $text = "Ada Tiket Baru Dengan Nomor : $request->tiket \nDari cabang $datacabang->nama_cabang \n Nomor Kontak : $request->telegram";
         // $response = $this->getUpdate();
