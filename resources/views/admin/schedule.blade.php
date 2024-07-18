@@ -48,9 +48,9 @@
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">-</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <h5 class="modal-title"><span class="badge badge-success p-1">Penjadwalan Tugas</span></h5>
+                    <button type="button" class="btn-danger" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fa fa-times"></i></span>
                     </button>
                 </div>
                 <div class="modal-body" id="bodycalender">

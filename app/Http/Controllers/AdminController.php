@@ -115,7 +115,7 @@ class AdminController extends Controller
     }
     public function getdataoptionkinerjax($id)
     {
-        $cekdata = DB::table('tbl_kinerja')->where('kd_kinerja', $id)->get();
+        $cekdata = DB::table('tbl_kinerja_detail')->where('kd_kinerja_detail', $id)->first();
 
         return view('admin.modal.option.datakinerja', ['cekdata' => $cekdata, 'id' => $id]);
 
@@ -488,7 +488,9 @@ class AdminController extends Controller
         $datex = strtotime($date);
         $tgl = date('m/d/Y', $datex);
         if (auth::user()->kd_akses == 2) {
-            $data = DB::table('tbl_kinerja')->get();
+            $data = DB::table('tbl_kinerja')
+            ->join('tbl_kinerja_detail','tbl_kinerja_detail.kd_kinerja','=','tbl_kinerja.kd_kinerja')
+            ->get();
             $cabang = DB::table('tbl_cabang')->get();
             return view('admin.modal.calender', ['data' => $data, 'id' => $tgl, 'cabang' => $cabang]);
         }
@@ -496,6 +498,7 @@ class AdminController extends Controller
     }
     public function ajaxRequestPost(Request $request)
     {
+        $kinerja = DB::table('tbl_kinerja_detail')->where('kd_kinerja_detail',$request->judul)->first();
         $date = substr($request->date, 4, 11);
         $datejamend = substr($request->end, 10, 20);
 
@@ -505,7 +508,8 @@ class AdminController extends Controller
         DB::table('tbl_schedule')->insert(
             [
                 'kd_schedule' => Str::random(50),
-                'kd_kinerja' => $request->judul,
+                'kd_kinerja' => $kinerja->kd_kinerja,
+                'kd_kinerja_detail' => $request->judul,
                 'kd_cabang' => $request->cabang,
                 'tgl_start' => date('Y-m-d', $datex),
                 'tgl_akhir' => date('Y-m-d', $dateend) . ' ' . $datejamend,
@@ -831,10 +835,10 @@ class AdminController extends Controller
     {
         if (Auth::user()->kd_akses == 2) {
             DB::table('tbl_kinerja_form')->insert([
-                'kd_kinerja_form'=> 'field'.Str::random(15),
-                'kd_kinerja'=>'sadad',
+                'kd_kinerja_form'=> Str::uuid(),
                 'kd_kinerja_detail'=>$request->id_field,
-                'nama_form'=>$request->field,
+                'nama_form'=>$request->nama_form,
+                'field_form'=>$request->field,
                 'type_form'=>$request->type,
                 'status_form'=>1,
                 'posisi_form'=>$request->posisi,

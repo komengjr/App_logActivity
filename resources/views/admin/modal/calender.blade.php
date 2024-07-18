@@ -2,12 +2,12 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <div class="form-group">
-        <label for="input-1">Pilih Kinerja</label>
+        <label for="input-1">Pilih Kinerja Form</label>
 
         <select name="txt_name" id="txt_name" class="form-control single-select" onchange="getDataOptionKinerjax();">
             <option value="">Pilih Salah Satu</option>
             @foreach ($data as $item)
-                <option value="{{ $item->kd_kinerja }}">{{ $item->kinerja }}</option>
+                <option value="{{ $item->kd_kinerja_detail }}">{{ $item->kinerja }} -  FORM : {{$item->kinerja_detail}}</option>
             @endforeach
 
         </select>

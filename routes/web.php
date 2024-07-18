@@ -141,7 +141,9 @@ Route::post('/user/inputdatatiket', 'HomeController@inputdatatiketpersonal');
 Route::post('/user/inputdatatiketgroup', 'HomeController@inputdatatiketgroup');
 Route::get('/', 'HomeController@index');
 Route::get('/newcase', 'PublicController@newcase');
+Route::get('/cek-status-laporan', 'PublicController@cek_status_laporan');
 Route::get('/caricabang/{id}', 'PublicController@caricabang');
+Route::get('/caridatatiket/{id}', 'PublicController@caridatatiket');
 Route::get('/pilihcabang/{id}', 'PublicController@pilihcabang');
 Route::post('/simpan-newcase', 'PublicController@postnewcase');
 
@@ -178,6 +180,7 @@ Route::post('user/user/handlecabang/customtask/new-data/simpan',['as'=>'user/use
 Route::post('user/user/handlecabang/customtasksub/new-data/simpan',['as'=>'user/user/handledatacabang/customtasksub/new-data/simpan','uses'=> 'UserController@simpantambahcustomtasksubhendledatacabang']);
 Route::post('user/user/handlecabang/formcustomtasksub/caridatainventaris',['as'=>'caridatainventaris-formcustomtasksub','uses'=> 'UserController@caridatainventaris_formcustomtasksub']);
 Route::post('user/user/handlecabang/formcustomtasksub/pilihdatainventaris',['as'=>'pilihdatainventaris-formcustomtasksub','uses'=> 'UserController@pilihdatainventaris_formcustomtasksub']);
+Route::post('user/user/handlecabang/formcustomtasksub/pilihdatainventaris/simpandata',['as'=>'simpandata-pilihdatainventaris-formcustomtasksub','uses'=> 'UserController@simpandata_pilihdatainventaris_formcustomtasksub']);
 Route::get('user/user/handlecabang/respon-laporan-user/{id}',['as'=>'user/user/handlecabang/respon-laporan-user/','uses'=> 'UserController@respondatalaporanuser']);
 // Route::get('user/userleader/modal/postprintlaporan/{id}',['as'=>'user/userleader/modal/postprintlaporan/id','uses'=> 'UserController@postprintlaporanid']);
 Route::post('user/userleader/modalreport/postprintlaporan',['as'=>'user/userleader/modalreport/postprintlaporan','uses'=> 'UserController@postprintlaporan']);

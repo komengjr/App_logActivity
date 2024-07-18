@@ -10,8 +10,9 @@
             @csrf
             <div class="row">
                 <div class="col-md-6">
-                    <label for="">id</label>
-                    <input type="text" class="form-control" name="id_field" value="{{ $var->kd_kinerja_detail }}">
+                    <label for="">Nama Form</label>
+                    <input type="text" class="form-control" name="nama_form" value="">
+                    <input type="text" class="form-control" name="id_field" value="{{ $var->kd_kinerja_detail }}" hidden>
                 </div>
                 <div class="col-md-6">
                     <label for="">Field</label>

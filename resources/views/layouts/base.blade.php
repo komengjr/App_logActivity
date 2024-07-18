@@ -203,12 +203,11 @@
                                 <i class="fa fa-envelope-open-o"></i><span class="badge badge-warning badge-up"
                                     id="detikwaktu"><strong id="kayu">{{ $jumlahnotif }}</strong></span></button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <ul class="list-group list-group-flush">
+                                <ul class="list-group list-group-flush bg-dark">
 
                                     <div id="nitifikasipesan"></div>
 
                                 </ul>
-
                             </div>
                         </li>
                     @endif

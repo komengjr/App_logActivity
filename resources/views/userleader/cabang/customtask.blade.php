@@ -1,8 +1,8 @@
 <div class="card">
     {{-- <img src="https://via.placeholder.com/800x500" class="card-img-top" alt="Card image cap"> --}}
-    <div class="card-body" style="background: rgb(75, 73, 78);">
-        <h5 class="card-title" style="color: white;">Cabang {{ $cabang->nama_cabang }} <button style="float: right;"
-                class="btn-danger" data-dismiss="modal"><i class="fa fa-close"></i></button></h5>
+    <div class="card-body" style="background: rgb(68, 114, 146);">
+        <span class="card-title" style="color: white;">Cabang {{ $cabang->nama_cabang }} <button style="float: right;"
+                class="btn-danger" data-dismiss="modal"><i class="fa fa-close"></i></button></span>
         {{-- <p class="card-text">{{$item->alamat}}</p> --}}
             <input type="text" value="{{ $cabang->kd_cabang }}" id="kd_cabang" hidden>
     </div>

@@ -16,9 +16,10 @@ class CreateTblKinerjaFormTable extends Migration
         Schema::create('tbl_kinerja_form', function (Blueprint $table) {
             $table->id('id_form');
             $table->string('kd_kinerja_form')->unique();
-            $table->string('kd_kinerja');
             $table->string('kd_kinerja_detail');
             $table->string('nama_form');
+            $table->string('field_form');
+            $table->string('type_form');
             $table->string('status_form');
             $table->string('posisi_form');
             $table->timestamps();

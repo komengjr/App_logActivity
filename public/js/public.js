@@ -156,6 +156,28 @@ function search(ele) {
             });
     }
 }
+function searchtiket(ele) {
+    if (event.key === "Enter") {
+        var id = document.getElementById("caridatatiket").value;
+        $("#tampil-data-tiket").html("<img src='loading.gif' >");
+        setTimeout(() => {
+            $.ajax({
+                url: "../caridatatiket/" + id,
+                type: "GET",
+                dataType: "html",
+            })
+                .done(function (data) {
+                    document.getElementById("caridatatiket").value = "";
+                    $("#tampil-data-tiket").html(data);
+                })
+                .fail(function () {
+                    $("#tampil-data-tiket").html(
+                        '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                });
+        }, 3000);
+    }
+}
 
 function copytext() {
     // Get the text field

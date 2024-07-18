@@ -528,6 +528,11 @@ class UserController extends Controller
             'nama'=>$nama
         ]);
     }
+    public function simpandata_pilihdatainventaris_formcustomtasksub(Request $request)
+    {
+        Session::flash('sukses', 'Berhasil Menyelesaikan Task');
+        return redirect()->back();
+    }
     public function lengkapisubcustomtaskhendledatacabang(Request $request)
     {
         $nama_barang = $request->nama;

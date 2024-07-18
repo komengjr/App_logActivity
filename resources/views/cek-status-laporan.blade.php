@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Form Case</title>
+    <title>Cek Data Status</title>
     <!--favicon-->
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
     <!-- Bootstrap core CSS-->
@@ -288,9 +288,6 @@
             }
         }
     </style>
-    <style>
-
-    </style>
 </head>
 
 <body class="gradient-forest m-3">
@@ -335,132 +332,32 @@
                 <div class="row no-gutters">
                     <div class="col-lg-4 col-md-6">
                         <div class="wizard-content-left d-flex justify-content-center align-items-center">
-                            <h3>Membuat Laporan Baru</h3>
+                            {{-- <h3>Cari Data Dengan Nomor</h3> --}}
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-6">
                         <div class="form-wizard">
                             <form action="#" method="post" role="form" id="form-case">
                                 @csrf
-                                <div class="form-wizard-header">
-                                    <p>Form Pengisian Laporan * <span style="color: #d70b0b;">Perhatian Untuk Semua Harus Diisi</span></p>
-                                    <ul class="list-unstyled form-wizard-steps clearfix">
-                                        <li class="active"><span>1</span></li>
-                                        <li><span>2</span></li>
-                                        <li><span>3</span></li>
-                                        <li><span>4</span></li>
-                                    </ul>
-                                </div>
+
                                 <div>
                                     <fieldset class="wizard-fieldset show">
-                                        <h5>Personal Cabang</h5>
+                                        <h5>Masukan No Tiket</h5>
                                         <div id="fix-data-cabang">
                                             <div class="form-group">
                                                 <input type="text" class="form-control wizard-required"
-                                                    name="cabang" id="caricabang" onkeydown="search(this)" required>
-                                                <label for="fname" class="wizard-form-text-label">Cari Nama Cabang
-                                                    * <span style="color: #d70b0b;">Ex. Pramita Pontianak</span></label>
+                                                    name="cabang" id="caridatatiket" onkeydown="searchtiket(this)" required>
+                                                <label for="fname" class="wizard-form-text-label">Cari No Tiket
+                                                    * <span style="color: #d70b0b;">Ex. PA_2024-07-18_10:33:46_904</span></label>
                                                 <div class="wizard-form-error"></div>
                                                 <input type="text" class="form-control wizard-required"
                                                     style="display: none">
                                             </div>
-                                            <div class="row" id="tampil-data-cabang">
+                                            <div class="row" id="tampil-data-tiket">
                                                 <input type="text" class="form-control wizard-required"
                                                     style="display: none">
 
                                             </div>
-                                        </div>
-                                        <div class="form-group clearfix">
-                                            <a href="javascript:;" class="form-wizard-next-btn float-right">Next</a>
-                                        </div>
-                                    </fieldset>
-                                    <fieldset class="wizard-fieldset">
-                                        <h5>Personal Information</h5>
-                                        <div class="form-group">
-                                            <input type="email" class="form-control wizard-required" id="email" name="nama">
-                                            <label for="email" class="wizard-form-text-label">Nama Personal
-                                                *</label>
-                                            <div class="wizard-form-error"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control wizard-required"
-                                                id="username" name="nip">
-                                            <label for="username" class="wizard-form-text-label">NIP *</label>
-                                            <div class="wizard-form-error"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control wizard-required"
-                                                name="divisi">
-                                            <label for="pwd" class="wizard-form-text-label">Divisi *</label>
-                                            <div class="wizard-form-error"></div>
-                                            <span class="wizard-password-eye"><i class="far fa-eye"></i></span>
-                                        </div>
-                                        {{-- <div class="form-group">
-                                            <input type="text" class="form-control wizard-required"
-                                                id="cpwd">
-                                            <label for="cpwd" class="wizard-form-text-label">Bagian *</label>
-                                            <div class="wizard-form-error"></div>
-                                        </div> --}}
-                                        <div class="form-group clearfix">
-                                            <a href="javascript:;"
-                                                class="form-wizard-previous-btn float-left">Previous</a>
-                                            <a href="javascript:;" class="form-wizard-next-btn float-right">Next</a>
-                                        </div>
-                                    </fieldset>
-                                    <fieldset class="wizard-fieldset">
-                                        <h5>Deskripsi Laporan</h5>
-                                        <div class="form-group">
-                                            <select name="tingkat_laporan" class="form-control wizard-required" id="">
-                                                <option value=""></option>
-                                                <option value="1">Rendah</option>
-                                                <option value="2">Sedang</option>
-                                                <option value="3">Tinggi</option>
-                                            </select>
-                                            <label for="bname" class="wizard-form-text-label">Tingkat Laporan</label>
-                                            <div class="wizard-form-error"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <select name="kategori_laporan" class="form-control wizard-required" id="">
-                                                <option value=""></option>
-                                                <option value="ER-001">Software</option>
-                                                <option value="ER-002">Hardware</option>
-                                            </select>
-                                            <label for="bname" class="wizard-form-text-label">Kategori</label>
-                                            <div class="wizard-form-error"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <textarea class="form-control wizard-required" id="summernoteEditor" cols="30" rows="10" name="deskripsi"></textarea>
-                                            <label for="bname" class="wizard-form-text-label">Deskripsi *</label>
-                                            <div class="wizard-form-error"></div>
-                                        </div>
-
-                                        <div class="form-group clearfix">
-                                            <a href="javascript:;"
-                                                class="form-wizard-previous-btn float-left">Previous</a>
-                                            <a href="javascript:;" class="form-wizard-next-btn float-right">Next</a>
-                                        </div>
-                                    </fieldset>
-                                    <fieldset class="wizard-fieldset">
-                                        <h5>Detail Information</h5>
-
-                                        <div class="form-group">
-                                            <input type="text" name="email" class="form-control wizard-required" id="honame"
-                                                required>
-                                            <label for="honame" class="wizard-form-text-label">Email </label>
-                                            <div class="wizard-form-error"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" name="telegram" class="form-control wizard-required" id="honame"
-                                                required>
-                                            <label for="honame" class="wizard-form-text-label">Telegram </label>
-                                            <div class="wizard-form-error"></div>
-                                        </div>
-
-                                        <div class="form-group clearfix" id="loading-button">
-                                            <a href="javascript:;"
-                                                class="form-wizard-previous-btn float-left">Previous</a>
-                                            <a href="#" class="form-wizard-submit float-right"
-                                                id="button-simpan-kasus">Submit</a>
                                         </div>
                                     </fieldset>
                                 </div>
