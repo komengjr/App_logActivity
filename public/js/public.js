@@ -159,7 +159,7 @@ function search(ele) {
 function searchtiket(ele) {
     if (event.key === "Enter") {
         var id = document.getElementById("caridatatiket").value;
-        $("#tampil-data-tiket").html("<img src='loading.gif' >");
+        $("#tampil-data-tiket").html("<img src='loading.gif'>");
         setTimeout(() => {
             $.ajax({
                 url: "../caridatatiket/" + id,

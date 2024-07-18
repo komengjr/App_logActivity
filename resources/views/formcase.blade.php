@@ -321,8 +321,6 @@
                                     class="fa fa-tasks mr-2" style="float: right;"></i> Login</a></li>
 
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item" style="cursor: pointer;"><a href="{{ url('newcase', []) }}"><i
-                            class="fa fa-tasks mr-2" style="float: right;"></i> Buat laporan</a></li>
                         <li class="dropdown-item" style="cursor: pointer;"><a href="{{ url('cek-status-laporan', []) }}"><i
                             class="fa fa-tasks mr-2" style="float: right;"></i> Status Laporan</a></li>
                     </ul>
