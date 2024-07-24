@@ -62,6 +62,7 @@
         var nama = $(this).data("nama");
         var no = $(this).data("no");
         var type = $(this).data("type");
+        var kode = $(this).data("kode");
 
         $("#menu-maintenance-barang").html(
             '<button class="btn btn-dark p-2" type="button" disabled=""> <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...</button>'
@@ -77,6 +78,7 @@
                     "nama": nama,
                     "no": no,
                     "type": type,
+                    "kode": kode,
                 },
                 dataType: "html",
             })

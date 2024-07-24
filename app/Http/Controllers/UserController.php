@@ -410,65 +410,93 @@ class UserController extends Controller
     public function taskbulananhendledatacabang($id)
     {
         $cabang = DB::table('tbl_cabang')->where('kd_cabang', $id)->first();
-        $data = DB::table('users_schedule_maintenance')->where('kd_cabang',$id)->get();
+        $data = DB::table('users_schedule_maintenance')->where('kd_cabang', $id)->get();
         return view('userleader.cabang.taskbulanan', ['data' => $data, 'cabang' => $cabang]);
     }
     public function tambahmaintenancebulananhendledatacabang($id)
     {
 
-        return view('userleader.cabang.bulanan.form-tambah-maintenance-bulanan', ['id'=>$id]);
+        return view('userleader.cabang.bulanan.form-tambah-maintenance-bulanan', ['id' => $id]);
     }
     public function posttambahmaintenancebulananhendledatacabang(Request $request)
     {
         DB::table('users_schedule_maintenance')->insert([
-            'kd_schedule_maintenance'=>Str::uuid(),
-            'periode'=>$request->periode,
-            'awal_periode'=>$request->awal_periode,
-            'akhir_periode'=>$request->akhir_periode,
-            'verifikator'=>$request->verifikator,
-            'kd_cabang'=>$request->kd_cabang,
-            'status_schedule_maintenance'=>0,
-            'created_at'=>now(),
+            'kd_schedule_maintenance' => Str::uuid(),
+            'periode' => $request->periode,
+            'awal_periode' => $request->awal_periode,
+            'akhir_periode' => $request->akhir_periode,
+            'verifikator' => $request->verifikator,
+            'kd_cabang' => $request->kd_cabang,
+            'status_schedule_maintenance' => 0,
+            'created_at' => now(),
         ]);
-        $data = DB::table('users_schedule_maintenance')->where('kd_cabang',$request->kd_cabang)->get();
-        return view('userleader.cabang.bulanan.table-periode-maintenance', ['kd_cabang'=>$request->kd_cabang, 'data'=>$data]);
+        $data = DB::table('users_schedule_maintenance')->where('kd_cabang', $request->kd_cabang)->get();
+        return view('userleader.cabang.bulanan.table-periode-maintenance', ['kd_cabang' => $request->kd_cabang, 'data' => $data]);
     }
     public function detailmaintenancebulananhendledatacabang($id)
     {
-        $data = DB::table('users_schedule_maintenance')->where('kd_schedule_maintenance',$id)->first();
-        return view('userleader.cabang.bulanan.detail-maintenance-bulanan',['data'=>$data]);
+        $data = DB::table('users_schedule_maintenance')->where('kd_schedule_maintenance', $id)->first();
+        $dataperangkat = DB::table('users_schedule_maintenance_sub')->where('kd_schedule_maintenance', $id)->get();
+        return view('userleader.cabang.bulanan.detail-maintenance-bulanan', ['data' => $data, 'dataperangkat' => $dataperangkat]);
     }
     public function tambahdetailmaintenancebulananhendledatacabang($id)
     {
-        $data = DB::table('users_schedule_maintenance')->where('kd_schedule_maintenance',$id)->first();
-        return view('userleader.cabang.bulanan.form-tambah-perangkat-maintenance',['data'=>$data]);
+        $data = DB::table('users_schedule_maintenance')->where('kd_schedule_maintenance', $id)->first();
+        return view('userleader.cabang.bulanan.form-tambah-perangkat-maintenance', ['data' => $data]);
 
     }
     public function caridetailmaintenancebulananhendledatacabang(Request $request)
     {
-        $url = "http://192.168.50.247/api/datanoinventaris/" .$request->cabang."/".$request->nama;
+        $url = "http://192.168.50.247/api/datanoinventaris/" . $request->cabang . "/" . $request->nama;
         // $get_result_arr = json_decode($response->getContent($url), true);
         // echo $result;
+        $kode = $request->kd_maintenance;
         $response = file_get_contents($url, true);
         $newsData = json_decode($response);
-        return view('userleader.cabang.bulanan.list-perangkat', ['newsData' => $newsData]);
+        return view('userleader.cabang.bulanan.list-perangkat', ['newsData' => $newsData, 'kode' => $kode]);
         // return 123;
 
     }
     public function pilihdetailmaintenancebulananhendledatacabang(Request $request)
     {
+        $id = $request->id;
         $no = $request->no;
         $nama = $request->nama;
         $type = $request->type;
-        return view('userleader.cabang.bulanan.data-barang',[
-            'no'=>$no,
-            'nama'=>$nama,
-            'type'=>$type
+        $kode = $request->kode;
+        return view('userleader.cabang.bulanan.data-barang', [
+            'id' => $id,
+            'no' => $no,
+            'nama' => $nama,
+            'type' => $type,
+            'kode' => $kode
         ]);
     }
     public function simpanpilihdetailmaintenancebulananhendledatacabang(Request $request)
     {
-        return '123123';
+        $cek = DB::table('users_schedule_maintenance_sub')->where('kd_schedule_maintenance', $request->kode)->where('id_inventaris', $request->id_inventaris)->first();
+        if ($cek) {
+            return 'salah';
+        } else {
+            DB::table('users_schedule_maintenance_sub')->insert([
+                'kd_schedule_maintenance' => $request->kode,
+                'id_inventaris' => $request->id_inventaris,
+                'no_inventaris' => $request->no_inventaris,
+                'nama_inventaris' => $request->nama_inventaris,
+                'type_inventaris' => $request->type_inventaris,
+                'tgl_maintenance_sub' => $request->tgl_maintenance,
+                'status_maintenance_sub' => 0,
+                'created_at' => now(),
+            ]);
+            $data = DB::table('users_schedule_maintenance_sub')->where('kd_schedule_maintenance', $request->kode)->get();
+            return view('userleader.cabang.bulanan.table-perangkat-maintenance', ['data' => $data]);
+        }
+
+
+    }
+    public function maintenanceperangkatdetail($id)
+    {
+        return view('userleader.cabang.bulanan.detail-perangkat-maintenance');
     }
     public function customtaskhendledatacabang($id)
     {
@@ -484,7 +512,7 @@ class UserController extends Controller
     {
         $kinerja = DB::table('tbl_kinerja')->get();
         $kd_cabang = $request->id;
-        return view('userleader.cabang.custom-task.form-custom', ['kinerja' => $kinerja,'kd_cabang'=>$kd_cabang]);
+        return view('userleader.cabang.custom-task.form-custom', ['kinerja' => $kinerja, 'kd_cabang' => $kd_cabang]);
     }
     public function simpantambahcustomtaskhendledatacabang(Request $request)
     {
@@ -527,29 +555,22 @@ class UserController extends Controller
     }
     public function lengkapicustomtaskhendledatacabang($id)
     {
-        $cekdata = DB::table('custom_task')->where('kd_custom_task',$id)->first();
+        $cekdata = DB::table('custom_task')->where('kd_custom_task', $id)->first();
         if ($cekdata->kd_kinerja == 'P001') {
-            return view('userleader.customtask.melengkapi',['data'=>$cekdata]);
-        }
-        elseif($cekdata->kd_kinerja == 'P002') {
-            return view('userleader.customtask.melengkapi',['data'=>$cekdata]);
-        }
-        elseif($cekdata->kd_kinerja == 'P003') {
-            return view('userleader.customtask.melengkapi',['data'=>$cekdata]);
-        }
-        elseif($cekdata->kd_kinerja == 'P004') {
-            return view('userleader.customtask.melengkapi',['data'=>$cekdata]);
-        }
-        elseif($cekdata->kd_kinerja == 'P005') {
-            return view('userleader.customtask.melengkapi',['data'=>$cekdata]);
-        }
-        elseif($cekdata->kd_kinerja == 'P006') {
+            return view('userleader.customtask.melengkapi', ['data' => $cekdata]);
+        } elseif ($cekdata->kd_kinerja == 'P002') {
+            return view('userleader.customtask.melengkapi', ['data' => $cekdata]);
+        } elseif ($cekdata->kd_kinerja == 'P003') {
+            return view('userleader.customtask.melengkapi', ['data' => $cekdata]);
+        } elseif ($cekdata->kd_kinerja == 'P004') {
+            return view('userleader.customtask.melengkapi', ['data' => $cekdata]);
+        } elseif ($cekdata->kd_kinerja == 'P005') {
+            return view('userleader.customtask.melengkapi', ['data' => $cekdata]);
+        } elseif ($cekdata->kd_kinerja == 'P006') {
             return 'P006';
-        }
-        elseif($cekdata->kd_kinerja == 'P008') {
+        } elseif ($cekdata->kd_kinerja == 'P008') {
             return 'P007';
-        }
-        elseif($cekdata->kd_kinerja == 'P009') {
+        } elseif ($cekdata->kd_kinerja == 'P009') {
 
             $cek = DB::table('custom_task')->where('kd_custom_task', $id)->first();
             $url = "http://192.168.50.247/api/datainventaris/" . $cek->kd_cabang . "/05.04.03";
@@ -562,20 +583,18 @@ class UserController extends Controller
             // dd($newsData);
             // return view('userleader.customtask.lengkapi');
             return view('userleader.customtask.lengkapi', ['newsData' => $newsData, 'data' => $data]);
-        }
-        elseif($cekdata->kd_kinerja == 'P010') {
+        } elseif ($cekdata->kd_kinerja == 'P010') {
             return 'P007';
-        }
-        elseif($cekdata->kd_kinerja == 'P011') {
+        } elseif ($cekdata->kd_kinerja == 'P011') {
             $cek = DB::table('custom_task')->where('kd_custom_task', $id)->first();
-            return view('userleader.customtask.cari-data-inventaris',['data'=>$cekdata]);
+            return view('userleader.customtask.cari-data-inventaris', ['data' => $cekdata]);
         }
 
 
     }
     public function caridatainventaris_formcustomtasksub(Request $request)
     {
-        $url = "http://192.168.50.247/api/datanoinventaris/" . $request->kode_costum_cabang."/".$request->nama;
+        $url = "http://192.168.50.247/api/datanoinventaris/" . $request->kode_costum_cabang . "/" . $request->nama;
         // $get_result_arr = json_decode($response->getContent($url), true);
         // echo $result;
         $response = file_get_contents($url, true);
@@ -586,9 +605,9 @@ class UserController extends Controller
     {
         $no = $request->no;
         $nama = $request->nama;
-        return view('userleader.customtask.maintenance.data-barang',[
-            'no'=>$no,
-            'nama'=>$nama
+        return view('userleader.customtask.maintenance.data-barang', [
+            'no' => $no,
+            'nama' => $nama
         ]);
     }
     public function simpandata_pilihdatainventaris_formcustomtasksub(Request $request)
@@ -641,14 +660,14 @@ class UserController extends Controller
     public function posthendlecabangbackupharian(Request $request)
     {
         DB::table('users_backup_harian')->insert([
-            'kd_users_backup_harian'=>'BACKUP_' . date('Y-m-d_H:i:s') . mt_rand(1000000, 9999999),
-            'sistem_backup_harian'=>$request->sistem_backup,
-            'proses_backup_harian'=>$request->proses_backup,
-            'deskripsi_backup_harian'=>$request->deskripsi_backup,
-            'status_backup_harian'=>1,
-            'tgl_backup_harian'=>date('Y-m-d'),
-            'kd_cabang'=>$request->kd_cabang,
-            'created_at'=>date('Y-m-d H:i:s'),
+            'kd_users_backup_harian' => 'BACKUP_' . date('Y-m-d_H:i:s') . mt_rand(1000000, 9999999),
+            'sistem_backup_harian' => $request->sistem_backup,
+            'proses_backup_harian' => $request->proses_backup,
+            'deskripsi_backup_harian' => $request->deskripsi_backup,
+            'status_backup_harian' => 1,
+            'tgl_backup_harian' => date('Y-m-d'),
+            'kd_cabang' => $request->kd_cabang,
+            'created_at' => date('Y-m-d H:i:s'),
         ]);
         Session::flash('sukses', 'Berhasil Menyelesaikan Task Harian');
         return redirect()->back();

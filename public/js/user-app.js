@@ -332,6 +332,7 @@ $(document).on("click", "#task-harian-hendler-user", function (e) {
             );
         });
 });
+
 $(document).on("click", "#task-bulanan-hendler-user", function (e) {
     e.preventDefault();
     var id = $(this).data("id");
@@ -436,11 +437,6 @@ $(document).on("click","#button-tambah-detail-maintenance-bulanan",function (e) 
 $(document).on("click", "#button-save-pilih-barang-maintenance", function(e) {
     e.preventDefault();
     var data_post = $("#form-post-data-inventaris-maintenance-perangkat").serialize();
-    $("#data-table-detail-periode-maintenance").html(
-        "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
-    );
-    console.log("coba");
-    console.log(data_post);
     $.ajax({
             url: "user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail/pilih-perangkat/simpan",
             headers: {
@@ -451,8 +447,12 @@ $(document).on("click", "#button-save-pilih-barang-maintenance", function(e) {
             dataType: "html",
         })
         .done(function(data) {
-            $("#menu-maintenance-barang").html('');
-            $("#data-table-detail-periode-maintenance").html(data);
+            if (data == 'salah') {
+                $("#menu-maintenance-barang").html('');
+            } else {
+                $("#menu-maintenance-barang").html('');
+                $("#data-table-detail-periode-maintenance").html(data);
+            }
         })
         .fail(function() {
             $("#data-table-detail-periode-maintenance").html(
@@ -460,6 +460,26 @@ $(document).on("click", "#button-save-pilih-barang-maintenance", function(e) {
             );
         });
 });
+$(document).on("click","#button-detail-perangkat-maintenance",function (e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    $.ajax({
+        url:
+            "user/user/handledatacabang/taskbulanan/maintenance-bulanan/detail/perangkat/" +
+            id,
+        type: "GET",
+        dataType: "html",
+    })
+        .done(function (data) {
+            $("#menu-data-maintenance").html(data);
+        })
+        .fail(function () {
+            $("#menu-data-maintenance").html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+            );
+        });
+}
+);
 
 $(document).on("click", "#task-custom-hendler-user", function (e) {
     e.preventDefault();

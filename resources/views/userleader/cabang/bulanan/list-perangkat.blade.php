@@ -24,7 +24,7 @@
                         <br>{{ $newsData->no_seri }}
                     </td>
                     <td>
-                        <button class="btn-primary" id="button-pilih-barang-rencana-maintenance" data-id="{{$newsData->id_inventaris}}" data-nama="{{$newsData->nama_barang}}" data-no="{{$newsData->no_inventaris}}" data-type="{{$newsData->type}} , {{$newsData->merk}} , {{$newsData->no_seri}}"><i class="fa fa-pencil"></i></button>
+                        <button class="btn-primary" id="button-pilih-barang-rencana-maintenance" data-id="{{$newsData->id_inventaris}}" data-nama="{{$newsData->nama_barang}}" data-no="{{$newsData->no_inventaris}}" data-type="{{$newsData->type}} , {{$newsData->merk}} , {{$newsData->no_seri}}" data-kode="{{$kode}}"><i class="fa fa-pencil"></i></button>
                     </td>
                 </tr>
             @endforeach
