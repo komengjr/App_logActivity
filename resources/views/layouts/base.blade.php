@@ -269,16 +269,13 @@
             <div class="menu-toggle">
                 <div class="row mt-1">
                     <div class="col-3 col-lg-3 col-xl-3 mt-2" style="text-align: center;">
-                        <img src="{{ asset('vendor/pramita.png') }}" alt=""
-                            srcset="" width="50">
+                        <img src="{{ asset('vendor/pramita.png') }}" alt="" srcset="" width="50">
                     </div>
                     <div class="col-3 col-lg-3 col-xl-3 mt-2" style="text-align: center;">
-                        <img src="{{ asset('vendor/sima.jpeg') }}" alt=""
-                            srcset="" width="50">
+                        <img src="{{ asset('vendor/sima.jpeg') }}" alt="" srcset="" width="50">
                     </div>
                     <div class="col-3 col-lg-3 col-xl-3 mt-2" style="text-align: center;">
-                        <img src="{{ asset('vendor/prospek.png') }}" alt=""
-                            srcset="" width="50">
+                        <img src="{{ asset('vendor/prospek.png') }}" alt="" srcset="" width="50">
                     </div>
                     <div class="col-3 col-lg-3 col-xl-3 ">
                         <button type="button" id="menu-btn">
@@ -337,8 +334,9 @@
                             <li><a href="{{ asset('taskorder', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i>
                                     Menu Task</a>
                             </li>
-                            <li><a href="{{ asset('master-data-kinerja', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i>
-                                Menu Kinerja</a></li>
+                            <li><a href="{{ asset('master-data-kinerja', []) }}"><i
+                                        class="zmdi zmdi-dot-circle-alt"></i>
+                                    Menu Kinerja</a></li>
                         </ul>
                     </li>
                 @endif
@@ -521,6 +519,7 @@
                     });
                 });
         });
+
     </script>
 </body>
 

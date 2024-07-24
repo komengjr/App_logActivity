@@ -106,7 +106,9 @@ $(document).on("click", "#buttonshowdetaillaporan", function (e) {
 $(document).on("click", "#task_kinerja", function (e) {
     e.preventDefault();
     var id = $(this).data("id");
-    $("#bodytask_kinerja").html('<div style="text-align: center; padding:2%;"><div class="spinner-border" role="status" > <span class="sr-only">Loading...</span> </div></div>');
+    $("#bodytask_kinerja").html(
+        '<div style="text-align: center; padding:2%;"><div class="spinner-border" role="status" > <span class="sr-only">Loading...</span> </div></div>'
+    );
     $.ajax({
         url: "user/task/kinerja/" + id,
         type: "GET",
@@ -330,6 +332,135 @@ $(document).on("click", "#task-harian-hendler-user", function (e) {
             );
         });
 });
+$(document).on("click", "#task-bulanan-hendler-user", function (e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    $.ajax({
+        url: "user/user/handledatacabang/taskbulanan/" + id,
+        type: "GET",
+        dataType: "html",
+    })
+        .done(function (data) {
+            $("#body-hendler-cabang-user").html(data);
+        })
+        .fail(function () {
+            $("#body-hendler-cabang-user").html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+            );
+        });
+});
+$(document).on("click", "#button-tambah-maintenance-bulanan", function (e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    $.ajax({
+        url:
+            "user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/" +
+            id,
+        type: "GET",
+        dataType: "html",
+    })
+        .done(function (data) {
+            $("#menu-maintenance-bulanan").html(data);
+        })
+        .fail(function () {
+            $("#menu-maintenance-bulanan").html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+            );
+        });
+});
+$(document).on("click","#button-tambah-maintenance-bulanan-send", function (e) {
+        e.preventDefault();
+        var data = $("#form-post-maintenance-bulanan").serialize();
+        $("#menu-data-maintenance").html(
+            "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
+        );
+
+        $.ajax({
+            url: "user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
+            },
+            type: "POST",
+            data: data,
+            dataType: "html",
+        })
+            .done(function (data) {
+                $("#menu-data-maintenance").html(data);
+            })
+            .fail(function () {
+                $("#menu-data-maintenance").html(
+                    "Ada Kesalahan Saat Menyimpan Data"
+                );
+            });
+    }
+);
+$(document).on("click", "#button-detail-maintenance-bulanan", function (e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    $.ajax({
+        url:
+            "user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail/" +
+            id,
+        type: "GET",
+        dataType: "html",
+    })
+        .done(function (data) {
+            $("#menu-data-maintenance").html(data);
+        })
+        .fail(function () {
+            $("#menu-data-maintenance").html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+            );
+        });
+});
+$(document).on("click","#button-tambah-detail-maintenance-bulanan",function (e) {
+        e.preventDefault();
+        var id = $(this).data("id");
+        $.ajax({
+            url:
+                "user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail/tambah-perangkat/" +
+                id,
+            type: "GET",
+            dataType: "html",
+        })
+            .done(function (data) {
+                $("#menu-maintenance-bulanan").html(data);
+            })
+            .fail(function () {
+                $("#menu-maintenance-bulanan").html(
+                    '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+            });
+    }
+);
+$(document).on("click", "#button-save-pilih-barang-maintenance", function(e) {
+    e.preventDefault();
+    var data_post = $("#form-post-data-inventaris-maintenance-perangkat").serialize();
+    $("#data-table-detail-periode-maintenance").html(
+        "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
+    );
+    console.log("coba");
+    console.log(data_post);
+    $.ajax({
+            url: "user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail/pilih-perangkat/simpan",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
+            },
+            type: "POST",
+            data: data_post,
+            dataType: "html",
+        })
+        .done(function(data) {
+            $("#menu-maintenance-barang").html('');
+            $("#data-table-detail-periode-maintenance").html(data);
+        })
+        .fail(function() {
+            $("#data-table-detail-periode-maintenance").html(
+                "Ada Kesalahan Saat Menyimpan Data"
+            );
+        });
+});
+
 $(document).on("click", "#task-custom-hendler-user", function (e) {
     e.preventDefault();
     var id = $(this).data("id");

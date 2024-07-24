@@ -172,6 +172,16 @@ Route::post('user/userleader/table/detailtask/penilaian', 'UserController@penila
 Route::get('user/user/task/kerjakan/{id}',['as'=>'user/user/task/kerjakan','uses'=> 'UserController@kerjakandatatask']);
 Route::get('user/user/handledatacabang',['as'=>'user/user/handledatacabang/','uses'=> 'UserController@hendledatacabang']);
 Route::get('user/user/handledatacabang/task/{id}',['as'=>'user/user/handledatacabang/task','uses'=> 'UserController@taskharianhendledatacabang']);
+// Maintenance Bulanan
+Route::get('user/user/handledatacabang/taskbulanan/{id}',['as'=>'user/user/handledatacabang/taskbulanan','uses'=> 'UserController@taskbulananhendledatacabang']);
+Route::get('user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/{id}',['as'=>'user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/','uses'=> 'UserController@tambahmaintenancebulananhendledatacabang']);
+Route::post('user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan',['as'=>'user/user/handledatacabang/taskbulanan/post-tambah-maintenance-bulanan/','uses'=> 'UserController@posttambahmaintenancebulananhendledatacabang']);
+Route::get('user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail/{id}',['as'=>'user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail','uses'=> 'UserController@detailmaintenancebulananhendledatacabang']);
+Route::get('user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail/tambah-perangkat/{id}',['as'=>'user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail/tambah-perangkat','uses'=> 'UserController@tambahdetailmaintenancebulananhendledatacabang']);
+Route::post('user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail-cari/cari-perangkat',['as'=>'user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail/cari-perangkat','uses'=> 'UserController@caridetailmaintenancebulananhendledatacabang']);
+Route::post('user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail/pilih-perangkat',['as'=>'user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail/pilih-perangkat','uses'=> 'UserController@pilihdetailmaintenancebulananhendledatacabang']);
+Route::post('user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail/pilih-perangkat/simpan',['as'=>'user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail/pilih-perangkat/simpan','uses'=> 'UserController@simpanpilihdetailmaintenancebulananhendledatacabang']);
+
 Route::get('user/user/handledatacabang/customtask/{id}',['as'=>'user/user/handledatacabang/customtask/','uses'=> 'UserController@customtaskhendledatacabang']);
 Route::get('user/user/handlecabang/customtask/lengkapidata/{id}',['as'=>'user/user/handledatacabang/customtask/lengkapidata/','uses'=> 'UserController@lengkapicustomtaskhendledatacabang']);
 Route::post('user/user/handlecabang/customtask/lengkapisubdata/{id}',['as'=>'user/user/handledatacabang/customtask/lengkapisubdata/','uses'=> 'UserController@lengkapisubcustomtaskhendledatacabang']);

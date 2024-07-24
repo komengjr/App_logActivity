@@ -407,6 +407,69 @@ class UserController extends Controller
         $sub_kinerja = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
         return view('userleader.cabang.taskharian', ['data' => $sub_kinerja, 'cabang' => $cabang]);
     }
+    public function taskbulananhendledatacabang($id)
+    {
+        $cabang = DB::table('tbl_cabang')->where('kd_cabang', $id)->first();
+        $data = DB::table('users_schedule_maintenance')->where('kd_cabang',$id)->get();
+        return view('userleader.cabang.taskbulanan', ['data' => $data, 'cabang' => $cabang]);
+    }
+    public function tambahmaintenancebulananhendledatacabang($id)
+    {
+
+        return view('userleader.cabang.bulanan.form-tambah-maintenance-bulanan', ['id'=>$id]);
+    }
+    public function posttambahmaintenancebulananhendledatacabang(Request $request)
+    {
+        DB::table('users_schedule_maintenance')->insert([
+            'kd_schedule_maintenance'=>Str::uuid(),
+            'periode'=>$request->periode,
+            'awal_periode'=>$request->awal_periode,
+            'akhir_periode'=>$request->akhir_periode,
+            'verifikator'=>$request->verifikator,
+            'kd_cabang'=>$request->kd_cabang,
+            'status_schedule_maintenance'=>0,
+            'created_at'=>now(),
+        ]);
+        $data = DB::table('users_schedule_maintenance')->where('kd_cabang',$request->kd_cabang)->get();
+        return view('userleader.cabang.bulanan.table-periode-maintenance', ['kd_cabang'=>$request->kd_cabang, 'data'=>$data]);
+    }
+    public function detailmaintenancebulananhendledatacabang($id)
+    {
+        $data = DB::table('users_schedule_maintenance')->where('kd_schedule_maintenance',$id)->first();
+        return view('userleader.cabang.bulanan.detail-maintenance-bulanan',['data'=>$data]);
+    }
+    public function tambahdetailmaintenancebulananhendledatacabang($id)
+    {
+        $data = DB::table('users_schedule_maintenance')->where('kd_schedule_maintenance',$id)->first();
+        return view('userleader.cabang.bulanan.form-tambah-perangkat-maintenance',['data'=>$data]);
+
+    }
+    public function caridetailmaintenancebulananhendledatacabang(Request $request)
+    {
+        $url = "http://192.168.50.247/api/datanoinventaris/" .$request->cabang."/".$request->nama;
+        // $get_result_arr = json_decode($response->getContent($url), true);
+        // echo $result;
+        $response = file_get_contents($url, true);
+        $newsData = json_decode($response);
+        return view('userleader.cabang.bulanan.list-perangkat', ['newsData' => $newsData]);
+        // return 123;
+
+    }
+    public function pilihdetailmaintenancebulananhendledatacabang(Request $request)
+    {
+        $no = $request->no;
+        $nama = $request->nama;
+        $type = $request->type;
+        return view('userleader.cabang.bulanan.data-barang',[
+            'no'=>$no,
+            'nama'=>$nama,
+            'type'=>$type
+        ]);
+    }
+    public function simpanpilihdetailmaintenancebulananhendledatacabang(Request $request)
+    {
+        return '123123';
+    }
     public function customtaskhendledatacabang($id)
     {
         $user = DB::table('tbl_biodata')->where('id_user', Auth::user()->id_user)->first();

@@ -7,7 +7,7 @@
 <div class="card">
     {{-- <img src="https://via.placeholder.com/800x500" class="card-img-top" alt="Card image cap"> --}}
     <div class="card-body bg-dark">
-        <h5 class="card-title" style="color: white;"><span class="badge badge-info">Monitoring Harian
+        <h5 style="color: white;"><span class="badge badge-info">MONITORING HARIAN
                 {{ $cabang->nama_cabang }}</span></h5>
 
         {{-- <p class="card-text">{{$item->alamat}}</p> --}}

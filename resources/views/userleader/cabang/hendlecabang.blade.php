@@ -39,8 +39,8 @@
                                 </span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center"><i
-                                    class="fa fa-tasks"></i> <a href="#" id="task-custom-hendler-user"
-                                    data-id="{{ $item->kd_cabang }}"><span class="badge badge-primary p-2" id="badge-pointer">Tugas Team</span></a>
+                                    class="fa fa-tasks"></i> <a href="#" id="task-bulanan-hendler-user"
+                                    data-id="{{ $item->kd_cabang }}"><span class="badge badge-primary p-2" id="badge-pointer">Monitoring Bulanan</span></a>
                                 <span class="badge badge-danger badge-pill">
                                     0
                                 </span>
