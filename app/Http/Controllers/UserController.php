@@ -411,7 +411,8 @@ class UserController extends Controller
     {
         $cabang = DB::table('tbl_cabang')->where('kd_cabang', $id)->first();
         $data = DB::table('users_schedule_maintenance')->where('kd_cabang', $id)->get();
-        return view('userleader.cabang.taskbulanan', ['data' => $data, 'cabang' => $cabang]);
+        $databulanan =  DB::table('users_backup_bulanan')->where('kd_cabang', $id)->get();
+        return view('userleader.cabang.taskbulanan', ['data' => $data, 'cabang' => $cabang, 'databulanan'=>$databulanan]);
     }
     public function cetakrencanataskbulananhendledatacabang($id)
     {
@@ -721,7 +722,7 @@ class UserController extends Controller
     public function posthendlecabangbackupbulanan(Request $request)
     {
         DB::table('users_backup_bulanan')->insert([
-            'kd_backup_bulanan' => 'BACKUP_BULAN' . date('Y-m-d_H:i:s') . mt_rand(1000000, 9999999),
+            'kd_backup_bulanan' => 'BACKUP_BULAN_' . date('Y-m-d_H:i:s') . mt_rand(1000000, 9999999),
             'kd_cabang' => $request->kd_cabang,
             'nama_backup_bulanan' => $request->bulan,
             'tgl_input' => now(),

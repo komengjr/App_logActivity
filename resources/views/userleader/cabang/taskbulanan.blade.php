@@ -103,13 +103,36 @@
                                     @csrf
                                     <div class="card-body pb-0 mb-0">
                                         <div class="row">
-                                            <div class="col-md-12">
+                                            <div class="col-md-6">
                                                 <label for="">BULAN</label>
                                                 <select name="bulan" class="form-control" id=""
                                                     required>
                                                     <option value="">Pilih Bulan</option>
                                                     <option value="Januari">Januari</option>
                                                     <option value="Februari">Februari</option>
+                                                    <option value="Maret">Maret</option>
+                                                    <option value="April">April</option>
+                                                    <option value="Mei">Mei</option>
+                                                    <option value="Juni">Juni</option>
+                                                    <option value="Juli">Juli</option>
+                                                    <option value="Agustus">Agustus</option>
+                                                    <option value="September">September</option>
+                                                    <option value="Oktober">Oktober</option>
+                                                    <option value="November">November</option>
+                                                    <option value="Desember">Desember</option>
+                                                </select>
+                                                <input type="text" name="kd_cabang" id=""
+                                                    value="{{ $cabang->kd_cabang }}" hidden>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="">Tahun</label>
+                                                <select name="tahun" class="form-control" id=""
+                                                    required>
+                                                    <option value="">Pilih Tahun</option>
+                                                    <option value="2024">2024</option>
+                                                    <option value="2025">2025</option>
+                                                    <option value="2026">2026</option>
+
                                                 </select>
                                                 <input type="text" name="kd_cabang" id=""
                                                     value="{{ $cabang->kd_cabang }}" hidden>
@@ -124,6 +147,31 @@
                                         <button type="submit" class="btn-success">Simpan</button>
                                     </div>
                                 </form>
+                                <table class="table align-items-center table-flush"
+                                                id="default-table-backup-bulan" border="1"
+                                                style="text-align: justify;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Kode Backup</th>
+                                                        <th>Bulan</th>
+                                                        <th>Tanggal Backup</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @php
+                                                        $no = 1;
+                                                    @endphp
+                                                    @foreach ($databulanan as $databulanan)
+                                                        <tr>
+                                                            <td>{{$no++}}</td>
+                                                            <td>{{$databulanan->kd_backup_bulanan}}</td>
+                                                            <td>{{$databulanan->nama_backup_bulanan}}</td>
+                                                            <td>{{$databulanan->tgl_input}}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
                             </div>
                         </div>
 
@@ -149,6 +197,7 @@
     $(document).ready(function() {
 
         $('#default-table-custom-task').DataTable();
+        $('#default-table-backup-bulan').DataTable();
 
     });
 </script>
