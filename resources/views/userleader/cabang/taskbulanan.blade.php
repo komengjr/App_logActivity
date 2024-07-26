@@ -20,10 +20,10 @@
                         <div class="card mb-2">
                             <div class="card-header" data-toggle="collapse" data-target="#collapse-1"
                                 id="acording-button">
-                                <h5><span class="badge badge-dark">Rencana Maintenance Bulanan</span></h5>
+                                <h5><span class="badge badge-primary">1</span> <span class="badge badge-dark">RENCANA MAINTENANCE BULANAN</span></h5>
                             </div>
 
-                            <div id="collapse-1" class="collapse show" data-parent="#accordion1">
+                            <div id="collapse-1" class="collapse" data-parent="#accordion1">
 
                                 <div class="card-body" id="menu-data-maintenance">
                                     <div id="menu-maintenance-bulanan"></div>
@@ -50,7 +50,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="table-responsive pt-3 pb-3" >
+                                        <div class="table-responsive pt-3 pb-3">
                                             <table class="table align-items-center table-flush"
                                                 id="default-table-custom-task" border="1"
                                                 style="text-align: justify;">
@@ -76,8 +76,12 @@
                                                             <td>{{ $data->akhir_periode }}</td>
                                                             <td>{{ $data->verifikator }}</td>
                                                             <td>
-                                                                <button class="btn-primary" id="button-detail-maintenance-bulanan" data-id="{{$data->kd_schedule_maintenance }}"><i class="fa fa-eye"></i></button>
-                                                                <button class="btn-secondary"><i class="fa fa-print"></i></button>
+                                                                <button class="btn-primary"
+                                                                    id="button-detail-maintenance-bulanan"
+                                                                    data-id="{{ $data->kd_schedule_maintenance }}"><i
+                                                                        class="fa fa-eye"></i></button>
+                                                                <button class="btn-secondary"><i
+                                                                        class="fa fa-print"></i></button>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -88,16 +92,49 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="card mb-1">
+                        <div class="card mb-1">
                             <div class="card-header " data-toggle="collapse" data-target="#collapse-2"
                                 id="acording-button">
-                                <h5><span class="badge badge-dark">Quest Two ( CHECKLIST SISTEM SERVER & BACKUP DATA
-                                        BISONE HARIAN )</span></h5>
+                                <h5><span class="badge badge-primary">2</span> <span class="badge badge-dark">BACKUP DATA BISONE BULANAN </span></h5>
                             </div>
                             <div id="collapse-2" class="collapse" data-parent="#accordion1">
-
+                                <form action="{{ url('user/user/handledatacabang/postrecorddatabackup', []) }}"
+                                    method="post">
+                                    @csrf
+                                    <div class="card-body pb-0 mb-0">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="">SISTEM</label>
+                                                <select name="sistem_backup" class="form-control" id=""
+                                                    required>
+                                                    <option value="">Pilih Status</option>
+                                                    <option value="OK">OK</option>
+                                                    <option value="NOT OK">NOT OK</option>
+                                                </select>
+                                                <input type="text" name="kd_cabang" id=""
+                                                    value="{{ $cabang->kd_cabang }}" hidden>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="">PROSES BACK UP</label>
+                                                <select name="proses_backup" class="form-control" id=""
+                                                    required>
+                                                    <option value="">Pilih Status</option>
+                                                    <option value="OK">OK</option>
+                                                    <option value="NOT OK">NOT OK</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="">Deskripsi</label>
+                                                <textarea name="deskripsi_backup" class="form-control" id="summernoteEditor" cols="5" rows="10" required></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body text-right pt-0">
+                                        <button type="submit" class="btn-success">Simpan</button>
+                                    </div>
+                                </form>
                             </div>
-                        </div> --}}
+                        </div>
 
                     </div>
                 </div>

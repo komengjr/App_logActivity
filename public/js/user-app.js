@@ -369,7 +369,10 @@ $(document).on("click", "#button-tambah-maintenance-bulanan", function (e) {
             );
         });
 });
-$(document).on("click","#button-tambah-maintenance-bulanan-send", function (e) {
+$(document).on(
+    "click",
+    "#button-tambah-maintenance-bulanan-send",
+    function (e) {
         e.preventDefault();
         var data = $("#form-post-maintenance-bulanan").serialize();
         $("#menu-data-maintenance").html(
@@ -414,7 +417,10 @@ $(document).on("click", "#button-detail-maintenance-bulanan", function (e) {
             );
         });
 });
-$(document).on("click","#button-tambah-detail-maintenance-bulanan",function (e) {
+$(document).on(
+    "click",
+    "#button-tambah-detail-maintenance-bulanan",
+    function (e) {
         e.preventDefault();
         var id = $(this).data("id");
         $.ajax({
@@ -434,39 +440,45 @@ $(document).on("click","#button-tambah-detail-maintenance-bulanan",function (e) 
             });
     }
 );
-$(document).on("click", "#button-save-pilih-barang-maintenance", function(e) {
+$(document).on("click", "#button-save-pilih-barang-maintenance", function (e) {
     e.preventDefault();
-    var data_post = $("#form-post-data-inventaris-maintenance-perangkat").serialize();
+    var data_post = $(
+        "#form-post-data-inventaris-maintenance-perangkat"
+    ).serialize();
     $.ajax({
-            url: "user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail/pilih-perangkat/simpan",
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
-            },
-            type: "POST",
-            data: data_post,
-            dataType: "html",
-        })
-        .done(function(data) {
-            if (data == 'salah') {
-                $("#menu-maintenance-barang").html('');
+        url: "user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail/pilih-perangkat/simpan",
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
+        },
+        type: "POST",
+        data: data_post,
+        dataType: "html",
+    })
+        .done(function (data) {
+            if (data == "salah") {
+                $("#menu-maintenance-barang").html("");
             } else {
-                $("#menu-maintenance-barang").html('');
+                $("#menu-maintenance-barang").html("");
                 $("#data-table-detail-periode-maintenance").html(data);
             }
         })
-        .fail(function() {
+        .fail(function () {
             $("#data-table-detail-periode-maintenance").html(
                 "Ada Kesalahan Saat Menyimpan Data"
             );
         });
 });
-$(document).on("click","#button-detail-perangkat-maintenance",function (e) {
+$(document).on("click", "#button-detail-perangkat-maintenance", function (e) {
     e.preventDefault();
+    $("#menu-data-maintenance").html("loading");
     var id = $(this).data("id");
+    var kode = $(this).data("kode");
     $.ajax({
         url:
             "user/user/handledatacabang/taskbulanan/maintenance-bulanan/detail/perangkat/" +
-            id,
+            id +
+            "/" +
+            kode,
         type: "GET",
         dataType: "html",
     })
@@ -478,7 +490,50 @@ $(document).on("click","#button-detail-perangkat-maintenance",function (e) {
                 '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
             );
         });
-}
+});
+$(document).on(
+    "click",
+    "#button-simpan-parameter-barang-maintenance",
+    function (e) {
+        e.preventDefault();
+        var data = $(
+            "#form-post-data-inventaris-maintenance-perangkat-detail"
+        ).serialize();
+
+        if (document.getElementById("parameter").value == "" || document.getElementById("parameter_value").value == "") {
+            Lobibox.notify("warning", {
+                pauseDelayOnHover: true,
+                continueDelayOnInactiveTab: false,
+                icon: "fa fa-info",
+                position: "center top",
+                showClass: "zoomIn",
+                hideClass: "zoomOut",
+                sound: false,
+                width: 400,
+                msg: "Inputan Tidak Boleh Kosong",
+            });
+        } else {
+            document.getElementById("parameter").value = "";
+            document.getElementById("parameter_value").value = "";
+            $.ajax({
+                url: "user/user/handledatacabang/taskbulanan/maintenance-bulanan/simpan-detail/perangkat",
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
+                },
+                type: "POST",
+                data: data,
+                dataType: "html",
+            })
+                .done(function (data) {
+                    $("#table-list-detail-perangkat-maintenance").html(data);
+                })
+                .fail(function () {
+                    $("#table-list-detail-perangkat-maintenance").html(
+                        '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                });
+        }
+    }
 );
 
 $(document).on("click", "#task-custom-hendler-user", function (e) {

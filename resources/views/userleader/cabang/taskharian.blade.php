@@ -19,7 +19,7 @@
                     <div id="accordion1">
                         <div class="card mb-2">
                             <div class="card-header" data-toggle="collapse" data-target="#collapse-1" id="acording-button">
-                                <h5><span class="badge badge-dark">Quest One ( CHECKLIST LAPORAN KRITIS )</span></h5>
+                                <h5><span class="badge badge-primary">1</span> <span class="badge badge-dark">CHECKLIST LAPORAN KRITIS</span></h5>
                             </div>
 
                             <div id="collapse-1" class="collapse" data-parent="#accordion1">
@@ -71,7 +71,7 @@
                         </div>
                         <div class="card mb-1">
                             <div class="card-header " data-toggle="collapse"  data-target="#collapse-2" id="acording-button">
-                                <h5><span class="badge badge-dark">Quest Two ( CHECKLIST SISTEM SERVER & BACKUP DATA BISONE HARIAN )</span></h5>
+                                <h5><span class="badge badge-primary">2</span> <span class="badge badge-dark">CHECKLIST SISTEM SERVER & BACKUP DATA BISONE HARIAN</span></h5>
                             </div>
                             <div id="collapse-2" class="collapse" data-parent="#accordion1">
                                 @php

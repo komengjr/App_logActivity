@@ -28,7 +28,7 @@
                     <th>Nama Brang</th>
                     <th>No Barang</th>
                     <th>Tanggal Maintenance</th>
-                    <th>Status Petugas</th>
+                    {{-- <th>Status Petugas</th> --}}
                     <th>Action</th>
                 </tr>
             </thead>
@@ -42,9 +42,14 @@
                         <td>{{ $dataperangkat->nama_inventaris }}</td>
                         <td>{{ $dataperangkat->no_inventaris }}</td>
                         <td>{{ $dataperangkat->tgl_maintenance_sub }}</td>
-                        <td>{{ $dataperangkat->status_maintenance_sub }}</td>
+                        {{-- <td>{{ $dataperangkat->status_maintenance_sub }}</td> --}}
                         <td>
-                            <button class="btn-warning" id="button-detail-perangkat-maintenance"><i class="fa fa-pencil"></i></button>
+                            @if ($dataperangkat->status_maintenance_sub == 0)
+                            <button class="btn-warning" id="button-detail-perangkat-maintenance" data-id="{{$dataperangkat->id_inventaris}}" data-kode="{{$dataperangkat->id_maintenance_sub}}"><i class="fa fa-pencil"></i></button>
+                            @else
+                            <button class="btn-success" disabled><i class="fa fa-check-square"></i></button>
+                            @endif
+
                         </td>
                     </tr>
                 @endforeach

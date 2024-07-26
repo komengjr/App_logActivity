@@ -43,8 +43,8 @@
                         <td>{{ $data->akhir_periode }}</td>
                         <td>{{ $data->verifikator }}</td>
                         <td>
-                            <button class="btn-dark"><i class="fa fa-tasks"></i></button>
-                            <button class="btn-primary"><i class="fa fa-print"></i></button>
+                            <button class="btn-primary" id="button-detail-maintenance-bulanan" data-id="{{$data->kd_schedule_maintenance }}"><i class="fa fa-eye"></i></button>
+                                                                <button class="btn-secondary"><i class="fa fa-print"></i></button>
                         </td>
                     </tr>
                 @endforeach

@@ -494,9 +494,39 @@ class UserController extends Controller
 
 
     }
-    public function maintenanceperangkatdetail($id)
+    public function perangkatdatadetailmaintenancebulanan($id)
     {
-        return view('userleader.cabang.bulanan.detail-perangkat-maintenance');
+        $url = "http://192.168.50.247/api/datanidinventaris/" . $id;
+        // $get_result_arr = json_decode($response->getContent($url), true);
+        // echo $result;
+        $response = file_get_contents($url, true);
+        $newsData = json_decode($response);
+    }
+    public function maintenanceperangkatdetail($id,$kode)
+    {
+        $url = "http://192.168.50.247/api/datanidinventaris/" . $id;
+        // $get_result_arr = json_decode($response->getContent($url), true);
+        // echo $result;
+        $response = file_get_contents($url, true);
+        $newsData = json_decode($response);
+        $dataperangkat = DB::table('users_schedule_maintenance_sub_log')->where('id_maintenance_sub',$kode)->get();
+        return view('userleader.cabang.bulanan.detail-perangkat-maintenance',['newsData'=>$newsData ,'kode'=>$kode, 'dataperangkat'=>$dataperangkat]);
+    }
+    public function maintenanceperangkatsimpandatadetail(Request $request)
+    {
+        DB::table('users_schedule_maintenance_sub_log')->insert([
+            'id_maintenance_sub'=>$request->kode,
+            'parameter'=>$request->parameter,
+            'parameter_value'=>$request->parameter_value,
+            'tgl_input'=>now(),
+            'created_at'=>now(),
+        ]);
+        $dataperangkat = DB::table('users_schedule_maintenance_sub_log')->where('id_maintenance_sub',$request->kode)->get();
+        return view('userleader.cabang.bulanan.table-perangkat-maintenance-detail',['dataperangkat'=>$dataperangkat]);
+    }
+    public function maintenanceverifperangkatsimpandatadetail(Request $request)
+    {
+        return redirect()->back();
     }
     public function customtaskhendledatacabang($id)
     {

@@ -6,7 +6,7 @@
             <th>Nama Brang</th>
             <th>No Barang</th>
             <th>Tanggal Maintenances</th>
-            <th>Status Petugas</th>
+            {{-- <th>Status Petugas</th> --}}
             <th>Action</th>
         </tr>
     </thead>
@@ -20,9 +20,13 @@
                 <td>{{$data->nama_inventaris}}</td>
                 <td>{{$data->no_inventaris}}</td>
                 <td>{{$data->tgl_maintenance_sub}}</td>
-                <td>{{$data->status_maintenance_sub}}</td>
+                {{-- <td>{{$data->status_maintenance_sub}}</td> --}}
                 <td>
-                    <button class="btn-warning"><i class="fa fa-pencil"></i></button>
+                    @if ($data->status_maintenance_sub == 0)
+                    <button class="btn-warning" id="button-detail-perangkat-maintenance" data-id="{{$data->id_inventaris}}" data-kode="{{$data->id_maintenance_sub}}"><i class="fa fa-pencil"></i></button>
+                    @else
+                    <button class="btn-success" disabled><i class="fa fa-check-square"></i></button>
+                    @endif
                 </td>
             </tr>
         @endforeach
