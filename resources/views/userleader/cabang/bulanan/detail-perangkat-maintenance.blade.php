@@ -65,6 +65,7 @@
 <div class="footer">
     <form action="{{ route('user/user/handledatacabang/taskbulanan/maintenance-bulanan/simpan-detail/verif-perangkat') }}" method="post">
         @csrf
+        <input type="text" name="id_verif" value="{{$kode}}" hidden>
         <button type="submit" class="btn-primary">Verifikasi</button>
     </form>
 </div>

@@ -526,6 +526,12 @@ class UserController extends Controller
     }
     public function maintenanceverifperangkatsimpandatadetail(Request $request)
     {
+        DB::table('users_schedule_maintenance_sub')->where('id_maintenance_sub', $request->id_verif)->update(
+            [
+                'status_maintenance_sub' => 1,
+            ]
+        );
+        Session::flash('sukses', 'Berhasil Menyelesaikan 1 Prangkat Maintenance');
         return redirect()->back();
     }
     public function customtaskhendledatacabang($id)
