@@ -174,6 +174,7 @@ Route::get('user/user/handledatacabang',['as'=>'user/user/handledatacabang/','us
 Route::get('user/user/handledatacabang/task/{id}',['as'=>'user/user/handledatacabang/task','uses'=> 'UserController@taskharianhendledatacabang']);
 // Maintenance Bulanan
 Route::get('user/user/handledatacabang/taskbulanan/{id}',['as'=>'user/user/handledatacabang/taskbulanan','uses'=> 'UserController@taskbulananhendledatacabang']);
+Route::get('user/user/handledatacabang/taskbulanan/cetak-rencana/{id}',['as'=>'user/user/handledatacabang/taskbulanan/cetak-rencana','uses'=> 'UserController@cetakrencanataskbulananhendledatacabang']);
 Route::get('user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/{id}',['as'=>'user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/','uses'=> 'UserController@tambahmaintenancebulananhendledatacabang']);
 Route::post('user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan',['as'=>'user/user/handledatacabang/taskbulanan/post-tambah-maintenance-bulanan/','uses'=> 'UserController@posttambahmaintenancebulananhendledatacabang']);
 Route::get('user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail/{id}',['as'=>'user/user/handledatacabang/taskbulanan/tambah-maintenance-bulanan/detail','uses'=> 'UserController@detailmaintenancebulananhendledatacabang']);
@@ -200,6 +201,7 @@ Route::post('user/userleader/modalreport/postprintlaporan',['as'=>'user/userlead
 // Route::post('user/userleader/modalreport/postprintlaporan', 'UserController@postprintlaporan');
 Route::post('user/user/handledatacabang/postrecorddata', 'UserController@posthendlecabang');
 Route::post('user/user/handledatacabang/postrecorddatabackup', 'UserController@posthendlecabangbackupharian');
+Route::post('user/user/handledatacabang/postrecorddatabackupbulanan', 'UserController@posthendlecabangbackupbulanan');
 Route::post('user/user/tiket/posttask', 'UserController@posttaskuser');
 
 Route::post('user/lengkapi/data', 'UserController@lengkapidatabiodata');

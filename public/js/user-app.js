@@ -417,10 +417,31 @@ $(document).on("click", "#button-detail-maintenance-bulanan", function (e) {
             );
         });
 });
-$(document).on(
-    "click",
-    "#button-tambah-detail-maintenance-bulanan",
-    function (e) {
+$(document).on("click", "#button-cetak-rencana-maintenance", function (e) {
+    e.preventDefault();
+    $("#menu-maintenance-bulanan").html('Loading');
+    var id = $(this).data("id");
+    $.ajax({
+        url:
+            "user/user/handledatacabang/taskbulanan/cetak-rencana/" +
+            id,
+        type: "GET",
+        dataType: "html",
+    })
+        .done(function (data) {
+            $("#menu-maintenance-bulanan").html(
+                '<iframe src="data:application/pdf;base64, ' +
+                    data +
+                    '" style="width:100%;; height:400px;" frameborder="0"></iframe>'
+            );
+        })
+        .fail(function () {
+            $("#menu-maintenance-bulanan").html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+            );
+        });
+});
+$(document).on("click","#button-tambah-detail-maintenance-bulanan",function (e) {
         e.preventDefault();
         var id = $(this).data("id");
         $.ajax({
@@ -491,10 +512,7 @@ $(document).on("click", "#button-detail-perangkat-maintenance", function (e) {
             );
         });
 });
-$(document).on(
-    "click",
-    "#button-simpan-parameter-barang-maintenance",
-    function (e) {
+$(document).on("click","#button-simpan-parameter-barang-maintenance",function (e) {
         e.preventDefault();
         var data = $(
             "#form-post-data-inventaris-maintenance-perangkat-detail"

@@ -80,7 +80,7 @@
                                                                     id="button-detail-maintenance-bulanan"
                                                                     data-id="{{ $data->kd_schedule_maintenance }}"><i
                                                                         class="fa fa-eye"></i></button>
-                                                                <button class="btn-secondary"><i
+                                                                <button class="btn-secondary" id="button-cetak-rencana-maintenance" data-id="{{$data->kd_schedule_maintenance}}"><i
                                                                         class="fa fa-print"></i></button>
                                                             </td>
                                                         </tr>
@@ -98,30 +98,21 @@
                                 <h5><span class="badge badge-primary">2</span> <span class="badge badge-dark">BACKUP DATA BISONE BULANAN </span></h5>
                             </div>
                             <div id="collapse-2" class="collapse" data-parent="#accordion1">
-                                <form action="{{ url('user/user/handledatacabang/postrecorddatabackup', []) }}"
+                                <form action="{{ url('user/user/handledatacabang/postrecorddatabackupbulanan', []) }}"
                                     method="post">
                                     @csrf
                                     <div class="card-body pb-0 mb-0">
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <label for="">SISTEM</label>
-                                                <select name="sistem_backup" class="form-control" id=""
+                                            <div class="col-md-12">
+                                                <label for="">BULAN</label>
+                                                <select name="bulan" class="form-control" id=""
                                                     required>
-                                                    <option value="">Pilih Status</option>
-                                                    <option value="OK">OK</option>
-                                                    <option value="NOT OK">NOT OK</option>
+                                                    <option value="">Pilih Bulan</option>
+                                                    <option value="Januari">Januari</option>
+                                                    <option value="Februari">Februari</option>
                                                 </select>
                                                 <input type="text" name="kd_cabang" id=""
                                                     value="{{ $cabang->kd_cabang }}" hidden>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label for="">PROSES BACK UP</label>
-                                                <select name="proses_backup" class="form-control" id=""
-                                                    required>
-                                                    <option value="">Pilih Status</option>
-                                                    <option value="OK">OK</option>
-                                                    <option value="NOT OK">NOT OK</option>
-                                                </select>
                                             </div>
                                             <div class="col-md-12">
                                                 <label for="">Deskripsi</label>

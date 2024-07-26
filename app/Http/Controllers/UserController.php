@@ -413,6 +413,13 @@ class UserController extends Controller
         $data = DB::table('users_schedule_maintenance')->where('kd_cabang', $id)->get();
         return view('userleader.cabang.taskbulanan', ['data' => $data, 'cabang' => $cabang]);
     }
+    public function cetakrencanataskbulananhendledatacabang($id)
+    {
+        $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
+        $image = base64_encode(file_get_contents(public_path('logo.png')));
+        $pdf = PDF::loadview('userleader.cabang.bulanan.report.rencana-maintenance', [], compact('image'))->setPaper('A4', 'landscape')->setOptions(['defaultFont' => 'Courier']);
+        return base64_encode($pdf->stream());
+    }
     public function tambahmaintenancebulananhendledatacabang($id)
     {
 
@@ -534,6 +541,8 @@ class UserController extends Controller
         Session::flash('sukses', 'Berhasil Menyelesaikan 1 Prangkat Maintenance');
         return redirect()->back();
     }
+
+
     public function customtaskhendledatacabang($id)
     {
         $user = DB::table('tbl_biodata')->where('id_user', Auth::user()->id_user)->first();
@@ -708,6 +717,19 @@ class UserController extends Controller
         Session::flash('sukses', 'Berhasil Menyelesaikan Task Harian');
         return redirect()->back();
 
+    }
+    public function posthendlecabangbackupbulanan(Request $request)
+    {
+        DB::table('users_backup_bulanan')->insert([
+            'kd_backup_bulanan' => 'BACKUP_BULAN' . date('Y-m-d_H:i:s') . mt_rand(1000000, 9999999),
+            'kd_cabang' => $request->kd_cabang,
+            'nama_backup_bulanan' => $request->bulan,
+            'tgl_input' => now(),
+            'deskripsi' => $request->deskripsi_backup,
+            'created_at' => date('Y-m-d H:i:s'),
+        ]);
+        Session::flash('sukses', 'Berhasil Menyimpan Backup Bulanan');
+        return redirect()->back();
     }
     public function respondatalaporanuser($id)
     {
