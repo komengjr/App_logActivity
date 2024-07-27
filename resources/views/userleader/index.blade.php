@@ -328,13 +328,13 @@
                                                     @endforeach
 
                                                     <hr />
-                                                    <button class="btn-warning" data-toggle="modal"
+                                                    {{-- <button class="btn-warning" data-toggle="modal"
                                                         data-target="#input_tiketxx" id="buttonmemberitugasuser"><i
                                                             class="fa fa-pencil"></i> Beri Tugas</button>
                                                     <button class="btn-dark" data-toggle="modal"
                                                         data-target="#showtask" id="buttonlihattugasuser"><i
                                                             class="fa fa-eye"></i> Lihat
-                                                        Tugas</button>
+                                                        Tugas</button> --}}
                                                 </div>
                                             </div>
 

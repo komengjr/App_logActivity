@@ -138,4 +138,9 @@ class MasterUserController extends Controller
 
 
     }
+    public function masterdatalaporanbackupbulanan(Request $request)
+    {
+        $datacabang = DB::table('tbl_cabang')->get();
+        return view('userleader.masterdata.monitoring-backup-bulanan', ['cabang' => $datacabang]);
+    }
 }

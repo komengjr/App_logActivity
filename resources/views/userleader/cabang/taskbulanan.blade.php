@@ -20,7 +20,8 @@
                         <div class="card mb-2">
                             <div class="card-header" data-toggle="collapse" data-target="#collapse-1"
                                 id="acording-button">
-                                <h5><span class="badge badge-primary">1</span> <span class="badge badge-dark">RENCANA MAINTENANCE BULANAN</span></h5>
+                                <h5><span class="badge badge-primary">1</span> <span class="badge badge-dark">RENCANA
+                                        MAINTENANCE BULANAN</span></h5>
                             </div>
 
                             <div id="collapse-1" class="collapse" data-parent="#accordion1">
@@ -80,7 +81,9 @@
                                                                     id="button-detail-maintenance-bulanan"
                                                                     data-id="{{ $data->kd_schedule_maintenance }}"><i
                                                                         class="fa fa-eye"></i></button>
-                                                                <button class="btn-secondary" id="button-cetak-rencana-maintenance" data-id="{{$data->kd_schedule_maintenance}}"><i
+                                                                <button class="btn-secondary"
+                                                                    id="button-cetak-rencana-maintenance"
+                                                                    data-id="{{ $data->kd_schedule_maintenance }}"><i
                                                                         class="fa fa-print"></i></button>
                                                             </td>
                                                         </tr>
@@ -95,7 +98,8 @@
                         <div class="card mb-1">
                             <div class="card-header " data-toggle="collapse" data-target="#collapse-2"
                                 id="acording-button">
-                                <h5><span class="badge badge-primary">2</span> <span class="badge badge-dark">BACKUP DATA BISONE BULANAN </span></h5>
+                                <h5><span class="badge badge-primary">2</span> <span class="badge badge-dark">BACKUP
+                                        DATA BISONE BULANAN </span></h5>
                             </div>
                             <div id="collapse-2" class="collapse" data-parent="#accordion1">
                                 <form action="{{ url('user/user/handledatacabang/postrecorddatabackupbulanan', []) }}"
@@ -105,8 +109,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label for="">BULAN</label>
-                                                <select name="bulan" class="form-control" id=""
-                                                    required>
+                                                <select name="bulan" class="form-control" id="" required>
                                                     <option value="">Pilih Bulan</option>
                                                     <option value="Januari">Januari</option>
                                                     <option value="Februari">Februari</option>
@@ -126,8 +129,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="">Tahun</label>
-                                                <select name="tahun" class="form-control" id=""
-                                                    required>
+                                                <select name="tahun" class="form-control" id="" required>
                                                     <option value="">Pilih Tahun</option>
                                                     <option value="2024">2024</option>
                                                     <option value="2025">2025</option>
@@ -139,7 +141,8 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <label for="">Deskripsi</label>
-                                                <textarea name="deskripsi_backup" class="form-control" id="summernoteEditor" cols="5" rows="10" required></textarea>
+                                                <textarea name="deskripsi_backup" class="form-control" id="summernoteEditor" cols="5" rows="10"
+                                                    required></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -147,31 +150,32 @@
                                         <button type="submit" class="btn-success">Simpan</button>
                                     </div>
                                 </form>
-                                <table class="table align-items-center table-flush"
-                                                id="default-table-backup-bulan" border="1"
-                                                style="text-align: justify;">
-                                                <thead>
-                                                    <tr>
-                                                        <th>No</th>
-                                                        <th>Kode Backup</th>
-                                                        <th>Bulan</th>
-                                                        <th>Tanggal Backup</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @php
-                                                        $no = 1;
-                                                    @endphp
-                                                    @foreach ($databulanan as $databulanan)
-                                                        <tr>
-                                                            <td>{{$no++}}</td>
-                                                            <td>{{$databulanan->kd_backup_bulanan}}</td>
-                                                            <td>{{$databulanan->nama_backup_bulanan}}</td>
-                                                            <td>{{$databulanan->tgl_input}}</td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                                <table class="table align-items-center table-flush" id="default-table-backup-bulan"
+                                    border="1" style="text-align: justify;">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Kode Backup</th>
+                                            <th>Bulan</th>
+                                            <th>Tahun</th>
+                                            <th>Tanggal Backup</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php
+                                            $no = 1;
+                                        @endphp
+                                        @foreach ($databulanan as $databulanan)
+                                            <tr>
+                                                <td>{{ $no++ }}</td>
+                                                <td>{{ $databulanan->kd_backup_bulanan }}</td>
+                                                <td>{{ $databulanan->nama_backup_bulanan }}</td>
+                                                <td>{{ $databulanan->tahun_backup_bulanan }}</td>
+                                                <td>{{ $databulanan->tgl_input }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 

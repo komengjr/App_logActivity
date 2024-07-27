@@ -18,6 +18,7 @@ class CreateUsersBackupBulananTable extends Migration
             $table->string('kd_backup_bulanan')->unique();
             $table->string('kd_cabang');
             $table->string('nama_backup_bulanan');
+            $table->string('tahun_backup_bulanan');
             $table->date('tgl_input');
             $table->longText('deskripsi');
             $table->timestamps();

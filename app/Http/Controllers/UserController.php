@@ -725,6 +725,7 @@ class UserController extends Controller
             'kd_backup_bulanan' => 'BACKUP_BULAN_' . date('Y-m-d_H:i:s') . mt_rand(1000000, 9999999),
             'kd_cabang' => $request->kd_cabang,
             'nama_backup_bulanan' => $request->bulan,
+            'tahun_backup_bulanan' => $request->tahun,
             'tgl_input' => now(),
             'deskripsi' => $request->deskripsi_backup,
             'created_at' => date('Y-m-d H:i:s'),

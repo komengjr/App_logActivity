@@ -218,6 +218,8 @@ Route::post('master-data-user/laporan/monitoring/harian/preview',['as'=>'master-
 Route::post('master-data-user/laporan/monitoring/harian/previewbackupharian',['as'=>'master-data-user/laporan/monitoring/harian/previewbackupharian','uses'=> 'MasterUserController@masterpreviewbackupharianmonitoringharian']);
 Route::post('master-data-user/laporan/monitoring/kerusakan',['as'=>'master-data-user/laporan/monitoring/kerusakan','uses'=> 'MasterUserController@masterdatalaporankerusakan']);
 
+Route::post('master-data-user/laporan/monitoring/backup-bulanan',['as'=>'laporan_monitoring_backup-bulanan','uses'=> 'MasterUserController@masterdatalaporanbackupbulanan']);
+
 Route::get('master-data-kinerja',['as'=>'master-data-kinerja','uses'=> 'AdminController@masterdatakinerja']);
 Route::post('master-data-kinerja/detaildata',['as'=>'master-data-kinerja-detail-data','uses'=> 'AdminController@masterdatakinerjadetail']);
 Route::post('master-data-kinerja/simpandetaildata',['as'=>'simpan-master-data-kinerja-detail-data','uses'=> 'AdminController@tambahmasterdatakinerjadetail']);

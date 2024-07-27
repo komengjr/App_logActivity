@@ -10,6 +10,11 @@
             cursor: pointer;
             background: rgb(151, 186, 186);
         }
+        #button-report-monitoring-backup-bulan:hover {
+            /* display: flex; */
+            cursor: pointer;
+            background: rgb(151, 186, 186);
+        }
 
         #button-report-monitoring-kerusakan:hover {
             /* display: flex; */
@@ -230,10 +235,7 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
-
                             </table>
-
-
                         <div class="card-footer text-center bg-transparent border-0">
                             {{-- <a href="javascript:void();">View all listings</a> --}}
                         </div>
@@ -267,7 +269,20 @@
                                     <img src="{{ asset('assets/images/avatar/report.png') }}" alt="user avatar"
                                         class="customer-img rounded">
                                     <div class="media-body ml-3">
-                                        <h6 class="mb-0">Monitoring Harian</h6>
+                                        <h6 class="mb-0">Monitoring Backup Harian</h6>
+                                    </div>
+                                    <div class="date">
+                                        <i class="fa fa-check-circle"></i>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item" id="button-report-monitoring-backup-bulan" data-toggle="modal"
+                                data-target="#modal-master-data-user">
+                                <div class="media align-items-center">
+                                    <img src="{{ asset('assets/images/avatar/report.png') }}" alt="user avatar"
+                                        class="customer-img rounded">
+                                    <div class="media-body ml-3">
+                                        <h6 class="mb-0">Monitoring Backup Bulanan</h6>
                                     </div>
                                     <div class="date">
                                         <i class="fa fa-check-circle"></i>
@@ -336,12 +351,11 @@
     <div class="modal fade" id="modal-master-data-user">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content border-danger " id="menu-modal-master-data-user" style="border: 0px;">
-
                 <img src="{{ asset('gif.gif') }}" alt="" srcset="">
-
             </div>
         </div>
     </div>
+    <form action="" method="post"></form>
     <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script>
         $('#dateragne-picker .input-daterange').datepicker({});
@@ -409,6 +423,35 @@
             );
             $.ajax({
                     url: "../../master-data-user/laporan/monitoring/harian",
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "tiket": kode,
+                    },
+                    dataType: 'html',
+                })
+                .done(function(data) {
+                    $("#menu-modal-master-data-user").html(data);
+                })
+                .fail(function() {
+                    Lobibox.notify("error", {
+                        pauseDelayOnHover: true,
+                        continueDelayOnInactiveTab: false,
+                        position: "top right",
+                        icon: "fa fa-info",
+                        msg: "Gagal",
+                    });
+                });
+        });
+        $(document).on("click", "#button-report-monitoring-backup-bulan", function(e) {
+            e.preventDefault();
+            var kode = $(this).data("id");
+            $("#menu-modal-master-data-user").html(
+                '<div class="card"><div style="text-align: center; padding:2%;"><div class="spinner-border" role="status" > <span class="sr-only"></span> </div></div></div>'
+            );
+            $.ajax({
+                    url: "{{ route('laporan_monitoring_backup-bulanan') }}",
                     type: "POST",
                     cache: false,
                     data: {
