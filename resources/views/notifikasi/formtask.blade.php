@@ -21,7 +21,6 @@
                     <div class="col-md-6">
                         <label for="inputLastName1" class="form-label">Kategori Laporan</label>
                         <div class="input-group"> <span class="input-group-text"><i class="fa fa-cog"></i></span>
-
                                 @if ($datalaporan->kategori_laporan == 'ER-001')
                                 <input type="text" class="form-control border-start-0" id="inputLastName1"
                                 value="Software" disabled>
