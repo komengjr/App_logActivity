@@ -9,9 +9,9 @@
   <title>Eror 403 !!</title>
   <!--favicon-->
   <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
-  <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
-  <link href="assets/css/app-style.css" rel="stylesheet"/>
-  
+  <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet"/>
+  <link href="{{ asset('assets/css/app-style.css') }}" rel="stylesheet"/>
+
 </head>
 
 <body>
@@ -41,29 +41,29 @@
                         </div>
                            <hr class="w-50 border-light-2">
                         <div class="mt-2">
-                            
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-		
-		
+
+
  </div><!--wrapper-->
 
 
   <!-- Bootstrap core JavaScript-->
-  <script src="assets/js/jquery.min.js"></script>
+  <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 
-  <script src="assets/js/bootstrap.min.js"></script>
-	
+  <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+
   <!-- simplebar js -->
   {{-- <script src="assets/plugins/simplebar/js/simplebar.js"></script> --}}
   <!-- horizontal-menu js -->
-  <script src="assets/js/horizontal-menu.js"></script>
-  
+  <script src="{{ asset('assets/js/horizontal-menu.js') }}"></script>
+
   <!-- Custom scripts -->
-  <script src="assets/js/app-script.js"></script>
-	
+  <script src="{{ asset('assets/js/app-script.js') }}"></script>
+
 </body>
 </html>
