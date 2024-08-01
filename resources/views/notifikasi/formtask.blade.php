@@ -21,8 +21,14 @@
                     <div class="col-md-6">
                         <label for="inputLastName1" class="form-label">Kategori Laporan</label>
                         <div class="input-group"> <span class="input-group-text"><i class="fa fa-cog"></i></span>
-                            <input type="text" class="form-control border-start-0" id="inputLastName1"
-                                value="{{ $datalaporan->kategori_laporan }}" disabled>
+
+                                @if ($datalaporan->kategori_laporan == 'ER-001')
+                                <input type="text" class="form-control border-start-0" id="inputLastName1"
+                                value="Software" disabled>
+                                @elseif ($datalaporan->kategori_laporan == 'ER-002')
+                                <input type="text" class="form-control border-start-0" id="inputLastName1"
+                                value="Hardware" disabled>
+                                @endif
                         </div>
                     </div>
                     <div class="col-md-6">
