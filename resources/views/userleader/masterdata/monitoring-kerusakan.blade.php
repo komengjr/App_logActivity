@@ -6,7 +6,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form id="form-laporan-user">
+<form id="form-laporan-kerusakan">
     @csrf
     <div class="modal-body bg-white">
 
@@ -20,14 +20,14 @@
                 <input type="date" name="end" id="" class="form-control">
             </div>
         </div>
-        <span id="show-laporan-user"></span>
+        <span id="show-laporan-kerusakan"></span>
     </div>
 </form>
     <div class="modal-footer">
         {{-- <button class="btn-primary" id="submit-button-laporan-user-coba">
             <i class="fa fa-print" ></i> Print coba
         </button> --}}
-        <button class="btn-primary" id="submit-button-laporan-user">
+        <button class="btn-primary" id="submit-button-laporan-kerusakan">
             <i class="fa fa-print" ></i> Print Preview
         </button>
     </div>

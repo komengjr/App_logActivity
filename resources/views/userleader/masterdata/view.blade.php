@@ -1,5 +1,24 @@
 @extends('layouts.base')
 @section('content')
+    <script>
+        function waktu() {
+            var id = 123;
+            $("#nitifikasipesan").html("");
+            $.ajax({
+                    url: "user/notifikasi/lihatnotif/" + id,
+                    type: "GET",
+                    dataType: "html",
+                })
+                .done(function(data) {
+                    $("#nitifikasipesan").html(data);
+                })
+                .fail(function() {
+                    $("#nitifikasipesan").html(
+                        '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                    );
+                });
+        }
+    </script>
     <style>
         #button-user-log:hover {
             background: rgb(151, 186, 186);
@@ -10,6 +29,7 @@
             cursor: pointer;
             background: rgb(151, 186, 186);
         }
+
         #button-report-monitoring-backup-bulan:hover {
             /* display: flex; */
             cursor: pointer;
@@ -17,6 +37,12 @@
         }
 
         #button-report-monitoring-kerusakan:hover {
+            /* display: flex; */
+            cursor: pointer;
+            background: rgb(151, 186, 186);
+        }
+
+        #button-rencana-maintenance-bulanan:hover {
             /* display: flex; */
             cursor: pointer;
             background: rgb(151, 186, 186);
@@ -133,8 +159,8 @@
                             </div>
                         </div>
 
-                            <div class="card-body" style="padding:1%;"></div>
-                            {{-- @foreach ($data as $item)
+                        <div class="card-body" style="padding:1%;"></div>
+                        {{-- @foreach ($data as $item)
                                 <li class="list-group-item" id="button-user-log" style="cursor: pointer;"
                                     data-toggle="modal" data-target="#modal-master-data-user"
                                     data-id="{{ $item->tiket_laporan }}">
@@ -174,68 +200,67 @@
                                     </div>
                                 </li>
                             @endforeach --}}
-                            <table id="example1" class="styled-table table-striped table-bordered" style="width:100%; text-align: left;"
-                                border="1">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>User Laporan</th>
-                                        <th>Waktu Laporan Masuk</th>
-                                        <th>Waktu Terima Laporan</th>
-                                        <th>Waktu Selesai Laporan</th>
+                        <table id="example1" class="styled-table table-striped table-bordered"
+                            style="width:100%; text-align: left;" border="1">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>User Laporan</th>
+                                    <th>Waktu Laporan Masuk</th>
+                                    <th>Waktu Terima Laporan</th>
+                                    <th>Waktu Selesai Laporan</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $no = 1;
+                                @endphp
+                                @foreach ($data as $item)
+                                    <tr id="button-user-log" style="cursor: pointer;" data-toggle="modal"
+                                        data-target="#modal-master-data-user" data-id="{{ $item->tiket_laporan }}">
+                                        <td data-label="No :">{{ $no++ }}</td>
+                                        <td data-label="Deskripsi Laporan :">
+                                            <h6 class="mb-1">{{ $item->nama_user }}</h6>
+                                            <p style="font-size: 15px;" class="mt-0">
+                                                @if ($item->tingkat_laporan == 1)
+                                                    <span class="badge badge-info">Kasus Rendah</span>
+                                                @elseif($item->tingkat_laporan == 2)
+                                                    <span class="badge badge-warning">Kasus Sedang</span>
+                                                @elseif($item->tingkat_laporan == 3)
+                                                    <span class="badge badge-danger">Kasus Tinggi</span>
+                                                @endif
+                                            </p>
+                                            <small class="small-font mt-0">
+                                                @if ($item->status_laporan == 0)
+                                                    <span class="badge bg-danger text-white">Belum</span>
+                                                @elseif ($item->status_laporan == 1)
+                                                    <span class="badge bg-warning">Proses</span>
+                                                @elseif ($item->status_laporan == 2)
+                                                    <span class="badge bg-success text-white">Selesai</span>
+                                                @endif
+                                            </small>
+                                        </td>
+                                        <td data-label="Waktu Laporan Masuk :">
+                                            <h6 class="mb-2"><span class="badge bg-dark text-white">Waktu Laporan
+                                                    Masuk</span></h6>
+                                            <p class="mb-0">{{ $item->tgl_laporan }}</p>
+                                        </td>
+                                        <td data-label="Waktu Terima Laporan :">
+                                            <h6 class="mb-2"><span class="badge bg-primary text-white">Waktu Terima
+                                                    Laporan</span></h6>
+                                            <p class="mb-0">{{ $item->tgl_respon_laporan }}</p>
+                                        </td>
+                                        <td data-label="Waktu Selesai Laporan :">
+                                            <h6 class="mb-2"><span class="badge bg-success text-white">Waktu Selesai
+                                                    Laporan</span></h6>
+                                            <p class="mb-0">{{ $item->tgl_selesai_laporan }}</p>
+                                        </td>
 
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @php
-                                        $no = 1;
-                                    @endphp
-                                    @foreach ($data as $item)
-                                        <tr id="button-user-log" style="cursor: pointer;"
-                                        data-toggle="modal" data-target="#modal-master-data-user"
-                                        data-id="{{ $item->tiket_laporan }}">
-                                            <td data-label="No :">{{ $no++ }}</td>
-                                            <td data-label="Deskripsi Laporan :">
-                                                <h6 class="mb-1">{{ $item->nama_user }}</h6>
-                                                <p style="font-size: 15px;" class="mt-0">
-                                                    @if ($item->tingkat_laporan == 1)
-                                                        <span class="badge badge-info">Kasus Rendah</span>
-                                                    @elseif($item->tingkat_laporan == 2)
-                                                        <span class="badge badge-warning">Kasus Sedang</span>
-                                                    @elseif($item->tingkat_laporan == 3)
-                                                        <span class="badge badge-danger">Kasus Tinggi</span>
-                                                    @endif
-                                                </p>
-                                                <small class="small-font mt-0">
-                                                    @if ($item->status_laporan == 0)
-                                                        <span class="badge bg-danger text-white">Belum</span>
-                                                    @elseif ($item->status_laporan == 1)
-                                                        <span class="badge bg-warning">Proses</span>
-                                                    @elseif ($item->status_laporan == 2)
-                                                        <span class="badge bg-success text-white">Selesai</span>
-                                                    @endif
-                                                </small>
-                                            </td>
-                                            <td data-label="Waktu Laporan Masuk :">
-                                                <h6 class="mb-2"><span class="badge bg-dark text-white">Waktu Laporan
-                                                        Masuk</span></h6>
-                                                <p class="mb-0">{{ $item->tgl_laporan }}</p>
-                                            </td>
-                                            <td data-label="Waktu Terima Laporan :">
-                                                <h6 class="mb-2"><span class="badge bg-primary text-white">Waktu Terima
-                                                        Laporan</span></h6>
-                                                <p class="mb-0">{{ $item->tgl_respon_laporan }}</p>
-                                            </td>
-                                            <td data-label="Waktu Selesai Laporan :">
-                                                <h6 class="mb-2"><span class="badge bg-success text-white">Waktu Selesai
-                                                        Laporan</span></h6>
-                                                <p class="mb-0">{{ $item->tgl_selesai_laporan }}</p>
-                                            </td>
-
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                @endforeach
+                            </tbody>
+                        </table>
                         <div class="card-footer text-center bg-transparent border-0">
                             {{-- <a href="javascript:void();">View all listings</a> --}}
                         </div>
@@ -302,20 +327,20 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="list-group-item" id="button-report-monitoring-kerusakan" data-toggle="modal"
+                            <li class="list-group-item" id="button-rencana-maintenance-bulanan" data-toggle="modal"
                                 data-target="#modal-master-data-user">
                                 <div class="media align-items-center">
                                     <img src="{{ asset('assets/images/avatar/3.png') }}" alt="user avatar"
                                         class="customer-img rounded">
                                     <div class="media-body ml-3">
-                                        <h6 class="mb-0">Maintenance Hardware & Software</h6>
+                                        <h6 class="mb-0">Rencana Maintenance Hardware & Software</h6>
                                     </div>
                                     <div class="date">
                                         <i class="fa fa-check-circle"></i>
                                     </div>
                                 </div>
                             </li>
-                            <li class="list-group-item" id="button-report-monitoring-kerusakan" data-toggle="modal"
+                            <li class="list-group-item" id="button-report-grafik-penilaian" data-toggle="modal"
                                 data-target="#modal-master-data-user">
                                 <div class="media align-items-center">
                                     <img src="{{ asset('assets/images/avatar/2.png') }}" alt="user avatar"
@@ -324,7 +349,7 @@
                                         <h6 class="mb-0">Grafik Penilaian</h6>
                                     </div>
                                     <div class="date">
-                                        <i class="fa fa-check-circle"></i>
+                                        <i class="fa fa-times"></i>
                                     </div>
                                 </div>
                             </li>
@@ -560,6 +585,93 @@
                 .fail(function() {
                     // console.log(data);
                     $("#show-monitoring-harian").html("Gagal Baca");
+                });
+        });
+    </script>
+    <script>
+        $(document).on("click", "#submit-button-laporan-backup-bulanan", function(e) {
+            e.preventDefault();
+            var data = $("#form-monitoring-bulanan").serialize();
+            $("#show-monitoring-harian").html(
+                '<div style="text-align: center; padding:2%;"><div class="spinner-border" role="status" > <span class="sr-only">Loading...</span> </div></div>'
+            );
+            $.ajax({
+                    url: "master-data-user/laporan/monitoring/harian/previewbackupbulanan",
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
+                    },
+                    type: "POST",
+                    data: data,
+                    dataType: "html",
+                })
+                .done(function(datapdf) {
+                    $("#show-monitoring-harian").html(
+                        '<iframe src="data:application/pdf;base64, ' +
+                        datapdf +
+                        '" style="width:100%;; height:500px;" frameborder="0"></iframe>'
+                    );
+                })
+                .fail(function() {
+                    // console.log(data);
+                    $("#show-monitoring-harian").html("Gagal Baca");
+                });
+        });
+        $(document).on("click", "#submit-button-laporan-kerusakan", function(e) {
+            e.preventDefault();
+            var data = $("#form-laporan-kerusakan").serialize();
+            $("#show-laporan-kerusakan").html(
+                '<div style="text-align: center; padding:2%;"><div class="spinner-border" role="status" > <span class="sr-only">Loading...</span> </div></div>'
+            );
+            $.ajax({
+                    url: "master-data-user/laporan/monitoring/laporan/kerusakan",
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
+                    },
+                    type: "POST",
+                    data: data,
+                    dataType: "html",
+                })
+                .done(function(datapdf) {
+                    $("#show-laporan-kerusakan").html(
+                        '<iframe src="data:application/pdf;base64, ' +
+                        datapdf +
+                        '" style="width:100%;; height:500px;" frameborder="0"></iframe>'
+                    );
+                })
+                .fail(function() {
+                    // console.log(data);
+                    $("#show-laporan-kerusakan").html("Gagal Baca");
+                });
+        });
+    </script>
+    <script>
+        $(document).on("click", "#button-rencana-maintenance-bulanan", function(e) {
+            e.preventDefault();
+            // var kode = $(this).data("id");
+            $("#menu-modal-master-data-user").html(
+                '<div class="card"><div style="text-align: center; padding:2%;"><div class="spinner-border" role="status" > <span class="sr-only"></span> </div></div></div>'
+            );
+            $.ajax({
+                    url: "../../master-data-user/laporan/rencana/maintenance",
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        // "tiket": kode,
+                    },
+                    dataType: 'html',
+                })
+                .done(function(data) {
+                    $("#menu-modal-master-data-user").html(data);
+                })
+                .fail(function() {
+                    Lobibox.notify("error", {
+                        pauseDelayOnHover: true,
+                        continueDelayOnInactiveTab: false,
+                        position: "top right",
+                        icon: "fa fa-info",
+                        msg: "Gagal",
+                    });
                 });
         });
     </script>

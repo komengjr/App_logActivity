@@ -6,7 +6,7 @@
         <span aria-hidden="true"><i class="fa fa-times"></i></span>
     </button>
 </div>
-<form id="form-monitoring-harian">
+<form id="form-monitoring-bulanan">
     @csrf
     <div class="modal-body bg-white">
         @if (Auth::user()->kd_akses == 2)
@@ -46,11 +46,8 @@
     </div>
 </form>
     <div class="modal-footer">
-        <button class="btn-primary" id="submit-button-laporan-user-coba">
+        <button class="btn-primary" id="submit-button-laporan-backup-bulanan">
             <i class="fa fa-print" ></i> Preview Backup Bulanan
-        </button>
-        <button class="btn-primary" id="button-privew-monitoring-harian">
-            <i class="fa fa-print" ></i> Preview Laporan Kritis
         </button>
     </div>
 
