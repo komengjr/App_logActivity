@@ -1,4 +1,4 @@
-<table>
+<table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th>No</th>
@@ -17,12 +17,12 @@
         @foreach ($data as $data)
             <tr>
                 <td>{{ $no++ }}</td>
-                <td>{{ $data['update_id'] }}</td>
-                <td>{{ $data['chat_id'] }}</td>
-                <td>{{ $data['first_name'] }}</td>
-                <td>{{ $data['last_name'] }}</td>
-                <td>{{ $data['text'] }}</td>
-                <td>{{ $data['date'] }}</td>
+                <td>{{ $data->update_id }}</td>
+                <td>{{ $data->chat_id }}</td>
+                <td>{{ $data->first_name }}</td>
+                <td>{{ $data->last_name }}</td>
+                <td>{{ $data->text }}</td>
+                <td>{{ $data->date }}</td>
             </tr>
         @endforeach
     </tbody>

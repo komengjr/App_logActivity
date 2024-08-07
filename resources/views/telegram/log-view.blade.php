@@ -74,7 +74,7 @@
         //     }, 5000);
         // });
     </script>
-    <script>
+    {{-- <script>
         function showTime() {
                 var waktu = $("#detikwaktu").text();
                 $.ajax({
@@ -98,5 +98,5 @@
 
             }
             setInterval('showTime()', 2000);
-    </script>
+    </script> --}}
 @endsection

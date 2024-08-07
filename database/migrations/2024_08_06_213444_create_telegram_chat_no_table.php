@@ -17,6 +17,8 @@ class CreateTelegramChatNoTable extends Migration
             $table->id('id_no_telegram');
             $table->string('chat_id')->unique();
             $table->string('no_hp');
+            $table->string('nama_depan');
+            $table->string('nama_belakang');
             $table->timestamps();
         });
     }
