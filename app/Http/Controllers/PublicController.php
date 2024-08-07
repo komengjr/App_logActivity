@@ -35,10 +35,10 @@ class PublicController extends Controller
         $text = "Ada Tiket Baru Dengan Nomor : $request->tiket \nDari cabang $datacabang->nama_cabang \n Nomor Kontak : $request->telegram";
 
 
-        // Telegram::sendMessage([
-        //     'chat_id' => '-1002095197699',
-        //     'text' => $text,
-        // ]);
+        Telegram::sendMessage([
+            'chat_id' => '-1002095197699',
+            'text' => $text,
+        ]);
         $ceknotelegram = DB::table('telegram_chat_no')->where('no_hp', $request->telegram)->first();
         if ($ceknotelegram) {
             Telegram::sendMessage([
