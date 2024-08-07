@@ -30,8 +30,8 @@ return [
     */
     'bots'                         => [
         'mybot' => [
-            'username'            => 'AdaTugasDariBosBot',
-            'token'               => '6770776696:AAG7ooaZ8B9FByMM3IC-9i0knzvW6TvG-_0',
+            'username'            => 'log_notifikasi_bot',
+            'token'               => '7372867009:AAHS08RqpVYUtd4vAXz2ESIrLyRUxokWY4Q',
             'certificate_path'    => env('TELEGRAM_CERTIFICATE_PATH', 'YOUR-CERTIFICATE-PATH'),
             'webhook_url'         => env('TELEGRAM_WEBHOOK_URL', 'YOUR-BOT-WEBHOOK-URL'),
             'commands'            => [

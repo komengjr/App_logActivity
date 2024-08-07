@@ -24,117 +24,122 @@ class ApiController extends Controller
         // dd($updates);
         // dd(count($data));
         $data_arr = array();
-        $no = 0;
         if (count($updates) == count($data)) {
             return 0;
         } else {
-            foreach ($updates as $data) {
-                // $data_arr[] = array(
-                //     'update_id' => $data['update_id'],
-                //     'chat_id' => $data['message']['chat']['id'],
-                //     'first_name' => $data['message']['chat']['first_name'],
-                //     'last_name' => $data['message']['chat']['last_name'],
-                //     'text' => $data['message']['text'],
-                //     'date' => $data['message']['date'],
-                // );
-                $cek = DB::table('telegram_log')->where('update_id', $data['update_id'])->first();
-                if (!$cek) {
-                    DB::table('telegram_log')->insert([
-                        'update_id' => $data['update_id'],
-                        'chat_id' => $data['message']['chat']['id'],
-                        'first_name' => $data['message']['chat']['first_name'],
-                        'last_name' => $data['message']['chat']['last_name'],
-                        'text' => $data['message']['text'],
-                        'date' => $data['message']['date'],
-                        'created_at' => now()
-                    ]);
-                    $data_arr[] = array(
-                        'update_id' => $data['update_id'],
-                        'chat_id' => $data['message']['chat']['id'],
-                        'first_name' => $data['message']['chat']['first_name'],
-                        'last_name' => $data['message']['chat']['last_name'],
-                        'text' => $data['message']['text'],
-                        'date' => $data['message']['date'],
-                    );
-                    $datachat = $data['message']['text'];
-                    $chatid = $data['message']['chat']['id'];
-                    $nama_depan = $data['message']['chat']['first_name'];
-                    $no_hp = substr($datachat, 10);
-                    $no_tiket = substr($datachat, 10);
-                    if ($datachat == '/start') {
-                        Telegram::sendMessage([
-                            'chat_id' => $chatid,
-                            'text' => "Halo " . $nama_depan . "\nPerkenalkan Nama Saya SOLEH , Ada Yang Bisa Saya Bantu",
+            if (count($updates) == 0) {
+                return 0;
+            } else {
+                foreach ($updates as $data) {
+                    // $data_arr[] = array(
+                    //     'update_id' => $data['update_id'],
+                    //     'chat_id' => $data['message']['chat']['id'],
+                    //     'first_name' => $data['message']['chat']['first_name'],
+                    //     'last_name' => $data['message']['chat']['last_name'],
+                    //     'text' => $data['message']['text'],
+                    //     'date' => $data['message']['date'],
+                    // );
+                    $cek = DB::table('telegram_log')->where('update_id', $data['update_id'])->first();
+                    if (!$cek) {
+                        DB::table('telegram_log')->insert([
+                            'update_id' => $data['update_id'],
+                            'chat_id' => $data['message']['chat']['id'],
+                            'first_name' => $data['message']['chat']['first_name'],
+                            'last_name' => $data['message']['chat']['last_name'],
+                            'text' => $data['message']['text'],
+                            'date' => $data['message']['date'],
+                            'created_at' => now()
                         ]);
-                    } elseif ($datachat == '/help') {
-                        Telegram::sendMessage([
-                            'chat_id' => $chatid,
-                            'text' => "/help : Bantuan\n /start : Memulai Chat.\n /updateno_<no_hp> : Update No Hp.\n /cekkasus_<no_tiket> : Cek Status Laporan.\n Terima Kasih",
-                        ]);
-                    } elseif ($datachat == '/updateno_' . $no_hp) {
-                        $datapersonal = DB::table('telegram_chat_no')->where('chat_id', $chatid)->first();
-                        if ($datapersonal) {
-                            DB::table('telegram_chat_no')->where('chat_id', $chatid)
-                                ->update([
+                        $data_arr[] = array(
+                            'update_id' => $data['update_id'],
+                            'chat_id' => $data['message']['chat']['id'],
+                            'first_name' => $data['message']['chat']['first_name'],
+                            'last_name' => $data['message']['chat']['last_name'],
+                            'text' => $data['message']['text'],
+                            'date' => $data['message']['date'],
+                        );
+                        $datachat = $data['message']['text'];
+                        $chatid = $data['message']['chat']['id'];
+                        $nama_depan = $data['message']['chat']['first_name'];
+                        $no_hp = substr($datachat, 10);
+                        $no_tiket = substr($datachat, 10);
+                        if ($datachat == '/start') {
+                            Telegram::sendMessage([
+                                'chat_id' => $chatid,
+                                'text' => "Halo " . $nama_depan . "\nPerkenalkan Nama Saya SOLEH , Ada Yang Bisa Saya Bantu",
+                            ]);
+                        } elseif ($datachat == '/help') {
+                            Telegram::sendMessage([
+                                'chat_id' => $chatid,
+                                'text' => "/help : Bantuan\n /start : Memulai Chat.\n /updateno_<no_hp> : Update No Hp.\n /cekkasus_<no_tiket> : Cek Status Laporan.\n Terima Kasih",
+                            ]);
+                        } elseif ($datachat == '/updateno_' . $no_hp) {
+                            $datapersonal = DB::table('telegram_chat_no')->where('chat_id', $chatid)->first();
+                            if ($datapersonal) {
+                                DB::table('telegram_chat_no')->where('chat_id', $chatid)
+                                    ->update([
+                                        'no_hp' => $no_hp,
+                                        'nama_depan' => $data['message']['chat']['first_name'],
+                                        'nama_belakang' => $data['message']['chat']['last_name'],
+                                        'updated_at' => now()
+                                    ]);
+                            } else {
+                                DB::table('telegram_chat_no')->insert([
+                                    'chat_id' => $chatid,
                                     'no_hp' => $no_hp,
                                     'nama_depan' => $data['message']['chat']['first_name'],
                                     'nama_belakang' => $data['message']['chat']['last_name'],
-                                    'updated_at' => now()
-                                ]);
-                        } else {
-                            DB::table('telegram_chat_no')->insert([
-                                'chat_id' => $chatid,
-                                'no_hp' => $no_hp,
-                                'nama_depan' => $data['message']['chat']['first_name'],
-                                'nama_belakang' => $data['message']['chat']['last_name'],
-                                'created_at' => now()
-                            ]);
-                        }
-                        Telegram::sendMessage([
-                            'chat_id' => $chatid,
-                            'text' => "No Anda Telah diperbahurui dengan : " . $no_hp,
-                        ]);
-                    } elseif ($datachat == '/cekkasus_' . $no_tiket) {
-                        $datalaporan = DB::table('tbl_laporan_user')->where('tiket_laporan', $no_tiket)->first();
-                        if ($datalaporan) {
-                            if ($datalaporan->status_laporan == 2) {
-                                Telegram::sendMessage([
-                                    'chat_id' => $chatid,
-                                    'text' => "Laporan Dengan No Tiket : " . $no_tiket . " Sudah Selesai",
-                                ]);
-                            } elseif ($datalaporan->status_laporan < 2) {
-                                Telegram::sendMessage([
-                                    'chat_id' => $chatid,
-                                    'text' => "Laporan Dengan No Tiket : " . $no_tiket . " Belum Selesai",
+                                    'created_at' => now()
                                 ]);
                             }
-                        }else{
                             Telegram::sendMessage([
                                 'chat_id' => $chatid,
-                                'text' => "Laporan Dengan No Tiket : " . $no_tiket . " Tidak di Temukan",
+                                'text' => "No Anda Telah diperbahurui dengan : " . $no_hp,
+                            ]);
+                        } elseif ($datachat == '/cekkasus_' . $no_tiket) {
+                            $datalaporan = DB::table('tbl_laporan_user')->where('tiket_laporan', $no_tiket)->first();
+                            if ($datalaporan) {
+                                if ($datalaporan->status_laporan == 2) {
+                                    Telegram::sendMessage([
+                                        'chat_id' => $chatid,
+                                        'text' => "Laporan Dengan No Tiket : " . $no_tiket . " Sudah Selesai",
+                                    ]);
+                                } elseif ($datalaporan->status_laporan < 2) {
+                                    Telegram::sendMessage([
+                                        'chat_id' => $chatid,
+                                        'text' => "Laporan Dengan No Tiket : " . $no_tiket . " Belum Selesai",
+                                    ]);
+                                }
+                            }else{
+                                Telegram::sendMessage([
+                                    'chat_id' => $chatid,
+                                    'text' => "Laporan Dengan No Tiket : " . $no_tiket . " Tidak di Temukan",
+                                ]);
+                            }
+
+                        } elseif (is_numeric($datachat)) {
+                            Telegram::sendMessage([
+                                'chat_id' => $chatid,
+                                'text' => 'No Hp :' . $data['message']['text'] . ' Sudah Didaftarkan',
+                            ]);
+                        } else {
+                            Telegram::sendMessage([
+                                'chat_id' => $chatid,
+                                'text' => 'Kode Yang Anda Masukan Salah',
                             ]);
                         }
-
-                    } elseif (is_numeric($datachat)) {
-                        Telegram::sendMessage([
-                            'chat_id' => $chatid,
-                            'text' => 'No Hp :' . $data['message']['text'] . ' Sudah Didaftarkan',
-                        ]);
-                    } else {
-                        Telegram::sendMessage([
-                            'chat_id' => $chatid,
-                            'text' => 'Kode Yang Anda Masukan Salah',
-                        ]);
                     }
                 }
+                // $datafull = DB::table('telegram_log')->get();
+                // return view('telegram.notif-telegram',['data'=>$datafull]);
+                if (empty($data_arr)) {
+                    return 0;
+                } else {
+                    return response()->json($data_arr);
+                }
             }
-            // $datafull = DB::table('telegram_log')->get();
-            // return view('telegram.notif-telegram',['data'=>$datafull]);
-            if (empty($data_arr)) {
-                return 0;
-            } else {
-                return response()->json($data_arr);
-            }
+
+
 
 
         }
