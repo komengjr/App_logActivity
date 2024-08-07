@@ -33,25 +33,19 @@ class PublicController extends Controller
         ]);
         $datacabang = DB::table('tbl_cabang')->where('kd_cabang', $request->kd_cabang)->first();
         $text = "Ada Tiket Baru Dengan Nomor : $request->tiket \nDari cabang $datacabang->nama_cabang \n Nomor Kontak : $request->telegram";
-        // $response = $this->getUpdate();
-        // $chat_id = $response->getChat()->getId();
-        // $btn = Keyboard::button([
-        //     'text' => $request->telegram,
-        //     'request_contact' => true,
+
+
+        // Telegram::sendMessage([
+        //     'chat_id' => '-1002095197699',
+        //     'text' => $text,
         // ]);
-        // $keyboards = [
-        //     [$request->telegram],
-        // ];
-        // $keyboard = Keyboard::make([
-        //     'keyboard' => $keyboards,
-        //     'resize_keyboard' => true,
-        //     'one_time_keyboard' => true
-        // ]);
-        Telegram::sendMessage([
-            'chat_id' => '-1002095197699',
-            'text' => $text,
-            // 'reply_markup' => $keyboard
-        ]);
+        $ceknotelegram = DB::table('telegram_chat_no')->where('no_hp', $request->telegram)->first();
+        if ($ceknotelegram) {
+            Telegram::sendMessage([
+                'chat_id' => $ceknotelegram->chat_id,
+                'text' => "Tiket Berhasil di Buat dengan no : ".$request->tiket,
+            ]);
+        }
         return ($request->tiket);
     }
     public function caricabang($id)
@@ -61,7 +55,7 @@ class PublicController extends Controller
     }
     public function pilihcabang($id)
     {
-        $tiket = $id . "_" . date('Y-m-d') . '_' . date('H:i:s') . '_' . mt_rand(100, 999);
+        $tiket = $id . "_" . date('Y_m_d') . '_' . date('H_i_s') . '_' . mt_rand(100, 999);
         $data = DB::table('tbl_cabang')->select('nama_cabang', 'kd_cabang', 'alamat')->where('kd_cabang', $id)->first();
         return view('pilihcabang', ['data' => $data, 'tiket' => $tiket]);
     }
@@ -71,11 +65,11 @@ class PublicController extends Controller
     }
     public function caridatatiket($id)
     {
-        $data = DB::table('tbl_laporan_user')->where('tiket_laporan',$id)->first();
-        $penyelesaian = DB::table('tbl_laporan_user_log')->where('tiket_laporan',$id)->first();
-        return view('data-tiket',[
-            'data'=>$data,
-            'penyelesaian'=>$penyelesaian,
+        $data = DB::table('tbl_laporan_user')->where('tiket_laporan', $id)->first();
+        $penyelesaian = DB::table('tbl_laporan_user_log')->where('tiket_laporan', $id)->first();
+        return view('data-tiket', [
+            'data' => $data,
+            'penyelesaian' => $penyelesaian,
         ]);
     }
 }

@@ -71,7 +71,7 @@ class ApiController extends Controller
                         } elseif ($datachat == '/help') {
                             Telegram::sendMessage([
                                 'chat_id' => $chatid,
-                                'text' => "/help : Bantuan\n /start : Memulai Chat.\n /updateno_<no_hp> : Update No Hp.\n /cekkasus_<no_tiket> : Cek Status Laporan.\n Terima Kasih",
+                                'text' => "/help : Bantuan\n /start : Memulai Chat.\n /updateno_<no_hp> : Update No Hp.\n /cekkasus_<no_tiket> : Cek Status Laporan.\n /laporanbaru : Membuat Laporan Baru\nTerima Kasih",
                             ]);
                         } elseif ($datachat == '/updateno_' . $no_hp) {
                             $datapersonal = DB::table('telegram_chat_no')->where('chat_id', $chatid)->first();
@@ -122,7 +122,12 @@ class ApiController extends Controller
                                 'chat_id' => $chatid,
                                 'text' => 'No Hp :' . $data['message']['text'] . ' Sudah Didaftarkan',
                             ]);
-                        } else {
+                        } elseif ($datachat == '/laporanbaru') {
+                            Telegram::sendMessage([
+                                'chat_id' => $chatid,
+                                'text' => 'http://logit.pramita.co.id:2023/newcase',
+                            ]);
+                        }else {
                             Telegram::sendMessage([
                                 'chat_id' => $chatid,
                                 'text' => 'Kode Yang Anda Masukan Salah',

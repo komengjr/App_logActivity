@@ -444,13 +444,13 @@
                                         <h5>Detail Information</h5>
 
                                         <div class="form-group">
-                                            <input type="text" name="email" class="form-control wizard-required" id="honame"
+                                            <input type="text" name="email" class="form-control wizard-required" id="email"
                                                 required>
                                             <label for="honame" class="wizard-form-text-label">Email </label>
                                             <div class="wizard-form-error"></div>
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" name="telegram" class="form-control wizard-required" id="honame"
+                                            <input type="text" name="telegram" class="form-control wizard-required" id="no_telegram"
                                                 required>
                                             <label for="honame" class="wizard-form-text-label">Telegram </label>
                                             <div class="wizard-form-error"></div>

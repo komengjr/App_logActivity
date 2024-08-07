@@ -191,10 +191,10 @@ function copytext() {
     tooltip.innerHTML = "Copied: " + copyText.value;
 }
 
-// function outFunc() {
-//     var tooltip = document.getElementById("myTooltip");
-//     tooltip.innerHTML = "Copy to clipboard";
-// }
+function outFunc() {
+    var tooltip = document.getElementById("myTooltip");
+    tooltip.innerHTML = "Copy to clipboard";
+}
 function search(ele) {
     if (event.key === "Enter") {
         var id = document.getElementById("caricabang").value;
