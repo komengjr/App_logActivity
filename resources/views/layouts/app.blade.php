@@ -100,7 +100,7 @@
                 .done(function(data) {
                     // console.log(data);
                     if (data == 0) {
-                        $('#menu-updatedata').html('tidak ada orderan');
+                        $('#menu-updatedata').html('<p style="width: 50px;height: 50px; position: absolute; top: 50%; left: 50%; margin: -25px 0 0 -25px;">Loading</p>');
                     } else {
                         // $('#menu-updatedata').html(data);
                         console.log(data);

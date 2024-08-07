@@ -16,9 +16,12 @@ class ApiController extends Controller
     }
     public function getupdates()
     {
+        // $updates = Telegram::getUpdates(offset = NULL, limit = 100L, timeout = 0L, allowed_updates = NULL);
         $updates = Telegram::getUpdates();
+
+        // dd($updates);
         $data = DB::table('telegram_log')->get();
-        // dd(count($updates));
+        // dd($updates);
         // dd(count($data));
         $data_arr = array();
         $no = 0;
@@ -56,22 +59,68 @@ class ApiController extends Controller
                     $datachat = $data['message']['text'];
                     $chatid = $data['message']['chat']['id'];
                     $nama_depan = $data['message']['chat']['first_name'];
+                    $no_hp = substr($datachat, 10);
+                    $no_tiket = substr($datachat, 10);
                     if ($datachat == '/start') {
                         Telegram::sendMessage([
                             'chat_id' => $chatid,
-                            'text' => "Halo ". $nama_depan . "\nPerkenalkan Nama Saya SOLEH , Ada Yang Bisa Saya Bantu",
+                            'text' => "Halo " . $nama_depan . "\nPerkenalkan Nama Saya SOLEH , Ada Yang Bisa Saya Bantu",
                         ]);
-                    }elseif($datachat == '/help'){
+                    } elseif ($datachat == '/help') {
                         Telegram::sendMessage([
                             'chat_id' => $chatid,
-                            'text' => "/help : Bantuan\n /start : Memulai Chat.\n /updateno_0855229383918 : Update No Hp.\n /cekkasus_PA_2024-02-29_11:04:24_945 : Cek Status Laporan.\n Terima Kasih",
+                            'text' => "/help : Bantuan\n /start : Memulai Chat.\n /updateno_<no_hp> : Update No Hp.\n /cekkasus_<no_tiket> : Cek Status Laporan.\n Terima Kasih",
                         ]);
-                    }elseif(is_numeric($datachat)){
+                    } elseif ($datachat == '/updateno_' . $no_hp) {
+                        $datapersonal = DB::table('telegram_chat_no')->where('chat_id', $chatid)->first();
+                        if ($datapersonal) {
+                            DB::table('telegram_chat_no')->where('chat_id', $chatid)
+                                ->update([
+                                    'no_hp' => $no_hp,
+                                    'nama_depan' => $data['message']['chat']['first_name'],
+                                    'nama_belakang' => $data['message']['chat']['last_name'],
+                                    'updated_at' => now()
+                                ]);
+                        } else {
+                            DB::table('telegram_chat_no')->insert([
+                                'chat_id' => $chatid,
+                                'no_hp' => $no_hp,
+                                'nama_depan' => $data['message']['chat']['first_name'],
+                                'nama_belakang' => $data['message']['chat']['last_name'],
+                                'created_at' => now()
+                            ]);
+                        }
                         Telegram::sendMessage([
                             'chat_id' => $chatid,
-                            'text' => 'No Hp :'.$data['message']['text']. ' Sudah Didaftarkan',
+                            'text' => "No Anda Telah diperbahurui dengan : " . $no_hp,
                         ]);
-                    }else {
+                    } elseif ($datachat == '/cekkasus_' . $no_tiket) {
+                        $datalaporan = DB::table('tbl_laporan_user')->where('tiket_laporan', $no_tiket)->first();
+                        if ($datalaporan) {
+                            if ($datalaporan->status_laporan == 2) {
+                                Telegram::sendMessage([
+                                    'chat_id' => $chatid,
+                                    'text' => "Laporan Dengan No Tiket : " . $no_tiket . " Sudah Selesai",
+                                ]);
+                            } elseif ($datalaporan->status_laporan < 2) {
+                                Telegram::sendMessage([
+                                    'chat_id' => $chatid,
+                                    'text' => "Laporan Dengan No Tiket : " . $no_tiket . " Belum Selesai",
+                                ]);
+                            }
+                        }else{
+                            Telegram::sendMessage([
+                                'chat_id' => $chatid,
+                                'text' => "Laporan Dengan No Tiket : " . $no_tiket . " Tidak di Temukan",
+                            ]);
+                        }
+
+                    } elseif (is_numeric($datachat)) {
+                        Telegram::sendMessage([
+                            'chat_id' => $chatid,
+                            'text' => 'No Hp :' . $data['message']['text'] . ' Sudah Didaftarkan',
+                        ]);
+                    } else {
                         Telegram::sendMessage([
                             'chat_id' => $chatid,
                             'text' => 'Kode Yang Anda Masukan Salah',
@@ -81,7 +130,13 @@ class ApiController extends Controller
             }
             // $datafull = DB::table('telegram_log')->get();
             // return view('telegram.notif-telegram',['data'=>$datafull]);
-            return response()->json($data_arr);
+            if (empty($data_arr)) {
+                return 0;
+            } else {
+                return response()->json($data_arr);
+            }
+
+
         }
 
 
@@ -95,7 +150,7 @@ class ApiController extends Controller
     public function sendmessage(Request $request)
     {
         Telegram::sendMessage([
-            'chat_id' => '-1002095197699',
+            'chat_id' => '1258044592',
             'text' => $request->pesan,
         ]);
         // $updates = Telegram::commandsHandler(true);
