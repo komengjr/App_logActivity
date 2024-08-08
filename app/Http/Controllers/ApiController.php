@@ -121,7 +121,7 @@ class ApiController extends Controller
                                 'text' => 'http://logit.pramita.co.id:2023/newcase',
                             ]);
                         } elseif ($datachat == '/info') {
-                            $info = DB::table('telegram_chat_no')->where('chat_id')->first();
+                            $info = DB::table('telegram_chat_no')->where('chat_id',$chatid)->first();
                             if ($info) {
                                 Telegram::sendMessage([
                                     'chat_id' => $chatid,
