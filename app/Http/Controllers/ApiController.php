@@ -24,7 +24,7 @@ class ApiController extends Controller
         // dd($updates);
         // dd(count($data));
         $data_arr = array();
-        if (count($updates) == count($data)) {
+        if (count($updates) == count($data) || $data->isEmpty()) {
             return 0;
         } else {
             if (count($updates) == 0) {
@@ -64,7 +64,7 @@ class ApiController extends Controller
                         } elseif ($datachat == '/help') {
                             Telegram::sendMessage([
                                 'chat_id' => $chatid,
-                                'text' => "/help : Bantuan\n /start : Memulai Chat.\n /updateno_<no_hp> : Update No Hp.\n /cekkasus_<no_tiket> : Cek Status Laporan.\n /laporanbaru : Membuat Laporan Baru \n/info : Informasi",
+                                'text' => "/help : Bantuan\n/start : Memulai Chat.\n/updateno_<no_hp> : Update No Hp.\n/cekkasus_<no_tiket> : Cek Status Laporan.\n/laporanbaru : Membuat Laporan Baru \n/info : Informasi",
                             ]);
                         } elseif ($datachat == '/updateno_' . $no_hp) {
                             $datapersonal = DB::table('telegram_chat_no')->where('chat_id', $chatid)->first();
