@@ -31,14 +31,7 @@ class ApiController extends Controller
                 return 0;
             } else {
                 foreach ($updates as $data) {
-                    // $data_arr[] = array(
-                    //     'update_id' => $data['update_id'],
-                    //     'chat_id' => $data['message']['chat']['id'],
-                    //     'first_name' => $data['message']['chat']['first_name'],
-                    //     'last_name' => $data['message']['chat']['last_name'],
-                    //     'text' => $data['message']['text'],
-                    //     'date' => $data['message']['date'],
-                    // );
+
                     $cek = DB::table('telegram_log')->where('update_id', $data['update_id'])->first();
                     if (!$cek) {
                         DB::table('telegram_log')->insert([
@@ -71,7 +64,7 @@ class ApiController extends Controller
                         } elseif ($datachat == '/help') {
                             Telegram::sendMessage([
                                 'chat_id' => $chatid,
-                                'text' => "/help : Bantuan\n /start : Memulai Chat.\n /updateno_<no_hp> : Update No Hp.\n /cekkasus_<no_tiket> : Cek Status Laporan.\n /laporanbaru : Membuat Laporan Baru\nTerima Kasih",
+                                'text' => "/help : Bantuan\n /start : Memulai Chat.\n /updateno_<no_hp> : Update No Hp.\n /cekkasus_<no_tiket> : Cek Status Laporan.\n /laporanbaru : Membuat Laporan Baru \n/info : Informasi",
                             ]);
                         } elseif ($datachat == '/updateno_' . $no_hp) {
                             $datapersonal = DB::table('telegram_chat_no')->where('chat_id', $chatid)->first();
@@ -110,7 +103,7 @@ class ApiController extends Controller
                                         'text' => "Laporan Dengan No Tiket : " . $no_tiket . " Belum Selesai",
                                     ]);
                                 }
-                            }else{
+                            } else {
                                 Telegram::sendMessage([
                                     'chat_id' => $chatid,
                                     'text' => "Laporan Dengan No Tiket : " . $no_tiket . " Tidak di Temukan",
@@ -127,6 +120,21 @@ class ApiController extends Controller
                                 'chat_id' => $chatid,
                                 'text' => 'http://logit.pramita.co.id:2023/newcase',
                             ]);
+                        } elseif ($datachat == '/info') {
+                            $info = DB::table('telegram_chat_no')->where('chat_id')->first();
+                            if ($info) {
+                                Telegram::sendMessage([
+                                    'chat_id' => $chatid,
+                                    'text' => "Status No Hp Terdaftar \nDengan No : ". $info->no_hp,
+                                ]);
+                            } else {
+                                Telegram::sendMessage([
+                                    'chat_id' => $chatid,
+                                    'text' => "Status No Hp Belum Terdaftar \nSegera Daftar Dengan ketik /updateno_<no_hp>",
+                                ]);
+                            }
+
+
                         }else {
                             Telegram::sendMessage([
                                 'chat_id' => $chatid,
@@ -143,13 +151,7 @@ class ApiController extends Controller
                     return response()->json($data_arr);
                 }
             }
-
-
-
-
         }
-
-
         // return response()->json($data_arr);
         // return ($data_arr);
         // echo json_encode($data_arr);
