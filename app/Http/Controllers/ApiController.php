@@ -59,7 +59,7 @@ class ApiController extends Controller
                         if ($datachat == '/start') {
                             Telegram::sendMessage([
                                 'chat_id' => $chatid,
-                                'text' => "Halo " . $nama_depan . "\nPerkenalkan Nama Saya SOLEH , Ada Yang Bisa Saya Bantu \nKetik \help untuk bantuan",
+                                'text' => "Halo " . $nama_depan . "\nPerkenalkan Nama Saya SOLEH , Ada Yang Bisa Saya Bantu \nKetik /help untuk bantuan",
                             ]);
                         } elseif ($datachat == '/help') {
                             Telegram::sendMessage([
