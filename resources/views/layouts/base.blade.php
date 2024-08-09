@@ -339,6 +339,18 @@
                                     Menu Kinerja</a></li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="zmdi zmdi-airplay" aria-hidden="true"></i>
+                            <span class="title">Monitoring</span>
+                            <span class="arrow"></span>
+                        </a>
+                        <ul>
+                            <li><a href="{{ route('gateway-telegram') }}"><i class="zmdi zmdi-language-python"></i>
+                                    Telegram</a>
+                            </li>
+                        </ul>
+                    </li>
                 @endif
 
 

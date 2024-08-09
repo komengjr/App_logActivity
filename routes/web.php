@@ -246,3 +246,9 @@ Route::get('log-eror-it', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::cl
 // Route::get('log-telegram-it', [\app\Http\Controllers\ApiController::class, 'log_telegram']);
 
 Route::get('/log-telegram-it', 'ApiController@log_telegram')->name('log_telegram');
+
+
+// Gateway
+Route::get('admin/gateway/telegram','GatewatyController@telegram')->name('gateway-telegram');
+Route::get('admin/gateway/telegram/no-telegram','GatewatyController@no_telegram')->name('no-gateway-telegram');
+Route::get('admin/gateway/telegram/log-telegram','GatewatyController@log_telegram')->name('log-gateway-telegram');

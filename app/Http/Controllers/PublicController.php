@@ -28,6 +28,7 @@ class PublicController extends Controller
             'email' => $request->email,
             'no_hp' => $request->telegram,
             'status_laporan' => 0,
+            'status_telegram' => 0,
             'tingkat_laporan' => $request->tingkat_laporan,
             'tgl_laporan' => date('Y-m-d H:i:s'),
         ]);
@@ -41,6 +42,9 @@ class PublicController extends Controller
         ]);
         $ceknotelegram = DB::table('telegram_chat_no')->where('no_hp', $request->telegram)->first();
         if ($ceknotelegram) {
+            DB::table('tbl_laporan_user')->where('tiket_laporan',$request->tiket)->update([
+                'status_telegram'=> 1
+            ]);
             Telegram::sendMessage([
                 'chat_id' => $ceknotelegram->chat_id,
                 'text' => "Tiket Berhasil di Buat dengan no : ".$request->tiket,
