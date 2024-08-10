@@ -252,3 +252,7 @@ Route::get('/log-telegram-it', 'ApiController@log_telegram')->name('log_telegram
 Route::get('admin/gateway/telegram','GatewatyController@telegram')->name('gateway-telegram');
 Route::get('admin/gateway/telegram/no-telegram','GatewatyController@no_telegram')->name('no-gateway-telegram');
 Route::get('admin/gateway/telegram/log-telegram','GatewatyController@log_telegram')->name('log-gateway-telegram');
+Route::get('admin/gateway/telegram/all-laporan-telegram','GatewatyController@all_laporan_telegram')->name('all-laporan-gateway-telegram');
+Route::get('admin/gateway/telegram/edit-log-telegram/{id}','GatewatyController@edit_log_telegram')->name('edit-gateway-telegram');
+Route::post('admin/gateway/telegram/edit-log-telegram/postdata','GatewatyController@post_edit_log_telegram')->name('post-edit-gateway-telegram');
+Route::get('admin/gateway/telegram/detail-log-telegram/{id}','GatewatyController@detail_log_telegram')->name('detail-gateway-telegram');

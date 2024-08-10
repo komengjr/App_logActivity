@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use DB;
 
 class GatewatyController extends Controller
@@ -15,7 +16,10 @@ class GatewatyController extends Controller
     public function telegram()
     {
         if (Auth::user()->kd_akses == 2) {
-            $data = DB::table('tbl_laporan_user')->where('status_telegram', '=!', 1)->get();
+            $data = DB::table('tbl_laporan_user')
+            ->select('tbl_laporan_user.*','tbl_cabang.nama_cabang')
+            ->join('tbl_cabang','tbl_cabang.kd_cabang','=','tbl_laporan_user.kd_cabang')
+            ->where('tbl_laporan_user.status_telegram', '=!', 1)->get();
             // dd($data);
             return view('admin.gateway.telegram', ['data' => $data]);
         }
@@ -32,6 +36,41 @@ class GatewatyController extends Controller
         if (Auth::user()->kd_akses == 2) {
             $data = DB::table('telegram_log')->orderBy('id_telegram', 'DESC')->get();
             return view('admin.gateway.log-telegram',['data'=>$data]);
+        }
+    }
+    public function all_laporan_telegram()
+    {
+        if (Auth::user()->kd_akses == 2) {
+            $data = DB::table('tbl_laporan_user')
+            ->select('tbl_laporan_user.*','tbl_cabang.nama_cabang')
+            ->join('tbl_cabang','tbl_cabang.kd_cabang','=','tbl_laporan_user.kd_cabang')->get();
+            // dd($data);
+            return view('admin.gateway.all-laporan-user', ['data' => $data]);
+        }
+    }
+    public function edit_log_telegram($id)
+    {
+        if (Auth::user()->kd_akses == 2) {
+            $data = DB::table('tbl_laporan_user')->where('id_laporan', $id)->first();
+            return view('admin.gateway.edit-log-telegram',['data'=>$data]);
+        }
+    }
+    public function post_edit_log_telegram(Request $requsest)
+    {
+        if (Auth::user()->kd_akses == 2) {
+            DB::table('tbl_laporan_user')->where('id_laporan',$requsest->id_laporan)->update([
+                'no_hp'=>$requsest->no_hp,
+                'email'=>$requsest->email
+            ]);
+            Session::flash('sukses','Berhasil Update Data');
+            return redirect()->back();
+        }
+    }
+    public function detail_log_telegram($id)
+    {
+        if (Auth::user()->kd_akses == 2) {
+            $data = DB::table('tbl_laporan_user')->where('id_laporan', $id)->first();
+            return view('admin.gateway.detail-log-telegram',['data'=>$data]);
         }
     }
 }

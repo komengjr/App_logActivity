@@ -16,7 +16,7 @@
         @endphp
         @foreach ($data as $data)
             <tr>
-                <td>{{ $no++ }}</td>
+                <td data-label="No">{{ $no++ }}</td>
                 <td>{{ $data->chat_id }}</td>
                 <td>{{ $data->no_hp }}</td>
                 <td>{{ $data->nama_depan }}</td>
