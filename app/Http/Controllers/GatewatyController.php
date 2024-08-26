@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use DB;
-
+use Telegram\Bot\Laravel\Facades\Telegram;
 class GatewatyController extends Controller
 {
     public function __construct()
@@ -71,6 +71,29 @@ class GatewatyController extends Controller
         if (Auth::user()->kd_akses == 2) {
             $data = DB::table('tbl_laporan_user')->where('id_laporan', $id)->first();
             return view('admin.gateway.detail-log-telegram',['data'=>$data]);
+        }
+    }
+    public function kirim_log_telegram(Request $request)
+    {
+        if (Auth::user()->kd_akses == 2) {
+            $ceklaporan = DB::table('tbl_laporan_user')->where('id_laporan',$request->id)->first();
+            if ($ceklaporan) {
+                $cekno = DB::table('telegram_chat_no')->where('no_hp',$ceklaporan->no_hp)->first();
+                if ($cekno) {
+                    Telegram::sendMessage([
+                        'chat_id' => $cekno->chat_id,
+                        'text' => "Halo \nHanya Mengingatkan Untuk Tiket Laporan Anda Adalah :\n".$ceklaporan->tiket_laporan,
+                    ]);
+                    DB::table('tbl_laporan_user')->where('id_laporan',$request->id)->update([
+                        'status_telegram'=>1
+                    ]);
+                    return 1;
+                }else{
+                    return 0;
+                }
+
+            }
+
         }
     }
 }

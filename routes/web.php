@@ -256,3 +256,4 @@ Route::get('admin/gateway/telegram/all-laporan-telegram','GatewatyController@all
 Route::get('admin/gateway/telegram/edit-log-telegram/{id}','GatewatyController@edit_log_telegram')->name('edit-gateway-telegram');
 Route::post('admin/gateway/telegram/edit-log-telegram/postdata','GatewatyController@post_edit_log_telegram')->name('post-edit-gateway-telegram');
 Route::get('admin/gateway/telegram/detail-log-telegram/{id}','GatewatyController@detail_log_telegram')->name('detail-gateway-telegram');
+Route::post('admin/gateway/telegram/kirim-log-telegram/','GatewatyController@kirim_log_telegram')->name('kirim-gateway-telegram');

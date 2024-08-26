@@ -34,26 +34,34 @@ class ApiController extends Controller
 
                     $cek = DB::table('telegram_log')->where('update_id', $data['update_id'])->first();
                     if (!$cek) {
+
+                        if ($data['message']['chat']['type'] == "supergroup") {
+                            $datachat = "notifikasi-grup";
+                            $chatid = $data['message']['chat']['id'];
+                        } elseif ($data['message']['chat']['type'] == "private") {
+                            $datachat = $data['message']['text'];
+                            $chatid = $data['message']['chat']['id'];
+                        }
+
+
                         DB::table('telegram_log')->insert([
                             'update_id' => $data['update_id'],
-                            'chat_id' => $data['message']['chat']['id'],
-                            'first_name' => $data['message']['chat']['first_name'],
-                            'last_name' => $data['message']['chat']['last_name'],
-                            'text' => $data['message']['text'],
+                            'chat_id' => $data['message']['from']['id'],
+                            'first_name' => $data['message']['from']['first_name'],
+                            'last_name' => $data['message']['from']['last_name'],
+                            'text' => $datachat,
                             'date' => $data['message']['date'],
                             'created_at' => now()
                         ]);
                         $data_arr[] = array(
                             'update_id' => $data['update_id'],
-                            'chat_id' => $data['message']['chat']['id'],
-                            'first_name' => $data['message']['chat']['first_name'],
-                            'last_name' => $data['message']['chat']['last_name'],
-                            'text' => $data['message']['text'],
+                            'chat_id' => $data['message']['from']['id'],
+                            'first_name' => $data['message']['from']['first_name'],
+                            'last_name' => $data['message']['from']['last_name'],
+                            'text' => $datachat,
                             'date' => $data['message']['date'],
                         );
-                        $datachat = $data['message']['text'];
-                        $chatid = $data['message']['chat']['id'];
-                        $nama_depan = $data['message']['chat']['first_name'];
+                        $nama_depan = $data['message']['from']['first_name'];
                         $no_hp = substr($datachat, 10);
                         $no_tiket = substr($datachat, 10);
                         if ($datachat == '/start') {
@@ -121,11 +129,11 @@ class ApiController extends Controller
                                 'text' => 'http://logit.pramita.co.id:2023/newcase',
                             ]);
                         } elseif ($datachat == '/info') {
-                            $info = DB::table('telegram_chat_no')->where('chat_id',$chatid)->first();
+                            $info = DB::table('telegram_chat_no')->where('chat_id', $chatid)->first();
                             if ($info) {
                                 Telegram::sendMessage([
                                     'chat_id' => $chatid,
-                                    'text' => "Status No Hp Terdaftar \nDengan No : ". $info->no_hp,
+                                    'text' => "Status No Hp Terdaftar \nDengan No : " . $info->no_hp,
                                 ]);
                             } else {
                                 Telegram::sendMessage([
@@ -135,7 +143,12 @@ class ApiController extends Controller
                             }
 
 
-                        }else {
+                        } elseif ($datachat == '/notifikasi-grup') {
+                            Telegram::sendMessage([
+                                'chat_id' => $chatid,
+                                'text' => "Notifikasi Group",
+                            ]);
+                        } else {
                             Telegram::sendMessage([
                                 'chat_id' => $chatid,
                                 'text' => 'Kode Yang Anda Masukan Salah',

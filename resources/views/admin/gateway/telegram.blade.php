@@ -145,7 +145,7 @@
                                                         here</a>
                                                     <div class="dropdown-divider"></div>
                                                     <a href="javaScript:void();" class="dropdown-item"
-                                                        id="button-kirim-ulang-telegram"><i class="zmdi zmdi-mail-send"></i>
+                                                        id="button-kirim-ulang-telegram" data-id="{{$data->id_laporan}}"><i class="zmdi zmdi-mail-send"></i>
                                                         Kirim Ulang</a>
                                                 </div>
                                             </div>
@@ -336,34 +336,56 @@
         });
         $(document).on("click", "#button-kirim-ulang-telegram", function(e) {
             e.preventDefault();
-
+            var id = $(this).data("id");
             $("#loading").html(
                 '<div id="pageloader-overlay" class="visible incoming"> <div class="loader-wrapper-outer"> <div class="loader-wrapper-inner"> <div class="loader"></div> </div> </div> </div>'
             );
             setTimeout(() => {
-                location.reload();
+                $.ajax({
+                        url: "{{ route('kirim-gateway-telegram') }}",
+                        type: "POST",
+                        cache: false,
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            "id": id,
+                        },
+                        dataType: 'html',
+                    })
+                    .done(function(data) {
+                        if (data == 1) {
+                            location.reload();
+                        } else {
+                            $("#loading").html('');
+                            Lobibox.notify('warning', {
+                                pauseDelayOnHover: true,
+                                icon: 'bx bx-info-circle',
+                                continueDelayOnInactiveTab: false,
+                                position: 'center top',
+                                showClass: 'bounceIn',
+                                hideClass: 'bounceOut',
+                                sound: false,
+                                width: 400,
+                                msg: 'No Hp Belum Terdaftar'
+                            });
+                        }
+
+                    })
+                    .fail(function() {
+                        Lobibox.notify('error', {
+                            pauseDelayOnHover: true,
+                            icon: 'bx bx-info-circle',
+                            continueDelayOnInactiveTab: false,
+                            position: 'center top',
+                            showClass: 'bounceIn',
+                            hideClass: 'bounceOut',
+                            sound: false,
+                            width: 400,
+                            msg: 'Hubungi Administrator Jika terjadi Eror'
+                        });
+                    });
+
             }, 3000);
-            // $.ajax({
-            //         url: '../../admin/gateway/telegram/detail-log-telegram/'+id,
-            //         type: "GET",
-            //         dataType: "html",
-            //     })
-            //     .done(function(data) {
-            //         $("#modal-body-monitoring-telegram").html(data);
-            //     })
-            //     .fail(function() {
-            //         Lobibox.notify("error", {
-            //             pauseDelayOnHover: true,
-            //             icon: "fa fa-info-circle",
-            //             continueDelayOnInactiveTab: false,
-            //             position: "center top",
-            //             showClass: "bounceIn",
-            //             hideClass: "bounceOut",
-            //             sound: false,
-            //             width: 400,
-            //             msg: "Hubungi Administrator Jika terjadi Eror",
-            //         });
-            //     });
+
         });
     </script>
 @endsection
