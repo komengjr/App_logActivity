@@ -143,7 +143,7 @@ class ApiController extends Controller
                             }
 
 
-                        } elseif ($datachat == '/notifikasi-grup') {
+                        } elseif ($datachat == 'notifikasi-grup') {
                             Telegram::sendMessage([
                                 'chat_id' => $chatid,
                                 'text' => "Notifikasi Group",
