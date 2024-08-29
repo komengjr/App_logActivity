@@ -17,6 +17,6 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 Route::get('bot/getupdates',['as'=>'bot/getupdates','uses'=> 'ApiController@getupdates']);
 Route::post('bot/sendmessage',['as'=>'bot/sendmessage','uses'=> 'ApiController@sendmessage']);
-
+Route::get('bot/update',['as'=>'bot/update','uses'=> 'ApiController@update']);
 Route::get('setwebhook', [\App\Http\Controllers\BotTelegramController::class, 'setWebhook']);
 Route::post('abonsapibot/webhook', [\App\Http\Controllers\BotTelegramController::class, 'commandHandlerWebHook']);

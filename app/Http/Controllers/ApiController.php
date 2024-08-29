@@ -14,12 +14,17 @@ class ApiController extends Controller
         $data = DB::table('telegram_log')->get();
         return view('telegram.log-view', ['data' => $data]);
     }
+    public function update()
+    {
+        $updates = Telegram::getUpdates();
+        dd($updates);
+    }
     public function getupdates()
     {
         // $updates = Telegram::getUpdates(offset = NULL, limit = 100L, timeout = 0L, allowed_updates = NULL);
         $updates = Telegram::getUpdates();
 
-        // dd($updates);
+        dd($updates);
         $data = DB::table('telegram_log')->get();
         // dd($updates);
         // dd(count($data));

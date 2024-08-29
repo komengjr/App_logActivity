@@ -56,7 +56,7 @@
                     <div class="card">
                         <div class="card-header"><i class="fa fa-table"></i> Data Cabang</div>
                         <div class="card-body">
-                            <form action="{{ url('api/bot/sendmessage', []) }}" method="post">
+                            {{-- <form action="{{ url('api/bot/sendmessage', []) }}" method="post">
                                 @csrf
                                 <input type="text" name="pesan" id="pesan">
                                 <button type="submit" class="btn-warning">sendmasgae</button>
@@ -64,7 +64,7 @@
                             <form action="{{ url('api/bot/getupdates', []) }}" method="post">
                                 @csrf
                                 <button type="submit" class="btn-warning">update</button>
-                            </form>
+                            </form> --}}
                             <div class="">
                                 <table id="default-datatable" class="styled-table">
                                     <thead>
