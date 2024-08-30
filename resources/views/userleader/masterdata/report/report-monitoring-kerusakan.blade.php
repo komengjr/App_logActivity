@@ -148,7 +148,7 @@
             border="1">
             <tr>
 
-                <td colspan="3" class="text-right"><strong>Pontianak , {{date('d - m - Y ')}}</strong></td>
+                <td colspan="3" class="text-right"><strong>Nama Cabang , {{date('d - m - Y ')}}</strong></td>
             </tr>
             <tr>
                 <td>Mengetahui,</td>
