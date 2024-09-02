@@ -24,7 +24,7 @@ class ApiController extends Controller
         // $updates = Telegram::getUpdates(offset = NULL, limit = 100L, timeout = 0L, allowed_updates = NULL);
         $updates = Telegram::getUpdates();
 
-        dd($updates);
+        // dd($updates);
         $data = DB::table('telegram_log')->get();
         // dd($updates);
         // dd(count($data));
