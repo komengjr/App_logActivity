@@ -20,10 +20,10 @@ class MasterUserController extends Controller
     {
         $user = DB::table('tbl_biodata')->where('id_user', Auth::user()->id_user)->first();
         if (Auth::user()->kd_akses == 2) {
-            $data = DB::table('tbl_laporan_user')->get();
+            $data = DB::table('tbl_laporan_user')->orderBy('id_laporan', 'DESC')->get();
         } elseif (Auth::user()->kd_akses > 2) {
             $data = DB::table('tbl_laporan_user')
-                ->where('kd_cabang', $user->kd_cabang)->get();
+                ->where('kd_cabang', $user->kd_cabang)->orderBy('id_laporan', 'DESC')->get();
         }
         $datacabang = DB::table('tbl_cabang')->get();
         return view('userleader.masterdata.view', ['data' => $data, 'datacabang' => $datacabang]);
