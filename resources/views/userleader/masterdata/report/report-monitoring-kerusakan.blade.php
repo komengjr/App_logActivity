@@ -84,7 +84,7 @@
             <hr style="padding: 0%; margin: 0%;">
             <p style="font-size: 9px; text-align: center; margin-left: 2px;margin-right: 2px;">Data Cabang</p>
         </div>
-        <h5 style="padding-top: 20px; margin: 20px; left: 100px; padding-left: 155px;text-decoration: underline;" >BACKUP DATA BISONE BULANAN</h5>
+        <h5 style="padding-top: 20px; margin: 20px; left: 100px; padding-left: 155px;text-decoration: underline;" >Laporan Kerusakan Hardware dan Software</h5>
         {{-- <img style="padding-top: 11px;" src="data:image/png;base64, {!! base64_encode( QrCode::eyeColor(0, 255, 0, 0, 0, 0, 0)->style('round')->eye('circle')->format('svg')->size(107)->errorCorrection('H')->generate(123123),) !!}"> --}}
 
         <div class="absolute">
@@ -148,7 +148,7 @@
             border="1">
             <tr>
 
-                <td colspan="3" class="text-right"><strong>Nama Cabang , {{date('d - m - Y ')}}</strong></td>
+                <td colspan="3" class="text-right"><strong>{{Auth::user()->name}} , {{date('d - m - Y ')}}</strong></td>
             </tr>
             <tr>
                 <td>Mengetahui,</td>
