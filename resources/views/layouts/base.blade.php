@@ -349,6 +349,9 @@
                             <li><a href="{{ route('gateway-telegram') }}"><i class="zmdi zmdi-language-python"></i>
                                     Telegram</a>
                             </li>
+                            <li><a href="{{ route('monitoring-log-bisone') }}"><i class="zmdi zmdi-share"></i>
+                                    Log Bisone</a>
+                            </li>
                         </ul>
                     </li>
                 @endif

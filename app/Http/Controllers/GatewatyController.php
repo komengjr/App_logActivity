@@ -96,4 +96,13 @@ class GatewatyController extends Controller
 
         }
     }
+
+
+    // LOG BisOne
+    public function monitoring_log()
+    {
+        $pdo = DB::connection('second_db')->table('log')->orderBy('logID','DESC')->take(500)->get();
+        return view('admin.monitoring.log_bisone', ['data' => $pdo]);
+
+    }
 }

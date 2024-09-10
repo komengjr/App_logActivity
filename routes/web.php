@@ -246,9 +246,10 @@ Route::get('log-eror-it', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::cl
 // Route::get('log-telegram-it', [\app\Http\Controllers\ApiController::class, 'log_telegram']);
 
 Route::get('/log-telegram-it', 'ApiController@log_telegram')->name('log_telegram');
+Route::get('/database2', 'Database2Controller@show')->name('showdatabase');
 
 
-// Gateway
+// Monitoring Gateway
 Route::get('admin/gateway/telegram','GatewatyController@telegram')->name('gateway-telegram');
 Route::get('admin/gateway/telegram/no-telegram','GatewatyController@no_telegram')->name('no-gateway-telegram');
 Route::get('admin/gateway/telegram/log-telegram','GatewatyController@log_telegram')->name('log-gateway-telegram');
@@ -257,3 +258,5 @@ Route::get('admin/gateway/telegram/edit-log-telegram/{id}','GatewatyController@e
 Route::post('admin/gateway/telegram/edit-log-telegram/postdata','GatewatyController@post_edit_log_telegram')->name('post-edit-gateway-telegram');
 Route::get('admin/gateway/telegram/detail-log-telegram/{id}','GatewatyController@detail_log_telegram')->name('detail-gateway-telegram');
 Route::post('admin/gateway/telegram/kirim-log-telegram/','GatewatyController@kirim_log_telegram')->name('kirim-gateway-telegram');
+
+Route::get('admin/monitoring/log_bisone','GatewatyController@monitoring_log')->name('monitoring-log-bisone');
