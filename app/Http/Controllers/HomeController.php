@@ -311,4 +311,9 @@ class HomeController extends Controller
         Session::flash('sukses','Berhasil Input Tugas');
         return redirect()->back();
     }
+    public function update_biodata(Request $request)
+    {
+        Session::flash('sukses','Berhasil Update');
+        return redirect()->back();
+    }
 }

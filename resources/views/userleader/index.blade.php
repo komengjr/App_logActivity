@@ -474,12 +474,13 @@
                                 </div>
 
                                 <div class="tab-pane" id="edit" style="padding-top: 20px;">
-                                    <form>
+                                    <form method="POST" action="{{ route('update-biodata') }}" enctype="multipart/form-data">
+                                        @csrf
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label form-control-label">Nama
                                                 Lengkap</label>
                                             <div class="col-lg-9">
-                                                <input class="form-control" type="text"
+                                                <input class="form-control" type="text" name="nama"
                                                     value="{{ $biodata->nama_lengkap }}" />
                                             </div>
                                         </div>
@@ -487,7 +488,7 @@
                                             <label class="col-lg-3 col-form-label form-control-label">Tanggal
                                                 Lahir</label>
                                             <div class="col-lg-9">
-                                                <input class="form-control" type="text"
+                                                <input class="form-control" type="text" name="tgl"
                                                     value="{{ $biodata->tgl_lahir }}" />
                                             </div>
                                         </div>
@@ -495,7 +496,7 @@
                                             <label class="col-lg-3 col-form-label form-control-label">Tempat
                                                 Lahir</label>
                                             <div class="col-lg-9">
-                                                <input class="form-control" type="email"
+                                                <input class="form-control" type="text"
                                                     value="{{ $biodata->tempat_lahir }}" />
                                             </div>
                                         </div>
@@ -527,7 +528,7 @@
                                             <label class="col-lg-3 col-form-label form-control-label"></label>
                                             <div class="col-lg-9">
                                                 <input type="reset" class="btn btn-secondary" value="Cancel" />
-                                                <input type="button" class="btn btn-primary" value="Save Changes" />
+                                                <input type="submit" class="btn btn-primary" value="Save Changes" />
                                             </div>
                                         </div>
                                     </form>

@@ -7,6 +7,10 @@
                 {{-- <input type="text" name="kode_costum_cabang" value="{{ $data->kd_cabang }}" id="kode_costum_cabang" hidden> --}}
                 <div class="input-group">
                     <input type="text" class="form-control" id="nama" placeholder="">
+                    <select name="caridata" id="caridata" class="form-control">
+                        <option value="nama">By Nama Inventaris</option>
+                        <option value="no">By Nomor Inventaris</option>
+                    </select>
                     <div class="input-group-prepend">
                         <button class="btn-outline-primary" type="button"
                             id="button-cari-data-perangkat">Search</button>
@@ -27,6 +31,7 @@
         var nama = document.getElementById('nama').value;
         var kd_maintenance = document.getElementById('kd_maintenance').value;
         var cabang = document.getElementById('cabang').value;
+        var caridata = document.getElementById('caridata').value;
         $("#menu-maintenance-barang").html(
             '<button class="btn btn-dark" type="button" disabled=""> <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...</button>'
         );
@@ -40,6 +45,7 @@
                     "nama": nama,
                     "kd_maintenance": kd_maintenance,
                     "cabang": cabang,
+                    "caridata": caridata,
                 },
                 dataType: "html",
             })

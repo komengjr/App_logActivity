@@ -455,7 +455,7 @@ class UserController extends Controller
     }
     public function caridetailmaintenancebulananhendledatacabang(Request $request)
     {
-        $url = "http://192.168.50.247/api/datanoinventaris/" . $request->cabang . "/" . $request->nama;
+        $url = "http://192.168.50.247/api/datanoinventaris/" . $request->cabang . "/". $request->caridata . "/" . $request->nama;
         // $get_result_arr = json_decode($response->getContent($url), true);
         // echo $result;
         $kode = $request->kd_maintenance;

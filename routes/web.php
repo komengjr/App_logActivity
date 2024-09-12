@@ -149,6 +149,7 @@ Route::post('/simpan-newcase', 'PublicController@postnewcase');
 
 
 Route::post('/ubahpassword',['as'=>'all','uses'=> 'HomeController@ubahpassword']);
+Route::post('/update-biodata',['as'=>'update-biodata','uses'=> 'HomeController@update_biodata']);
 Route::post('/user/laporan/posttambah',['as'=>'posttambahlaporan','uses'=> 'UserController@posttambahlaporan']);
 Route::post('user/datalaporan/penyelesaian',['as'=>'user/datalaporan/penyelesaian','uses'=> 'UserController@postpenyelesaianlaporan']);
 Route::get('user/lihattiket/{id}',['as'=>'user1','uses'=> 'UserController@lihattiketpersonal']);
