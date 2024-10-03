@@ -161,7 +161,7 @@ Route::get('user/laporan/lihatlaporan/{id}',['as'=>'user/laporan/lihatlaporan','
 Route::get('user/notifikasi/lihatnotif/{id}',['as'=>'user/notifikasi/lihatnotif','uses'=> 'UserController@lihatnotifikasi']);
 Route::get('user/task/kinerja/{id}',['as'=>'user/task/kinerja','uses'=> 'UserController@lihattaskkinerja']);
 Route::get('user/task/kinerja-admin/{id}',['as'=>'user/task/kinerja-admin','uses'=> 'UserController@lihattaskkinerjaadmin']);
-Route::get('user/notifikasi/lihatnotifwaktu/',['as'=>'user/notifikasi/lihatnotifwaktu/','uses'=> 'UserController@lihatnotifikasiwaktu']);
+Route::get('user/notifikasi/lihatnotifwaktu/',['as'=>'user/notifikasi/lihatnotifwaktu','uses'=> 'UserController@lihatnotifikasiwaktu']);
 Route::get('user/userleader/modal/beritugas',['as'=>'user/userleader/modal/beritugas','uses'=> 'UserController@beritugasuser']);
 Route::get('user/userleader/modal/lihattugas',['as'=>'user/userleader/modal/lihattugas','uses'=> 'UserController@lihattugasuser']);
 Route::get('user/userleader/modal/periodekpi',['as'=>'user/userleader/modal/periodekpi','uses'=> 'UserController@periodekpi']);
@@ -261,3 +261,5 @@ Route::get('admin/gateway/telegram/detail-log-telegram/{id}','GatewatyController
 Route::post('admin/gateway/telegram/kirim-log-telegram/','GatewatyController@kirim_log_telegram')->name('kirim-gateway-telegram');
 
 Route::get('admin/monitoring/log_bisone','GatewatyController@monitoring_log')->name('monitoring-log-bisone');
+Route::post('admin/monitoring/log_bisone','GatewatyController@cetak_monitoring_log')->name('show-menu-cetak-log');
+Route::post('admin/monitoring/log_bisone_cetak','GatewatyController@post_cetak_monitoring_log')->name('post-menu-cetak-log');

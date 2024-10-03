@@ -354,6 +354,19 @@
                             </li>
                         </ul>
                     </li>
+                @else
+                    <li>
+                        <a href="javascript:;">
+                            <i class="zmdi zmdi-airplay" aria-hidden="true"></i>
+                            <span class="title">Monitoring</span>
+                            <span class="arrow"></span>
+                        </a>
+                        <ul>
+                            <li><a href="{{ route('monitoring-log-bisone') }}"><i class="zmdi zmdi-share"></i>
+                                    Log Bisone</a>
+                            </li>
+                        </ul>
+                    </li>
                 @endif
 
 
@@ -475,7 +488,7 @@
             function showTime() {
                 var waktu = $("#detikwaktu").text();
                 $.ajax({
-                        url: "user/notifikasi/lihatnotifwaktu",
+                        url: "{{route('user/notifikasi/lihatnotifwaktu')}}",
                         type: "GET",
                         dataType: "html",
                     })
@@ -534,7 +547,6 @@
                     });
                 });
         });
-
     </script>
 </body>
 
