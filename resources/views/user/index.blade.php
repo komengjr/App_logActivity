@@ -479,13 +479,14 @@
                                     </div>
                                 </div>
 
-                                <div class="tab-pane" id="edit" style="padding-top: 30px;">
-                                    <form>
+                                <div class="tab-pane" id="edit" style="padding-top: 20px;">
+                                    <form method="POST" action="{{ route('update-biodata') }}" enctype="multipart/form-data">
+                                        @csrf
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label form-control-label">Nama
                                                 Lengkap</label>
                                             <div class="col-lg-9">
-                                                <input class="form-control" type="text"
+                                                <input class="form-control" type="text" name="nama"
                                                     value="{{ $biodata->nama_lengkap }}" />
                                             </div>
                                         </div>
@@ -493,7 +494,7 @@
                                             <label class="col-lg-3 col-form-label form-control-label">Tanggal
                                                 Lahir</label>
                                             <div class="col-lg-9">
-                                                <input class="form-control" type="text"
+                                                <input class="form-control" type="date" name="tgl_lahir"
                                                     value="{{ $biodata->tgl_lahir }}" />
                                             </div>
                                         </div>
@@ -501,7 +502,7 @@
                                             <label class="col-lg-3 col-form-label form-control-label">Tempat
                                                 Lahir</label>
                                             <div class="col-lg-9">
-                                                <input class="form-control" type="email"
+                                                <input class="form-control" type="text" name="tempat_lahir"
                                                     value="{{ $biodata->tempat_lahir }}" />
                                             </div>
                                         </div>
@@ -509,14 +510,14 @@
                                             <label class="col-lg-3 col-form-label form-control-label"> Ganti
                                                 Profil</label>
                                             <div class="col-lg-9">
-                                                <input class="form-control" type="file" />
+                                                <input class="form-control" type="file" name="gambar" />
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label form-control-label">Alamat</label>
                                             <div class="col-lg-9">
-                                                <textarea name="" id="" cols="30" rows="10" class="form-control">{{ $biodata->alamat }}</textarea>
+                                                <textarea name="alamat" id="" cols="30" rows="10" class="form-control">{{ $biodata->alamat }}</textarea>
                                             </div>
                                         </div>
 
@@ -533,7 +534,7 @@
                                             <label class="col-lg-3 col-form-label form-control-label"></label>
                                             <div class="col-lg-9">
                                                 <input type="reset" class="btn btn-secondary" value="Cancel" />
-                                                <input type="button" class="btn btn-primary" value="Save Changes" />
+                                                <input type="submit" class="btn btn-primary" value="Save Changes" />
                                             </div>
                                         </div>
                                     </form>

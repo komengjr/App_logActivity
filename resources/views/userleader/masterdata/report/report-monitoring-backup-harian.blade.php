@@ -106,7 +106,7 @@
             <thead style="font-weight: bold;">
                  <tr>
                      <td class="text-center">No</td>
-                     <td class="text-center">Tanggal Backup</td>
+                     <td class="text-center">Verifikasi Backup</td>
                      <td class="text-center">Sistem Backup</td>
                      <td class="text-center">Proses Backup</td>
                      <td class="text-center">Deskripsi</td>

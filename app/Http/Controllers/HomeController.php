@@ -313,6 +313,13 @@ class HomeController extends Controller
     }
     public function update_biodata(Request $request)
     {
+        DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->update([
+            'nama_lengkap'=>$request->nama,
+            'tgl_lahir'=>$request->tgl_lahir,
+            'tempat_lahir'=>$request->tempat_lahir,
+            'gambar' => $request->file('gambar')->storeAs('data_file/fileupload/' . auth::user()->email, auth::user()->id_user . '' . 'pp.jpg'),
+            'alamat'=>$request->alamat,
+        ]);
         Session::flash('sukses','Berhasil Update');
         return redirect()->back();
     }
