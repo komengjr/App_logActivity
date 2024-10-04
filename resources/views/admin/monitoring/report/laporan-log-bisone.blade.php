@@ -1,4 +1,23 @@
-<table border="1" style="font-size: 9px;">
+<style>
+
+
+
+
+    table tr td {
+
+        padding: 5px;
+        margin: 2px;
+        font-weight: bold;
+    }
+
+
+
+    table {
+        border-collapse: collapse;
+    }
+</style>
+
+<table border="1" style="font-size: 8px; margin: 0px; padding: 0px; width:100%;  font-family: Calibri (Body);">
     <thead>
         <tr>
             <th>No</th>
