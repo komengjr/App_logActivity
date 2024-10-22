@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\LogPuController;
 Route::get('masteradmin/tiket',['as'=>'masteradmin/tiket','uses'=> 'MasterAdminController@datatiketmasteradmin']);
 Route::get('masteradmin/tiket/getdataoption/{id}',['as'=>'masteradmin/tiket/getdataoption','uses'=> 'MasterAdminController@getdataoptiontiket']);
 
@@ -263,3 +263,9 @@ Route::post('admin/gateway/telegram/kirim-log-telegram/','GatewatyController@kir
 Route::get('admin/monitoring/log_bisone','GatewatyController@monitoring_log')->name('monitoring-log-bisone');
 Route::post('admin/monitoring/log_bisone','GatewatyController@cetak_monitoring_log')->name('show-menu-cetak-log');
 Route::post('admin/monitoring/log_bisone_cetak','GatewatyController@post_cetak_monitoring_log')->name('post-menu-cetak-log');
+
+
+Route::prefix('logpu')->group(function () {
+    Route::get('monitoring-mobil',  'LogPuController@logpu');
+});
+

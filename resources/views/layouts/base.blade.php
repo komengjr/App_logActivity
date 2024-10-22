@@ -16,7 +16,10 @@
     <link href="{{ asset('assets/css/animate.css', []) }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/icons.css', []) }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/horizontal-menu.css', []) }}" rel="stylesheet" />
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
     <link href="{{ asset('assets/plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css', []) }}"
         rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css', []) }}" rel="stylesheet"
@@ -156,7 +159,7 @@
     <!-- end loader -->
 
     <!-- Start wrapper-->
-    <div id="wrapper" style="font-family: 'Chakra Petch', sans-serif;">
+    <div id="wrapper" style="font-family: 'Mulish SemiBold', sans-serif;">
 
         <!--Start topbar header-->
         <header class="topbar-nav">
