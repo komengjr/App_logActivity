@@ -277,7 +277,7 @@
                         <div class="media align-items-center">
                             <div class="media-body">
                                 <h3 class="mt-3 mb-0">{{ $dataindividu }}</h3>
-                                <p class="mb-0">Kinerja Individu</p>
+                                <p class="mb-0">Record Laporan Kritis</p>
                             </div>
                             <div class="card-content dash-array-chart-box">
                                 <div id="screening-calls"></div>
@@ -290,7 +290,7 @@
                         <div class="media align-items-center">
                             <div class="media-body">
                                 <h3 class="mt-3 mb-0">{{ $datateam }}</h3>
-                                <p class="mb-0">Kinerja Team</p>
+                                <p class="mb-0">Record Backup Harian</p>
                             </div>
                             <div class="card-content dash-array-chart-box">
                                 <div id="assignments"></div>
@@ -303,7 +303,7 @@
                         <div class="media align-items-center">
                             <div class="media-body">
                                 <h3 class="mt-3 mb-0">0</h3>
-                                <p class="mb-0">Data Kinerja</p>
+                                <p class="mb-0">Record Backup Bulanan</p>
                             </div>
                             <div class="card-content dash-array-chart-box">
                                 <div id="interviews"></div>
@@ -535,7 +535,7 @@
                             fontSize: '20px',
                             color: '#000',
                             formatter: function(val) {
-                                return val + "%";
+                                return val + "";
                             }
                         }
                     }
@@ -557,7 +557,7 @@
                 dashArray: 4,
             },
             colors: ["#5204ce"],
-            series: ['{{ round($persendataindividuselesai) }}'],
+            series: ['300'],
             labels: ['Screening Calls'],
 
         }

@@ -63,12 +63,13 @@ class HomeController extends Controller
             } else {
                 $persendatateamselesai = ($datateamselesai/$datateam)*100;
             }
-            $dataindividu = DB::table('tbl_tiket_person_worklist')->count();
+            $dataindividu = DB::table('users_handler_record_log')->count();
             $dataindividuselesai = DB::table('tbl_tiket_person_worklist')->where('status_tiket',2)->count();
             if ($dataindividuselesai == 0) {
-                $persendataindividuselesai = 0;
+                $persendataindividuselesai = 120;
             } else {
-                $persendataindividuselesai = ($dataindividuselesai/$dataindividu)*100;
+                // $persendataindividuselesai = ($dataindividuselesai/$dataindividu)*100;
+                $persendataindividuselesai = 120;
             }
             $group = DB::table('tbl_group')->count();
             return view('index',['cabang'=>$cabang , 'user' => $user , 'tiket' => $data ,
