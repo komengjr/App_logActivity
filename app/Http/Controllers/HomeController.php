@@ -56,7 +56,7 @@ class HomeController extends Controller
             ->count();
             $data = $data_tiket1->merge($data_tiket);
             $periode = DB::table('tbl_periode')->where('status_periode',1)->get();
-            $datateam = DB::table('tbl_tiket_group_worklist')->count();
+            $datateam = DB::table('users_backup_harian')->count();
             $datateamselesai = DB::table('tbl_tiket_group_worklist')->where('status_tiket',2)->count();
             if ($datateamselesai == 0) {
                 $persendatateamselesai = 0;
