@@ -101,7 +101,7 @@
         <!-- Breadcrumb-->
         <div class="row pt-2 pb-0">
             <div class="col-sm-12">
-                <h4 class="page-title">Profil User</h4>
+                <h4 class="page-title">Selamat Datang - {{Auth::user()->name}}</h4>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="javaScript:void();">Dashboard</a>
@@ -157,8 +157,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form id="signupForm" action="{{ asset('user/lengkapi/data', []) }}" method="POST"
-                                enctype="multipart/form-data">
+                            <form id="signupForm" action="{{ asset('user/lengkapi/data', []) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <h4 class="form-header text-uppercase">
                                     <i class="fa fa-address-book-o"></i>
@@ -237,7 +236,7 @@
             </div>
         @else
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="card profile-card-2">
                         <div class="card-img-block rounded-0 texture-info">
 
@@ -273,7 +272,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-8">
+                <div class="col-lg-5">
                     <div class="card">
                         <div class="card-body">
                             <ul class="nav nav-tabs nav-tabs-primary top-icon nav-justified">
@@ -345,7 +344,7 @@
                                                 <div class="card-body">
                                                     <h5 class="mt-2 mb-3">
                                                         <span class="fa fa-clock-o ion-clock float-right"></span>
-                                                        Task Group
+                                                        Piket :
                                                     </h5>
                                                     <hr>
                                                     @foreach ($groupworklist as $groupworklist)
@@ -537,6 +536,36 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header text-uppercase">Column Chart
+                            <div class="card-action">
+                                <div class="dropdown">
+                                    <button class="dropdown-toggle dropdown-toggle-nocaret"
+                                        data-toggle="dropdown"> Option
+                                        {{-- <i class="icon-options"></i> --}}
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a href="javaScript:void();" class="dropdown-item" data-toggle="modal"
+                                            data-target="#input_tiketxx" id="buttoninputlaporan"><i
+                                                class="fa fa-exclamation-circle"></i> Input Laporan</a>
+                                        <a class="dropdown-item" href="javascript:void();">Another action</a>
+                                        <a class="dropdown-item" href="javascript:void();">Something else here</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a href="javaScript:void();" class="dropdown-item" data-toggle="modal"
+                                            data-target="#inputtiketbaruadmin" id="buttonadminbuattiket"><i
+                                                class="fa fa-tasks"></i>
+                                            Buat Tiket</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="chart3"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         @endif
 
@@ -629,7 +658,7 @@
                 </div>
             </div>
         </div> --}}
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-12 col-lg-12 col-xl-12">
 
 
@@ -661,7 +690,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>
 
