@@ -539,7 +539,7 @@
 
                 <div class="col-lg-4">
                     <div class="card">
-                        <div class="card-header text-uppercase">Column Chart
+                        <div class="card-header text-uppercase">Grapik user
                             <div class="card-action">
                                 <div class="dropdown">
                                     <button class="dropdown-toggle dropdown-toggle-nocaret"

@@ -314,7 +314,7 @@
             </div>
             <div class="col-12 col-lg-4 col-xl-4">
                 <div class="card">
-                    <div class="card-header text-uppercase text-center">Database</div>
+                    <div class="card-header text-uppercase text-center">Data Record</div>
                     <div class="card-body">
                         <div class="text-center">
                             <div class="chart-container-9 d-flex align-items-center justify-content-center">
@@ -820,7 +820,7 @@
                 }
             },
             // colors: ["#ff5447"],
-            series: [1],
+            series: [80],
             stroke: {
                 lineCap: 'round'
             },
