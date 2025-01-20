@@ -64,6 +64,7 @@ class HomeController extends Controller
                 $persendatateamselesai = ($datateamselesai/$datateam)*100;
             }
             $dataindividu = DB::table('users_handler_record_log')->count();
+            $recordbackupbulanan = DB::table('users_backup_bulanan')->count();
             $dataindividuselesai = DB::table('tbl_tiket_person_worklist')->where('status_tiket',2)->count();
             if ($dataindividuselesai == 0) {
                 $persendataindividuselesai = 120;
@@ -75,7 +76,7 @@ class HomeController extends Controller
             return view('index',['cabang'=>$cabang , 'user' => $user , 'tiket' => $data ,
                         'jumlah_tiket' => $jumlah_tiket,  'periode'=>$periode,'datateam'=>$datateam, 'dataindividu'=>$dataindividu,
                         'persendatateamselesai'=>$persendatateamselesai, 'persendataindividuselesai'=>$persendataindividuselesai,
-                        'group'=>$group
+                        'group'=>$group, 'recordbackupbulanan'=>$recordbackupbulanan
                     ]);
         }
         elseif (auth::user()->kd_akses == 3 ) {

@@ -302,7 +302,7 @@
                     <div class="card-body">
                         <div class="media align-items-center">
                             <div class="media-body">
-                                <h3 class="mt-3 mb-0">0</h3>
+                                <h3 class="mt-3 mb-0">{{$recordbackupbulanan}}</h3>
                                 <p class="mb-0">Record Backup Bulanan</p>
                             </div>
                             <div class="card-content dash-array-chart-box">
