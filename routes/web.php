@@ -268,4 +268,8 @@ Route::post('admin/monitoring/log_bisone_cetak','GatewatyController@post_cetak_m
 Route::prefix('logpu')->group(function () {
     Route::get('monitoring-mobil',  'LogPuController@logpu');
 });
+Route::prefix('admin/menu')->group(function () {
+    Route::get('piket',  'PiketController@index');
+    Route::get('form-piket/{id}',  'PiketController@formpiket');
+});
 

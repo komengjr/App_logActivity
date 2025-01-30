@@ -149,7 +149,8 @@
                     {{-- <button type="button" class="btn btn-info waves-effect waves-light">
                         Monthly
                     </button> --}}
-                    <button type="button" class="btn btn-info waves-effect waves-light" data-toggle="modal" data-target="#modal-cabang-verivikator" id="button-grapic-cabang-verifikator">
+                    <button type="button" class="btn btn-info waves-effect waves-light" data-toggle="modal"
+                        data-target="#modal-cabang-verivikator" id="button-grapic-cabang-verifikator">
                         Menu
                     </button>
                     {{-- <button type="button" class="btn btn-info waves-effect waves-light">
@@ -386,7 +387,9 @@
                 data: [2, 2, 2, 2, 2, 2, 2]
             }],
             xaxis: {
-                categories: ['11-11-2023', '12-11-2023', '13-11-2023', '14-11-2023', '15-11-2023', '16-11-2023', '17-11-2023'],
+                categories: ['11-11-2023', '12-11-2023', '13-11-2023', '14-11-2023', '15-11-2023',
+                    '16-11-2023', '17-11-2023'
+                ],
             },
             fill: {
                 type: 'gradient',
@@ -446,3 +449,4 @@
 
     });
 </script>
+

@@ -68,7 +68,32 @@ class VerifikatorController extends Controller
     public function datapostgraphic(Request $request)
     {
         // $image = base64_encode(file_get_contents(public_path('logo.png')));
-        $pdf = PDF::loadview('verifikator.report.datagrapic')->setPaper('A4','landscape')->setOptions(['defaultFont' => 'Calibri']);
+        // $pdf = PDF::loadview('verifikator.report.datalaporankerusakan')->setPaper('A4','landscape')->setOptions(['defaultFont' => 'Calibri']);
+        // return $pdf->stream();
+        // $datahandle = DB::table('users_handler')
+        // ->join('tbl_cabang','tbl_cabang.kd_cabang','=','users_handler.kd_cabang')
+        // ->where('id_user',Auth::user()->id_user)->get();
+        $start = $request->start;
+        $end = $request->end;
+        $cabang = DB::table('tbl_cabang')->where('kd_cabang',Auth::user()->cabang)->first();
+        $datalaporan = DB::table('tbl_laporan_user')->where('kd_cabang',Auth::user()->cabang)->whereBetween('tgl_laporan', [$start, $end])->get();
+
+        $pdf = PDF::loadview('verifikator.report.datalaporankerusakan',['datalaporan'=>$datalaporan,'start'=>$start, 'end'=>$end,'cabang'=>$cabang])->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Courier']);
+        $pdf->output();
+        $canvas = $pdf->getDomPDF()->getCanvas();
+
+        $height = $canvas->get_height();
+        $width = $canvas->get_width();
+
+        $canvas->set_opacity(.2, "Multiply");
+
+        $canvas->set_opacity(.1);
+
+        // $canvas->page_text($width/5, $height/2, 'Lunas', '123', 30, array(22,0,0),1,2,0);
+        // $canvas->page_script('
+        // $pdf->set_opacity(.1);
+        // $pdf->image("bg-report.png",10, 10, 1255, 855);
+        // ');
         return base64_encode($pdf->stream());
     }
     public function postdataviewtaskgraphic(Request $request)

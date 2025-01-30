@@ -57,25 +57,25 @@ class HomeController extends Controller
             $data = $data_tiket1->merge($data_tiket);
             $periode = DB::table('tbl_periode')->where('status_periode',1)->get();
             $datateam = DB::table('users_backup_harian')->count();
-            $datateamselesai = DB::table('tbl_tiket_group_worklist')->where('status_tiket',2)->count();
-            if ($datateamselesai == 0) {
-                $persendatateamselesai = 0;
-            } else {
-                $persendatateamselesai = ($datateamselesai/$datateam)*100;
-            }
+            // $datateamselesai = DB::table('tbl_tiket_group_worklist')->where('status_tiket',2)->count();
+            // if ($datateamselesai == 0) {
+            //     $persendatateamselesai = 0;
+            // } else {
+            //     $persendatateamselesai = ($datateamselesai/$datateam)*100;
+            // }
             $dataindividu = DB::table('users_handler_record_log')->count();
             $recordbackupbulanan = DB::table('users_backup_bulanan')->count();
             $dataindividuselesai = DB::table('tbl_tiket_person_worklist')->where('status_tiket',2)->count();
             if ($dataindividuselesai == 0) {
-                $persendataindividuselesai = 120;
+                $persendataindividuselesai = 0;
             } else {
-                // $persendataindividuselesai = ($dataindividuselesai/$dataindividu)*100;
-                $persendataindividuselesai = 120;
+                $persendataindividuselesai = ($dataindividuselesai/$dataindividu)*100;
+                // $persendataindividuselesai = 120;
             }
             $group = DB::table('tbl_group')->count();
             return view('index',['cabang'=>$cabang , 'user' => $user , 'tiket' => $data ,
                         'jumlah_tiket' => $jumlah_tiket,  'periode'=>$periode,'datateam'=>$datateam, 'dataindividu'=>$dataindividu,
-                        'persendatateamselesai'=>$persendatateamselesai, 'persendataindividuselesai'=>$persendataindividuselesai,
+                        'persendataindividuselesai'=>$persendataindividuselesai,
                         'group'=>$group, 'recordbackupbulanan'=>$recordbackupbulanan
                     ]);
         }

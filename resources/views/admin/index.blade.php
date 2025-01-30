@@ -165,7 +165,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-12 col-lg-4 col-xl-3">
                 <div class="card">
                     <div class="card-body">
@@ -192,7 +191,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-12 col-lg-4 col-xl-3">
                 <div class="card">
                     <div class="card-body">
@@ -302,7 +300,7 @@
                     <div class="card-body">
                         <div class="media align-items-center">
                             <div class="media-body">
-                                <h3 class="mt-3 mb-0">{{$recordbackupbulanan}}</h3>
+                                <h3 class="mt-3 mb-0">{{ $recordbackupbulanan }}</h3>
                                 <p class="mb-0">Record Backup Bulanan</p>
                             </div>
                             <div class="card-content dash-array-chart-box">
@@ -535,7 +533,7 @@
                             fontSize: '20px',
                             color: '#000',
                             formatter: function(val) {
-                                return val + "";
+                                return val + "%";
                             }
                         }
                     }
@@ -643,7 +641,7 @@
                 dashArray: 4,
             },
             colors: ["#f1076f"],
-            series: ['{{ $persendatateamselesai }}'],
+            series: ['80'],
             labels: ['Assignments'],
 
         }
@@ -729,7 +727,7 @@
                 dashArray: 4,
             },
             colors: ["#00f260"],
-            series: [0],
+            series: [22],
             labels: ['interviews'],
 
         }
