@@ -42,29 +42,5 @@
     });
 </script>
 <script>
-    $(document).on("click", "#submit-button-verifikator-user", function(e) {
-        e.preventDefault();
-        var data = $("#form-modal-verifikator-view").serialize();
-        $("#show-laporan-verifikator").html(
-            "<br><br><br><img src='loading.gif'  style='display: block; margin: auto;'>"
-        );
-        $.ajax({
-                url: 'postverifikator/datagraphic/posttask',
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
-                },
-                type: "POST",
-                data: data,
-                dataType: "html",
-            })
-            .done(function(datapdf) {
-                $("#show-laporan-verifikator").html('<iframe src="data:application/pdf;base64, ' + datapdf +
-                    '" style="width:100%;; height:500px;" frameborder="0"></iframe>');
-            })
-            .fail(function() {
-                $("#show-laporan-verifikator").html(
-                    'Gagal Bacssa'
-                );
-            });
-    });
+
 </script>
