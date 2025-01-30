@@ -306,6 +306,7 @@
 
                     </ul>
                 </li>
+                @if (Auth::user()->kd_akses < 5)
                 <li>
                     <a href="javascript:;">
                         <i class="zmdi zmdi-view-dashboard" aria-hidden="true"></i>
@@ -320,6 +321,8 @@
 
                     </ul>
                 </li>
+                @endif
+
                 @if (Auth::user()->kd_akses < 3)
                     <li>
                         <a href="javascript:;">
