@@ -226,6 +226,9 @@ class HomeController extends Controller
                                 ]);
         }
         elseif (auth::user()->kd_akses == 5) {
+            $totalkerusakan = DB::table('tbl_laporan_user')->where('kd_cabang',Auth::user()->cabang)->count();
+            $totalselesai = DB::table('tbl_laporan_user')->where('kd_cabang',Auth::user()->cabang)->where('status_laporan','<',2)->count();
+            // dd($totalkerusakan);
             $tiket = DB::table('tbl_tiket_task')
             ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_tiket_task.kd_kinerja')
             ->where('kd_cabang',auth::user()->cabang)
@@ -240,7 +243,7 @@ class HomeController extends Controller
             ->where('kd_cabang',auth::user()->cabang)
             ->where('status_task',2)
             ->count();
-            return view('index',['tiket'=>$tiket,'jumlahorder'=>$jumlahorder,'jumlahverif'=>$jumlahverif]);
+            return view('index',['tiket'=>$tiket,'jumlahorder'=>$jumlahorder,'jumlahverif'=>$jumlahverif,'totalkerusakan'=>$totalkerusakan,'totalselesai'=>$totalselesai]);
         }
         elseif (auth::user()->kd_akses == 6) {
             $tiket = DB::table('tbl_tiket_task')

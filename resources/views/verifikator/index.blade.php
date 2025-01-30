@@ -161,11 +161,11 @@
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-12 col-lg-2 text-center">
-                        <p class="mt-4">Total Tindakan</p>
-                        <h4 class="mb-0">{{ $jumlahorder }}</h4>
+                        <p class="mt-4">Total Laporan</p>
+                        <h4 class="mb-0">{{ $totalkerusakan }}</h4>
                         <hr />
-                        <p>Total Verifikasi</p>
-                        <h4 class="mb-0 text-info">{{ $jumlahverif }}</h4>
+                        <p>Total Selesai</p>
+                        <h4 class="mb-0 text-info">{{ $totalselesai }}</h4>
                     </div>
                     <div class="col-12 col-lg-10 col-xl-10">
                         <div class="chart-container">
