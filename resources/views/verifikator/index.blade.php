@@ -165,7 +165,7 @@
                         <h4 class="mb-0">{{ $totalkerusakan }}</h4>
                         <hr />
                         <p>Total Selesai</p>
-                        <h4 class="mb-0 text-info">{{ $totalselesai }}</h4>
+                        <h4 class="mb-0 text-info">{{ $totalkerusakan }}</h4>
                     </div>
                     <div class="col-12 col-lg-10 col-xl-10">
                         <div class="chart-container">
