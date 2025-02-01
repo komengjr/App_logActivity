@@ -358,8 +358,8 @@
                                             <div class="form-group">
                                                 <input type="text" class="form-control wizard-required"
                                                     name="cabang" id="caricabang" onkeydown="search(this)" required>
-                                                <label for="fname" class="wizard-form-text-label">Cari Nama Cabang
-                                                    * <span style="color: #d70b0b;">Ex. Pramita Pontianak</span></label>
+                                                <label for="fname" class="wizard-form-text-label">Cari Tujuan Cabang
+                                                    * <span style="color: #d70b0b;"></span></label>
                                                 <div class="wizard-form-error"></div>
                                                 <input type="text" class="form-control wizard-required"
                                                     style="display: none">
@@ -479,10 +479,10 @@
 
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/public.js') }}"></script>
-    <script src="{{ asset('assets/js/popper.min.js', []) }}"></script>
-    <script src="{{ asset('assets/js/bootstrap.min.js', []) }}"></script>
-    <script src="{{ asset('assets/js/horizontal-menu.js', []) }}"></script>
-    <script src="{{ asset('assets/js/app-script.js', []) }}"></script>
+    <script src="{{ asset('assets/js/popper.min.js', ) }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.min.js', ) }}"></script>
+    <script src="{{ asset('assets/js/horizontal-menu.js', ) }}"></script>
+    <script src="{{ asset('assets/js/app-script.js', ) }}"></script>
     <script src="{{ asset('assets/plugins/alerts-boxes/js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/alerts-boxes/js/sweet-alert-script.js') }}"></script>
     <script>

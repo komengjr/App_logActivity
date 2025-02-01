@@ -196,7 +196,7 @@ function outFunc() {
     tooltip.innerHTML = "Copy to clipboard";
 }
 function search(ele) {
-    if (event.key === "Enter") {
+    if (event.key) {
         var id = document.getElementById("caricabang").value;
         $.ajax({
             url: "../caricabang/" + id,
@@ -204,12 +204,12 @@ function search(ele) {
             dataType: "html",
         })
             .done(function (data) {
-                document.getElementById("caricabang").value = "";
+                // document.getElementById("caricabang").value = "";
                 $("#tampil-data-cabang").html(data);
             })
             .fail(function () {
                 $("#tampil-data-cabang").html(
-                    '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                    // '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
                 );
             });
     }

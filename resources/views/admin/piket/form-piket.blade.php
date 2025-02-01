@@ -8,7 +8,7 @@
                     <select class="form-control single-select">
                         <option value=""></option>
                         @foreach ($group as $group)
-                            <option value="{{$group->kd_group}}">{{$group->nama_group}}</option>
+                            <option value="{{ $group->kd_group }}">{{ $group->nama_group }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -16,11 +16,11 @@
         </div>
     </div>
     <div class="card">
-        <div class="card-header text-uppercase">Pilih User</div>
+        <div class="card-header text-uppercase">Keterangan User</div>
         <div class="card-body">
             <form>
                 <div class="form-group">
-                    <label>Multiple select boxes</label>
+                    <label>Pilih User</label>
                     <select class="form-control multiple-select" multiple="multiple">
                         <option value=""></option>
                         @foreach ($user as $user)
@@ -28,7 +28,26 @@
                         @endforeach
                     </select>
                 </div>
-
+                <div class="form-group">
+                    <label>Date Range</label>
+                    <div id="dateragne-picker">
+                        <div class="input-daterange input-group">
+                            <input type="text" class="form-control" name="start" style="cursor: pointer;"
+                                value="{{ $id }}" disabled />
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Sampai</span>
+                            </div>
+                            <input type="text" name="date" class="form-control datepicker" id="date"
+                                autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block" data-dismiss="modal" id="simpan">
+                        <i class="fa fa-save"></i> Simpan
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -38,14 +57,18 @@
 
 <script src="{{ asset('assets/plugins/jquery-multi-select/jquery.multi-select.js') }}"></script>
 <script src="{{ asset('assets/plugins/jquery-multi-select/jquery.quicksearch.js') }}"></script>
-
+<script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script>
     $(document).ready(function() {
         $('.single-select').select2();
 
         $('.multiple-select').select2();
 
-        //multiselect start
+        $('#dateragne-picker .input-daterange').datepicker({
+            autoclose: true,
+            startDate: new Date('{{ $id }}'),
+            todayHighlight: true
+        });
 
         $('#my_multi_select1').multiSelect();
         $('#my_multi_select2').multiSelect({

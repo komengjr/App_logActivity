@@ -332,7 +332,10 @@
                         </a>
                         <ul>
                             <li><a href="{{ asset('schedule', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i>
-                                    Menu Jadwal</a>
+                                    Menu Jadwal Tugas</a>
+                            </li>
+                            <li><a href="{{ url('admin/menu/piket', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i>
+                                    Menu Jadwal Piket</a>
                             </li>
                             <li><a href="{{ asset('cabang', []) }}"><i class="zmdi zmdi-dot-circle-alt"></i>
                                     Menu Cabang</a>
