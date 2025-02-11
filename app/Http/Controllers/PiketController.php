@@ -61,7 +61,7 @@ class PiketController extends Controller
             $end = date_create($request->date);
             $selisih = date_diff($start, $end);
             $jumlah = DB::table('tbl_biodata')->count();
-            $datauser = DB::table('tbl_biodata')->orderByRaw("RAND()")->get();
+            $datauser = DB::table('tbl_biodata')->join('users','users.id_user','=','tbl_biodata.id_user')->orderByRaw("RAND()")->get();
             // dd($jumlah/($selisih->d+1));
             $x = $jumlah / ($selisih->d + 1);
             // $x = round($x);
