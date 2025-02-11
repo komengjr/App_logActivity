@@ -107,7 +107,7 @@ class PiketController extends Controller
                     DB::table('piket_nasional_user')->insert([
                         'tiket_piket_user' => str::uuid(),
                         'tiket_piket_nasional' => $tiket,
-                        'user_piket' => $datauser[$array++]->id_user,
+                        'user_piket' => $datauser[$array+$z]->id_user,
                         'created_at' => now(),
                     ]);
                 }
