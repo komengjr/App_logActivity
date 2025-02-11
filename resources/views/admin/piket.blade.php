@@ -85,7 +85,7 @@
                                                 ->get();
                                             @endphp
                                             @foreach ($datauser as $userx)
-                                               <li> {{$userx->nama_lengkap}}</li>
+                                               <li> {{$userx->nama_lengkap}} - {{$userx->id_user}}</li>
                                             @endforeach
                                         </td>
                                         <td class="text-center"><button class="btn-info" data-toggle="modal" data-target="#modal-piket"><i class="fa fa-plus"></i></button></td>
