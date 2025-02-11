@@ -96,18 +96,19 @@ class PiketController extends Controller
                 // ]);
             }
             if ($sisa > 0) {
-                $returnDate = date('Y-m-d', strtotime('+' . 1 . ' day', strtotime($request->mulai)));
+                $returnDate = date('Y-m-d', strtotime('+' . $selisih->d+1 . ' day', strtotime($request->mulai)));
                 $tiket = date('Ymd', strtotime($returnDate)) . Str::random(6);
                 DB::table('piket_nasional')->insert([
                     'tiket_piket_nasional' => $tiket,
                     'tgl_piket_nasional' => $returnDate,
                     'status_piket_nasional' => 1,
                 ]);
-                for ($z=0; $z < $sisa; $z++) {
+
+                for ($z=1; $z <= $sisa; $z++) {
                     DB::table('piket_nasional_user')->insert([
                         'tiket_piket_user' => str::uuid(),
                         'tiket_piket_nasional' => $tiket,
-                        'user_piket' => $datauser[$array++]->id_user,
+                        'user_piket' => $datauser[$array+$z]->id_user,
                         'created_at' => now(),
                     ]);
                 }
