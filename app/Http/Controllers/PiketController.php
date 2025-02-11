@@ -103,13 +103,13 @@ class PiketController extends Controller
                     'tgl_piket_nasional' => $returnDate,
                     'status_piket_nasional' => 1,
                 ]);
-                $sisapiket = 1;
+                // $sisapiket = 1;
                 for ($z=0; $z < $sisa; $z++) {
-                    $sisapiket = $array+$sisapiket;
+                    // $sisapiket = $array+$sisapiket;
                     DB::table('piket_nasional_user')->insert([
                         'tiket_piket_user' => str::uuid(),
                         'tiket_piket_nasional' => $tiket,
-                        'user_piket' => $datauser[$sisapiket]->id_user,
+                        'user_piket' => $datauser[$array+$z]->id_user,
                         'created_at' => now(),
                     ]);
                 }
