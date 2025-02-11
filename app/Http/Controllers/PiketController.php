@@ -63,7 +63,7 @@ class PiketController extends Controller
             $jumlah = DB::table('tbl_biodata')->count();
             $datauser = DB::table('tbl_biodata')->join('users','users.id_user','=','tbl_biodata.id_user')->orderByRaw("RAND()")->get();
             // dd($jumlah/($selisih->d+1));
-            dd($datauser,$jumlah);
+            // dd($datauser,$jumlah);
             $x = $jumlah / ($selisih->d + 1);
             $sisa = $jumlah % ($selisih->d + 1);
             $x = round($x);
@@ -96,7 +96,7 @@ class PiketController extends Controller
                 // ]);
             }
             if ($sisa > 0) {
-                for ($z=0; $z < $sisa; $z++) { 
+                for ($z=0; $z < $sisa; $z++) {
                     DB::table('piket_nasional_user')->insert([
                         'tiket_piket_user' => str::uuid(),
                         'tiket_piket_nasional' => $tiket,
