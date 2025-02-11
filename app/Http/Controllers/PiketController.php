@@ -60,7 +60,7 @@ class PiketController extends Controller
             $start = date_create($request->mulai);
             $end = date_create($request->date);
             $selisih = date_diff($start, $end);
-            $jumlah = DB::table('tbl_biodata')->count();
+            $jumlah = DB::table('tbl_biodata')->join('users','users.id_user','=','tbl_biodata.id_user')->count();
             $datauser = DB::table('tbl_biodata')->join('users','users.id_user','=','tbl_biodata.id_user')->get();
             // dd($jumlah/($selisih->d+1));
             // dd($datauser,$jumlah);
@@ -103,9 +103,7 @@ class PiketController extends Controller
                     'tgl_piket_nasional' => $returnDate,
                     'status_piket_nasional' => 1,
                 ]);
-                $sisapiket = 1;
-                for ($z=0; $z < $sisa; $z++) {
-                    $sisapiket = $array+$sisapiket;
+                for ($z=1; $z <= $sisa; $z++) {
                     DB::table('piket_nasional_user')->insert([
                         'tiket_piket_user' => str::uuid(),
                         'tiket_piket_nasional' => $tiket,
