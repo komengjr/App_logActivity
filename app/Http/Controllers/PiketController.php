@@ -64,7 +64,7 @@ class PiketController extends Controller
             $datauser = DB::table('tbl_biodata')->join('users','users.id_user','=','tbl_biodata.id_user')->orderByRaw("RAND()")->get();
             // dd($jumlah/($selisih->d+1));
             $x = $jumlah / ($selisih->d + 1);
-            // $x = round($x);
+            $x = round($x);
             // dd($datauser);
 
             for ($i = 0; $i <= $selisih->d; $i++) {
