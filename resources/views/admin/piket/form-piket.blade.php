@@ -1,57 +1,62 @@
-<form action="" method="post">
+<form action="{{ route('simpanjadwalpiketnasional') }}" method="post">
+    @csrf
     <div class="card">
-        <div class="card-header text-uppercase">Pilih Wilayah</div>
+        <div class="card-header text-uppercase">Pilih Range Waktu</div>
         <div class="card-body">
-            <form>
-                <div class="form-group">
-                    <label>Pilih Group</label>
-                    <select class="form-control single-select">
-                        <option value=""></option>
-                        @foreach ($group as $group)
-                            <option value="{{ $group->kd_group }}">{{ $group->nama_group }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header text-uppercase">Keterangan User</div>
-        <div class="card-body">
-            <form>
-                <div class="form-group">
-                    <label>Pilih User</label>
-                    <select class="form-control multiple-select" multiple="multiple">
-                        <option value=""></option>
-                        @foreach ($user as $user)
-                            <option value="">{{ $user->nama_lengkap }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Date Range</label>
-                    <div id="dateragne-picker">
-                        <div class="input-daterange input-group">
-                            <input type="text" class="form-control" name="start" style="cursor: pointer;"
-                                value="{{ $id }}" disabled />
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Sampai</span>
-                            </div>
-                            <input type="text" name="date" class="form-control datepicker" id="date"
-                                autocomplete="off" />
+            {{-- <div class="form-group">
+                <label>Pilih Group</label>
+                <select name="txt_name" id="txt_name" class="form-control single-select"
+                    onchange="getDataOptionKinerjax();">
+                    <option value=""></option>
+                    @foreach ($group as $group)
+                        <option value="{{ $group->kd_group }}">{{ $group->nama_group }}</option>
+                    @endforeach
+                </select>
+            </div> --}}
+            <div class="form-group">
+                <label>Date Range</label>
+                <div id="dateragne-picker">
+                    <input type="text" name="mulai" value="{{ $id }}" id="" hidden>
+                    <div class="input-daterange input-group">
+                        <input type="text" class="form-control" name="start" style="cursor: pointer;"
+                            value="{{ $id }}" disabled />
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Sampai</span>
                         </div>
+                        <input type="text" name="date" class="form-control datepicker" id="date"
+                            autocomplete="off" />
                     </div>
                 </div>
+            </div>
+            <br>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fa fa-save"></i> Setup Piket
+                </button>
+            </div>
+        </div>
+
+    </div>
+    {{-- <div class="card">
+        <div class="card-header text-uppercase">Pilih User</div>
+        <div class="card-body">
+            <form>
+                <div class="form-group" id="pilihanwilayah">
+                    <label>Pilih User</label>
+                    <select class="form-control multiple-select" multiple="multiple" disabled>
+                        <option value=""></option>
+                    </select>
+                </div>
+
                 <br>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block" data-dismiss="modal" id="simpan">
+                    <button type="submit" class="btn btn-primary btn-block">
                         <i class="fa fa-save"></i> Simpan
                     </button>
                 </div>
             </form>
         </div>
-    </div>
-
+    </div> --}}
 </form>
 
 
@@ -122,4 +127,23 @@
 
 
     });
+</script>
+<script>
+    function getDataOptionKinerjax() {
+        var datakinerja = document.getElementById('txt_name').value;
+        $.ajax({
+
+                url: "../../admin/menu/form-piket/option/" + datakinerja,
+                type: 'GET',
+                dataType: 'html'
+            })
+            .done(function(data) {
+                $('#pilihanwilayah').html(data);
+            })
+            .fail(function() {
+                $('#pilihanwilayah').html(
+                    '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+            });
+    };
 </script>

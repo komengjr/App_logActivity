@@ -1,6 +1,7 @@
 @extends('layouts.base')
 @section('content')
-    <link href='{{ asset('assets/plugins/fullcalendar/css/fullcalendar.css', []) }}' rel='stylesheet' />
+    <link href='{{ asset('assets/plugins/fullcalendar/css/fullcalendar.css') }}' rel='stylesheet' />
+
     <div class="content-wrapper gradient-meridian">
         <div class="container-fluid">
 
@@ -33,11 +34,75 @@
 
             </div>
             <!-- End Breadcrumb-->
+            <div class="row">
+                <div class="col-md-7">
+                    <div id='calendar'></div>
+                </div>
+                <div class="col-md-5">
+                    <div class="card pb-3">
+                        <div class="card-header mb-3">Data Piket
+                            <div class="card-action">
+                                {{-- <div class="dropdown">
+                                    <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret"
+                                        data-toggle="dropdown">
+                                        <i class="icon-options"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="javascript:void();">Action</a>
+                                        <a class="dropdown-item" href="javascript:void();">Another action</a>
+                                        <a class="dropdown-item" href="javascript:void();">Something else here</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="javascript:void();">Separated link</a>
+                                    </div>
+                                </div> --}}
+                            </div>
+                        </div>
+                        <table id="example1" class="styled-table table-striped table-bordered "
+                            style="width:100%; text-align: left;" border="1">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>No Tiket</th>
+                                    <th>Tanggal Piket</th>
+                                    <th>User Piket</th>
+                                    <th>Act</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $no = 1;
+                                @endphp
+                                @foreach ($datax as $item)
+                                    <tr>
+                                        <td>{{$no++}}</td>
+                                        <td>{{$item->tiket_piket_nasional}}</td>
+                                        <td>{{$item->tgl_piket_nasional}}</td>
+                                        <td>
+                                            @php
+                                                $datauser = DB::table('piket_nasional_user')
+                                                ->join('tbl_biodata','tbl_biodata.id_user','=','piket_nasional_user.user_piket')
+                                                ->where('piket_nasional_user.tiket_piket_nasional',$item->tiket_piket_nasional)
+                                                ->get();
+                                            @endphp
+                                            @foreach ($datauser as $userx)
+                                               <li> {{$userx->nama_lengkap}}</li>
+                                            @endforeach
+                                        </td>
+                                        <td class="text-center"><button class="btn-info" data-toggle="modal" data-target="#modal-piket"><i class="fa fa-plus"></i></button></td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-            <div id='calendar'></div>
+
+            <br>
 
             <!--start overlay-->
             <div class="overlay toggle-menu"></div>
+
             <!--end overlay-->
         </div>
         <!-- End container-fluid-->
@@ -48,7 +113,22 @@
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><span class="badge badge-success p-1">Penjadwalan Piket</span></h5>
+                    <h5 class="modal-title"><button class="btn-dark" disabled>Penjadwalan Piket</button></h5>
+                    <button type="button" class="btn-danger" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fa fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body" id="bodycalender">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-piket">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><button class="btn-dark" disabled></button></h5>
                     <button type="button" class="btn-danger" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fa fa-times"></i></span>
                     </button>
@@ -97,26 +177,49 @@
             </div>
         </div>
     </div>
-    <script src='{{ asset('assets/plugins/fullcalendar/js/moment.js', []) }}'></script>
-    <script src='{{ asset('assets/plugins/fullcalendar/js/fullcalendar.min.js', []) }}'></script>
-    <script>
-        function sukses_notifikasi() {
-            Lobibox.notify('success', {
-                pauseDelayOnHover: true,
-                continueDelayOnInactiveTab: false,
-                position: 'center top',
-                showClass: 'zoomIn',
-                hideClass: 'zoomOut',
-                icon: 'fa fa-check-circle',
-                width: 400,
-                msg: 'Berhasil Membuat Jadwal User'
+    <script src='{{ asset('assets/plugins/fullcalendar/js/moment.js') }}'></script>
+    <script src='{{ asset('assets/plugins/fullcalendar/js/fullcalendar.min.js') }}'></script>
+    @if ($message = Session::get('sukses'))
+        {{-- <div class="alert alert-icon-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <div class="alert-icon icon-part-success">
+                <i class="fa fa-check"></i>
+            </div>
+            <div class="alert-message">
+                <span><strong>Success!</strong> {{ $message }} </span>
+            </div>
+        </div> --}}
+        <button class="btn btn-warning" onclick="sukses_notifikasi()" id="buttonnotif" hidden>SHOW ME</button>
+        <script>
+            function sukses_notifikasi() {
+                Lobibox.notify('success', {
+                    pauseDelayOnHover: true,
+                    continueDelayOnInactiveTab: false,
+                    position: 'center top',
+                    showClass: 'zoomIn',
+                    hideClass: 'zoomOut',
+                    icon: 'fa fa-check-circle',
+                    width: 400,
+                    msg: '{{ $message }}'
+                });
+            }
+            $(document).ready(function() {
+                $('#buttonnotif').click();
             });
-        }
+        </script>
+    @endif
+    <script>
         $(document).ready(function() {
-            $('#buttonnotif').click();
+            var table = $('#example1').DataTable({
+                lengthChange: false,
+                // buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+            });
+
+            table.buttons().container()
+                .appendTo('#example_wrapper .col-md-6:eq(0)');
+
         });
     </script>
-
     <script>
         $("#calendar").fullCalendar({
             header: {
@@ -131,21 +234,23 @@
             editable: false,
             eventLimit: true, // allow "more" link when too many events
             events: [
-                @foreach ($data as $data)
+                @foreach ($datax as $data)
                     {
-                        title: "{{ $data->kinerja }}",
-                        start: "{{ $data->tgl_start }}",
-                        end: "{{ $data->tgl_akhir }}",
-                        url: "{{ url('../../admin/schedule/show/on', ['id'=> $data->kd_schedule]) }}",
-                        color: "#0f1f2a",
+                        title: "{{ $data->tiket_piket_nasional }}",
+                        start: "{{ $data->tgl_piket_nasional }}",
+                        end: "{{ $data->tgl_piket_nasional }}",
+                        url: "{{ url('../../admin/menu/piket/detail', ['id' => $data->tiket_piket_nasional]) }}",
+                        target: '#',
+                        // color: "#0f1f2a",
                     },
                 @endforeach
 
-                {
-                    title: "Click for Google",
-                    url: "http://google.com/",
-                    start: "2023-07-28",
-                },
+                // {
+                //     title: 'Click for Google',
+                //     event: $('#formupload').modal('show'),
+                //     button: 'sadasds',
+                //     start: "2025-01-31",
+                // },
             ],
             select: function(start, end, table) {
 
