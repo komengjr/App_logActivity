@@ -65,6 +65,7 @@ class PiketController extends Controller
             // dd($jumlah/($selisih->d+1));
             dd($datauser,$jumlah);
             $x = $jumlah / ($selisih->d + 1);
+            $sisa = $jumlah % ($selisih->d + 1);
             $x = round($x);
             // dd($datauser);
 
@@ -81,10 +82,11 @@ class PiketController extends Controller
                 //     ->take($x)
                 //     ->get();
                 for ($j = 0; $j < $x; $j++) {
+                    $array = $i+$j+($i*($x-1));
                     DB::table('piket_nasional_user')->insert([
                         'tiket_piket_user' => str::uuid(),
                         'tiket_piket_nasional' => $tiket,
-                        'user_piket' => $datauser[$i+$j+($i*($x-1))]->id_user,
+                        'user_piket' => $datauser[$array]->id_user,
                         'created_at' => now(),
                     ]);
                 }
@@ -92,6 +94,16 @@ class PiketController extends Controller
                 //     'tiket_piket_nasional'=>$returnDate,
                 //     'user_piket'=>213123,
                 // ]);
+            }
+            if ($sisa > 0) {
+                for ($z=0; $z < $sisa; $z++) { 
+                    DB::table('piket_nasional_user')->insert([
+                        'tiket_piket_user' => str::uuid(),
+                        'tiket_piket_nasional' => $tiket,
+                        'user_piket' => $datauser[$array++]->id_user,
+                        'created_at' => now(),
+                    ]);
+                }
             }
             // $start = $request->mulai;
             Session::flash('sukses', 'Berhasil Update');
