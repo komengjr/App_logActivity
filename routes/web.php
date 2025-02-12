@@ -271,6 +271,7 @@ Route::prefix('logpu')->group(function () {
 Route::prefix('admin/menu')->group(function () {
     Route::get('piket',  'PiketController@index');
     Route::get('piket/detail/{id}',  'PiketController@detailpiket');
+    Route::get('piket/modaldetail/{id}',  'PiketController@modaldetailpiket');
     Route::get('form-piket/{id}',  'PiketController@formpiket');
     Route::get('form-piket/option/{id}',  'PiketController@optioanwilayah');
     Route::post('form-piket/savedata/jadwal',  'PiketController@simpanjadwalpiket')->name('simpanjadwalpiketnasional');

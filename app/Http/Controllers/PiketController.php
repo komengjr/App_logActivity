@@ -54,14 +54,13 @@ class PiketController extends Controller
             ->where('group_user.kd_group', $id)->get();
         return view('admin.piket.option-wilayah', ['user' => $user]);
     }
-    public function simpanjadwalpiket(Request $request)
-    {
+    public function simpanjadwalpiket(Request $request){
         if (auth::user()->kd_akses == 2) {
             $start = date_create($request->mulai);
             $end = date_create($request->date);
             $selisih = date_diff($start, $end);
-            $jumlah = DB::table('tbl_biodata')->join('users','users.id_user','=','tbl_biodata.id_user')->count();
-            $datauser = DB::table('tbl_biodata')->join('users','users.id_user','=','tbl_biodata.id_user')->get();
+            $jumlah = DB::table('tbl_biodata')->join('users', 'users.id_user', '=', 'tbl_biodata.id_user')->count();
+            $datauser = DB::table('tbl_biodata')->join('users', 'users.id_user', '=', 'tbl_biodata.id_user')->orderByRaw("RAND()")->get();
             // dd($jumlah/($selisih->d+1));
             // dd($datauser,$jumlah);
             $x = $jumlah / ($selisih->d + 1);
@@ -81,40 +80,53 @@ class PiketController extends Controller
                 //     ->skip($i*$o)
                 //     ->take($x)
                 //     ->get();
-                for ($j = 0; $j < $x; $j++) {
-                    $array = $i+$j+($i*($x-1));
-                    DB::table('piket_nasional_user')->insert([
-                        'tiket_piket_user' => str::uuid(),
-                        'tiket_piket_nasional' => $tiket,
-                        'user_piket' => $datauser[$array]->id_user,
-                        'created_at' => now(),
-                    ]);
+                if ($jumlah > $i) {
+                    for ($j = 0; $j < $x; $j++) {
+                        $array = $i + $j + ($i * ($x - 1));
+                        DB::table('piket_nasional_user')->insert([
+                            'tiket_piket_user' => str::uuid(),
+                            'tiket_piket_nasional' => $tiket,
+                            'user_piket' => $datauser[$array]->id_user,
+                            'created_at' => now(),
+                        ]);
+                    }
+
                 }
                 // DB::table('piket_nasional_user')->insert([
                 //     'tiket_piket_nasional'=>$returnDate,
                 //     'user_piket'=>213123,
                 // ]);
             }
-            if ($sisa > 0) {
-                $returnDate = date('Y-m-d', strtotime('+' . ($selisih->d+1) . ' day', strtotime($request->mulai)));
-                $tiket = date('Ymd', strtotime($returnDate)) . Str::random(6);
-                DB::table('piket_nasional')->insert([
-                    'tiket_piket_nasional' => $tiket,
-                    'tgl_piket_nasional' => $returnDate,
-                    'status_piket_nasional' => 1,
-                ]);
-                for ($z=1; $z <= $sisa; $z++) {
-                    DB::table('piket_nasional_user')->insert([
-                        'tiket_piket_user' => str::uuid(),
-                        'tiket_piket_nasional' => $tiket,
-                        'user_piket' => $datauser[$array+$z]->id_user,
-                        'created_at' => now(),
-                    ]);
-                }
-            }
+            // if ($sisa > 0) {
+            //     $returnDate = date('Y-m-d', strtotime('+' . ($selisih->d+1) . ' day', strtotime($request->mulai)));
+            //     $tiket = date('Ymd', strtotime($returnDate)) . Str::random(6);
+            //     DB::table('piket_nasional')->insert([
+            //         'tiket_piket_nasional' => $tiket,
+            //         'tgl_piket_nasional' => $returnDate,
+            //         'status_piket_nasional' => 1,
+            //     ]);
+            //     for ($z=1; $z <= $sisa; $z++) {
+            //         DB::table('piket_nasional_user')->insert([
+            //             'tiket_piket_user' => str::uuid(),
+            //             'tiket_piket_nasional' => $tiket,
+            //             'user_piket' => $datauser[$array+$z]->id_user,
+            //             'created_at' => now(),
+            //         ]);
+            //     }
+            // }
             // $start = $request->mulai;
-            Session::flash('sukses', 'Berhasil Update Total User : '.$array);
+            Session::flash('sukses', 'Berhasil Update Total User : ');
             return redirect()->back();
         }
+    }
+    public function modaldetailpiket($id){
+        $user = DB::table('tbl_biodata')->join('users','users.id_user','=','tbl_biodata.id_user')->get();
+        $data = DB::table('piket_nasional_user')
+        ->join('tbl_biodata','tbl_biodata.id_user','=','piket_nasional_user.user_piket')
+        ->where('piket_nasional_user.tiket_piket_nasional',$id)->get();
+        return view('admin.piket.modal.detail-piket',[
+            'user'=>$user,
+            'data'=>$data,
+        ]);
     }
 }

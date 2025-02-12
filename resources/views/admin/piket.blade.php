@@ -74,21 +74,38 @@
                                 @endphp
                                 @foreach ($datax as $item)
                                     <tr>
-                                        <td>{{$no++}}</td>
-                                        <td>{{$item->tiket_piket_nasional}}</td>
-                                        <td>{{$item->tgl_piket_nasional}}</td>
+                                        <td>{{ $no++ }}</td>
+                                        <td>{{ $item->tiket_piket_nasional }}</td>
+                                        <td>{{ $item->tgl_piket_nasional }}</td>
                                         <td>
                                             @php
                                                 $datauser = DB::table('piket_nasional_user')
-                                                ->join('tbl_biodata','tbl_biodata.id_user','=','piket_nasional_user.user_piket')
-                                                ->where('piket_nasional_user.tiket_piket_nasional',$item->tiket_piket_nasional)
-                                                ->get();
+                                                    ->join(
+                                                        'tbl_biodata',
+                                                        'tbl_biodata.id_user',
+                                                        '=',
+                                                        'piket_nasional_user.user_piket',
+                                                    )
+                                                    ->where(
+                                                        'piket_nasional_user.tiket_piket_nasional',
+                                                        $item->tiket_piket_nasional,
+                                                    )
+                                                    ->get();
                                             @endphp
                                             @foreach ($datauser as $userx)
-                                               <li> {{$userx->nama_lengkap}} - {{$userx->id_user}}</li>
+                                                <li> {{ $userx->nama_lengkap }} - {{ $userx->id_user }}</li>
                                             @endforeach
                                         </td>
-                                        <td class="text-center"><button class="btn-info" data-toggle="modal" data-target="#modal-piket"><i class="fa fa-plus"></i></button></td>
+                                        <td class="text-center">
+                                            <button class="btn-info" data-toggle="modal" data-target="#modal-piket"
+                                                id="button-detail-piket-nasional"
+                                                data-id="{{ $item->tiket_piket_nasional }}"><i
+                                                    class="fa fa-plus"></i></button>
+                                            <button class="btn-danger" data-toggle="modal" data-target="#modal-piket"
+                                                id="button-hapus-piket-nasional"
+                                                data-id="{{ $item->tiket_piket_nasional }}"><i
+                                                    class="fa fa-trash"></i></button>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -133,7 +150,7 @@
                         <span aria-hidden="true"><i class="fa fa-times"></i></span>
                     </button>
                 </div>
-                <div class="modal-body" id="bodycalender">
+                <div class="modal-body" id="detail-modal-piket">
 
                 </div>
             </div>
@@ -317,6 +334,33 @@
                         );
                     });
             },
+        });
+    </script>
+    <script>
+        $(document).on("click", "#button-detail-piket-nasional", function(e) {
+            e.preventDefault();
+            var id = $(this).data("id");
+            $.ajax({
+                    url: "../../admin/menu/piket/modaldetail/" + id,
+                    type: "GET",
+                    dataType: "html",
+                })
+                .done(function(data) {
+                    $("#detail-modal-piket").html(data);
+                })
+                .fail(function() {
+                    Lobibox.notify("error", {
+                        pauseDelayOnHover: true,
+                        icon: "fa fa-info-circle",
+                        continueDelayOnInactiveTab: false,
+                        position: "center top",
+                        showClass: "bounceIn",
+                        hideClass: "bounceOut",
+                        sound: false,
+                        width: 400,
+                        msg: "Hubungi Administrator Jika terjadi Eror",
+                    });
+                });
         });
     </script>
 @endsection
