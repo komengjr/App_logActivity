@@ -464,6 +464,7 @@
         $(document).ready(function() {
             //Default data table
             $('#default-datatable').DataTable();
+            $('#default-datatable-laporan').DataTable();
             $('#default-datatable1').DataTable();
             $('#default-datatable2').DataTable();
 

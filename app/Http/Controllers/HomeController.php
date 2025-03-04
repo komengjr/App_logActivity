@@ -243,7 +243,8 @@ class HomeController extends Controller
             ->where('kd_cabang',auth::user()->cabang)
             ->where('status_task',2)
             ->count();
-            return view('index',['tiket'=>$tiket,'jumlahorder'=>$jumlahorder,'jumlahverif'=>$jumlahverif,'totalkerusakan'=>$totalkerusakan,'totalselesai'=>$totalselesai]);
+            $laporankerusakan = DB::table('tbl_laporan_user')->where('kd_cabang',auth::user()->cabang)->orderBy('id_laporan', 'DESC')->get();
+            return view('index',['tiket'=>$tiket,'jumlahorder'=>$jumlahorder,'jumlahverif'=>$jumlahverif,'totalkerusakan'=>$totalkerusakan,'totalselesai'=>$totalselesai,'laporankerusakan'=>$laporankerusakan]);
         }
         elseif (auth::user()->kd_akses == 6) {
             $tiket = DB::table('tbl_tiket_task')

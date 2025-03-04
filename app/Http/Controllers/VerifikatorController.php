@@ -116,4 +116,10 @@ class VerifikatorController extends Controller
         }
         return view('verifikator.report.dataview',['harimasuk'=>$harimasuk]);
     }
+    public function detaillaporankerusakan($id){
+        $data = DB::table('tbl_laporan_user')
+        ->join('tbl_laporan_user_log','tbl_laporan_user_log.tiket_laporan','=','tbl_laporan_user.tiket_laporan')
+        ->where('tbl_laporan_user.tiket_laporan',$id)->first();
+        return view('verifikator.modal.datamodalkerusakan',['data'=>$data]);
+    }
 }

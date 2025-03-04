@@ -53,6 +53,24 @@ $(document).on('click', '#button-grapic-cabang-verifikator', function(e) {
                 );
         });
 });
+$(document).on('click', '#button-laporan-kerusakan-detail', function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    var url = 'verifikator/data-laporan/detail/'+id;
+    $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
+        })
+        .done(function(data) {
+            $('#menu-data-cabang-verifikator').html(data);
+        })
+        .fail(function() {
+            $('#menu-data-cabang-verifikator').html(
+                '<i class="fa fa-info-sign"></i> Something went wrong, Please try again...'
+                );
+        });
+});
 
 $(document).on("click", "#submit-button-verifikator-user", function(e) {
     e.preventDefault();

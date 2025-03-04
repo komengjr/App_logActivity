@@ -144,7 +144,7 @@
 
         <div class="card">
             <div class="card-header">
-                Property Order Status
+                Data Status Laporan
                 <div class="btn-group group-round btn-group-sm float-right">
                     {{-- <button type="button" class="btn btn-info waves-effect waves-light">
                         Monthly
@@ -167,10 +167,54 @@
                         <p>Total Selesai</p>
                         <h4 class="mb-0 text-info">{{ $totalkerusakan }}</h4>
                     </div>
-                    <div class="col-12 col-lg-10 col-xl-10">
-                        <div class="chart-container">
-                            <div id="recruitment-cost"></div>
-                        </div>
+                    <div class="col-12 col-lg-10 col-xl-10 m-0">
+                        <table class="styled-tablex" id="default-datatable-laporan">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5px;">No</th>
+                                    <th>User Pelapor</th>
+                                    <th>Nip</th>
+                                    <th>Divisi</th>
+                                    <th>Kategori</th>
+                                    <th>Tgl Respon</th>
+                                    <th>Tgl Selesai</th>
+                                    <th>Status Laporan</th>
+                                    <th>Deskripsi Laporan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $no = 1;
+                                @endphp
+                                @foreach ($laporankerusakan as $item)
+                                    <tr>
+                                        <td>{{$no++}}</td>
+                                        <td>{{$item->nama_user}}</td>
+                                        <td>{{$item->nip_user}}</td>
+                                        <td>{{$item->divisi}}</td>
+                                        <td>
+                                            @if ($item->kategori_laporan == 'ER-001')
+                                                Software
+                                            @elseif ($item->kategori_laporan == 'ER-002')
+                                                Hardware
+                                            @endif
+                                        </td>
+                                        <td>{{$item->tgl_respon_laporan}}</td>
+                                        <td>{{$item->tgl_selesai_laporan}}</td>
+                                        <td>
+                                            @if ($item->tgl_selesai_laporan == NULL)
+                                                <span class="badge badge-danger">Belum Selesai</span>
+                                            @else
+                                                <span class="badge badge-success">Selesai</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn-info" data-toggle="modal" data-target="#modal-cabang-verivikator" id="button-laporan-kerusakan-detail" data-id="{{$item->tiket_laporan}}"><i class="fa fa-eye"></i></button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <!--End Row-->
@@ -319,7 +363,7 @@
 <script src="{{ asset('assets/plugins/apexcharts/apexcharts.js', []) }}"></script>
 {{-- <script src="assets/plugins/apexcharts/apexcharts.js"></script> --}}
 {{-- <script src="{{ asset('assets/js/dashboard-human-resources.js') }}"></script> --}}
-<script>
+{{-- <script>
     $(function() {
         "use strict";
 
@@ -448,5 +492,5 @@
         chart.render();
 
     });
-</script>
+</script> --}}
 

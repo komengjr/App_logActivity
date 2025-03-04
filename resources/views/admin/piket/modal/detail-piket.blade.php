@@ -2,8 +2,8 @@
     <table id="table-detail" class="styled-table table-striped table-bordered ">
         <thead>
             <tr>
-                <th width="1">No</th>
-                <th width="1">Gambar</th>
+                <th style="width: 2%;">No</th>
+                <th style="width: 2%;">Gambar</th>
                 <th>User</th>
                 <th>Action</th>
             </tr>
