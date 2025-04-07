@@ -96,7 +96,7 @@
                                         class="profile" style="width: 300px; height: 80px;">
 
                                 </span>
-                                <h5 class="card-title">{{ $datas->nama_lengkap }} {{$datas->nip}}</h5>
+                                <h5 class="card-title">{{ $datas->nama_lengkap }} <br>{{$datas->nip}}</h5>
                                 <p class="card-text">
                                     {{$datas->no_hp}}
                                 </p>
