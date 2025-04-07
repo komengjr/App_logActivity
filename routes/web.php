@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PublicController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LogPuController;
 Route::get('masteradmin/tiket',['as'=>'masteradmin/tiket','uses'=> 'MasterAdminController@datatiketmasteradmin']);
@@ -139,9 +140,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/user/inputdatatiket', 'HomeController@inputdatatiketpersonal');
 Route::post('/user/inputdatatiketgroup', 'HomeController@inputdatatiketgroup');
-Route::get('/', 'HomeController@index');
-Route::get('/newcase', 'PublicController@newcase');
-Route::get('/cek-status-laporan', 'PublicController@cek_status_laporan');
+Route::get('/', 'PublicController@index');
+Route::get('/newcase', 'PublicController@newcase')->name('newcase_create');
+Route::get('/cek-status-laporan', 'PublicController@cek_status_laporan')->name('cek-status-laporan');
 Route::get('/caricabang/{id}', 'PublicController@caricabang');
 Route::get('/caridatatiket/{id}', 'PublicController@caridatatiket');
 Route::get('/pilihcabang/{id}', 'PublicController@pilihcabang');
@@ -278,3 +279,18 @@ Route::prefix('admin/menu')->group(function () {
     Route::post('form-piket/savedata/jadwal',  'PiketController@simpanjadwalpiket')->name('simpanjadwalpiketnasional');
 });
 
+Route::prefix('/piket')->group(function () {
+    Route::get('user', [PublicController::class, 'piket_user'])->name('piket_user');
+    // Route::get('menu-notif', [PublicController::class, 'list_menu_notif'])->name('list_menu_notif');
+    // Route::get('menu/cart', [PublicController::class, 'list_menu_cart'])->name('list_menu_cart');
+    // Route::post('menu/chosse_category', [PublicController::class, 'menu_chosse_category'])->name('menu_chosse_category');
+    // Route::post('menu/detail-product', [PublicController::class, 'menu_detail_product'])->name('menu_detail_product');
+    // Route::post('menu/add-cart', [PublicController::class, 'menu_add_cart'])->name('menu_add_cart');
+    // Route::post('menu/remove-cart', [PublicController::class, 'menu_remove_cart'])->name('menu_remove_cart');
+    // Route::post('menu/choose-table', [PublicController::class, 'menu_choosee_table_cart'])->name('menu_choosee_table_cart');
+    // Route::post('menu/order-type-cart', [PublicController::class, 'menu_tipe_order_cart'])->name('menu_tipe_order_cart');
+    // Route::post('menu/add-cart-product', [PublicController::class, 'menu_add_cart_product_user'])->name('menu_add_cart_product_user');
+    // Route::get('brand', [PublicController::class, 'brand'])->name('brand');
+    // Route::get('about', [PublicController::class, 'about'])->name('about');
+    // Route::get('contact', [PublicController::class, 'contact'])->name('contact');
+});

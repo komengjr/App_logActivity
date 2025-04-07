@@ -10,6 +10,9 @@ use Telegram;
 
 class PublicController extends Controller
 {
+    public function index(){
+        return view('main');
+    }
     public function newcase()
     {
         // $data = DB::table('tbl_kinerja')->
@@ -75,5 +78,15 @@ class PublicController extends Controller
             'data' => $data,
             'penyelesaian' => $penyelesaian,
         ]);
+    }
+
+    // PIKET
+    public function piket_user(){
+        $data = DB::table('piket_nasional_user')
+        ->join('piket_nasional','piket_nasional.tiket_piket_nasional','=','piket_nasional_user.tiket_piket_nasional')
+        ->join('users','users.id_user','=','piket_nasional_user.user_piket')
+        ->join('tbl_biodata','tbl_biodata.id_user','=','users.id_user')
+        ->orWhere('piket_nasional.tgl_piket_nasional', 'like', '%' . date('Y-m-d') . '%')->get();
+        return view('public.piket-user',['data'=>$data]);
     }
 }
