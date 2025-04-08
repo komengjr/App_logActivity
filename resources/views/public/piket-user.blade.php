@@ -14,6 +14,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/dist/summernote-bs4.css', []) }}" />
     <link href="{{ asset('assets/css/app-style.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.bootstrap5.css">
     <style>
         body {
             background-color: #ffffff;
@@ -96,9 +98,9 @@
                                         class="profile" style="width: 300px; height: 80px;">
 
                                 </span>
-                                <h5 class="card-title">{{ $datas->nama_lengkap }} <br>{{$datas->nip}}</h5>
+                                <h5 class="card-title">{{ $datas->nama_lengkap }} <br>{{ $datas->nip }}</h5>
                                 <p class="card-text">
-                                    {{$datas->no_hp}}
+                                    {{ $datas->no_hp }}
                                 </p>
 
                                 <div class="icon-block">
@@ -114,8 +116,8 @@
                             <div class="btn-group float-sm-right" style="padding: 0px;">
 
                                 <span class="btn btn-light dropdown-toggle-split rounded-0 texture-info"
-                                    style="cursor: pointer;" data-toggle="modal" data-target="#modal-cabang-user"
-                                    id="button-hendle-cabang-user">
+                                    style="cursor: pointer;" data-toggle="modal" data-target="#largesizemodal"
+                                    id="button-piket-detail-user" data-code="{{ $datas->id_user }}">
 
                                     <span class="badge bg-warning p-2"><strong>Detail User</strong></span>
                                 </span>
@@ -132,7 +134,32 @@
         <!--End Back To Top Button-->
 
     </div><!--wrapper-->
-
+    <div class="modal fade" id="largesizemodal" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content" id="menu-piket-detail-user">
+                <div class="modal-header">
+                    <h5 class="modal-title">Your modal title here</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, dicta. Voluptate cumque odit
+                        quam velit maiores sint rerum, dolore impedit commodi. Tempora eveniet odit vero rem blanditiis,
+                        tenetur laudantium cumque.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, dicta. Voluptate cumque odit
+                        quam velit maiores sint rerum, dolore impedit commodi. Tempora eveniet odit vero rem blanditiis,
+                        tenetur laudantium cumque.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="fa fa-times"></i>
+                        Close</button>
+                    <button type="button" class="btn btn-primary"><i class="fa fa-check-square-o"></i> Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/public.js') }}"></script>
     <script src="{{ asset('assets/js/popper.min.js') }}"></script>
@@ -141,7 +168,34 @@
     <script src="{{ asset('assets/js/app-script.js') }}"></script>
     <script src="{{ asset('assets/plugins/alerts-boxes/js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/alerts-boxes/js/sweet-alert-script.js') }}"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.4/js/responsive.bootstrap5.js"></script>
+    <script>
+        $(document).on("click", "#button-piket-detail-user", function(e) {
+            e.preventDefault();
+            var code = $(this).data("code");
+            $('#menu-piket-detail-user').html(
+                '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+            );
+            $.ajax({
+                url: "{{ route('piket_user_detail') }}",
+                type: "POST",
+                cache: false,
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "code": code
+                },
+                dataType: 'html',
+            }).done(function(data) {
+                $('#menu-piket-detail-user').html(data);
+            }).fail(function() {
+                $('#menu-piket-detail-user').html('eror');
+            });
 
+        });
+    </script>
 </body>
 
 </html>

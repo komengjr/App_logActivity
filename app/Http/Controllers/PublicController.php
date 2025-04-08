@@ -89,4 +89,10 @@ class PublicController extends Controller
         ->orWhere('piket_nasional.tgl_piket_nasional', 'like', '%' . date('Y-m-d') . '%')->get();
         return view('public.piket-user',['data'=>$data]);
     }
+    public function piket_user_detail(Request $request){
+        $data = DB::table('tbl_laporan_user_log')
+        ->join('tbl_laporan_user','tbl_laporan_user.tiket_laporan','=','tbl_laporan_user_log.tiket_laporan')
+        ->where('tbl_laporan_user_log.id_user',$request->code)->get();
+        return view('public.piket-user-detail',['data'=>$data]);
+    }
 }

@@ -281,6 +281,7 @@ Route::prefix('admin/menu')->group(function () {
 
 Route::prefix('/piket')->group(function () {
     Route::get('user', [PublicController::class, 'piket_user'])->name('piket_user');
+    Route::post('user-detail', [PublicController::class, 'piket_user_detail'])->name('piket_user_detail');
     // Route::get('menu-notif', [PublicController::class, 'list_menu_notif'])->name('list_menu_notif');
     // Route::get('menu/cart', [PublicController::class, 'list_menu_cart'])->name('list_menu_cart');
     // Route::post('menu/chosse_category', [PublicController::class, 'menu_chosse_category'])->name('menu_chosse_category');

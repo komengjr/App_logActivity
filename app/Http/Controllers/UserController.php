@@ -57,12 +57,20 @@ class UserController extends Controller
     {
         $datapesan = DB::table('tbl_laporan_user')
             ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
+            ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
             ->where('users_handler.id_user', Auth::user()->id_user)
             ->where('tbl_laporan_user.status_laporan', '<', 2)->get();
         $dataschadule = DB::table('tbl_schedule')
             ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_schedule.kd_cabang')->where('users_handler.id_user', Auth::user()->id_user)->where('tbl_schedule.status_schedule', 0)->get();
         // dd($dataschadule);
-        return view('notifikasi.notifpesan', ['id' => $id, 'datapesan' => $datapesan, 'dataschedule' => $dataschadule]);
+        $piket = DB::table('piket_nasional_user')
+            ->join('piket_nasional', 'piket_nasional.tiket_piket_nasional', '=', 'piket_nasional_user.tiket_piket_nasional')
+            ->Where('piket_nasional.tgl_piket_nasional', 'like', '%' . date('Y-m-d') . '%')
+            ->where('piket_nasional_user.user_piket', Auth::user()->id_user)->first();
+        $datanasional = DB::table('tbl_laporan_user')
+            ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
+            ->where('tbl_laporan_user.status_laporan', '<', 1)->get();
+        return view('notifikasi.notifpesan', ['id' => $id, 'datapesan' => $datapesan, 'dataschedule' => $dataschadule, 'piket' => $piket, 'datanasional' => $datanasional]);
         // $datachedule = DB::table('tbl_schedule')
         //                 ->join('tbl_kinerja','tbl_kinerja.kd_kinerja','=','tbl_schedule.kd_kinerja')
         //                 ->where('status_schedule',1)->get();
@@ -411,8 +419,8 @@ class UserController extends Controller
     {
         $cabang = DB::table('tbl_cabang')->where('kd_cabang', $id)->first();
         $data = DB::table('users_schedule_maintenance')->where('kd_cabang', $id)->get();
-        $databulanan =  DB::table('users_backup_bulanan')->where('kd_cabang', $id)->get();
-        return view('userleader.cabang.taskbulanan', ['data' => $data, 'cabang' => $cabang, 'databulanan'=>$databulanan]);
+        $databulanan = DB::table('users_backup_bulanan')->where('kd_cabang', $id)->get();
+        return view('userleader.cabang.taskbulanan', ['data' => $data, 'cabang' => $cabang, 'databulanan' => $databulanan]);
     }
     public function cetakrencanataskbulananhendledatacabang($id)
     {
@@ -455,7 +463,7 @@ class UserController extends Controller
     }
     public function caridetailmaintenancebulananhendledatacabang(Request $request)
     {
-        $url = "http://192.168.50.247/api/datanoinventaris/" . $request->cabang . "/". $request->caridata . "/" . $request->nama;
+        $url = "http://192.168.50.247/api/datanoinventaris/" . $request->cabang . "/" . $request->caridata . "/" . $request->nama;
         // $get_result_arr = json_decode($response->getContent($url), true);
         // echo $result;
         $kode = $request->kd_maintenance;
@@ -510,27 +518,27 @@ class UserController extends Controller
         $response = file_get_contents($url, true);
         $newsData = json_decode($response);
     }
-    public function maintenanceperangkatdetail($id,$kode)
+    public function maintenanceperangkatdetail($id, $kode)
     {
         $url = "http://192.168.50.247/api/datanidinventaris/" . $id;
         // $get_result_arr = json_decode($response->getContent($url), true);
         // echo $result;
         $response = file_get_contents($url, true);
         $newsData = json_decode($response);
-        $dataperangkat = DB::table('users_schedule_maintenance_sub_log')->where('id_maintenance_sub',$kode)->get();
-        return view('userleader.cabang.bulanan.detail-perangkat-maintenance',['newsData'=>$newsData ,'kode'=>$kode, 'dataperangkat'=>$dataperangkat]);
+        $dataperangkat = DB::table('users_schedule_maintenance_sub_log')->where('id_maintenance_sub', $kode)->get();
+        return view('userleader.cabang.bulanan.detail-perangkat-maintenance', ['newsData' => $newsData, 'kode' => $kode, 'dataperangkat' => $dataperangkat]);
     }
     public function maintenanceperangkatsimpandatadetail(Request $request)
     {
         DB::table('users_schedule_maintenance_sub_log')->insert([
-            'id_maintenance_sub'=>$request->kode,
-            'parameter'=>$request->parameter,
-            'parameter_value'=>$request->parameter_value,
-            'tgl_input'=>now(),
-            'created_at'=>now(),
+            'id_maintenance_sub' => $request->kode,
+            'parameter' => $request->parameter,
+            'parameter_value' => $request->parameter_value,
+            'tgl_input' => now(),
+            'created_at' => now(),
         ]);
-        $dataperangkat = DB::table('users_schedule_maintenance_sub_log')->where('id_maintenance_sub',$request->kode)->get();
-        return view('userleader.cabang.bulanan.table-perangkat-maintenance-detail',['dataperangkat'=>$dataperangkat]);
+        $dataperangkat = DB::table('users_schedule_maintenance_sub_log')->where('id_maintenance_sub', $request->kode)->get();
+        return view('userleader.cabang.bulanan.table-perangkat-maintenance-detail', ['dataperangkat' => $dataperangkat]);
     }
     public function maintenanceverifperangkatsimpandatadetail(Request $request)
     {
