@@ -277,6 +277,8 @@ Route::prefix('admin/menu')->group(function () {
     Route::get('form-piket/{id}',  'PiketController@formpiket');
     Route::get('form-piket/option/{id}',  'PiketController@optioanwilayah');
     Route::post('form-piket/savedata/jadwal',  'PiketController@simpanjadwalpiket')->name('simpanjadwalpiketnasional');
+    Route::post('form-piket/savedata/jadwal-individu',  'PiketController@simpanjadwalpiketindividu')->name('simpanjadwalpiketnasionalindividu');
+    Route::get('form-piket/removedata/jadwal-individu/{id}',  'PiketController@removejadwalpiketindividu')->name('removejadwalpiketnasionalindividu');
 });
 
 Route::prefix('/piket')->group(function () {

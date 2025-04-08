@@ -9,7 +9,7 @@
         <table id="example" class="table table-striped nowrap" style="width:100%">
             <thead class="bg-200 text-700">
                 <tr>
-                    <th>No</th>
+                    <th style="width: 1%;">No</th>
                     <th>Nama Pelapor</th>
                     <th>Tiket Laporan</th>
                     <th>Tanggal Pelapor</th>

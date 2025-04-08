@@ -5,6 +5,7 @@
                 <th style="width: 2%;">No</th>
                 <th style="width: 2%;">Gambar</th>
                 <th>User</th>
+                <th>NIP</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -18,16 +19,21 @@
                     <td class="text-center"><img src="{{ asset('storage/'.$data->gambar) }}" alt="" width="50"></td>
                     <td>{{$data->nama_lengkap}}</td>
                     <td>{{$data->nip}}</td>
+                    <td class="text-center">
+                        <button class="btn-danger" onclick="window.location = '{{route('removejadwalpiketnasionalindividu',['id'=>$data->tiket_piket_user])}}';"><i class="fa fa-trash"></i></button>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 </div>
 <div class="card p-3">
-    <form>
+    <form action="{{ route('simpanjadwalpiketnasionalindividu') }}" method="post">
+        @csrf
         <div class="form-group">
             <label>Pilih User</label>
-            <select class="form-control single-select" required>
+            <input type="text" name="code" value="{{$id}}" hidden>
+            <select class="form-control single-select" name="user" required>
                 <option value="">Choos</option>
                 @foreach ($user as $user)
                     <option value="{{ $user->id_user }}">{{ $user->nama_lengkap }} - {{ $user->nip }}</option>

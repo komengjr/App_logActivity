@@ -54,7 +54,8 @@ class PiketController extends Controller
             ->where('group_user.kd_group', $id)->get();
         return view('admin.piket.option-wilayah', ['user' => $user]);
     }
-    public function simpanjadwalpiket(Request $request){
+    public function simpanjadwalpiket(Request $request)
+    {
         if (auth::user()->kd_akses == 2) {
             $start = date_create($request->mulai);
             $end = date_create($request->date);
@@ -119,14 +120,34 @@ class PiketController extends Controller
             return redirect()->back();
         }
     }
-    public function modaldetailpiket($id){
-        $user = DB::table('tbl_biodata')->join('users','users.id_user','=','tbl_biodata.id_user')->get();
+    public function modaldetailpiket($id)
+    {
+        $user = DB::table('tbl_biodata')->join('users', 'users.id_user', '=', 'tbl_biodata.id_user')->get();
         $data = DB::table('piket_nasional_user')
-        ->join('tbl_biodata','tbl_biodata.id_user','=','piket_nasional_user.user_piket')
-        ->where('piket_nasional_user.tiket_piket_nasional',$id)->get();
-        return view('admin.piket.modal.detail-piket',[
-            'user'=>$user,
-            'data'=>$data,
+            ->join('tbl_biodata', 'tbl_biodata.id_user', '=', 'piket_nasional_user.user_piket')
+            ->where('piket_nasional_user.tiket_piket_nasional', $id)->get();
+        return view('admin.piket.modal.detail-piket', [
+            'user' => $user,
+            'data' => $data,
+            'id' => $id
         ]);
+    }
+    public function simpanjadwalpiketindividu(Request $request)
+    {
+        DB::table('piket_nasional_user')->insert([
+            'tiket_piket_user' => str::uuid(),
+            'tiket_piket_nasional' => $request->code,
+            'user_piket' => $request->user,
+            'created_at' => now(),
+        ]);
+        Session::flash('sukses', 'Berhasil Menambah Piket User');
+        return redirect()->back();
+    }
+    public function removejadwalpiketindividu($id){
+        if (Auth::user()->kd_akses <= 2) {
+            DB::table('piket_nasional_user')->where('tiket_piket_user',$id)->delete();
+        }
+        Session::flash('sukses', 'Berhasil Menghapus Piket User');
+        return redirect()->back();
     }
 }

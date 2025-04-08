@@ -101,10 +101,10 @@
                                                 id="button-detail-piket-nasional"
                                                 data-id="{{ $item->tiket_piket_nasional }}"><i
                                                     class="fa fa-plus"></i></button>
-                                            <button class="btn-danger" data-toggle="modal" data-target="#modal-piket"
+                                            {{-- <button class="btn-danger" data-toggle="modal" data-target="#modal-piket"
                                                 id="button-hapus-piket-nasional"
                                                 data-id="{{ $item->tiket_piket_nasional }}"><i
-                                                    class="fa fa-trash"></i></button>
+                                                    class="fa fa-trash"></i></button> --}}
                                         </td>
                                     </tr>
                                 @endforeach
