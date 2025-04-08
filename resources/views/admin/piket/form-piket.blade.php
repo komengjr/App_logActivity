@@ -31,12 +31,12 @@
             <br>
             <div class="group">
                 <div class="row">
-                    <div class="col-md-4">
+                    {{-- <div class="col-md-4">
                         <button class="btn btn-dark btn-block"><i class="fa fa-save"></i> Simpan Tanggal</button>
                     </div>
                     <div class="col-md-4">
                         <button class="btn btn-info btn-block"><i class="fa fa-save"></i> Setup Manual</button>
-                    </div>
+                    </div> --}}
                     <div class="col-md-4">
                         <button type="submit" class="btn btn-primary btn-block">
                             <i class="fa fa-save"></i> Setup Otomatis
