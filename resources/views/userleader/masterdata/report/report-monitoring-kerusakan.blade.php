@@ -121,7 +121,7 @@
                         <td class="text-center">No</td>
                         <td class="text-center">Tiket Laporan</td>
                         <td class="text-center">Nama Pelapor</td>
-                        <td class="text-center">NIP Pelapor</td>
+                        <td class="text-center">Deskripsi</td>
                         <td class="text-center">Tanggal Laporan</td>
                         <td class="text-center">Terima Laporan</td>
                         <td class="text-center">Selesai Laporan</td>
@@ -138,7 +138,11 @@
                             <td>{{ $no++ }}</td>
                             <td>{{ $item->tiket_laporan }}</td>
                             <td>{{ $item->nama_user }}</td>
-                            <td>{{ $item->nip_user }}</td>
+                            <td>
+                                @php
+                                    echo $item->deskripsi_laporan;
+                                @endphp
+                            </td>
                             <td>{{ $item->tgl_laporan }}</td>
                             <td>{{ $item->tgl_respon_laporan }}</td>
                             <td>{{ $item->tgl_selesai_laporan }}</td>
