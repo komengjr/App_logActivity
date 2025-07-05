@@ -125,7 +125,7 @@
                         <td class="text-center">Tanggal Laporan</td>
                         <td class="text-center">Terima Laporan</td>
                         <td class="text-center">Selesai Laporan</td>
-                        <td class="text-center">Di Bawah 60 Menit</td>
+                        <td class="text-center">Di Bawah 5 Menit</td>
                         <td class="text-center">Status Laporan</td>
                     </tr>
                 </thead>
@@ -151,7 +151,8 @@
                                     @endphp
 
                                     {{-- {{$datamenit}} --}}
-                                </span></td>
+                                </span>
+                            </td>
                             <td>
                                 @if ($item->status_laporan == 2)
                                     Selesai
