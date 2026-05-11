@@ -141,7 +141,7 @@ Route::post('verifikasi-Login', 'Auth\LoginController@verifikasi_Login')->name('
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/user/inputdatatiket', 'HomeController@inputdatatiketpersonal');
 Route::post('/user/inputdatatiketgroup', 'HomeController@inputdatatiketgroup');
-Route::get('/', 'PublicController@index');
+Route::get('/', 'HomeController@index');
 Route::get('/newcase', 'PublicController@newcase')->name('newcase_create');
 Route::get('/cek-status-laporan', 'PublicController@cek_status_laporan')->name('cek-status-laporan');
 Route::get('/caricabang/{id}', 'PublicController@caricabang');

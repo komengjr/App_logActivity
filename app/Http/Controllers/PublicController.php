@@ -14,7 +14,7 @@ class PublicController extends Controller
 {
     public function index()
     {
-        return view('main');
+        return view('home');
     }
     public function newcase()
     {
