@@ -302,6 +302,7 @@ Route::prefix('/v3')->group(function () {
     Route::get('case', [PublicController::class, 'v3_case'])->name('v3_case');
     Route::post('case/get-data', [PublicController::class, 'v3_case_get_data'])->name('v3_case_get_data');
     Route::post('case/save-data', [PublicController::class, 'v3_case_save_data'])->name('v3_case_save_data');
+    Route::post('case/get-tiket', [PublicController::class, 'v3_case_get_tiket'])->name('v3_case_get_tiket');
     Route::get('check_laporan', [PublicController::class, 'v3_chek_laporan'])->name('v3_chek_laporan');
     Route::get('check_schedule', [PublicController::class, 'v3_check_schedule'])->name('v3_check_schedule');
     // Route::post('user-detail', [PublicController::class, 'piket_user_detail'])->name('piket_user_detail');

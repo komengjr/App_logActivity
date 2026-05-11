@@ -191,63 +191,7 @@
 
         <!-- SECTION 2: FORM LAPORAN (Hidden) -->
         <div id="reportSection" class="glass-card">
-            <div class="d-flex justify-content-between align-items-start mb-4">
-                <div>
-                    <h4 class="fw-bold mb-1" style="color: #316bb3;">Laporan Pengecekan</h4>
-                    <p class="text-muted small mb-0">Lengkapi data laporan di bawah ini</p>
-                </div>
-                <button class="btn btn-sm btn-outline-secondary border-0" onclick="resetSearch()">
-                    <i class="bi bi-x-lg"></i>
-                </button>
-            </div>
 
-            <div class="ticket-info-box">
-                <div class="row align-items-center">
-                    <div class="col-9">
-                        <span class="badge bg-primary mb-2" id="displayTicketID">#TK-2026-001</span>
-                        <h6 class="mb-0 fw-bold">Pengecekan Server Utama</h6>
-                        <small class="text-muted">Status: <strong>Dalam Pengerjaan</strong></small>
-                    </div>
-                    <div class="col-3 text-end text-primary">
-                        <i class="bi bi-clipboard2-check" style="font-size: 1.8rem;"></i>
-                    </div>
-                </div>
-            </div>
-
-            <form id="reportForm">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-semibold small">Kondisi Objek</label>
-                        <select class="form-select" required>
-                            <option value="">Pilih Kondisi...</option>
-                            <option value="baik">Normal / Baik</option>
-                            <option value="rusak">Rusak / Bermasalah</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-semibold small">Waktu Selesai</label>
-                        <input type="datetime-local" class="form-control" required>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-semibold small">Catatan Temuan</label>
-                    <textarea class="form-control" rows="3" placeholder="Apa temuan Anda di lokasi?" required></textarea>
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label fw-semibold small">Foto Bukti</label>
-                    <div class="upload-area" onclick="document.getElementById('fileUpload').click()">
-                        <i class="bi bi-camera text-muted mb-2 d-block" style="font-size: 1.5rem;"></i>
-                        <p class="mb-0 small text-muted">Ambil Gambar / Upload Foto</p>
-                        <input type="file" hidden id="fileUpload" accept="image/*">
-                    </div>
-                </div>
-
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-submit">Kirim Laporan</button>
-                </div>
-            </form>
         </div>
 
     </div>
@@ -271,17 +215,40 @@
                 $(this).html('<span class="spinner-border spinner-border-sm"></span>');
 
                 // Simulasi Cek Database (Ticket yang benar adalah TK-2026-001)
-                setTimeout(() => {
-                    if (ticket.toUpperCase() === "TK-2026-001") {
-                        $('#displayTicketID').text('#' + ticket.toUpperCase());
-                        $('#searchSection').fadeOut(300, function() {
-                            $('#reportSection').fadeIn(500);
-                        });
-                    } else {
+                $.ajax({
+                    url: "{{ route('v3_case_get_tiket') }}",
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "code": ticket,
+                    },
+                    dataType: 'html',
+                }).done(function(data) {
+                    if (data == 0) {
                         $('#btnSearch').html('Cari');
                         $('#searchMessage').show().delay(2000).fadeOut();
+                    } else {
+                        $('#searchSection').fadeOut(300, function() {
+                            $('#reportSection').fadeIn(500);
+                            $("#reportSection").html(data);
+                        });
                     }
-                }, 1200);
+                }).fail(function() {
+                    console.log('eror');
+                });
+
+                // setTimeout(() => {
+                //     if (ticket.toUpperCase() === "TK-2026-001") {
+                //         $('#displayTicketID').text('#' + ticket.toUpperCase());
+                //         $('#searchSection').fadeOut(300, function() {
+                //             $('#reportSection').fadeIn(500);
+                //         });
+                //     } else {
+                //         $('#btnSearch').html('Cari');
+                //         $('#searchMessage').show().delay(2000).fadeOut();
+                //     }
+                // }, 1200);
             });
         });
 

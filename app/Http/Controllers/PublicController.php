@@ -197,6 +197,16 @@ class PublicController extends Controller
             return 0;
         }
     }
+    public function v3_case_get_tiket(Request $request)
+    {
+        $data = DB::table('tbl_laporan_user')->where('tiket_laporan', $request->code)->first();
+        // $data = DB::table('tbl_laporan_user')->where('tiket_laporan'$request->code)->first();
+        if ($data) {
+            return view('v3.form-detail-laporan', ['data' => $data]);
+        } else {
+            return 0;
+        }
+    }
     public function v3_chek_laporan()
     {
         return view('v3.form-check-laporan');
