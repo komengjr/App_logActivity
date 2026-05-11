@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Telegram;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Auth;
 
 class ApiController extends Controller
@@ -122,7 +122,6 @@ class ApiController extends Controller
                                     'text' => "Laporan Dengan No Tiket : " . $no_tiket . " Tidak di Temukan",
                                 ]);
                             }
-
                         } elseif (is_numeric($datachat)) {
                             Telegram::sendMessage([
                                 'chat_id' => $chatid,
@@ -146,8 +145,6 @@ class ApiController extends Controller
                                     'text' => "Status No Hp Belum Terdaftar \nSegera Daftar Dengan ketik /updateno_<no_hp>",
                                 ]);
                             }
-
-
                         } elseif ($datachat == 'notifikasi-grup') {
                             Telegram::sendMessage([
                                 'chat_id' => $chatid,
@@ -192,5 +189,24 @@ class ApiController extends Controller
         //     'text' => 'Halo ' . $username
         // ]);
         return redirect()->back();
+    }
+    public function getway_whatsapp()
+    {
+        $data = DB::table('v_log_whatsapp')->where('v_log_whatsapp_status', 0)->first();
+        return response()->json($data);
+    }
+    public function getway_whatsapp_status($code)
+    {
+        DB::table('v_log_whatsapp')->where('v_log_whatsapp_code', $code)->update([
+            'v_log_whatsapp_status' => 1
+        ]);
+        return response()->json('Berhasil Kirim');
+    }
+    public function getway_whatsapp_update(Request $request)
+    {
+        DB::table('v_log_whatsapp')->where('v_log_whatsapp_code', $request->code)->update([
+            'v_log_whatsapp_status' => $request->status
+        ]);
+        return response()->json('Berhasil Kirim');
     }
 }

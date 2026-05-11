@@ -134,6 +134,7 @@ Route::get('taskorder',['as'=>'taskorder','uses'=> 'AdminController@taskorder'])
 Route::post('taskorder/postmonitoringharian','AdminController@postmonitoringharian');
 
 Auth::routes();
+Route::post('verifikasi-Login', 'Auth\LoginController@verifikasi_Login')->name('verifikasi_Login');
 // Route::get('datamaps', function () {
 //     return view('maps');
 // });
@@ -297,3 +298,25 @@ Route::prefix('/piket')->group(function () {
     // Route::get('about', [PublicController::class, 'about'])->name('about');
     // Route::get('contact', [PublicController::class, 'contact'])->name('contact');
 });
+Route::prefix('/v3')->group(function () {
+    Route::get('case', [PublicController::class, 'v3_case'])->name('v3_case');
+    Route::post('case/get-data', [PublicController::class, 'v3_case_get_data'])->name('v3_case_get_data');
+    Route::post('case/save-data', [PublicController::class, 'v3_case_save_data'])->name('v3_case_save_data');
+    Route::get('check_laporan', [PublicController::class, 'v3_chek_laporan'])->name('v3_chek_laporan');
+    Route::get('check_schedule', [PublicController::class, 'v3_check_schedule'])->name('v3_check_schedule');
+    // Route::post('user-detail', [PublicController::class, 'piket_user_detail'])->name('piket_user_detail');
+    // Route::get('menu-notif', [PublicController::class, 'list_menu_notif'])->name('list_menu_notif');
+    // Route::get('menu/cart', [PublicController::class, 'list_menu_cart'])->name('list_menu_cart');
+    // Route::post('menu/chosse_category', [PublicController::class, 'menu_chosse_category'])->name('menu_chosse_category');
+    // Route::post('menu/detail-product', [PublicController::class, 'menu_detail_product'])->name('menu_detail_product');
+    // Route::post('menu/add-cart', [PublicController::class, 'menu_add_cart'])->name('menu_add_cart');
+    // Route::post('menu/remove-cart', [PublicController::class, 'menu_remove_cart'])->name('menu_remove_cart');
+    // Route::post('menu/choose-table', [PublicController::class, 'menu_choosee_table_cart'])->name('menu_choosee_table_cart');
+    // Route::post('menu/order-type-cart', [PublicController::class, 'menu_tipe_order_cart'])->name('menu_tipe_order_cart');
+    // Route::post('menu/add-cart-product', [PublicController::class, 'menu_add_cart_product_user'])->name('menu_add_cart_product_user');
+    // Route::get('brand', [PublicController::class, 'brand'])->name('brand');
+    // Route::get('about', [PublicController::class, 'about'])->name('about');
+    // Route::get('contact', [PublicController::class, 'contact'])->name('contact');
+});
+
+
