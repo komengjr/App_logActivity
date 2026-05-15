@@ -187,11 +187,26 @@ class PublicController extends Controller
                 'v_log_whatsapp_pass' => 'admin',
                 'created_at' => now()
             ]);
-
-            Telegram::sendMessage([
-                'chat_id' => '-1002095197699',
-                'text' => $text,
+            DB::table('v_log_whatsapp')->insert([
+                'v_log_whatsapp_code' => str::uuid(),
+                'v_log_whatsapp_type' => 'laporan_user',
+                'v_log_whatsapp_token' => $tiket,
+                'v_log_whatsapp_number' => '+6285159852577',
+                'v_log_whatsapp_name' => $request->nama_pelapor,
+                'v_log_whatsapp_filename' => 'nofile',
+                'v_log_whatsapp_text' => $text,
+                'v_log_whatsapp_file' => 'N',
+                'v_log_whatsapp_picture' => 0,
+                'v_log_whatsapp_status' => 0,
+                'v_log_whatsapp_date' => now(),
+                'v_log_whatsapp_pass' => 'admin',
+                'created_at' => now()
             ]);
+
+            // Telegram::sendMessage([
+            //     'chat_id' => '-1002095197699',
+            //     'text' => $text,
+            // ]);
             return $tiket;
         } catch (\Throwable $e) {
             return 0;
