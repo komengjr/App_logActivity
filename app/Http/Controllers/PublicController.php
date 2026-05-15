@@ -188,10 +188,10 @@ class PublicController extends Controller
                 'created_at' => now()
             ]);
 
-            // Telegram::sendMessage([
-            //     'chat_id' => '-1002095197699',
-            //     'text' => $text,
-            // ]);
+            Telegram::sendMessage([
+                'chat_id' => '-1002095197699',
+                'text' => $text,
+            ]);
             return $tiket;
         } catch (\Throwable $e) {
             return 0;
@@ -213,6 +213,14 @@ class PublicController extends Controller
     }
     public function v3_check_schedule()
     {
-        return view('v3.form-check-schedule');
+        $data = DB::table('piket_nasional_user')
+            ->join('piket_nasional', 'piket_nasional.tiket_piket_nasional', '=', 'piket_nasional_user.tiket_piket_nasional')
+            ->join('users', 'users.id_user', '=', 'piket_nasional_user.user_piket')
+            ->join('tbl_biodata', 'tbl_biodata.id_user', '=', 'users.id_user')
+            ->orWhere('piket_nasional.tgl_piket_nasional', 'like', '%' . date('Y-m-d') . '%')->get();
+        return view('v3.form-check-schedule', ['data' => $data]);
+    }
+    public function v3_check_schedule_detail(Request $request){
+        return view('v3.schedule.form-schedule-detail');
     }
 }

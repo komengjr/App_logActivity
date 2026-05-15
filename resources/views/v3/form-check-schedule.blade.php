@@ -195,20 +195,22 @@
                     <h4 class="mb-0 fw-bold" style="color: #316bb3;">Jadwal Piket</h4>
                     <small class="text-muted">{{ date('d-m-Y H:i:s') }}</small>
                 </div>
-                <a href="{{ url('/login') }}" class="btn btn-dark" ><i class="bi bi-arrow-left"></i> Back</a>
+                <a href="{{ url('/login') }}" class="btn btn-dark"><i class="bi bi-arrow-left"></i> Back</a>
             </div>
 
             <!-- List Piket -->
             <div class="piket-list">
+                @foreach ($data as $datas)
                 <!-- User 1 -->
-                <div class="piket-item piket-today">
-                    <img src="https://i.pravatar.cc/150?u=1" class="profile-img" alt="User">
+                <div class="piket-item piket-today" data-bs-toggle="modal" data-bs-target="#modal-jadwal" id="button-data-jadwal" data-code="{{ $datas->nip }}">
+                    <img src="{{ asset('storage/' . $datas->gambar) }}" class="profile-img" alt="User">
                     <div class="piket-info">
-                        <h6>Siti Aminah</h6>
-                        <p><i class="bi bi-calendar-event me-1"></i> Hari ini, 08 Mei</p>
+                        <h6>{{ $datas->nama_lengkap }}</h6>
+                        <p><i class="bi bi-calendar-event me-1"></i> {{ $datas->nip }}</p>
                     </div>
                     <span class="status-badge bg-success-light">Aktif</span>
                 </div>
+                @endforeach
 
                 <!-- User 2 -->
                 <div class="piket-item">
@@ -217,17 +219,7 @@
                         <h6>Budi Santoso</h6>
                         <p><i class="bi bi-calendar-event me-1"></i> Besok, 09 Mei</p>
                     </div>
-                    <span class="status-badge bg-warning-light">Mendatang</span>
-                </div>
-
-                <!-- User 3 -->
-                <div class="piket-item">
-                    <img src="https://i.pravatar.cc/150?u=3" class="profile-img" alt="User">
-                    <div class="piket-info">
-                        <h6>Intan Wijaya</h6>
-                        <p><i class="bi bi-calendar-event me-1"></i> Minggu, 10 Mei</p>
-                    </div>
-                    <span class="status-badge bg-warning-light">Mendatang</span>
+                    <span class="status-badge bg-dark text-white">Offline</span>
                 </div>
             </div>
 
@@ -239,7 +231,45 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modal-jadwal" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="false">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content border-0">
+                <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
+                    <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="menu-jadwal"></div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).on("click", "#button-data-jadwal", function(e) {
+            e.preventDefault();
+            var code = $(this).data("code");
+            $('#menu-jadwal').html(
+                '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+            );
+            $.ajax({
+                url: "{{ route('v3_check_schedule_detail') }}",
+                type: "POST",
+                cache: false,
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "code": code
+                },
+                dataType: 'html',
+            }).done(function(data) {
+                $('#menu-jadwal').html(data);
+            }).fail(function() {
+                $('#menu-jadwal').html('eror');
+            });
+        });
+    </script>
 </body>
 
 </html>
