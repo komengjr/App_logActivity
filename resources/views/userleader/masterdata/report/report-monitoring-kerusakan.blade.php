@@ -106,68 +106,85 @@
         <h5><span class="badge badge-dark">Date Range : {{ $start }} Sampai {{ $end }}</span></h5>
 
         @foreach ($datahandle as $datahandle)
-            @php
-                $data = DB::table('tbl_laporan_user')
-                    ->where('kd_cabang', $datahandle->kd_cabang)
-                    ->whereBetween('tgl_laporan', [$start, $end])
-                    ->get();
-            @endphp
-            <h5>{{ $datahandle->nama_cabang }}</h5>
-            <table
-                style="font-size: 8px; margin: 0px; padding: 0px; width: 710px; font-size: 11px; font-family: Calibri (Body);"
-                border="1">
-                <thead style="font-weight: bold;">
-                    <tr>
-                        <td class="text-center">No</td>
-                        <td class="text-center">Tiket Laporan</td>
-                        <td class="text-center">Nama Pelapor</td>
-                        <td class="text-center">Deskripsi</td>
-                        <td class="text-center">Tanggal Laporan</td>
-                        <td class="text-center">Terima Laporan</td>
-                        <td class="text-center">Selesai Laporan</td>
-                        <td class="text-center">Di Bawah 5 Menit</td>
-                        <td class="text-center">Status Laporan</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $no = 1;
-                    @endphp
-                    @foreach ($data as $item)
-                        <tr>
-                            <td>{{ $no++ }}</td>
-                            <td>{{ $item->tiket_laporan }}</td>
-                            <td>{{ $item->nama_user }}</td>
-                            <td>
-                                @php
-                                    echo $item->deskripsi_laporan;
-                                @endphp
-                            </td>
-                            <td>{{ $item->tgl_laporan }}</td>
-                            <td>{{ $item->tgl_respon_laporan }}</td>
-                            <td>{{ $item->tgl_selesai_laporan }}</td>
-                            <td><span class="badge bg-success">
-                                    @php
-                                        $dari  = date_create($item->tgl_respon_laporan);
-                                        $sampai  = date_create($item->tgl_selesai_laporan);
-                                        $diff = date_diff($dari, $sampai);
-                                        echo $diff->format(' %H:%i:%s');
-                                    @endphp
+        @php
+        $data = DB::table('tbl_laporan_user')
+        ->where('kd_cabang', $datahandle->kd_cabang)
+        ->whereBetween('tgl_laporan', [$start, $end])
+        ->get();
+        @endphp
+        <h5>{{ $datahandle->nama_cabang }}</h5>
+        <table
+            style="font-size: 8px; margin: 0px; padding: 0px; width: 710px; font-size: 11px; font-family: Calibri (Body);"
+            border="1">
+            <thead style="font-weight: bold;">
+                <tr>
+                    <td class="text-center">No</td>
+                    <td class="text-center">Tiket Laporan</td>
+                    <td class="text-center">Nama Pelapor</td>
+                    <td class="text-center">Kategori Laporan</td>
+                    <td class="text-center">Deskripsi Masalah</td>
+                    <td class="text-center">Tanggal Laporan</td>
+                    <td class="text-center">Terima Laporan</td>
+                    <td class="text-center">Tindakan Perbaikan</td>
+                    <td class="text-center">Selesai Laporan</td>
+                    <td class="text-center">Di Bawah 5 Menit</td>
+                    <td class="text-center">Status Laporan</td>
+                </tr>
+            </thead>
+            <tbody>
+                @php
+                $no = 1;
+                @endphp
+                @foreach ($data as $item)
+                <tr>
+                    <td>{{ $no++ }}</td>
+                    <td>{{ $item->tiket_laporan }}</td>
+                    <td>{{ $item->nama_user }}</td>
+                    <td>
+                        @if ($item->kategori_laporan == 'ER-001')
+                        Software
+                        @else
+                        Hardware
+                        @endif
+                    </td>
+                    <td>
+                        @php
+                        echo $item->deskripsi_laporan;
+                        @endphp
+                    </td>
+                    <td>{{ $item->tgl_laporan }}</td>
+                    <td>{{ $item->tgl_respon_laporan }}</td>
+                    <td>
+                        @php
+                        $penyelesaian = DB::table('tbl_laporan_user_log')->where('tiket_laporan',$item->tiket_laporan)->first();
+                        @endphp
+                        @if ($penyelesaian)
+                        {{ $penyelesaian->deskripsi_penyelesaian }}
+                        @endif
+                    </td>
+                    <td>{{ $item->tgl_selesai_laporan }}</td>
+                    <td><span class="badge bg-success">
+                            @php
+                            $dari = date_create($item->tgl_respon_laporan);
+                            $sampai = date_create($item->tgl_selesai_laporan);
+                            $diff = date_diff($dari, $sampai);
+                            echo $diff->format(' %H:%i:%s');
+                            @endphp
 
-                                    {{-- {{$datamenit}} --}}
-                                </span>
-                            </td>
-                            <td>
-                                @if ($item->status_laporan == 2)
-                                    Selesai
-                                @else
-                                    Belum Selesai
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                            {{-- {{$datamenit}} --}}
+                        </span>
+                    </td>
+                    <td>
+                        @if ($item->status_laporan == 2)
+                        Selesai
+                        @else
+                        Belum Selesai
+                        @endif
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
         @endforeach
         <br><br><br>
 
