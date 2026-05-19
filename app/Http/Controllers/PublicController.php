@@ -251,7 +251,6 @@ class PublicController extends Controller
             if (!$cek) {
                 DB::table('users_handler_record_log')->insert([
                     'kd_kinerja_sub' => $value->kd_kinerja_sub,
-                    'kd_jenis_kinerja_sub' => NULL,
                     'id_user' => $id,
                     'kd_cabang' => $code,
                     'tgl_record' => $tgl,
