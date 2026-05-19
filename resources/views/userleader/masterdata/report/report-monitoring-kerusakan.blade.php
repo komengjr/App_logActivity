@@ -159,7 +159,9 @@
                         $penyelesaian = DB::table('tbl_laporan_user_log')->where('tiket_laporan',$item->tiket_laporan)->first();
                         @endphp
                         @if ($penyelesaian)
-                        {{ $penyelesaian->deskripsi_penyelesaian }}
+                        @php
+                            echo $penyelesaian->deskripsi_penyelesaian;
+                        @endphp
                         @endif
                     </td>
                     <td>{{ $item->tgl_selesai_laporan }}</td>
