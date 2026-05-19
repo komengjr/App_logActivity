@@ -235,7 +235,32 @@ class PublicController extends Controller
             ->orWhere('piket_nasional.tgl_piket_nasional', 'like', '%' . date('Y-m-d') . '%')->get();
         return view('v3.form-check-schedule', ['data' => $data]);
     }
-    public function v3_check_schedule_detail(Request $request){
+    public function v3_check_schedule_detail(Request $request)
+    {
         return view('v3.schedule.form-schedule-detail');
+    }
+    public function v3_insert_kritis_cabang($code, $id, $tgl)
+    {
+        $kinerja = DB::table('tbl_kinerja_sub')->get();
+        foreach ($kinerja as $value) {
+            $cek = DB::table('users_handler_record_log')
+                ->where('kd_cabang', $code)
+                ->where('tgl_record', $tgl)
+                ->where('kd_kinerja_sub', $value->kd_kinerja_sub)
+                ->first();
+            if (!$cek) {
+                DB::table('users_handler_record_log')->insert([
+                    'kd_kinerja_sub' => $value->kd_kinerja_sub,
+                    'kd_jenis_kinerja_sub' => NULL,
+                    'id_user' => $id,
+                    'kd_cabang' => $code,
+                    'tgl_record' => $tgl,
+                    'ket_kinerja_sub' => 'N',
+                    'status_kinerja_sub' => 0,
+                    'created_at' => now()
+                ]);
+            }
+        }
+        return 'sukses';
     }
 }

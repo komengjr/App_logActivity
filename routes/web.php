@@ -306,6 +306,7 @@ Route::prefix('/v3')->group(function () {
     Route::get('check_laporan', [PublicController::class, 'v3_chek_laporan'])->name('v3_chek_laporan');
     Route::get('check_schedule', [PublicController::class, 'v3_check_schedule'])->name('v3_check_schedule');
     Route::post('check_schedule/detail', [PublicController::class, 'v3_check_schedule_detail'])->name('v3_check_schedule_detail');
+    Route::get('kritis/{code}/{id}/{tgl}', [PublicController::class, 'v3_insert_kritis_cabang'])->name('v3_insert_kritis_cabang');
     // Route::post('user-detail', [PublicController::class, 'piket_user_detail'])->name('piket_user_detail');
     // Route::get('menu-notif', [PublicController::class, 'list_menu_notif'])->name('list_menu_notif');
     // Route::get('menu/cart', [PublicController::class, 'list_menu_cart'])->name('list_menu_cart');
