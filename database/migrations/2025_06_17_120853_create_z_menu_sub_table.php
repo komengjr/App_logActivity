@@ -19,6 +19,7 @@ class CreateZMenuSubTable extends Migration
             $table->string('menu_code');
             $table->string('menu_sub_name');
             $table->string('menu_sub_link');
+            $table->string('menu_sub_option');
             $table->string('menu_sub_icon')->nullable();
             $table->string('menu_sub_status');
             $table->timestamps();

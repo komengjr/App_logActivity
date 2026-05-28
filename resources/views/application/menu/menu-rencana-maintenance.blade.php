@@ -191,7 +191,7 @@
             </div>
         `;
 
-        const endpointAPI = `http://192.168.50.247/api/v2/datainventaris/${encodeURIComponent(cabang)}`;
+        const endpointAPI = `http://inventory.pramita.co.id:8000/api/v2/datainventaris/${encodeURIComponent(cabang)}`;
 
         fetch(endpointAPI)
             .then(response => {
