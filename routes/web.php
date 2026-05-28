@@ -203,7 +203,7 @@ Route::post('taskorder/postmonitoringharian', 'AdminController@postmonitoringhar
 
 Auth::routes();
 Route::post('verifikasi-Login', 'Auth\LoginController@verifikasi_Login')->name('verifikasi_Login');
-Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('logout', 'Auth\LoginController@logout')->name('logout_fix');
 // Route::controller(LoginController::class)->group(function () {
 //     Route::post('verifikasi-Login', 'verifikasi_Login')->name('verifikasi_Login');
 //     Route::get('logout', 'logout')->name('logout');
