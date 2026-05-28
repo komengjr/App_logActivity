@@ -102,6 +102,7 @@ class MenuController extends Controller
     {
         $data = DB::table('m_rencana_detail')
             ->join('m_rencana_data', 'm_rencana_data.m_rencana_data_code', '=', 'm_rencana_detail.m_rencana_data_code')
+            ->select('m_rencana_detail.m_rencana_detail_bulan', 'm_rencana_data.id_m_rencana_data') // Added here
             ->distinct()
             ->where('m_rencana_data_cabang', '=', $request->cabang)
             ->where('m_rencana_data_tahun', '=', $request->tahun)
