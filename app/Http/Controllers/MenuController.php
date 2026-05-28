@@ -102,10 +102,10 @@ class MenuController extends Controller
     {
         $data = DB::table('m_rencana_detail')
             ->join('m_rencana_data', 'm_rencana_data.m_rencana_data_code', '=', 'm_rencana_detail.m_rencana_data_code')
+            ->distinct()
             ->where('m_rencana_data_cabang', '=', $request->cabang)
             ->where('m_rencana_data_tahun', '=', $request->tahun)
-            ->distinct()
-            ->orderBy('id_m_rencana_data', 'asc')
+            ->orderBy('m_rencana_data.id_m_rencana_data', 'asc')
             ->pluck('m_rencana_detail_bulan');
         return response()->json($data);
     }
