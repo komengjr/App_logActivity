@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\MenuController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Telegram\Bot\Laravel\Facades\Telegram;

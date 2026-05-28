@@ -26,6 +26,7 @@ class CreateTblLaporanUserTable extends Migration
             $table->string('tingkat_laporan');
             $table->string('tgl_laporan');
             $table->string('tgl_respon_laporan')->nullable();
+            $table->string('tgl_proses_laporan')->nullable();
             $table->string('tgl_selesai_laporan')->nullable();
             $table->string('id_user')->nullable();
             $table->string('no_hp')->nullable();

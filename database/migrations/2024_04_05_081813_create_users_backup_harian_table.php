@@ -18,7 +18,8 @@ class CreateUsersBackupHarianTable extends Migration
             $table->string('kd_users_backup_harian')->unique();
             $table->string('sistem_backup_harian');
             $table->string('proses_backup_harian');
-            $table->string('deskripsi_backup_harian');
+            $table->longText('deskripsi_backup_harian');
+            $table->longText('file_backup_harian');
             $table->string('status_backup_harian');
             $table->string('tgl_backup_harian');
             $table->string('kd_cabang');

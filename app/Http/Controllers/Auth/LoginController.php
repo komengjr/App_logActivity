@@ -61,7 +61,7 @@ class LoginController extends Controller
                 return '<div class="alert alert-success alert-dismissible fade show my-2" role="alert">
                                             <strong>Greate!</strong> Selamat Datang ' . Auth::user()->name . '.
                                             <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-                                            <script>window.location.href = "' . route('home') . '";</script>
+                                            <script>window.location.href = "' . route('dashboard_home') . '";</script>
                                         </div>';
                 // return redirect()->intended('home')->withSuccess('Kamu Berhasil Masuk di Account  ' . Auth::user()->name);
                 # code...
@@ -71,5 +71,11 @@ class LoginController extends Controller
                                             <strong>Error!</strong> Username Dan Password Ada Kesalahan.
                                             <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
                                         </div>';
+    }
+    public function logout()
+    {
+        Auth::logout();
+
+        return Redirect('/');
     }
 }
