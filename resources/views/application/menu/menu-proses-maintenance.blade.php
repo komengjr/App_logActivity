@@ -46,7 +46,7 @@
         border: 1px solid #dee2e6;
         border-radius: 0.375rem;
         padding: 12px;
-        background-color: #fff;
+        /* background-color: #fff; */
         max-height: 320px;
         overflow-y: auto;
     }
