@@ -390,4 +390,54 @@ class MenuController extends Controller
             return Redirect::to('dashboard/home');
         }
     }
+    // MASTER CABANG
+    public function master_data_cabang($akses)
+    {
+        if ($this->url_akses($akses) == true) {
+            $data = DB::table('tbl_cabang')->get();
+            return view('application.master.master-cabang', compact('data'));
+        } else {
+            return Redirect::to('dashboard/home');
+        }
+    }
+    public function master_data_cabang_update(Request $request)
+    {
+        $data = DB::table('tbl_cabang')->where('kd_cabang', $request->code)->first();
+        return view('application.master.master-cabang.form-update-cabang', compact('data'));
+    }
+    public function master_data_cabang_update_save(Request $request)
+    {
+        try {
+            DB::table('tbl_cabang')->where('kd_cabang', $request->kode_cabang)->update([
+                'nama_cabang' => $request->nama_cabang,
+                'latitude' => $request->lat,
+                'longtitude' => $request->long,
+                'city' => $request->kota_cabang,
+                'alamat' => $request->alamat,
+                'phone' => $request->no_telp,
+                'updated_at' => now()
+            ]);
+            return 1;
+        } catch (\Throwable $e) {
+            return 0;
+        }
+    }
+    public function master_data_cabang_add_petugas(Request $request)
+    {
+        $user = DB::table('tbl_biodata')->get();
+        return view('application.master.master-cabang.form-add-petugas', compact('user'), ['code' => $request->code]);
+    }
+    public function master_data_cabang_save_petugas(Request $request)
+    {
+        try {
+            DB::table('users_handler')->insert([
+                'id_user' => $request->petugas,
+                'kd_cabang' => $request->code_cabang,
+                'created_at' => now(),
+            ]);
+            return 1;
+        } catch (\Throwable $e) {
+            return 0;
+        }
+    }
 }

@@ -59,7 +59,8 @@ Route::prefix('{akses}')->group(function () {
     Route::get('app/master/master-piket-setup', [MenuController::class, 'master_piket_setup'])->name('master_piket_setup');
     Route::get('app/master/master-piket-data', [MenuController::class, 'master_piket_data'])->name('master_piket_data');
     Route::get('app/master/master-staff', [MenuController::class, 'master_data_staff'])->name('master_data_staff');
-    Route::get('app/master/master-kinerja', [MenuController::class, 'master_data_kinerja'])->name('master_data_staff');
+    Route::get('app/master/master-kinerja', [MenuController::class, 'master_data_kinerja'])->name('master_data_kinerja');
+    Route::get('app/master/master-cabang', [MenuController::class, 'master_data_cabang'])->name('master_data_cabang');
 });
 // MENU
 Route::prefix('menu')->group(function () {
@@ -74,6 +75,11 @@ Route::prefix('menu')->group(function () {
 
     Route::get('app/master/master-piket-data/{bulan}', [MenuController::class, 'master_piket_data_bulan'])->name('master_piket_data_bulan');
     Route::post('app/master/master-piket-data-update/save', [MenuController::class, 'master_piket_data_bulan_update'])->name('master_piket_data_bulan_update');
+
+    Route::post('app/master/master-cabang/update', [MenuController::class, 'master_data_cabang_update'])->name('master_data_cabang_update');
+    Route::post('app/master/master-cabang/update-save', [MenuController::class, 'master_data_cabang_update_save'])->name('master_data_cabang_update_save');
+    Route::post('app/master/master-cabang/add-petugas', [MenuController::class, 'master_data_cabang_add_petugas'])->name('master_data_cabang_add_petugas');
+    Route::post('app/master/master-cabang/save-petugas', [MenuController::class, 'master_data_cabang_save_petugas'])->name('master_data_cabang_save_petugas');
 
     Route::post('app/laporan/laporan-case/detail', [MenuController::class, 'laporan_kendala_user_detail'])->name('laporan_kendala_user_detail');
 

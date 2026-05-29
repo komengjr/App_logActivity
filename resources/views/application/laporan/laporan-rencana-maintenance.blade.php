@@ -46,6 +46,18 @@
 @endsection
 
 @section('base.js')
+<div class="modal fade" id="modal-log-it" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content border-0">
+            <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
+                <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="menu-log-it"></div>
+        </div>
+    </div>
+</div>
 <script>
     function tampilkanJadwalBulan() {
         const petugas = document.getElementById('filterPetugas').value;

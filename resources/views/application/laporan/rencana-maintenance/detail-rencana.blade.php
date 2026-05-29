@@ -30,10 +30,10 @@ $brg = DB::table('m_rencana_detail')
                     <th style="width: 25%;">Sub Penilaian Komponen</th>
                     <th style="width: 10%;">Tgl Eksekusi</th>
                     <th style="width: 15%;">Tindakan</th>
+                    <th style="width: 15%;">Action</th>
                 </tr>
             </thead>
             <tbody>
-
                 @foreach ($brg as $brgs)
                 <tr>
                     <td class="text-center fw-bold">{{ $no++ }}</td>
@@ -105,6 +105,9 @@ $brg = DB::table('m_rencana_detail')
                         @else
                         <strong class="text-danger">Belum di lakukan</strong>
                         @endif
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-log-it">Cetak</button>
                     </td>
                 </tr>
                 @endforeach
