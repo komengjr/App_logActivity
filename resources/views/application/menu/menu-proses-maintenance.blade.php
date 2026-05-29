@@ -220,7 +220,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-success w-100 fw-bold py-2" id="btnSubmitForm" disabled>
-                        <i class="bi bi-cloud-upload me-1"></i> Submit Data Ke DB via Laravel Route
+                        <i class="bi bi-cloud-upload me-1"></i> Submit Data
                     </button>
                 </form>
             </div>
