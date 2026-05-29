@@ -54,6 +54,7 @@ Route::prefix('{akses}')->group(function () {
     Route::get('app/menu/create-task', [MenuController::class, 'menu_create_task'])->name('menu_create_task');
 
     Route::get('app/laporan/laporan-case', [MenuController::class, 'laporan_kendala_user'])->name('laporan_kendala_user');
+    Route::get('app/laporan/laporan-rencana-maintenance', [MenuController::class, 'laporan_rencana_maintenance'])->name('laporan_rencana_maintenance');
 
     Route::get('app/master/master-piket-setup', [MenuController::class, 'master_piket_setup'])->name('master_piket_setup');
     Route::get('app/master/master-piket-data', [MenuController::class, 'master_piket_data'])->name('master_piket_data');
@@ -71,6 +72,10 @@ Route::prefix('menu')->group(function () {
 
     Route::get('app/master/master-piket-data/{bulan}', [MenuController::class, 'master_piket_data_bulan'])->name('master_piket_data_bulan');
     Route::post('app/master/master-piket-data-update/save', [MenuController::class, 'master_piket_data_bulan_update'])->name('master_piket_data_bulan_update');
+
+    Route::post('app/laporan/laporan-case/detail', [MenuController::class, 'laporan_kendala_user_detail'])->name('laporan_kendala_user_detail');
+
+    Route::post('app/laporan/laporan-rencana-maintenance/detail', [MenuController::class, 'laporan_rencana_maintenance_detail'])->name('laporan_rencana_maintenance_detail');
 });
 
 

@@ -12,50 +12,57 @@
 </div>
 <div class="row g-3">
     <div class="col-lg-4">
-        <div class="card p-4 sticky-top" style="top: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <h4 class="mb-3 text-secondary">1. Pengaturan</h4>
-
-            <div class="mb-3">
-                <label for="bulanTahun" class="form-label fw-semibold">Pilih Bulan & Tahun</label>
-                <input type="month" id="bulanTahun" class="form-control" required>
+        <div class="card sticky-top" style="top: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <div class="card-header bg-primary">
+                <h4 class="mb-0 text-white">1. Pengaturan</h4>
             </div>
 
-            <div class="mb-3">
-                <label for="kuotaHarian" class="form-label fw-semibold">Kuota Petugas Per Hari</label>
-                <input type="number" id="kuotaHarian" class="form-control" value="3" min="1" max="10" required>
-            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="bulanTahun" class="form-label fw-semibold">Pilih Bulan & Tahun</label>
+                    <input type="month" id="bulanTahun" class="form-control" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="daftarUser" class="form-label fw-semibold">Daftar User (Format: ID | Nama)</label>
-                <textarea id="daftarUser" class="form-control" rows="8" placeholder="Contoh:&#10;USR-01 | Andi&#10;USR-02 | Budi"></textarea>
-                <small class="text-muted">Pisahkan ID dan Nama dengan tanda ( | ).</small>
-            </div>
+                <div class="mb-3">
+                    <label for="kuotaHarian" class="form-label fw-semibold">Kuota Petugas Per Hari</label>
+                    <input type="number" id="kuotaHarian" class="form-control" value="3" min="1" max="10" required>
+                </div>
 
-            <button onclick="generateJadwal()" class="btn btn-primary w-100 fw-bold py-2 mb-2">⚡ Generate Otomatis</button>
-            <button onclick="bersihkanForm()" class="btn btn-outline-danger w-100 btn-sm">Reset</button>
+                <div class="mb-3">
+                    <label for="daftarUser" class="form-label fw-semibold">Daftar User (Format: ID | Nama)</label>
+                    <textarea id="daftarUser" class="form-control" rows="8" placeholder="Contoh:&#10;USR-01 | Andi&#10;USR-02 | Budi"></textarea>
+                    <small class="text-muted">Pisahkan ID dan Nama dengan tanda ( | ).</small>
+                </div>
+
+                <button onclick="generateJadwal()" class="btn btn-primary w-100 fw-bold py-2 mb-2">⚡ Generate Otomatis</button>
+                <button onclick="bersihkanForm()" class="btn btn-outline-danger w-100 btn-sm">Reset</button>
+            </div>
         </div>
     </div>
 
     <div class="col-lg-8">
-        <div class="card p-4 mb-4" style="box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="m-0 text-secondary" id="judulHasil">2. Hasil Jadwal Piket</h4>
-                <button onclick="simpanDanExportJSON()" class="btn btn-success btn-sm fw-semibold" id="btnSimpan" disabled>💾 Simpan Jadwal (JSON)</button>
+        <div class="card mb-4" style="box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <div class="card-header bg-primary">
+                <div class="d-flex justify-content-between align-items-center mb-0">
+                    <h4 class="m-0 text-white" id="judulHasil">2. Hasil Jadwal Piket</h4>
+                    <button onclick="simpanDanExportJSON()" class="btn btn-success fw-semibold" id="btnSimpan" disabled>💾 Simpan Jadwal</button>
+                </div>
             </div>
+            <div class="card-body">
+                <div id="alertPesan">
+                    <div class="alert alert-info">Silakan isi pengaturan di sebelah kiri, lalu klik tombol **Generate Otomatis**.</div>
+                </div>
 
-            <div id="alertPesan">
-                <div class="alert alert-info">Silakan isi pengaturan di sebelah kiri, lalu klik tombol **Generate Otomatis**.</div>
-            </div>
+                <div class="accordion mb-4" id="accordionJadwal">
+                </div>
 
-            <div class="accordion mb-4" id="accordionJadwal">
-            </div>
-
-            <div id="sectionJsonOutput" style="display: none;">
-                <hr>
-                <h5 class="text-secondary mb-2 mt-3">📋 Data JSON Hasil Jadwal</h5>
-                <p class="text-muted small">Data di bawah ini mencerminkan kondisi terakhir kalender (termasuk hasil edit manual Anda).</p>
-                <textarea id="jsonOutput" class="form-control font-monospace mb-2" rows="10" readonly></textarea>
-                <button onclick="salinJsonKeClipboard()" class="btn btn-dark btn-sm">📋 Salin JSON</button>
+                <div id="sectionJsonOutput" style="display: none;">
+                    <hr>
+                    <h5 class="text-secondary mb-2 mt-3">📋 Data JSON Hasil Jadwal</h5>
+                    <p class="text-muted small">Data di bawah ini mencerminkan kondisi terakhir kalender (termasuk hasil edit manual Anda).</p>
+                    <textarea id="jsonOutput" class="form-control font-monospace mb-2" rows="10" readonly></textarea>
+                    <button onclick="salinJsonKeClipboard()" class="btn btn-dark btn-sm">📋 Salin JSON</button>
+                </div>
             </div>
         </div>
     </div>

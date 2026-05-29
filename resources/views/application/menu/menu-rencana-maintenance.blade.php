@@ -528,25 +528,56 @@
             terakhir_diupdate: new Date().toLocaleString('id-ID'),
             matriks_jadwal: databaseRencanaTahunan[cabangTerpilihGlobal] || {}
         };
-        document.getElementById("jsonOutput").innerText = JSON.stringify(outputPayload, null, 4);
-        $.ajax({
-            url: "{{ route('menu_rencana_maintenance_save') }}",
-            type: "POST",
-            cache: false,
-            data: {
-                "_token": "{{ csrf_token() }}",
-                "cabang": cabangTerpilihGlobal,
-                "tahun_periode": tahunTerpilihGlobal,
-                "matriks_jadwal": databaseRencanaTahunan[cabangTerpilihGlobal],
+
+        // SIMPAN DATA
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
             },
-            dataType: 'html',
-        }).done(function(data) {
-            Swal.fire('Berhasil!', 'Data Jadwal Sudah dibuat', 'success').then(() => {
-                // location.reload();
-            });
-        }).fail(function() {
-            console.log('eror');
+            buttonsStyling: true
         });
+        swalWithBootstrapButtons.fire({
+            title: "Apakah Yakin ?",
+            text: "Kamu Menyimpan Data Jadwal Saat ini!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, Save it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ route('menu_rencana_maintenance_save') }}",
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "cabang": cabangTerpilihGlobal,
+                        "tahun_periode": tahunTerpilihGlobal,
+                        "matriks_jadwal": databaseRencanaTahunan[cabangTerpilihGlobal],
+                    },
+                    dataType: 'html',
+                }).done(function(data) {
+                    Swal.fire('Berhasil!', 'Data Jadwal Sudah dibuat', 'success').then(() => {
+                        location.reload();
+                        document.getElementById("jsonOutput").innerText = JSON.stringify(outputPayload, null, 4);
+                    });
+                }).fail(function() {
+                    console.log('eror');
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire({
+                    title: "Pembatalan",
+                    text: "Kamu Membatalkan Untuk Simpan",
+                    icon: "error"
+                });
+            }
+        });
+
+
+
+
     }
 
     // Submit Akhir rencana kerja ke penampil log JSON

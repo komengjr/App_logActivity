@@ -183,6 +183,7 @@ class MenuController extends Controller
                 'm_rencana_log_tgl_selesai' => $request->tgl_selesai,
                 'm_rencana_log_tipe' => $request->tipe_tindakan,
                 'm_rencana_log_kondisi' => $request->kondisi,
+                'm_rencana_log_loc' => $request->lokasi,
                 'created_at'    => now()
             ]);
 
@@ -233,6 +234,33 @@ class MenuController extends Controller
         } else {
             return Redirect::to('dashboard/home');
         }
+    }
+    public function laporan_kendala_user_detail(Request $request)
+    {
+        $data = DB::table('tbl_laporan_user')->where('tiket_laporan', $request->code)->first();
+        return view('application.laporan.kendala.detail-kendala', compact('data'));
+    }
+    // LAPORAN RENCANA MAINTENANCE
+    public function laporan_rencana_maintenance($akses)
+    {
+        if ($this->url_akses($akses) == true) {
+            $user = DB::table('tbl_biodata')->get();
+            $data = DB::table('tbl_laporan_user')->orderBy('id_laporan', 'DESC')->get();
+            return view('application.laporan.laporan-rencana-maintenance', compact('data', 'user'));
+        } else {
+            return Redirect::to('dashboard/home');
+        }
+    }
+    public function laporan_rencana_maintenance_detail(Request $request)
+    {
+        $bulan = DB::table('m_rencana_detail')
+            ->join('m_rencana_data', 'm_rencana_data.m_rencana_data_code', '=', 'm_rencana_detail.m_rencana_data_code')
+            ->select('m_rencana_detail.m_rencana_detail_bulan')
+            ->where('m_rencana_data.m_rencana_data_user', '=', $request->petugas)
+            ->where('m_rencana_data.m_rencana_data_tahun', '=', $request->tahun)
+            ->distinct()
+            ->get();
+        return view('application.laporan.rencana-maintenance.detail-rencana', compact('bulan'), ['tahun' => $request->tahun]);
     }
 
 

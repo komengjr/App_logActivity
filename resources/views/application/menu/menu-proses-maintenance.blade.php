@@ -156,9 +156,9 @@
             <div class="card-header bg-primary py-3">
                 <h5 class="card-title mb-0 fw-bold text-white"><i class="bi bi-file-earmark-check me-2"></i>Form Catat Hasil Kerja</h5>
             </div>
-            <div class="card-body p-4">
+            <div class="card-body p-3">
                 <form id="formEksekusi" onsubmit="simpanHasilMaintenance(event)">
-                    <div class="row g-2 mb-3">
+                    <div class="row g-2 mb-1">
                         <div class="col-6">
                             <label class="form-label fw-semibold small">Cabang</label>
                             <input type="text" class="form-control bg-light fw-bold text-secondary" id="displayCabang" readonly required placeholder="-">
@@ -169,7 +169,7 @@
                         </div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-1">
                         <label class="form-label fw-semibold small">Aset Terpilih</label>
                         <input type="hidden" id="hiddenIdAset">
                         <input type="hidden" id="hiddenBulanPlan">
@@ -178,7 +178,11 @@
                         <input type="text" class="form-control bg-light fw-bold text-primary" id="displayNamaAset" readonly required placeholder="Silakan klik 'Lakukan Proses' di kanan &rarr;">
                     </div>
 
-                    <div class="row g-2 mb-3">
+                    <div class="row g-2 mb-1">
+                        <div class="col-12">
+                            <label class="form-label fw-semibold small">Lokasi Barang</label>
+                            <input type="text" class="form-control" id="lokasi" required>
+                        </div>
                         <div class="col-6">
                             <label class="form-label fw-semibold small">Tanggal Selesai</label>
                             <input type="date" class="form-control" id="inputTglSelesai" required>
@@ -440,6 +444,7 @@
             tahun: document.getElementById("hiddenTahunPlan").value,
             bulan: document.getElementById("hiddenBulanPlan").value,
             tgl_selesai: document.getElementById("inputTglSelesai").value,
+            lokasi: document.getElementById("lokasi").value,
             tipe_tindakan: document.getElementById("selectTipeTindakan").value,
             kondisi: document.getElementById("selectKondisi").value,
             rincian: detailTindakanList

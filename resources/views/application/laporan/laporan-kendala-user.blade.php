@@ -59,7 +59,14 @@
                         <td>{{ $datas->tgl_laporan }}</td>
                         <td>{{ $datas->tgl_respon_laporan }}</td>
                         <td>{{ $datas->tgl_selesai_laporan }}</td>
-                        <td><span class="badge bg-light text-dark border">IT - Dani</span></td>
+                        <td>
+                            @php
+                            $user = DB::table('tbl_biodata')->where('id_user',$datas->id_user)->first();
+                            @endphp
+                            @if ($user)
+                            <span class="badge bg-light text-dark border">{{ $user->nama_lengkap }}</span>
+                            @endif
+                        </td>
                         <td class="text-center">
                             @if ($datas->status_laporan == '0')
                             <span class="badge bg-danger text-white px-3 py-2 rounded-pill">Belum</span>
@@ -69,7 +76,9 @@
                             <span class="badge bg-success text-white px-3 py-2 rounded-pill">Selesai</span>
                             @endif
                         </td>
-                        <td class="text-center pe-4"><button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalDetail1"><i class="fas fa-eye-fill me-1"></i> Detail</button></td>
+                        <td class="text-center pe-4">
+                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalDetail1" id="button-show-laporan" data-code="{{ $datas->tiket_laporan }}"><i class="fas fa-eye-fill me-1"></i> Detail</button>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -96,44 +105,8 @@
                 <h5 class="modal-title fw-bold text-dark" id="modalDetail1Label"><i class="bi bi-file-earmark-text text-primary me-2"></i>Detail Laporan Tugas</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-4">
-                <div class="mb-3 d-flex justify-content-between align-items-center border-bottom pb-2">
-                    <span class="text-muted small">Status Laporan</span>
-                    <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill">Selesai</span>
-                </div>
-                <div class="mb-3">
-                    <label class="text-muted small d-block">Nama Laporan</label>
-                    <span class="fw-bold text-dark fs-5">Kerusakan Server Utama</span>
-                </div>
-                <div class="row g-3 mb-3">
-                    <div class="col-6">
-                        <label class="text-muted small d-block">Pembuat Laporan</label>
-                        <span class="fw-semibold">Rian Andriana</span>
-                    </div>
-                    <div class="col-6">
-                        <label class="text-muted small d-block">Pelaksana Tugas</label>
-                        <span class="fw-semibold">IT - Dani</span>
-                    </div>
-                </div>
-                <hr class="text-muted opacity-25">
-                <div class="row g-3 mb-3">
-                    <div class="col-4">
-                        <label class="text-muted small d-block">Tgl Laporan</label>
-                        <span class="small fw-semibold">10 Mei 2026</span>
-                    </div>
-                    <div class="col-4">
-                        <label class="text-muted small d-block">Tgl Diterima</label>
-                        <span class="small fw-semibold">10 Mei 2026</span>
-                    </div>
-                    <div class="col-4">
-                        <label class="text-muted small d-block">Tgl Selesai</label>
-                        <span class="small fw-semibold text-success">11 Mei 2026</span>
-                    </div>
-                </div>
-                <div class="mb-0 bg-light p-3 rounded border">
-                    <label class="text-muted small d-block fw-bold mb-1">Solusi & Tindakan:</label>
-                    <p class="mb-0 text-secondary small-85">Melakukan penanganan kritis berupa migrasi database utama ke server cadangan sementara, mengisolasi hardware yang mengalami korsleting, dan mengganti komponen power supply cadangan yang rusak.</p>
-                </div>
+            <div class="modal-body p-4" id="menu-modal-kendala">
+
             </div>
             <div class="modal-footer border-0 bg-light-subtle">
                 <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Tutup</button>
@@ -275,5 +248,28 @@
 
     // Inisialisasi awal saat halaman pertama kali dibuka
     filterAndPaginate();
+</script>
+<script>
+    $(document).on("click", "#button-show-laporan", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-modal-kendala').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('laporan_kendala_user_detail') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-modal-kendala').html(data);
+        }).fail(function() {
+            $('#menu-modal-kendala').html('eror');
+        });
+    });
 </script>
 @endsection
