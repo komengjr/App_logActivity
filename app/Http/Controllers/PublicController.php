@@ -171,7 +171,7 @@ class PublicController extends Controller
                     $nomorhp = '+62' . substr($nomorhp, 1);
                 }
             }
-            $text = "Halo " . $request->nama_pelapor . "\n\nDengan Nomor Tiket : " . $tiket . "\n\nLogIT System Notifikasi";
+            $text = "Halo " . $request->nama_pelapor . "\n\nDengan Nomor Tiket : \n" . $tiket . "\n\Deskripsi Laporan : " . $request->catatan_laporan ."\n\nʟᴏɢɪᴛ ꜱʏꜱᴛᴇᴍ ɴᴏᴛɪꜰɪᴋᴀꜱɪ";
             DB::table('v_log_whatsapp')->insert([
                 'v_log_whatsapp_code' => str::uuid(),
                 'v_log_whatsapp_type' => 'laporan_user',
