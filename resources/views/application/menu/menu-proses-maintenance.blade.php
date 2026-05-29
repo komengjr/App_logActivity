@@ -92,7 +92,7 @@
     </div>
 </div>
 
-<div class="card shadow-sm border-1 mb-4 bg-white">
+<div class="card shadow-sm border-1 mb-3 bg-white">
     <div class="card-body p-3">
         <div class="row g-3">
             <div class="col-md-4">
