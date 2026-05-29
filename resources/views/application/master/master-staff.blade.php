@@ -2,8 +2,8 @@
 @section('base.css')
 <style>
     .custom-card {
-        background: #ffffff;
-        border: none;
+        /* background: #ffffff; */
+        border: black;
         border-radius: 16px;
         box-shadow: 0 10px 25px rgba(165, 173, 199, 0.12);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -34,7 +34,7 @@
         border: 1.5px solid #E2E8F0;
         border-radius: 12px;
         overflow: hidden;
-        background: #fff;
+        /* background: #fff; */
         transition: all 0.2s ease;
     }
 
@@ -108,19 +108,22 @@
 </style>
 @endsection
 @section('content')
-<!-- HEADER -->
-<div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-3 gap-3">
-    <div>
-        <h3 class="fw-bold mb-1 text-dark">Daftar Direktori Karyawan</h3>
-        <p class="text-muted small mb-0">Cari karyawan dan perbarui data langsung via Pop-up Modal.</p>
+
+<div class="card mb-3">
+    <div class="card-body border-top">
+        <div class="d-flex">
+            <div class="flex-1">
+                <h5 class="fw-bold text-dark"><i class="bi bi-calendar-week text-primary"></i>Daftar Karyawan</h5>
+                <p class="text-muted mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit voluptatibus, ducimus ea ut ipsam laborum error doloribus consectetur! Quibusdam repudiandae animi atque consequuntur cum in? Necessitatibus deserunt quod sequi laudantium!</p>
+            </div>
+        </div>
     </div>
 </div>
-
 <!-- PENCARIAN REAL-TIME -->
-<div class="card custom-card mb-3">
+<div class="card custom-card mb-3 border border-primary">
     <div class="card-body p-3">
         <div class="d-flex align-items-center search-box px-3 py-1">
-            <i class="bi bi-search text-muted me-2"></i>
+            <i class="fas fa-search text-muted me-2"></i>
             <input type="text" id="inputPencarian" class="form-control border-0 shadow-none ps-1 bg-transparent" placeholder="Ketik nama karyawan untuk mencari...">
         </div>
     </div>
@@ -131,7 +134,7 @@
     @foreach ($data as $datas)
     <!-- Karyawan 1 -->
     <div class="col-xl-3 col-lg-4 col-md-6 employee-item">
-        <div class="card custom-card employee-card h-100 text-center p-4">
+        <div class="card custom-card employee-card h-100 text-center p-4 border border-primary">
             <div class="avatar-container mb-3">
                 <img src="{{ asset('storage/' . $datas->gambar) }}" class="avatar-img card-foto" alt="Foto">
             </div>
@@ -141,7 +144,7 @@
             <div class="border-top pt-3 mt-auto text-start">
                 <p class="small mb-1 text-secondary"><i class="bi bi-building me-2"></i><span class="card-dept">Teknologi Informasi</span></p>
                 <p class="small mb-3 text-secondary text-truncate"><i class="bi bi-envelope me-2"></i><span class="card-email">{{ $datas->no_hp }}</span></p>
-                <button class="btn btn-outline-indigo w-100 btn-sm py-2" onclick="bukaModalEdit(this, 'EMPL-001')">
+                <button class="btn btn-outline-indigo w-100 btn-sm py-2" onclick="bukaModalEdit(this, '{{ $datas->nip }}')">
                     <i class="bi bi-pencil-square me-1"></i>Update Data
                 </button>
             </div>

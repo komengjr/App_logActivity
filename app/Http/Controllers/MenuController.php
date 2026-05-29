@@ -370,12 +370,22 @@ class MenuController extends Controller
         return 123;
     }
 
-    // MASTER PIKET DATA
+    // MASTER STAFF
     public function master_data_staff($akses)
     {
         if ($this->url_akses($akses) == true) {
             $data = DB::table('tbl_biodata')->get();
             return view('application.master.master-staff', compact('data'));
+        } else {
+            return Redirect::to('dashboard/home');
+        }
+    }
+    // MASTER KINERJA
+    public function master_data_kinerja($akses)
+    {
+        if ($this->url_akses($akses) == true) {
+            $data = DB::table('tbl_biodata')->get();
+            return view('application.master.master-kinerja', compact('data'));
         } else {
             return Redirect::to('dashboard/home');
         }

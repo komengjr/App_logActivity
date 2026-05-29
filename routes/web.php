@@ -59,6 +59,7 @@ Route::prefix('{akses}')->group(function () {
     Route::get('app/master/master-piket-setup', [MenuController::class, 'master_piket_setup'])->name('master_piket_setup');
     Route::get('app/master/master-piket-data', [MenuController::class, 'master_piket_data'])->name('master_piket_data');
     Route::get('app/master/master-staff', [MenuController::class, 'master_data_staff'])->name('master_data_staff');
+    Route::get('app/master/master-kinerja', [MenuController::class, 'master_data_kinerja'])->name('master_data_staff');
 });
 // MENU
 Route::prefix('menu')->group(function () {

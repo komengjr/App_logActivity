@@ -47,7 +47,7 @@
     <div class="col-12 col-md-5 col-lg-4">
         <div class="card shadow-sm border-0 position-sticky">
             <div class="card-header bg-primary text-white py-3">
-                <h5 class="card-title mb-0 fw-bold"><i class="bi bi-calendar-plus me-2"></i>Plotting Jadwal</h5>
+                <h5 class="card-title mb-0 fw-bold text-white"><i class="fas fa-calendar-plus me-2"></i>Plotting Jadwal</h5>
             </div>
             <div class="card-body p-4">
                 <form id="formPlotJadwal" onsubmit="tambahJadwalKeKalender(event)">
@@ -128,7 +128,7 @@
     <div class="col-12 col-md-7 col-lg-8">
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-header bg-dark text-white py-3 d-flex justify-content-between align-items-center">
-                <h5 class="card-title mb-0 fw-bold"><i class="bi bi-journal-calendar me-2 text-warning"></i> Matriks Rencana Kerja 1 Tahun</h5>
+                <h5 class="card-title mb-0 fw-bold text-white"><i class="fas fa-journal-calendar me-2 text-warning"></i> Matriks Rencana Kerja 1 Tahun</h5>
                 <span class="badge bg-secondary px-3" id="badgeTahun">Periode Belum Set</span>
             </div>
             <div class="card-body p-3">
