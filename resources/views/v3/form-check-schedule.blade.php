@@ -211,16 +211,6 @@
                     <span class="status-badge bg-success-light">Aktif</span>
                 </div>
                 @endforeach
-
-                <!-- User 2 -->
-                <div class="piket-item">
-                    <img src="https://i.pravatar.cc/150?u=2" class="profile-img" alt="User">
-                    <div class="piket-info">
-                        <h6>Budi Santoso</h6>
-                        <p><i class="bi bi-calendar-event me-1"></i> Besok, 09 Mei</p>
-                    </div>
-                    <span class="status-badge bg-dark text-white">Offline</span>
-                </div>
             </div>
 
             <div class="text-center mt-3">
