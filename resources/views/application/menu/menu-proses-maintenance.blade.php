@@ -265,11 +265,11 @@
             divGroup.innerHTML = `
                 <div class="form-check">
                     <input class="form-check-input check-sub-item" type="checkbox" value="${sub}" data-kategori="${kategori}" id="chk_${kategori}_${index}" onchange="toggleDeskripsi('${kategori}', ${index})">
-                    <label class="form-check-label small fw-bold text-dark" for="chk_${kategori}_${index}">
+                    <label class="form-check-label small fw-bold " for="chk_${kategori}_${index}">
                         ${sub}
                     </label>
                 </div>
-                <input type="text" class="form-control form-control-sm input-deskripsi-sub" id="txt_${kategori}_${index}" placeholder="Tulis deskripsi..." disabled required style="display:none;">
+                <input type="text" class="form-control form-control-lg input-deskripsi-sub" id="txt_${kategori}_${index}" placeholder="Tulis deskripsi..." disabled required style="display:none;">
             `;
             container.appendChild(divGroup);
         });
