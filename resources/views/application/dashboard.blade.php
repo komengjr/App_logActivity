@@ -76,7 +76,7 @@
                         </div>
                     </div>
                     <div class="notification-body">
-                        <p class="mb-1"><strong>Jennifer Kent</strong> Congratulated <strong>Anthony Hopkins</strong></p>
+                        <p class="mb-1"><strong>{{ Auth::user()->name }}</strong> Lorem <strong>{{ Auth::user()->name }}</strong></p>
                         <span class="notification-time">November 13, 5:00 Am</span>
 
                     </div>
@@ -89,7 +89,7 @@
                         </div>
                     </div>
                     <div class="notification-body">
-                        <p class="mb-1"><strong>California Institute of Technology</strong> tagged <strong>Anthony Hopkins</strong> in a post.</p>
+                        <p class="mb-1"><strong>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex nam officia beatae voluptatibus neque, quia consequuntur vero deserunt pariatur totam amet odio quasi repellat nostrum sapiente, ab magni, necessitatibus rem!</strong> tagged <strong>{{ Auth::user()->name }}</strong> in a post.</p>
                         <span class="notification-time">November 8, 5:00 PM</span>
 
                     </div>
@@ -102,7 +102,7 @@
                         </div>
                     </div>
                     <div class="notification-body">
-                        <p class="mb-1"><strong>Anthony Hopkins</strong> joined <strong>Victory day cultural Program</strong> with <strong>Tony Stark</strong></p>
+                        <p class="mb-1"><strong>{{ Auth::user()->name }}</strong> joined <strong>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab in similique, fugiat amet veritatis temporibus nemo iste modi ex velit vel enim, voluptatum esse adipisci voluptate, suscipit aspernatur odit perferendis.</strong> with <strong>{{ Auth::user()->name }}</strong></p>
                         <span class="notification-time">November 01, 11:30 AM</span>
 
                     </div>
@@ -115,7 +115,7 @@
                         </div>
                     </div>
                     <div class="notification-body">
-                        <p class="mb-1"><strong>Massachusetts Institute of Technology</strong> invited <strong>Anthony Hopkin</strong> to an event</p>
+                        <p class="mb-1"><strong>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam ducimus est sunt rerum maiores veniam ut harum quos cumque debitis eaque ex atque nulla minus, itaque consequuntur porro et enim!</strong> invited <strong>{{ Auth::user()->name }}</strong> to an event</p>
                         <span class="notification-time">October 28, 12:00 PM</span>
 
                     </div>
