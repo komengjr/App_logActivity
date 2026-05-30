@@ -171,7 +171,13 @@ class PublicController extends Controller
                     $nomorhp = '+62' . substr($nomorhp, 1);
                 }
             }
-            $text = "Halo " . $request->nama_pelapor . "\n\nDengan Nomor Tiket : \n" . $tiket . "\n\Deskripsi Laporan : " . $request->catatan_laporan ."\n\nʟᴏɢɪᴛ ꜱʏꜱᴛᴇᴍ ɴᴏᴛɪꜰɪᴋᴀꜱɪ";
+
+            $text = "🔐 *[LOGIT SYSTEM NOTIFICATION]*\n\n" .
+                "Halo, *" . $request->nama_pelapor . "*\n" .
+                "Berikut adalah Tiket Laporan Anda:\n\n" .
+                "```" . $tiket . "```\n\n" . "Deskripsi Laporan : " . $request->catatan_laporan .
+                "\n\n⏰ _Tiket ini dibuat pada :_ " . now() . " WIB\n\n" .
+                "⚠️ *Demi Kenyamanan Pelapor :* Pastikan Pengecekan Berkala Pada Sistem dengan Memasukan tiket Laporan anda.";
             DB::table('v_log_whatsapp')->insert([
                 'v_log_whatsapp_code' => str::uuid(),
                 'v_log_whatsapp_type' => 'laporan_user',
