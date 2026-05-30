@@ -59,7 +59,7 @@
         background: #0b5ed7;
     }
 </style>
-<div class="card profile-card bg-white p-4 p-md-5">
+<div class="card profile-card bg-white p-3 p-md-5">
 
     <div id="alertContainer"></div>
 
@@ -95,8 +95,8 @@
                     <div class="col-md-12">
                         <label for="fullName" class="form-label text-secondary small fw-bold">Nama Lengkap</label>
                         <div class="input-group">
-                            <span class="input-group-text bg-light"><i class="bi bi-person text-muted"></i></span>
-                            <input type="text" class="form-control" id="fullName" name="name" value="{{ Auth::user()->name }}" required>
+                            <span class="input-group-text bg-light"><i class="fas fa-user text-muted"></i></span>
+                            <input type="text" class="form-control form-control-lg" id="fullName" name="name" value="{{ Auth::user()->name }}" required>
                         </div>
                     </div>
 
@@ -104,15 +104,15 @@
                         <label for="username" class="form-label text-secondary small fw-bold">Username</label>
                         <div class="input-group">
                             <span class="input-group-text bg-light">@</span>
-                            <input type="text" class="form-control" id="username" name="username" value="{{ Auth::user()->email }}" required disabled>
+                            <input type="text" class="form-control form-control-lg" id="username" name="username" value="{{ Auth::user()->email }}" required disabled>
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <label for="phone" class="form-label text-secondary small fw-bold">Nomor Handphone / Whatsapp</label>
                         <div class="input-group">
-                            <span class="input-group-text bg-light"><i class="bi bi-telephone text-muted"></i></span>
-                            <input type="tel" class="form-control" id="phone" name="phone_number" value="{{ Auth::user()->phone_number }}">
+                            <span class="input-group-text bg-light"><i class="fab fa-whatsapp text-muted"></i></span>
+                            <input type="tel" class="form-control form-control-lg" id="phone" name="phone_number" value="{{ Auth::user()->phone_number }}">
                         </div>
                     </div>
 
