@@ -295,6 +295,7 @@ class MenuController extends Controller
                 'nama_surat'   => $namaSurat,
                 'url_surat'    => $urlSurat,
                 'deskripsi'    => $request->deskripsi ?? 'Tidak ada deskripsi.',
+                'create_user'  => Auth::user()->id_user,
                 'status'       => 'Belum Dimulai',
                 'created_at'   => now(),
                 'updated_at'   => now(),

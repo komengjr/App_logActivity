@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="suratTugas" class="form-label fw-semibold">Upload Surat Tugas <span class="text-muted fw-normal small">(Opsional)</span></label>
+                        <label for="suratTugas" class="form-label fw-semibold">Upload File Tugas <span class="text-muted fw-normal small">(Opsional)</span></label>
                         <input class="form-control" type="file" id="suratTugas" name="surat_tugas" accept=".pdf,.doc,.docx,.jpg,.png">
                     </div>
 
@@ -217,7 +217,7 @@
                 komponenSurat = `
                         <div class="mt-2 pt-2 border-top border-light">
                             <a href="${tugas.url_surat}" target="_blank" class="btn btn-sm btn-outline-secondary py-1 text-truncate max-w-100">
-                                <i class="bi bi-file-earmark-text-fill text-danger me-1"></i> Lihat Surat: ${tugas.nama_surat}
+                                <i class="bi bi-file-earmark-text-fill text-danger me-1"></i> Lihat File: ${tugas.nama_surat}
                             </a>
                         </div>
                     `;

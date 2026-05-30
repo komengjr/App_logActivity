@@ -23,6 +23,7 @@ class MTugas extends Migration
             $table->string('nama_surat')->nullable();
             $table->string('url_surat')->nullable();
             $table->text('deskripsi')->nullable();
+            $table->string('create_user')->nullable();
             $table->enum('status', ['Belum Dimulai', 'Dalam Pengerjaan', 'Dalam Peninjauan', 'Selesai'])->default('Belum Dimulai');
             $table->timestamps();
         });

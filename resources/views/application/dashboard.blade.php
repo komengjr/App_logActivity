@@ -66,35 +66,10 @@
         </div>
         <div class="card mb-3">
             <div class="card-header bg-light d-flex justify-content-between">
-                <h5 class="mb-0">Activity log</h5><a class="font-sans-serif" href="../../app/social/activity-log.html">All logs</a>
+                <h5 class="mb-0">Log Tugas</h5><a class="font-sans-serif" href="#">All logs</a>
             </div>
             <div class="card-body fs--1 p-0">
-                <a class="border-bottom-0 notification rounded-0 border-x-0 border border-300" href="#!">
-                    <div class="notification-avatar">
-                        <div class="avatar avatar-xl me-3">
-                            <div class="avatar-emoji rounded-circle "><span role="img" aria-label="Emoji">🎁</span></div>
-                        </div>
-                    </div>
-                    <div class="notification-body">
-                        <p class="mb-1"><strong>{{ Auth::user()->name }}</strong> Lorem <strong>{{ Auth::user()->name }}</strong></p>
-                        <span class="notification-time">November 13, 5:00 Am</span>
-
-                    </div>
-                </a>
-
-                <a class="border-bottom-0 notification rounded-0 border-x-0 border border-300" href="#!">
-                    <div class="notification-avatar">
-                        <div class="avatar avatar-xl me-3">
-                            <div class="avatar-emoji rounded-circle "><span role="img" aria-label="Emoji">🏷️</span></div>
-                        </div>
-                    </div>
-                    <div class="notification-body">
-                        <p class="mb-1"><strong>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex nam officia beatae voluptatibus neque, quia consequuntur vero deserunt pariatur totam amet odio quasi repellat nostrum sapiente, ab magni, necessitatibus rem!</strong> tagged <strong>{{ Auth::user()->name }}</strong> in a post.</p>
-                        <span class="notification-time">November 8, 5:00 PM</span>
-
-                    </div>
-                </a>
-
+                @foreach ($tugas as $tug)
                 <a class="border-bottom-0 notification rounded-0 border-x-0 border border-300" href="#!">
                     <div class="notification-avatar">
                         <div class="avatar avatar-xl me-3">
@@ -102,11 +77,24 @@
                         </div>
                     </div>
                     <div class="notification-body">
-                        <p class="mb-1"><strong>{{ Auth::user()->name }}</strong> joined <strong>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab in similique, fugiat amet veritatis temporibus nemo iste modi ex velit vel enim, voluptatum esse adipisci voluptate, suscipit aspernatur odit perferendis.</strong> with <strong>{{ Auth::user()->name }}</strong></p>
-                        <span class="notification-time">November 01, 11:30 AM</span>
+                        <p class="mb-1"><strong class="text-primary">{{ $tug->tipe }}</strong> Detail <strong>
+                                {{ $tug->nama }}
+                            </strong><br> Create By.
+                            <strong>
+                                @php
+                                $create = DB::table('users')->select('name')->where('id_user',$tug->create_user)->first();
+                                @endphp
+                                @if ($create)
+                                {{ $create->name }}
+                                @endif
+                            </strong>
+                        </p>
+                        <span class="notification-time">{{ $tug->tgl_mulai }} Sampai {{ $tug->tgl_selesaimen }}</span>
 
                     </div>
                 </a>
+                @endforeach
+
 
                 <a class="notification border-x-0 border-bottom-0 border-300 rounded-top-0" href="#!">
                     <div class="notification-avatar">

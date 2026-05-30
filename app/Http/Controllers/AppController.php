@@ -24,8 +24,8 @@ class AppController extends Controller
         $handle = DB::table('users_handler')->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
             ->where('id_user', Auth::user()->id_user)->get();
         if ($bio) {
-            # code...
-            return view('application.dashboard', compact('bio', 'handle'));
+            $tugas = DB::table('m_tugas')->where('target_user', Auth::user()->id_user)->orderBy('id','desc')->get();
+            return view('application.dashboard', compact('bio', 'handle', 'tugas'));
         } else {
             return view('application.dashboard_admin', compact('handle'));
         }
