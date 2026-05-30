@@ -10,26 +10,28 @@
         </div>
     </div>
 </div>
-<div class="row g-3">
+<div class="row g-4">
+
     <div class="col-md-5">
         <div class="card shadow-sm border-0">
-            <div class="card-header bg-primary py-3">
+            <div class="card-header bg-primary text-white py-3">
                 <h5 class="card-title mb-0 text-white"><i class="fas fa-plus-circle me-2"></i>Buat Tugas Baru</h5>
             </div>
             <div class="card-body p-4">
-                <form id="formTugas">
+                <form id="formTugas" enctype="multipart/form-data">
+                    @csrf
                     <div class="mb-3">
                         <label for="namaTugas" class="form-label fw-semibold">Nama Tugas</label>
-                        <input type="text" class="form-control" id="namaTugas" placeholder="Contoh: Revisi Desain Landing Page" required>
+                        <input type="text" class="form-control" id="namaTugas" name="nama" placeholder="Contoh: Revisi Desain Landing Page" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="tipeTugas" class="form-label fw-semibold">Tipe Tugas</label>
-                        <select class="form-select" id="tipeTugas" required>
+                        <select class="form-select" id="tipeTugas" name="tipe" required>
                             <option value="" disabled selected>Pilih tipe tugas...</option>
-                            <option value="UI/UX Design">UI/UX Design</option>
-                            <option value="Frontend Development">Frontend Development</option>
-                            <option value="Backend Development">Backend Development</option>
+                            <option value="Update Bisone">Update Bisone</option>
+                            <option value="Perjalanan Dinas">Perjalanan Dinas</option>
+                            <option value="Program Development">Program Development</option>
                             <option value="Content Writing">Content Writing</option>
                             <option value="QA Testing">QA Testing</option>
                         </select>
@@ -37,35 +39,35 @@
 
                     <div class="mb-3">
                         <label for="targetUser" class="form-label fw-semibold">Tujuan / User Terdaftar</label>
-                        <select class="form-select" id="targetUser" required>
-                            <option value="" disabled selected>Pilih user terdaftar...</option>
+                        <select class="form-select" id="targetUser" name="target_user" required>
+                            <option value="" disabled selected>Memuat data petugas...</option>
                         </select>
                     </div>
 
                     <div class="row">
                         <div class="col-6 mb-3">
                             <label for="tglMulai" class="form-label fw-semibold">Tanggal Mulai</label>
-                            <input type="date" class="form-control" id="tglMulai" required>
+                            <input type="date" class="form-control" id="tglMulai" name="tgl_mulai" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="tglSelesai" class="form-label fw-semibold">Tenggat Waktu</label>
-                            <input type="date" class="form-control" id="tglSelesai" required>
+                            <input type="date" class="form-control" id="tglSelesai" name="tgl_selesai" required>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="suratTugas" class="form-label fw-semibold">Upload Surat Tugas <span class="text-muted fw-normal small">(Opsional)</span></label>
-                        <input class="form-control" type="file" id="suratTugas" accept=".pdf,.doc,.docx,.jpg,.png">
+                        <input class="form-control" type="file" id="suratTugas" name="surat_tugas" accept=".pdf,.doc,.docx,.jpg,.png">
                         <div class="form-text text-muted small">Format yang didukung: PDF, Word, atau Gambar.</div>
                     </div>
 
                     <div class="mb-4">
                         <label for="deskripsi" class="form-label fw-semibold">Deskripsi Singkat</label>
-                        <textarea class="form-control" id="deskripsi" rows="3" placeholder="Tambahkan catatan atau detail tugas..."></textarea>
+                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" placeholder="Tambahkan catatan atau detail tugas..."></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
-                        <i class="fas fa-file-earmark-plus me-1"></i> Tambahkan Tugas
+                        <i class="bi bi-file-earmark-plus me-1"></i> Tambahkan Tugas
                     </button>
                 </form>
             </div>
@@ -80,7 +82,7 @@
                     <span class="badge bg-secondary" id="totalTugas">0 Tugas</span>
                 </div>
                 <div class="input-group">
-                    <span class="input-group-text bg-light border-0"><i class="fas fa-search"></i></span>
+                    <span class="input-group-text bg-light border-0 text-muted"><i class="fa fa-search text-danger"></i></span>
                     <input type="text" id="searchTugas" class="form-control border-0" placeholder="Cari nama tugas, tipe, atau nama user...">
                 </div>
             </div>
@@ -102,33 +104,11 @@
 
 @section('base.js')
 <script>
-    // Data Simulasi User Terdaftar
-    const daftarUser = [{
-            id: 1,
-            nama: "Ahmad Dhani",
-            divisi: "Marketing"
-        },
-        {
-            id: 2,
-            nama: "Siti Rahma",
-            divisi: "Client / Owner"
-        },
-        {
-            id: 3,
-            nama: "Budi Utomo",
-            divisi: "Frontend Team"
-        },
-        {
-            id: 4,
-            nama: "Diana Lestari",
-            divisi: "UI/UX Team"
-        },
-        {
-            id: 5,
-            nama: "Kevin Sanjaya",
-            divisi: "QA Tester"
-        }
-    ];
+    // Konfigurasi Base URL API Laravel (Sesuaikan jika Anda menggunakan prefix /api/)
+    const API_URL = '/menu/app/menu/create-task';
+
+    // Setup CSRF Token untuk Fetch API (Keperluan Laravel)
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     let dataTugas = [];
 
@@ -139,23 +119,42 @@
     const selectTargetUser = document.getElementById('targetUser');
     const searchInput = document.getElementById('searchTugas');
 
-    // Isi dropdown target user
-    function renderUserDropdown() {
-        daftarUser.forEach(user => {
-            const option = document.createElement('option');
-            option.value = user.nama;
-            option.textContent = `${user.nama} (${user.divisi})`;
-            selectTargetUser.appendChild(option);
-        });
-    }
-    renderUserDropdown();
+    // 1. AMBIL DATA USER DARI DATABASE LARAVEL
+    async function fetchUserDropdown() {
+        try {
+            const response = await fetch(`${API_URL}/users`);
+            const daftarUser = await response.json();
 
-    // FUNGSI UTAMA: Merender list tugas
+            selectTargetUser.innerHTML = '<option value="" disabled selected>Pilih user terdaftar...</option>';
+            daftarUser.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.id_user; // atau user.id tergantung kebutuhan backend
+                option.textContent = `${user.nama_lengkap} (${user.nip})`;
+                selectTargetUser.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Gagal memuat data user:', error);
+            selectTargetUser.innerHTML = '<option value="" disabled>Gagal memuat data</option>';
+        }
+    }
+
+    // 2. AMBIL DATA TUGAS DARI DATABASE LARAVEL
+    async function fetchTugas() {
+        try {
+            const response = await fetch(`${API_URL}/tugas`);
+            dataTugas = await response.json();
+            renderListTugas(searchInput.value);
+        } catch (error) {
+            console.error('Gagal memuat data tugas:', error);
+        }
+    }
+
+    // 3. RENDER DATA KE LIST TUGAS HTML
     function renderListTugas(kataKunci = '') {
         let tugasDifilter = dataTugas.filter(tugas => {
             const matchNama = tugas.nama.toLowerCase().includes(kataKunci.toLowerCase());
             const matchTipe = tugas.tipe.toLowerCase().includes(kataKunci.toLowerCase());
-            const matchUser = tugas.targetUser.toLowerCase().includes(kataKunci.toLowerCase());
+            const matchUser = tugas.target_user.toLowerCase().includes(kataKunci.toLowerCase());
             return matchNama || matchTipe || matchUser;
         });
 
@@ -184,28 +183,27 @@
                 month: 'short',
                 year: 'numeric'
             };
-            const fmtMulai = new Date(tugas.tglMulai).toLocaleDateString('id-ID', opsiTgl);
-            const fmtSelesai = new Date(tugas.tglSelesai).toLocaleDateString('id-ID', opsiTgl);
+            const fmtMulai = new Date(tugas.tgl_mulai).toLocaleDateString('id-ID', opsiTgl);
+            const fmtSelesai = new Date(tugas.tgl_selesai).toLocaleDateString('id-ID', opsiTgl);
 
             let selectClass = "border-danger text-danger";
             if (tugas.status === "Dalam Pengerjaan") selectClass = "border-warning text-warning-emphasis";
             if (tugas.status === "Dalam Peninjauan") selectClass = "border-info text-info-emphasis";
             if (tugas.status === "Selesai") selectClass = "border-success text-success bg-success-subtle";
 
-            // Logika komponen attachment surat tugas jika ada
             let komponenSurat = '';
-            if (tugas.namaSurat && tugas.urlSurat) {
+            if (tugas.nama_surat && tugas.url_surat) {
                 komponenSurat = `
                         <div class="mt-2 pt-2 border-top border-light">
-                            <a href="${tugas.urlSurat}" target="_blank" class="btn btn-sm btn-outline-secondary py-1 text-truncate max-w-100">
-                                <i class="bi bi-file-earmark-text-fill text-danger me-1"></i> Lihat Surat: ${tugas.namaSurat}
+                            <a href="${tugas.url_surat}" target="_blank" class="btn btn-sm btn-outline-secondary py-1 text-truncate max-w-100">
+                                <i class="bi bi-file-earmark-text-fill text-danger me-1"></i> Lihat Surat: ${tugas.nama_surat}
                             </a>
                         </div>
                     `;
             }
 
             const tugasCard = document.createElement('div');
-            tugasCard.className = `card border shadow-sm ${tugas.status === 'Selesai' ? 'opacity-75 bg-light' : ''}`;
+            tugasCard.className = `mb-3 card border border-primary shadow-sm ${tugas.status === 'Selesai' ? 'opacity-75 bg-light' : ''}`;
             tugasCard.innerHTML = `
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start mb-2">
@@ -213,7 +211,7 @@
                                 <div class="d-flex gap-2 mb-2 align-items-center flex-wrap">
                                     <span class="badge bg-info text-dark">${tugas.tipe}</span>
                                     <span class="badge bg-secondary-subtle text-secondary-emphasis">
-                                        <i class="bi bi-person-check-fill me-1"></i> Kepada: ${tugas.targetUser}
+                                        <i class="bi bi-person-check-fill me-1"></i> Kepada: ${tugas.nama_lengkap}
                                     </span>
                                 </div>
                                 <h6 class="card-title mb-1 fw-bold ${tugas.status === 'Selesai' ? 'text-decoration-line-through text-muted' : 'text-dark'}">${tugas.nama}</h6>
@@ -230,7 +228,7 @@
                                 </select>
                             </div>
                         </div>
-                        <p class="card-text small text-secondary mt-3 bg-white p-2 rounded border mb-2">${tugas.deskripsi}</p>
+                        <p class="card-text small text-secondary mt-3 bg-white p-2 rounded border mb-2">${tugas.deskripsi || 'Tidak ada deskripsi.'}</p>
                         ${komponenSurat}
                     </div>
                 `;
@@ -238,54 +236,67 @@
         });
     }
 
-    // LOGIKA: Form Submit
-    formTugas.addEventListener('submit', function(e) {
+    // 4. SIMPAN TUGAS BARU KE BACKEND LARAVEL
+    formTugas.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        const fileInput = document.getElementById('suratTugas');
-        let namaSurat = null;
-        let urlSurat = null;
+        // Menggunakan FormData karena ada proses upload file (surat tugas)
+        const formData = new FormData(this);
 
-        // Jika user memilih file, ekstrak informasi filenya
-        if (fileInput.files.length > 0) {
-            const file = fileInput.files[0];
-            namaSurat = file.name;
-            urlSurat = URL.createObjectURL(file); // Membuat link lokal sementara agar file bisa diklik/diakses
+        try {
+            const response = await fetch(`${API_URL}/save`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: formData
+            });
+
+            if (response.ok) {
+                formTugas.reset();
+                searchInput.value = '';
+                fetchTugas(); // Ambil ulang data terbaru dari server
+            } else {
+                alert('Gagal menambahkan tugas. Cek validasi server.');
+            }
+        } catch (error) {
+            console.error('Error saat menyimpan tugas:', error);
         }
-
-        const tugasBaru = {
-            id: Date.now(),
-            nama: document.getElementById('namaTugas').value,
-            tipe: document.getElementById('tipeTugas').value,
-            targetUser: selectTargetUser.value,
-            tglMulai: document.getElementById('tglMulai').value,
-            tglSelesai: document.getElementById('tglSelesai').value,
-            deskripsi: document.getElementById('deskripsi').value || 'Tidak ada deskripsi.',
-            status: 'Belum Dimulai',
-            namaSurat: namaSurat,
-            urlSurat: urlSurat
-        };
-
-        dataTugas.push(tugasBaru);
-
-        searchInput.value = '';
-        renderListTugas();
-
-        formTugas.reset();
     });
 
-    // FUNGSI: Mengubah status tugas
-    function ubahStatusTugas(id, statusBaru) {
-        const index = dataTugas.findIndex(tugas => tugas.id === id);
-        if (index !== -1) {
-            dataTugas[index].status = statusBaru;
+    // 5. UPDATE STATUS TUGAS KE DATABASE LARAVEL
+    async function ubahStatusTugas(id, statusBaru) {
+        try {
+            const response = await fetch(`${API_URL}/tugas/${id}/status`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({
+                    status: statusBaru
+                })
+            });
+
+            if (response.ok) {
+                fetchTugas(); // Refresh data setelah sukses update status
+            } else {
+                alert('Gagal mengubah status tugas.');
+            }
+        } catch (error) {
+            console.error('Error saat update status:', error);
         }
-        renderListTugas(searchInput.value);
     }
 
-    // EVENT LISTENER: Pencarian
+    // Event Listener untuk fitur Pencarian lokal
     searchInput.addEventListener('input', function() {
         renderListTugas(this.value);
+    });
+
+    // Inisialisasi awal saat halaman dibuka
+    document.addEventListener("DOMContentLoaded", () => {
+        fetchUserDropdown();
+        fetchTugas();
     });
 </script>
 @endsection

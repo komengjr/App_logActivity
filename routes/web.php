@@ -71,6 +71,12 @@ Route::prefix('menu')->group(function () {
     Route::get('app/menu/proses-maintenance/barang', [MenuController::class, 'menu_proses_maintenance_get_barang'])->name('menu_proses_maintenance_get_barang');
     Route::post('app/menu/proses-maintenance/simpan', [MenuController::class, 'menu_proses_maintenance_save'])->name('menu_proses_maintenance_save');
 
+    Route::get('app/menu/create-task/users', [MenuController::class, 'menu_create_task_get_user'])->name('menu_create_task_get_user');
+    Route::get('app/menu/create-task/tugas', [MenuController::class, 'menu_create_task_get_tugas'])->name('menu_create_task_get_user');
+    Route::put('app/menu/create-task/tugas/{id}/status', [MenuController::class, 'menu_create_task_get_tugas_status'])->name('menu_create_task_get_tugas_status');
+    Route::post('app/menu/create-task/save', [MenuController::class, 'menu_create_task_save'])->name('menu_create_task_save');
+
+
     Route::post('app/master/master-piket-setup/save', [MenuController::class, 'master_piket_setup_save'])->name('master_piket_setup_save');
 
     Route::get('app/master/master-piket-data/{bulan}', [MenuController::class, 'master_piket_data_bulan'])->name('master_piket_data_bulan');

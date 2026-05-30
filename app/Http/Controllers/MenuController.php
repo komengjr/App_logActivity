@@ -225,6 +225,79 @@ class MenuController extends Controller
             return Redirect::to('dashboard/home');
         }
     }
+    public function menu_create_task_get_user(Request $request)
+    {
+        $users = DB::table('tbl_biodata')->get();
+        return response()->json($users, 200);
+    }
+    public function menu_create_task_get_tugas(Request $request)
+    {
+        // Mengambil semua data tugas diurutkan dari yang terbaru
+        $tugas = DB::table('m_tugas')->join('tbl_biodata', 'tbl_biodata.id_user', '=', 'm_tugas.target_user')->get();
+        return response()->json($tugas, 200);
+    }
+    public function menu_create_task_get_tugas_status(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:Belum Dimulai,Dalam Pengerjaan,Dalam Peninjauan,Selesai'
+        ]);
+
+        // Update status di database
+        $update = DB::table('m_tugas')->where('id', $id)->update([
+            'status'     => $request->status,
+            'updated_at' => now()
+        ]);
+
+        if ($update) {
+            return response()->json(['message' => 'Status tugas berhasil diperbarui!'], 200);
+        }
+
+        return response()->json(['message' => 'Tugas tidak ditemukan atau tidak ada perubahan.'], 404);
+    }
+    public function menu_create_task_save(Request $request)
+    {
+        $request->validate([
+            'nama'         => 'required|string|max:255',
+            'tipe'         => 'required|string',
+            'target_user'  => 'required|string',
+            'tgl_mulai'    => 'required|date',
+            'tgl_selesai'  => 'required|date|after_or_equal:tgl_mulai',
+            'surat_tugas'  => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048', // Maksimal 2MB
+            'deskripsi'    => 'nullable|string',
+        ]);
+
+        $namaSurat = null;
+        $urlSurat = null;
+
+        // 2. Logika Upload File (Jika user mengunggah surat tugas)
+        if ($request->hasFile('surat_tugas')) {
+            $file = $request->file('surat_tugas');
+            $namaSurat = $file->getClientOriginalName();
+
+            // Menyimpan file ke dalam folder 'public/surat_tugas'
+            $path = $file->store('surat_tugas', 'public');
+
+            // Menghasilkan URL asset yang bisa diakses publik/frontend
+            $urlSurat = asset('storage/' . $path);
+        }
+
+        // 3. Simpan ke Database menggunakan Query Builder (atau bisa pakai Model Tugas jika ada)
+        DB::table('m_tugas')->insert([
+            'nama'         => $request->nama,
+            'tipe'         => $request->tipe,
+            'target_user'  => $request->target_user,
+            'tgl_mulai'    => $request->tgl_mulai,
+            'tgl_selesaimen'  => $request->tgl_selesai,
+            'nama_surat'   => $namaSurat,
+            'url_surat'    => $urlSurat,
+            'deskripsi'    => $request->deskripsi ?? 'Tidak ada deskripsi.',
+            'status'       => 'Belum Dimulai',
+            'created_at'   => now(),
+            'updated_at'   => now(),
+        ]);
+
+        return response()->json(['message' => 'Tugas berhasil ditambahkan!'], 201);
+    }
     // LAPORAN KENDALA
     public function laporan_kendala_user($akses)
     {
