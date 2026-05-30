@@ -27,8 +27,7 @@ class AppController extends Controller
         $handle = DB::table('users_handler')->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
             ->where('id_user', Auth::user()->id_user)->get();
         if ($bio) {
-            $tugas = DB::table('m_tugas')->where('target_user', Auth::user()->id_user)->orderBy('id', 'desc')->get();
-            return view('application.dashboard', compact('bio', 'handle', 'tugas'));
+            return view('application.dashboard', compact('bio', 'handle'));
         } else {
             return view('application.dashboard_admin', compact('handle'));
         }
@@ -227,6 +226,88 @@ class AppController extends Controller
             'message' => 'Selamat! Password Anda berhasil diperbarui.'
         ]);
     }
+    public function dashboard_home_data_users()
+    {
+        $users = DB::table('tbl_biodata')->get();
+        return response()->json($users, 200);
+    }
+    public function dashboard_home_data_tugas()
+    {
+        $tugas = DB::table('m_tugas')
+            ->join('tbl_biodata', 'tbl_biodata.id_user', '=', 'm_tugas.target_user')
+            ->where('target_user', Auth::user()->id_user)
+            ->orderBy('status', 'asc') // Opsi tambahan: urutkan agar yang selesai ada di bawah
+            ->orderBy('id', 'desc')
+            ->take(100)->get();
+        return response()->json($tugas, 200);
+    }
+    public function dashboard_home_data_tugas_status(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:Belum Dimulai,Dalam Pengerjaan,Dalam Peninjauan,Selesai'
+        ]);
+
+        // Update status di database
+        $update = DB::table('m_tugas')->where('id', $id)->update([
+            'status'     => $request->status,
+            'updated_at' => now()
+        ]);
+
+        if ($update) {
+            return response()->json(['message' => 'Status tugas berhasil diperbarui!'], 200);
+        }
+
+        return response()->json(['message' => 'Tugas tidak ditemukan atau tidak ada perubahan.'], 404);
+    }
+    public function dashboard_home_data_tugas_terima(Request $request, $id)
+    {
+        DB::table('m_tugas')->where('id', $id)->update([
+            'status'     => 'Dalam Pengerjaan',
+            'updated_at' => now()
+        ]);
+        return response()->json(['message' => 'Tugas berhasil diterima.'], 200);
+    }
+    public function dashboard_home_data_tugas_alihkan(Request $request, $id)
+    {
+        // 1. Validasi Input data dari Frontend
+        $request->validate([
+            'petugas_baru' => 'required|string|max:255',
+            'alasan'       => 'required|string'
+        ]);
+
+        // 2. Paksa ID menjadi bentuk Integer (Mengantisipasi string data dari JS)
+        $tugasId = (int) $id;
+
+        // 3. Cari tugas target
+        $tugas = DB::table('m_tugas')->where('id', $tugasId)->first();
+
+        if (!$tugas) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data tugas dengan ID ' . $tugasId . ' tidak ditemukan di database.'
+            ], 404);
+        }
+
+        // 4. Buat riwayat catatan log mutasi
+        $deskripsiLama = $tugas->deskripsi ?? 'Tidak ada deskripsi.';
+        $logPengalihan = "\n\n[Riwayat: Dialihkan dari " . ($tugas->target_user ?? 'Tanpa PJ') . " ke " . $request->petugas_baru . ". Alasan: " . $request->alasan . "]";
+        $deskripsiBaru = $deskripsiLama . $logPengalihan;
+
+        // 5. Eksekusi Update ke Database secara paksa
+        $prosesUpdate = DB::table('m_tugas')->where('id', $tugasId)->update([
+            'target_user' => $request->petugas_baru,
+            'status'      => 'Belum Dimulai',
+            'deskripsi'   => $deskripsiBaru,
+            'updated_at'  => now()
+        ]);
+
+        // 6. Kembalikan respon sukses terstruktur
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Tugas berhasil dialihkan kepada ' . $request->petugas_baru
+        ], 200);
+    }
+    // PESAN
     public function dashboard_get_message(Request $request)
     {
         $datapesan = DB::table('tbl_laporan_user')

@@ -21,6 +21,11 @@ Route::prefix('app')->group(function () {
     Route::post('dashboard_home/reset-password', [AppController::class, 'dashboard_home_reset_password'])->name('dashboard_home_reset_password');
     Route::post('dashboard_home/reset-password/send-otp', [AppController::class, 'dashboard_home_reset_password_send_otp'])->name('dashboard_home_reset_password_send_otp');
     Route::post('dashboard_home/reset-password/update', [AppController::class, 'dashboard_home_reset_password_update'])->name('dashboard_home_reset_password_update');
+    Route::get('dashboard_home/users', [AppController::class, 'dashboard_home_data_users'])->name('dashboard_home_data_users');
+    Route::get('dashboard_home/tugas', [AppController::class, 'dashboard_home_data_tugas'])->name('dashboard_home_data_tugas');
+    Route::put('dashboard_home/tugas/{id}/status', [AppController::class, 'dashboard_home_data_tugas_status'])->name('dashboard_home_data_tugas_status');
+    Route::put('dashboard_home/tugas/{id}/terima', [AppController::class, 'dashboard_home_data_tugas_terima'])->name('dashboard_home_data_tugas_terima');
+    Route::put('dashboard_home/tugas/{id}/alihkan', [AppController::class, 'dashboard_home_data_tugas_alihkan'])->name('dashboard_home_data_tugas_alihkan');
 
 
     Route::post('get_message', [AppController::class, 'dashboard_get_message'])->name('dashboard_get_message');
@@ -81,7 +86,6 @@ Route::prefix('menu')->group(function () {
     Route::get('app/menu/create-task/users', [MenuController::class, 'menu_create_task_get_user'])->name('menu_create_task_get_user');
     Route::get('app/menu/create-task/tugas', [MenuController::class, 'menu_create_task_get_tugas'])->name('menu_create_task_get_tugas');
     Route::put('app/menu/create-task/tugas/{id}/status', [MenuController::class, 'menu_create_task_get_tugas_status'])->name('menu_create_task_get_tugas_status');
-    Route::post('app/menu/create-task/save', [MenuController::class, 'menu_create_task_save'])->name('menu_create_task_save');
 
 
     Route::post('app/master/master-piket-setup/save', [MenuController::class, 'master_piket_setup_save'])->name('master_piket_setup_save');
