@@ -29,3 +29,8 @@ Route::prefix('v2/')->group(function (): void {
     Route::get('getway/whatsapp-update/{code}', [ApiController::class, 'getway_whatsapp_status'])->name('getway_whatsapp_status');
     Route::post('getway/whatsapp-update', [ApiController::class, 'getway_whatsapp_update'])->name('getway_whatsapp_update');
 });
+Route::prefix('password/')->group(function (): void {
+    Route::post('send-otp', [ApiController::class, 'password_send_otp'])->name('password_send_otp');
+    Route::post('update', [ApiController::class, 'password_update'])->name('password_update');
+});
+

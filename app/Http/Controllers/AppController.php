@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use PDF;
 use Illuminate\Support\Facades\Storage;
 use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
 use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
+use App\User;
 
 class AppController extends Controller
 {
@@ -24,11 +27,205 @@ class AppController extends Controller
         $handle = DB::table('users_handler')->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
             ->where('id_user', Auth::user()->id_user)->get();
         if ($bio) {
-            $tugas = DB::table('m_tugas')->where('target_user', Auth::user()->id_user)->orderBy('id','desc')->get();
+            $tugas = DB::table('m_tugas')->where('target_user', Auth::user()->id_user)->orderBy('id', 'desc')->get();
             return view('application.dashboard', compact('bio', 'handle', 'tugas'));
         } else {
             return view('application.dashboard_admin', compact('handle'));
         }
+    }
+    public function dashboard_home_update_profile(Request $request)
+    {
+        return view('application.dashboard.update-profile');
+    }
+    public function dashboard_home_update_profile_save(Request $request)
+    {
+        $user = Auth::user();
+
+        // 1. Validasi Input Data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone_number' => 'nullable|string|max:20',
+            'gender' => 'nullable|string|in:L,P',
+            'job' => 'nullable|string|max:100',
+            'bio' => 'nullable|string|max:500',
+            'avatar' => 'nullable|image|mimes:jpeg,jpg,png|max:2048', // Maksimal 2MB
+        ]);
+
+        // 2. Ambil instansiasi data user target
+        $userData = User::find($user->id);
+
+        // 3. Logika Proses Upload Gambar (Jika ada gambar baru yang dimasukkan)
+        if ($request->hasFile('avatar')) {
+
+            // Hapus file foto profil lama di storage jika sebelumnya ada
+            if ($userData->avatar && Storage::disk('public')->exists($userData->avatar)) {
+                Storage::disk('public')->delete($userData->avatar);
+            }
+
+            // Simpan gambar baru ke folder: storage/app/public/avatars
+            $path = $request->file('avatar')->store('avatars', 'public');
+            DB::table('tbl_biodata')->where('id_user', Auth::user()->id_user)->update([
+                'gambar' => $path
+            ]);
+            // $userData->avatar = $path;
+        }
+
+        // 4. Update kolom teks lainnya
+        $userData->name = $request->name;
+        $userData->email_verified_at = $request->email;
+        $userData->phone_number = $request->phone_number;
+
+
+        $userData->save();
+
+        // 5. Kembalikan response JSON ke Fetch javascript
+        return response()->json([
+            'success' => true,
+            'message' => 'Profil Anda berhasil diperbarui!',
+            'avatar_url' => $userData->avatar ? asset('storage/' . $userData->avatar) : null
+        ]);
+    }
+    public function dashboard_home_reset_password(Request $request)
+    {
+        return view('application.dashboard.reset-password');
+    }
+    public function dashboard_home_reset_password_send_otp(Request $request)
+    {
+        // 1. Ambil data user yang sedang login (Menggunakan Auth session)
+        // $user = DB::table('tbl_biodata')->where('id_user', Auth::user()->id_user)->first();
+        $phoneNumber = Auth::user()->phone_number;
+
+        // 2. PROTEKSI BARU: Cek apakah sudah ada OTP yang aktif (belum expired & belum terpakai)
+        $activeOtp = DB::table('password_otp_tokens')
+            ->where('phone_number', $phoneNumber)
+            ->where('is_used', false)
+            ->where('expires_at', '>', Carbon::now())
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        // Jika OTP aktif ditemukan, hitung sisa waktunya untuk diinfokan ke user
+        if ($activeOtp) {
+            $sisaDetik = Carbon::now()->diffInSeconds(Carbon::parse($activeOtp->expires_at));
+
+            return response()->json([
+                'success' => false,
+                'message' => "Kode OTP Anda masih aktif. Silakan gunakan kode tersebut atau tunggu sekitar " . ceil($sisaDetik / 60) . " menit lagi untuk meminta kode baru."
+            ], 429); // 429 Too Many Requests
+        }
+
+        // 3. Jika tidak ada OTP aktif, barulah Generate 6 Digit Angka Baru
+        $otpCode = rand(100000, 999999);
+        $expiresAt = Carbon::now()->addMinutes(5); // Berlaku 5 menit
+
+        // 4. Simpan ke Database
+        DB::table('password_otp_tokens')->insert([
+            'phone_number' => $phoneNumber,
+            'otp_code' => $otpCode,
+            'expires_at' => $expiresAt,
+            'is_used' => false,
+            'created_at' => Carbon::now()
+        ]);
+
+        // 5. Kirim OTP melalui vendor SMS/WhatsApp Gateway Anda
+        $nomorhp = $phoneNumber;
+        //Terlebih dahulu kita trim dl
+        $nomorhp = trim($nomorhp);
+        //bersihkan dari karakter yang tidak perlu
+        $nomorhp = strip_tags($nomorhp);
+        // Berishkan dari spasi
+        $nomorhp = str_replace(" ", "", $nomorhp);
+        // Berishkan dari -
+        $nomorhp = str_replace("-", "", $nomorhp);
+        // bersihkan dari bentuk seperti  (022) 66677788
+        $nomorhp = str_replace("(", "", $nomorhp);
+        // bersihkan dari format yang ada titik seperti 0811.222.333.4
+        $nomorhp = str_replace(".", "", $nomorhp);
+
+        if (!preg_match('/[^+0-9]/', trim($nomorhp))) {
+            // cek apakah no hp karakter 1-3 adalah +62
+            if (substr(trim($nomorhp), 0, 3) == '+62') {
+                $nomorhp = trim($nomorhp);
+            }
+            // cek apakah no hp karakter 1 adalah 0
+            elseif (substr($nomorhp, 0, 1) == '0') {
+                $nomorhp = '+62' . substr($nomorhp, 1);
+            }
+        }
+        $text = "🔐 *[LOGIT SYSTEM NOTIFICATION]*\n\n" .
+            "Halo, *" . Auth::user()->name . "*\n" .
+            "Berikut adalah kode verifikasi OTP Anda:\n\n" .
+            "```" . $otpCode . "```\n\n" .
+            "⏰ _Kode ini berlaku sampai:_ " . Carbon::parse($expiresAt)->format('H:i') . " WIB\n\n" .
+            "⚠️ *Demi keamanan:* Jangan membagikan kode ini kepada siapa pun.";
+        DB::table('v_log_whatsapp')->insert([
+            'v_log_whatsapp_code' => str::uuid(),
+            'v_log_whatsapp_type' => 'Reset Password',
+            'v_log_whatsapp_token' => $otpCode,
+            'v_log_whatsapp_number' => $nomorhp,
+            'v_log_whatsapp_name' => Auth::user()->name,
+            'v_log_whatsapp_filename' => 'nofile',
+            'v_log_whatsapp_text' => $text,
+            'v_log_whatsapp_file' => 'N',
+            'v_log_whatsapp_picture' => 0,
+            'v_log_whatsapp_status' => 0,
+            'v_log_whatsapp_date' => now(),
+            'v_log_whatsapp_pass' => 'admin',
+            'created_at' => now()
+        ]);
+        // $this->whatsAppService->send($phoneNumber, "Kode OTP Anda adalah: " . $otpCode);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Kode OTP baru berhasil dikirim ke nomor HP Anda.'
+        ]);
+    }
+    public function dashboard_home_reset_password_update(Request $request)
+    {
+        // 1. Validasi Input Request dari Form Bootstrap
+        $request->validate([
+            'new_password' => 'required|string|min:8',
+            'confirm_password' => 'required|same:new_password',
+            'otp_code' => 'required|string|size:6',
+        ]);
+
+        $user = DB::table('tbl_biodata')->where('id_user', Auth::user()->id_user)->first();
+        $phoneNumber =  Auth::user()->phone_number;
+
+        // 2. Cari data OTP terakhir yang cocok, belum kedaluwarsa, dan belum digunakan
+        $otpCheck = DB::table('password_otp_tokens')
+            ->where('phone_number', $phoneNumber)
+            ->where('otp_code', $request->otp_code)
+            ->where('is_used', false)
+            ->where('expires_at', '>', Carbon::now())
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        // 3. Jika OTP tidak ditemukan atau sudah tidak valid
+        if (!$otpCheck) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Kode OTP salah, sudah kedaluwarsa, atau telah digunakan.'
+            ], 400);
+        }
+
+        // 4. Jalankan Query Update secara aman menggunakan Database Transaction
+        DB::transaction(function () use ($request, $otpCheck) {
+
+            // A. Update password baru milik user (di-hash menggunakan bcrypt)
+            DB::table('users')->where('id_user', Auth::user()->id_user)->update([
+                'password' => Hash::make($request->new_password)
+            ]);
+
+            // B. Tandai kode OTP tersebut sudah hangus/terpakai
+            DB::table('password_otp_tokens')
+                ->where('id', $otpCheck->id)
+                ->update(['is_used' => true, 'updated_at' => Carbon::now()]);
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Selamat! Password Anda berhasil diperbarui.'
+        ]);
     }
     public function dashboard_get_message(Request $request)
     {

@@ -16,6 +16,13 @@ Route::get('masteradmin/tiket/getdataoption/{id}', ['as' => 'masteradmin/tiket/g
 
 Route::prefix('app')->group(function () {
     Route::get('dashboard_home', [AppController::class, 'dashboard_home'])->name('dashboard_home');
+    Route::post('dashboard_home/update-profile', [AppController::class, 'dashboard_home_update_profile'])->name('dashboard_home_update_profile');
+    Route::post('dashboard_home/update-profile/save', [AppController::class, 'dashboard_home_update_profile_save'])->name('dashboard_home_update_profile_save');
+    Route::post('dashboard_home/reset-password', [AppController::class, 'dashboard_home_reset_password'])->name('dashboard_home_reset_password');
+    Route::post('dashboard_home/reset-password/send-otp', [AppController::class, 'dashboard_home_reset_password_send_otp'])->name('dashboard_home_reset_password_send_otp');
+    Route::post('dashboard_home/reset-password/update', [AppController::class, 'dashboard_home_reset_password_update'])->name('dashboard_home_reset_password_update');
+
+
     Route::post('get_message', [AppController::class, 'dashboard_get_message'])->name('dashboard_get_message');
     Route::post('get_message/proses', [AppController::class, 'dashboard_get_message_proses'])->name('dashboard_get_message_proses');
     Route::post('get_message/proses_terima', [AppController::class, 'dashboard_get_message_proses_terima'])->name('dashboard_get_message_proses_terima');

@@ -364,8 +364,11 @@
                                     <div class="dropdown-divider"></div>
 
                                     <a class="dropdown-item" href="#" id="button-setup-profil"
-                                        data-bs-toggle="modal" data-bs-target="#modal-template-xl"><span
+                                        data-bs-toggle="modal" data-bs-target="#modal-template"><span
                                             class="fas fa-user-cog me-1"></span> Profile account</a>
+                                    <a class="dropdown-item text-warning" href="#" id="button-reset-password"
+                                        data-bs-toggle="modal" data-bs-target="#modal-template-sm"><span
+                                            class="fas fa-key me-2"></span> Reset Password</a>
                                     <div class="dropdown-divider"></div>
                                     {{-- <a class="dropdown-item" href="#">Settings</a> --}}
                                     <a class="dropdown-item text-danger" href="{{ route('logout') }}"><span
@@ -656,6 +659,47 @@
         setInterval('showTime()', 2000);
 
         // message
+        $(document).on("click", "#button-setup-profil", function(e) {
+            e.preventDefault();
+            $('#menu-template').html(
+                '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+            );
+            $.ajax({
+                url: "{{ route('dashboard_home_update_profile') }}",
+                type: "POST",
+                cache: false,
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "code": 2123
+                },
+                dataType: 'html',
+            }).done(function(data) {
+                $('#menu-template').html(data);
+            }).fail(function() {
+                $('#menu-template').html('eror');
+            });
+        });
+        $(document).on("click", "#button-reset-password", function(e) {
+            e.preventDefault();
+            $('#menu-template-sm').html(
+                '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+            );
+            $.ajax({
+                url: "{{ route('dashboard_home_reset_password') }}",
+                type: "POST",
+                cache: false,
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "code": 2123
+                },
+                dataType: 'html',
+            }).done(function(data) {
+                $('#menu-template-sm').html(data);
+            }).fail(function() {
+                $('#menu-template-sm').html('eror');
+            });
+        });
+        // message
         $(document).on("click", "#navbarDropdownNotification", function(e) {
             e.preventDefault();
             $('#show-notification').html(
@@ -698,6 +742,209 @@
                 $('#menu-template-xl').html('eror');
             });
         });
+    </script>
+    <script>
+        let timerInterval;
+
+        // Sesuaikan URL Endpoint dengan route API Backend Anda
+        const API_SEND_OTP = "{{ route('dashboard_home_reset_password_send_otp') }}";
+        const API_UPDATE_PASSWORD = "{{ route('dashboard_home_reset_password_update') }}";
+
+        // 1. Fungsi Show/Hide Password
+        function togglePassword(inputId, iconElement) {
+            const passwordInput = document.getElementById(inputId);
+
+            // Cari ikon <i> atau <svg> di dalam elemen yang diklik
+            const icon = iconElement.querySelector('i') || iconElement.querySelector('svg');
+
+            // Validasi: Jika input password tidak ditemukan, hentikan proses
+            if (!passwordInput) return;
+
+            // Toggle tipe input antara password dan text
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+
+                // Hanya ubah class jika objek icon memang ditemukan
+                if (icon) {
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            } else {
+                passwordInput.type = "password";
+
+                if (icon) {
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                }
+            }
+        }
+
+        // 2. Fungsi Pembantu Alert UI
+        function showAlert(type, message) {
+            const container = document.getElementById('alertContainer');
+            container.innerHTML = `
+            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                <i class="fas ${type === 'success' ? 'fa-check-circle-fill' : 'fa-exclamation-triangle-fill'} me-2"></i>
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
+        }
+
+        // 3. Request Kirim OTP ke Backend (Tahap 1)
+        async function sendVerificationCode() {
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+
+            if (!newPass || !confirmPass) {
+                showAlert('danger', 'Silakan isi kolom password baru dan konfirmasi terlebih dahulu.');
+                return;
+            }
+            if (newPass !== confirmPass) {
+                showAlert('danger', 'Konfirmasi password baru tidak cocok.');
+                return;
+            }
+
+            // Efek Loading pada Tombol Kirim OTP
+            const sendBtn = document.getElementById('sendCodeBtn');
+            const textBtn = document.getElementById('btnRequestText');
+            const spinnerBtn = document.getElementById('btnRequestSpinner');
+            const verificationInput = document.getElementById('verificationCode');
+            const submitBtn = document.getElementById('submitBtn');
+
+            sendBtn.disabled = true;
+            textBtn.classList.add('d-none');
+            spinnerBtn.classList.remove('d-none');
+
+            try {
+                const response = await fetch(API_SEND_OTP, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                });
+
+                const result = await response.json();
+
+                // JIKA SUKSES (OTP Baru Dikirim) ATAU JIKA TERKENA LIMIT 429 (OTP Lama Masih Aktif)
+                if (response.status === 200 || response.status === 429) {
+
+                    // Tampilkan pesan dari server (bisa pesan sukses atau pesan peringatan limit)
+                    showAlert(response.status === 200 ? 'success' : 'warning', result.message);
+
+                    // OTOMATIS BUKA INPUT OTP DAN TOMBOL SUBMIT
+                    verificationInput.disabled = false;
+                    submitBtn.disabled = false;
+                    verificationInput.focus(); // Kursor langsung otomatis aktif di kolom OTP
+
+                    // Jalankan hitung mundur timer
+                    startCountdown();
+                } else {
+                    // Jika terjadi error lain (misal 401 karena sesi login habis, atau error 500)
+                    showAlert('danger', result.message || 'Gagal memproses permintaan.');
+                    sendBtn.disabled = false;
+                }
+            } catch (error) {
+                showAlert('danger', 'Terjadi kesalahan sistem, gagal menghubungi server.');
+                sendBtn.disabled = false;
+            } finally {
+                // Matikan efek loading spinner, teks kembali normal
+                textBtn.classList.remove('d-none');
+                spinnerBtn.classList.add('d-none');
+            }
+        }
+
+        // Fungsi Hitung Mundur (Countdown)
+        function startCountdown() {
+            const sendBtn = document.getElementById('sendCodeBtn');
+            const countdownText = document.getElementById('countdownText');
+            const timerEl = document.getElementById('timer');
+
+            let timeLeft = 120;
+            sendBtn.disabled = true;
+            countdownText.classList.remove('d-none');
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    sendBtn.disabled = false;
+                    document.getElementById('btnRequestText').innerText = "Kirim Ulang";
+                    countdownText.classList.add('d-none');
+                } else {
+                    timerEl.innerText = timeLeft;
+                    timeLeft--;
+                }
+            }, 1000);
+        }
+
+        // 4. Verifikasi dan Submit Password Baru (Tahap 2)
+        async function processChangePassword(event) {
+            event.preventDefault();
+
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+            const otpCode = document.getElementById('verificationCode').value;
+
+            if (newPass !== confirmPass) {
+                showAlert('danger', 'Konfirmasi password baru tidak cocok!');
+                return;
+            }
+
+            // Efek Loading pada Tombol Simpan
+            const submitBtn = document.getElementById('submitBtn');
+            const textSubmit = document.getElementById('btnSubmitText');
+            const spinnerSubmit = document.getElementById('btnSubmitSpinner');
+
+            submitBtn.disabled = true;
+            textSubmit.classList.add('d-none');
+            spinnerSubmit.classList.remove('d-none');
+
+            try {
+                // Hit API update password
+                const response = await fetch(API_UPDATE_PASSWORD, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        new_password: newPass,
+                        confirm_password: confirmPass,
+                        otp_code: otpCode
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    showAlert('success', result.message);
+                    document.getElementById('changePasswordForm').reset();
+
+                    // Kunci kembali form setelah sukses
+                    document.getElementById('verificationCode').disabled = true;
+                    clearInterval(timerInterval);
+                    document.getElementById('countdownText').classList.add('d-none');
+                    document.getElementById('btnRequestText').innerText = "Kirim OTP";
+                    document.getElementById('sendCodeBtn').disabled = false;
+                    Swal.fire('Berhasil!', result.message, 'success').then(() => {
+                        location.reload();
+                    });
+                } else {
+                    showAlert('danger', result.message || 'Verifikasi gagal.');
+                    Swal.fire('Gagal!', result.message, 'error').then(() => {
+                        submitBtn.disabled = false;
+                    });
+                }
+            } catch (error) {
+                showAlert('danger', 'Gagal memproses penggantian password.');
+                submitBtn.disabled = false;
+            } finally {
+                textSubmit.classList.remove('d-none');
+                spinnerSubmit.classList.add('d-none');
+            }
+        }
     </script>
 
 </body>

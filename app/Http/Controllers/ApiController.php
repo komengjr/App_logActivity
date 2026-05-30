@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Telegram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Auth;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ApiController extends Controller
 {
@@ -208,5 +210,82 @@ class ApiController extends Controller
             'v_log_whatsapp_status' => $request->status
         ]);
         return response()->json('Berhasil Kirim');
+    }
+
+    /// OTP
+    public function password_send_otp(Request $request)
+    {
+        // 1. Ambil data user yang sedang login (Menggunakan Auth session)
+        $user = DB::table('tbl_biodata')->where('id_user', Auth::user()->id_user)->first();
+        $phoneNumber = $user->phone_number;
+
+        // 2. Generate 6 Digit Angka Acak
+        $otpCode = rand(100000, 999999);
+        $expiresAt = Carbon::now()->addMinutes(5); // Berlaku 5 menit
+
+        // 3. Simpan kode OTP ke tabel password_otp_tokens
+        DB::table('password_otp_tokens')->insert([
+            'phone_number' => $phoneNumber,
+            'otp_code' => $otpCode,
+            'expires_at' => $expiresAt,
+            'is_used' => false,
+            'created_at' => Carbon::now()
+        ]);
+
+        // 4. Integrasi Vendor SMS/WhatsApp Gateway Anda di sini
+        // Contoh: $this->whatsAppService->send($phoneNumber, "Kode OTP Anda adalah: " . $otpCode);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Kode OTP berhasil dikirim ke nomor HP Anda.'
+        ]);
+    }
+    public function password_update(Request $request)
+    {
+        // 1. Validasi Input Request dari Form Bootstrap
+        $request->validate([
+            'new_password' => 'required|string|min:8',
+            'confirm_password' => 'required|same:new_password',
+            'otp_code' => 'required|string|size:6',
+        ]);
+
+        $user = DB::table('tbl_biodata')->where('id_user', Auth::user()->id_user)->first();
+        $phoneNumber = $user->no_hp;
+
+        // 2. Cari data OTP terakhir yang cocok, belum kedaluwarsa, dan belum digunakan
+        $otpCheck = DB::table('password_otp_tokens')
+            ->where('phone_number', $phoneNumber)
+            ->where('otp_code', $request->otp_code)
+            ->where('is_used', false)
+            ->where('expires_at', '>', Carbon::now())
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        // 3. Jika OTP tidak ditemukan atau sudah tidak valid
+        if (!$otpCheck) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Kode OTP salah, sudah kedaluwarsa, atau telah digunakan.'
+            ], 400);
+        }
+
+        // 4. Jalankan Query Update secara aman menggunakan Database Transaction
+        DB::transaction(function () use ( $request, $otpCheck) {
+
+            // A. Update password baru milik user (di-hash menggunakan bcrypt)
+            DB::table('users')->where('id_user', FacadesAuth::user()->id_user)->update([
+                'password' => Hash::make($request->new_password)
+            ]);
+
+            // B. Tandai kode OTP tersebut sudah hangus/terpakai
+            DB::table('password_otp_tokens')
+                ->where('id', $otpCheck->id)
+                ->update(['is_used' => true, 'updated_at' => Carbon::now()]);
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Selamat! Password Anda berhasil diperbarui.'
+        ]);
     }
 }
