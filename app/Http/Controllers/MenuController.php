@@ -233,7 +233,11 @@ class MenuController extends Controller
     public function menu_create_task_get_tugas(Request $request)
     {
         // Mengambil semua data tugas diurutkan dari yang terbaru
-        $tugas = DB::table('m_tugas')->join('tbl_biodata', 'tbl_biodata.id_user', '=', 'm_tugas.target_user')->get();
+        $tugas = DB::table('m_tugas')
+            ->join('tbl_biodata', 'tbl_biodata.id_user', '=', 'm_tugas.target_user')
+            ->orderBy('status', 'asc') // Opsi tambahan: urutkan agar yang selesai ada di bawah
+            ->orderBy('id', 'desc')
+            ->take(100)->get();
         return response()->json($tugas, 200);
     }
     public function menu_create_task_get_tugas_status(Request $request, $id)
@@ -256,47 +260,53 @@ class MenuController extends Controller
     }
     public function menu_create_task_save(Request $request)
     {
+        // 1. Validasi Input Data
         $request->validate([
             'nama'         => 'required|string|max:255',
             'tipe'         => 'required|string',
-            'target_user'  => 'required|string',
+            'target_user'  => 'required|array|min:1', // Wajib berupa array dan minimal pilih 1
+            'target_user.*' => 'string',
             'tgl_mulai'    => 'required|date',
             'tgl_selesai'  => 'required|date|after_or_equal:tgl_mulai',
-            'surat_tugas'  => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048', // Maksimal 2MB
+            'surat_tugas'  => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
             'deskripsi'    => 'nullable|string',
         ]);
 
         $namaSurat = null;
         $urlSurat = null;
 
-        // 2. Logika Upload File (Jika user mengunggah surat tugas)
+        // 2. Upload file hanya dilakukan sekali (Berbagi file URL yang sama untuk semua user terpilih)
         if ($request->hasFile('surat_tugas')) {
             $file = $request->file('surat_tugas');
             $namaSurat = $file->getClientOriginalName();
-
-            // Menyimpan file ke dalam folder 'public/surat_tugas'
             $path = $file->store('surat_tugas', 'public');
-
-            // Menghasilkan URL asset yang bisa diakses publik/frontend
             $urlSurat = asset('storage/' . $path);
         }
 
-        // 3. Simpan ke Database menggunakan Query Builder (atau bisa pakai Model Tugas jika ada)
-        DB::table('m_tugas')->insert([
-            'nama'         => $request->nama,
-            'tipe'         => $request->tipe,
-            'target_user'  => $request->target_user,
-            'tgl_mulai'    => $request->tgl_mulai,
-            'tgl_selesaimen'  => $request->tgl_selesai,
-            'nama_surat'   => $namaSurat,
-            'url_surat'    => $urlSurat,
-            'deskripsi'    => $request->deskripsi ?? 'Tidak ada deskripsi.',
-            'status'       => 'Belum Dimulai',
-            'created_at'   => now(),
-            'updated_at'   => now(),
-        ]);
+        // 3. PERUBAHAN UTAMA: Lakukan perulangan untuk setiap user yang di-checklist
+        $dataInsert = [];
+        foreach ($request->target_user as $user) {
+            $dataInsert[] = [
+                'nama'         => $request->nama,
+                'tipe'         => $request->tipe,
+                'target_user'  => $user, // Menyimpan 1 nama user per baris database (Bukan JSON lagi)
+                'tgl_mulai'    => $request->tgl_mulai,
+                'tgl_selesaimen'  => $request->tgl_selesai,
+                'nama_surat'   => $namaSurat,
+                'url_surat'    => $urlSurat,
+                'deskripsi'    => $request->deskripsi ?? 'Tidak ada deskripsi.',
+                'status'       => 'Belum Dimulai',
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ];
+        }
 
-        return response()->json(['message' => 'Tugas berhasil ditambahkan!'], 201);
+        // 4. Gunakan insert bulk (sekaligus) agar performa database lebih cepat
+        DB::table('m_tugas')->insert($dataInsert);
+
+        return response()->json([
+            'message' => count($dataInsert) . ' Tugas berhasil didelegasikan!'
+        ], 201);
     }
     // LAPORAN KENDALA
     public function laporan_kendala_user($akses)

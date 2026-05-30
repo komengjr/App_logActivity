@@ -11,15 +11,13 @@
     </div>
 </div>
 <div class="row g-3">
-
     <div class="col-md-5">
         <div class="card shadow-sm border-0">
             <div class="card-header bg-primary text-white py-3">
-                <h5 class="card-title mb-0 text-white"><i class="fas fa-plus-circle me-2"></i>Buat Tugas Baru</h5>
+                <h5 class="card-title mb-0"><i class="bi bi-plus-circle me-2"></i>Buat Tugas Baru</h5>
             </div>
             <div class="card-body p-4">
                 <form id="formTugas" enctype="multipart/form-data">
-                    @csrf
                     <div class="mb-3">
                         <label for="namaTugas" class="form-label fw-semibold">Nama Tugas</label>
                         <input type="text" class="form-control" id="namaTugas" name="nama" placeholder="Contoh: Revisi Desain Landing Page" required>
@@ -30,7 +28,6 @@
                         <select class="form-select" id="tipeTugas" name="tipe" required>
                             <option value="" disabled selected>Pilih tipe tugas...</option>
                             <option value="Update Bisone">Update Bisone</option>
-                            <option value="Perjalanan Dinas">Perjalanan Dinas</option>
                             <option value="Program Development">Program Development</option>
                             <option value="Content Writing">Content Writing</option>
                             <option value="QA Testing">QA Testing</option>
@@ -38,10 +35,10 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="targetUser" class="form-label fw-semibold">Tujuan / User Terdaftar</label>
-                        <select class="form-select" id="targetUser" name="target_user" required>
-                            <option value="" disabled selected>Memuat data petugas...</option>
-                        </select>
+                        <label class="form-label fw-semibold">Tujuan / User Terdaftar (Bisa > 1)</label>
+                        <div id="userChecklistContainer" class="border rounded p-3 bg-white" style="max-height: 170px; overflow-y: auto;">
+                            <span class="text-muted small">Memuat data petugas...</span>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -58,12 +55,11 @@
                     <div class="mb-3">
                         <label for="suratTugas" class="form-label fw-semibold">Upload Surat Tugas <span class="text-muted fw-normal small">(Opsional)</span></label>
                         <input class="form-control" type="file" id="suratTugas" name="surat_tugas" accept=".pdf,.doc,.docx,.jpg,.png">
-                        <div class="form-text text-muted small">Format yang didukung: PDF, Word, atau Gambar.</div>
                     </div>
 
                     <div class="mb-4">
                         <label for="deskripsi" class="form-label fw-semibold">Deskripsi Singkat</label>
-                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" placeholder="Tambahkan catatan atau detail tugas..."></textarea>
+                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" placeholder="Tambahkan catatan detail tugas..."></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
@@ -82,19 +78,17 @@
                     <span class="badge bg-secondary" id="totalTugas">0 Tugas</span>
                 </div>
                 <div class="input-group">
-                    <span class="input-group-text bg-light border-0 text-muted"><i class="fa fa-search text-danger"></i></span>
-                    <input type="text" id="searchTugas" class="form-control border-0" placeholder="Cari nama tugas, tipe, atau nama user...">
+                    <span class="input-group-text bg-light border-0 text-muted"><i class="fas fa-search text-primary"></i></span>
+                    <input type="text" id="searchTugas" class="form-control border-0" placeholder="Cari tugas, nama user, atau tanggal (YYYY-MM-DD)...">
                 </div>
             </div>
             <div class="card-body p-4">
-
                 <div id="listTugas" class="vstack gap-3">
                     <div id="emptyState" class="text-center py-5 text-muted">
                         <i class="bi bi-clipboard-x display-4"></i>
                         <p class="mt-2 mb-0">Belum ada tugas yang dibuat atau tidak ditemukan.</p>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -104,10 +98,9 @@
 
 @section('base.js')
 <script>
-    // Konfigurasi Base URL API Laravel (Sesuaikan jika Anda menggunakan prefix /api/)
     const API_URL = '/menu/app/menu/create-task';
-
-    // Setup CSRF Token untuk Fetch API (Keperluan Laravel)
+</script>
+<script>
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     let dataTugas = [];
@@ -116,75 +109,103 @@
     const listTugas = document.getElementById('listTugas');
     const emptyState = document.getElementById('emptyState');
     const totalTugasBadge = document.getElementById('totalTugas');
-    const selectTargetUser = document.getElementById('targetUser');
+    const userChecklistContainer = document.getElementById('userChecklistContainer');
     const searchInput = document.getElementById('searchTugas');
 
-    // 1. AMBIL DATA USER DARI DATABASE LARAVEL
-    async function fetchUserDropdown() {
+    // 1. Ambil Data Petugas Database ke Checkbox HTML
+    async function fetchUserChecklist() {
         try {
             const response = await fetch(`${API_URL}/users`);
             const daftarUser = await response.json();
 
-            selectTargetUser.innerHTML = '<option value="" disabled selected>Pilih user terdaftar...</option>';
+            userChecklistContainer.innerHTML = '';
+            if (daftarUser.length === 0) {
+                userChecklistContainer.innerHTML = '<span class="text-muted small">Tidak ada petugas di database.</span>';
+                return;
+            }
+
             daftarUser.forEach(user => {
-                const option = document.createElement('option');
-                option.value = user.id_user; // atau user.id tergantung kebutuhan backend
-                option.textContent = `${user.nama_lengkap} (${user.nip})`;
-                selectTargetUser.appendChild(option);
+                const div = document.createElement('div');
+                div.className = 'form-check mb-1';
+                div.innerHTML = `
+                        <input class="form-check-input user-checkbox" type="checkbox" name="target_user[]" value="${user.id_user}" id="user_${user.id_user}">
+                        <label class="form-check-label small" for="user_${user.id_user}">
+                            ${user.nama_lengkap} <span class="text-muted">(${user.nip})</span>
+                        </label>
+                    `;
+                userChecklistContainer.appendChild(div);
             });
         } catch (error) {
-            console.error('Gagal memuat data user:', error);
-            selectTargetUser.innerHTML = '<option value="" disabled>Gagal memuat data</option>';
+            console.error('Gagal mengambil data user:', error);
+            userChecklistContainer.innerHTML = '<span class="text-danger small">Gagal memuat petugas.</span>';
         }
     }
 
-    // 2. AMBIL DATA TUGAS DARI DATABASE LARAVEL
+    // 2. Ambil Data List Tugas dari Database
     async function fetchTugas() {
         try {
             const response = await fetch(`${API_URL}/tugas`);
             dataTugas = await response.json();
             renderListTugas(searchInput.value);
         } catch (error) {
-            console.error('Gagal memuat data tugas:', error);
+            console.error('Gagal memuat list tugas:', error);
         }
     }
 
-    // 3. RENDER DATA KE LIST TUGAS HTML
+    // 3. Render Komponen Tugas ke Layar (Fitur Filter Tanggal & Limit Maksimal 10)
     function renderListTugas(kataKunci = '') {
+        const query = kataKunci.toLowerCase().trim();
+
+        // Filter data dengan aman (anti-crash jika ada data null/undefined)
         let tugasDifilter = dataTugas.filter(tugas => {
-            const matchNama = tugas.nama.toLowerCase().includes(kataKunci.toLowerCase());
-            const matchTipe = tugas.tipe.toLowerCase().includes(kataKunci.toLowerCase());
-            const matchUser = tugas.target_user.toLowerCase().includes(kataKunci.toLowerCase());
-            return matchNama || matchTipe || matchUser;
+            // Gunakan || '' agar jika data di database NULL, JavaScript membacanya sebagai teks kosong
+            const namaTugas = (tugas.nama || '').toLowerCase();
+            const tipeTugas = (tugas.tipe || '').toLowerCase();
+            const targetUser = (tugas.target_user || '').toLowerCase();
+            const tglMulai = (tugas.tgl_mulai || '');
+            const tglSelesai = (tugas.tgl_selesai || '');
+
+            const matchNama = namaTugas.includes(query);
+            const matchTipe = tipeTugas.includes(query);
+            const matchUser = targetUser.includes(query);
+            const matchTglMulai = tglMulai.includes(query);
+            const matchTglSelesai = tglSelesai.includes(query);
+
+            return matchNama || matchTipe || matchUser || matchTglMulai || matchTglSelesai;
         });
 
-        // Urutkan: Selesai di paling bawah
+        // Urutkan status 'Selesai' ke paling bawah, tugas terbaru di atas
         tugasDifilter.sort((a, b) => {
             if (a.status === 'Selesai' && b.status !== 'Selesai') return 1;
             if (a.status !== 'Selesai' && b.status === 'Selesai') return -1;
             return b.id - a.id;
         });
 
+        // Batasi hasil pencarian/pementasan maksimal hanya 10 item saja
+        let tugasDitampilkan = tugasDifilter.slice(0, 10);
+
+        // Bersihkan kontainer list kecuali state kosong
         listTugas.innerHTML = '';
         listTugas.appendChild(emptyState);
 
-        if (tugasDifilter.length === 0) {
+        if (tugasDitampilkan.length === 0) {
             emptyState.style.display = 'block';
             totalTugasBadge.textContent = `0 Tugas`;
             return;
         }
 
         emptyState.style.display = 'none';
-        totalTugasBadge.textContent = `${tugasDifilter.length} Tugas`;
+        totalTugasBadge.textContent = `${tugasDitampilkan.length} dari ${tugasDifilter.length} Tugas`;
 
-        tugasDifilter.forEach(tugas => {
+        tugasDitampilkan.forEach(tugas => {
             const opsiTgl = {
                 day: 'numeric',
                 month: 'short',
                 year: 'numeric'
             };
-            const fmtMulai = new Date(tugas.tgl_mulai).toLocaleDateString('id-ID', opsiTgl);
-            const fmtSelesai = new Date(tugas.tgl_selesai).toLocaleDateString('id-ID', opsiTgl);
+            // Pastikan tanggal valid sebelum di-parse
+            const fmtMulai = tugas.tgl_mulai ? new Date(tugas.tgl_mulai).toLocaleDateString('id-ID', opsiTgl) : '-';
+            const fmtSelesai = tugas.tgl_selesai ? new Date(tugas.tgl_selesai).toLocaleDateString('id-ID', opsiTgl) : '-';
 
             let selectClass = "border-danger text-danger";
             if (tugas.status === "Dalam Pengerjaan") selectClass = "border-warning text-warning-emphasis";
@@ -203,18 +224,18 @@
             }
 
             const tugasCard = document.createElement('div');
-            tugasCard.className = `mb-3 card border border-primary shadow-sm ${tugas.status === 'Selesai' ? 'opacity-75 bg-light' : ''}`;
+            tugasCard.className = `card border border-primary mb-3 shadow-sm ${tugas.status === 'Selesai' ? 'opacity-75 bg-light' : ''}`;
             tugasCard.innerHTML = `
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start mb-2">
                             <div>
                                 <div class="d-flex gap-2 mb-2 align-items-center flex-wrap">
-                                    <span class="badge bg-info text-dark">${tugas.tipe}</span>
+                                    <span class="badge bg-info text-dark">${tugas.tipe || 'No Type'}</span>
                                     <span class="badge bg-secondary-subtle text-secondary-emphasis">
-                                        <i class="bi bi-person-check-fill me-1"></i> Kepada: ${tugas.nama_lengkap}
+                                        <i class="bi bi-person-fill me-1"></i> Petugas: ${tugas.target_user || 'Tanpa Nama'}
                                     </span>
                                 </div>
-                                <h6 class="card-title mb-1 fw-bold ${tugas.status === 'Selesai' ? 'text-decoration-line-through text-muted' : 'text-dark'}">${tugas.nama}</h6>
+                                <h6 class="card-title mb-1 fw-bold ${tugas.status === 'Selesai' ? 'text-decoration-line-through text-muted' : 'text-dark'}">${tugas.nama || 'Tanpa Judul'}</h6>
                                 <small class="text-muted d-block">
                                     <i class="bi bi-calendar-range me-1"></i> ${fmtMulai} s/d ${fmtSelesai}
                                 </small>
@@ -236,11 +257,16 @@
         });
     }
 
-    // 4. SIMPAN TUGAS BARU KE BACKEND LARAVEL
+    // 4. Kirim Form Submit Tugas Baru
     formTugas.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        // Menggunakan FormData karena ada proses upload file (surat tugas)
+        const checkedBoxes = document.querySelectorAll('.user-checkbox:checked');
+        if (checkedBoxes.length === 0) {
+            alert('Pilih setidaknya satu petugas!');
+            return;
+        }
+
         const formData = new FormData(this);
 
         try {
@@ -255,16 +281,16 @@
             if (response.ok) {
                 formTugas.reset();
                 searchInput.value = '';
-                fetchTugas(); // Ambil ulang data terbaru dari server
+                fetchTugas();
             } else {
-                alert('Gagal menambahkan tugas. Cek validasi server.');
+                alert('Gagal menambahkan tugas ke server.');
             }
         } catch (error) {
-            console.error('Error saat menyimpan tugas:', error);
+            console.error('Error post data:', error);
         }
     });
 
-    // 5. UPDATE STATUS TUGAS KE DATABASE LARAVEL
+    // 5. Ubah Status Tugas via Dropdown Select
     async function ubahStatusTugas(id, statusBaru) {
         try {
             const response = await fetch(`${API_URL}/tugas/${id}/status`, {
@@ -279,23 +305,20 @@
             });
 
             if (response.ok) {
-                fetchTugas(); // Refresh data setelah sukses update status
-            } else {
-                alert('Gagal mengubah status tugas.');
+                fetchTugas();
             }
         } catch (error) {
-            console.error('Error saat update status:', error);
+            console.error('Error update status:', error);
         }
     }
 
-    // Event Listener untuk fitur Pencarian lokal
     searchInput.addEventListener('input', function() {
         renderListTugas(this.value);
     });
 
-    // Inisialisasi awal saat halaman dibuka
+    // Jalankan saat load halaman pertama kali
     document.addEventListener("DOMContentLoaded", () => {
-        fetchUserDropdown();
+        fetchUserChecklist();
         fetchTugas();
     });
 </script>

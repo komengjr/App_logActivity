@@ -34,7 +34,7 @@
 
 
                         <div class="mt-4">
-                          <a href="{{ url('home', []) }}" class="btn btn-dark btn-round m-1">Go To Home </a>
+                          <a href="{{ route('dashboard_home') }}" class="btn btn-dark btn-round m-1">Go To Home </a>
                           {{-- <a href="javascript:void();" class="btn btn-primary btn-round m-1">Previous Page </a> --}}
                         </div>
 
