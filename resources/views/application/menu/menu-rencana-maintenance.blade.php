@@ -63,7 +63,7 @@
                     </div>
 
                     <div class="row g-2 mb-3">
-                        <div class="col-6">
+                        <div class="col-12">
                             <label class="form-label fw-semibold small">Tahun</label>
                             <select class="form-select fw-bold" id="inputTahun" disabled>
                                 <option value="2026">2026</option>
@@ -86,6 +86,15 @@
                                 <option value="9">Oktober</option>
                                 <option value="10">November</option>
                                 <option value="11">Desember</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label fw-semibold small">Minggu Ke</label>
+                            <select class="form-select fw-bold" id="inputMinggu" disabled>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
                             </select>
                         </div>
                     </div>
@@ -192,6 +201,9 @@
     let cabangTerpilihGlobal = "";
     let tahunTerpilihGlobal = "2026";
     let listMasterBarangDariAPI = [];
+    let namaMingguList = [
+        "1", "2", "3", "4"
+    ];
 
     // Mengambil data inventaris menggunakan Fetch API berdasarkan cabang terpilih
     function ambilBarangDariAPI(cabang) {
@@ -281,12 +293,14 @@
 
         const inputTahun = document.getElementById("inputTahun");
         const inputBulan = document.getElementById("inputBulan");
+        const inputMinggu = document.getElementById("inputMinggu");
         const areaPilihanBarang = document.getElementById("areaPilihanBarang");
         const notifPanduanAwal = document.getElementById("notifPanduanAwal");
 
         if (cabangTerpilihGlobal !== "") {
             inputTahun.disabled = false;
             inputBulan.disabled = false;
+            inputMinggu.disabled = false;
 
             areaPilihanBarang.style.display = "none";
             if (notifPanduanAwal) notifPanduanAwal.style.display = "block";
@@ -394,7 +408,9 @@
 
         tahunTerpilihGlobal = document.getElementById("inputTahun").value;
         const indexBulan = document.getElementById("inputBulan").value;
+        const indexMinggu = document.getElementById("inputMinggu").value;
         const namaBulan = namaBulanList[indexBulan];
+        const namaMinggu = namaMingguList[indexMinggu];
 
         const dataCabangAktif = databaseRencanaTahunan[cabangTerpilihGlobal];
         let barangDipilih = (dataCabangAktif[indexBulan]) ? [...dataCabangAktif[indexBulan].items] : [];
@@ -407,7 +423,8 @@
             if (!barangDipilih.some(b => b.id === idTerpilih)) {
                 barangDipilih.push({
                     id: idTerpilih,
-                    nama: namaTerpilih
+                    nama: namaTerpilih,
+                    minggu: indexMinggu,
                 });
             }
             adaInputBaru = true;
@@ -541,7 +558,7 @@
             terakhir_diupdate: new Date().toLocaleString('id-ID'),
             matriks_jadwal: databaseRencanaTahunan[cabangTerpilihGlobal] || {}
         };
-
+        const Minggu = document.getElementById("inputMinggu").value;
         // SIMPAN DATA
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -568,6 +585,7 @@
                         "_token": "{{ csrf_token() }}",
                         "cabang": cabangTerpilihGlobal,
                         "tahun_periode": tahunTerpilihGlobal,
+                        "minggu": Minggu,
                         "matriks_jadwal": databaseRencanaTahunan[cabangTerpilihGlobal],
                     },
                     dataType: 'html',

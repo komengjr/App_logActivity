@@ -7,7 +7,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
+use Stevebauman\Location\Facades\Location;
 class LoginController extends Controller
 {
     /*
@@ -46,7 +47,10 @@ class LoginController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-
+        $ip = request()->ip();
+        if ($ip === '127.0.0.1' || $ip === '::1') {
+            $ip = '103.146.244.1'; // Contoh IP Indonesia untuk keperluan testing di localhost
+        }
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
@@ -58,6 +62,22 @@ class LoginController extends Controller
                                             <script>window.location.href = "' . route('dashboard_home') . '";</script>
                                         </div>';
             } else {
+                // Mencari lokasi berdasarkan IP
+                $locationData = Location::get($ip);
+
+                // Ambil nama negara dan kota jika ditemukan
+                $country = $locationData ? $locationData->countryName : 'Unknown';
+                $city = $locationData ? $locationData->cityName : 'Unknown';
+
+                // Simpan ke database log_login
+                DB::table('z_login_logs')->insert([
+                    'user_id'    => $request->email,
+                    'ip_address' => $ip,
+                    'country'    => $country,
+                    'city'       => $city,
+                    'user_agent' => request()->userAgent(),
+                    'login_at'   => now(),
+                ]);
                 return '<div class="alert alert-success alert-dismissible fade show my-2" role="alert">
                                             <strong>Greate!</strong> Selamat Datang ' . Auth::user()->name . '.
                                             <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>

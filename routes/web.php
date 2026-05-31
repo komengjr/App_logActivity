@@ -101,6 +101,10 @@ Route::prefix('menu')->group(function () {
     Route::post('app/laporan/laporan-case/detail', [MenuController::class, 'laporan_kendala_user_detail'])->name('laporan_kendala_user_detail');
 
     Route::post('app/laporan/laporan-rencana-maintenance/detail', [MenuController::class, 'laporan_rencana_maintenance_detail'])->name('laporan_rencana_maintenance_detail');
+    Route::post('app/laporan/laporan-rencana-maintenance/cetak-rencana', [MenuController::class, 'laporan_rencana_maintenance_cetak_rencana'])->name('laporan_rencana_maintenance_cetak_rencana');
+    Route::post('app/laporan/laporan-rencana-maintenance/cetak-rencana-report', [MenuController::class, 'laporan_rencana_maintenance_cetak_rencana_report'])->name('laporan_rencana_maintenance_cetak_rencana_report');
+    Route::post('app/laporan/laporan-rencana-maintenance/cetak', [MenuController::class, 'laporan_rencana_maintenance_cetak'])->name('laporan_rencana_maintenance_cetak');
+    Route::post('app/laporan/laporan-rencana-maintenance/cetak-report', [MenuController::class, 'laporan_rencana_maintenance_cetak_report'])->name('laporan_rencana_maintenance_cetak_report');
 });
 
 

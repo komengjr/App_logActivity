@@ -19,9 +19,10 @@
         "laravel/ui": "2.4",
         "longman/telegram-bot": "^0.82.0",
         "nesbot/carbon": "^2.62",
-        "rap2hpoutre/laravel-log-viewer": "2.2.0",
         "pion/laravel-chunk-upload": "^1.5",
-        "simplesoftwareio/simple-qrcode": "^4.2"
+        "rap2hpoutre/laravel-log-viewer": "2.2.0",
+        "simplesoftwareio/simple-qrcode": "^4.2",
+        "stevebauman/location": "^6.6"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

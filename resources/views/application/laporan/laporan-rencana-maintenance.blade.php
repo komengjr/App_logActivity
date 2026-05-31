@@ -95,6 +95,49 @@
         month: 'long',
         day: 'numeric'
     };
-    document.getElementById('printDate').innerText = new Date().toLocaleDateString('id-ID', options);
+
+    $(document).on("click", "#button-cetak-hasil-maintenance", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-log-it').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('laporan_rencana_maintenance_cetak') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-log-it').html(data);
+        }).fail(function() {
+            $('#menu-log-it').html('eror');
+        });
+    });
+    $(document).on("click", "#button-cetak-rencana-maintenance", function(e) {
+
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-log-it').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('laporan_rencana_maintenance_cetak_rencana') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code,
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-log-it').html(data);
+        }).fail(function() {
+            $('#menu-log-it').html('eror');
+        });
+    });
 </script>
 @endsection

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class MenuController extends Controller
 {
@@ -75,6 +76,7 @@ class MenuController extends Controller
                         'm_rencana_detail_id_brg' => $item['id'],
                         'm_rencana_detail_nama_brg' => $item['nama'],
                         'm_rencana_detail_bulan' => $value['bulan'],
+                        'm_rencana_detail_minggu' => $item['minggu'],
                         'm_rencana_detail_date' => now(),
                         'm_rencana_detail_status' => 0,
                         'created_at' => now(),
@@ -346,6 +348,65 @@ class MenuController extends Controller
             ->distinct()
             ->get();
         return view('application.laporan.rencana-maintenance.detail-rencana', compact('bulan'), ['tahun' => $request->tahun]);
+    }
+    public function laporan_rencana_maintenance_cetak_rencana(Request $request)
+    {
+        return view('application.laporan.rencana-maintenance.form-report-rencana-maintenance', ['code' => $request->code]);
+    }
+    public function laporan_rencana_maintenance_cetak_rencana_report(Request $request)
+    {
+        $bulan = DB::table('m_rencana_detail')
+            ->join('m_rencana_data', 'm_rencana_data.m_rencana_data_code', '=', 'm_rencana_detail.m_rencana_data_code')
+            ->select('m_rencana_detail.m_rencana_detail_bulan','m_rencana_detail.m_rencana_data_code')
+            ->where('m_rencana_data.m_rencana_data_user', '=', $request->petugas)
+            ->where('m_rencana_data.m_rencana_data_tahun', '=', $request->code)
+            ->distinct()
+            ->get();
+        $bio = DB::table('tbl_biodata')->where('id_user', $request->petugas)->first();
+        $image = base64_encode(file_get_contents(public_path('icon1.png')));
+        $pdf = PDF::loadview('application.laporan.rencana-maintenance.report.report-rencana-maintenance', compact('image', 'bulan', 'bio'), ['tahun' => $request->code])->setPaper('A3', 'landscape')->setOptions(['defaultFont' => 'Courier']);
+        $pdf->output();
+        $canvas = $pdf->getDomPDF()->getCanvas();
+
+        $height = $canvas->get_height();
+        $width = $canvas->get_width();
+
+        $canvas->set_opacity(.2, "Multiply");
+
+        $canvas->set_opacity(.1);
+
+        // $canvas->page_text($width/5, $height/2, 'Lunas', '123', 30, array(22,0,0),1,2,0);
+        // $canvas->page_script('
+        // $pdf->set_opacity(.1);
+        // $pdf->image("bg-report.png",10, 10, 1255, 855);
+        // ');
+        return base64_encode($pdf->stream());
+    }
+    public function laporan_rencana_maintenance_cetak(Request $request)
+    {
+        return view('application.laporan.rencana-maintenance.form-report-hasil-maintenance', ['code' => $request->code]);
+    }
+    public function laporan_rencana_maintenance_cetak_report(Request $request)
+    {
+
+        $image = base64_encode(file_get_contents(public_path('icon1.png')));
+        $pdf = PDF::loadview('application.laporan.rencana-maintenance.report.report-hasil-maintenance', compact('image'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Courier']);
+        $pdf->output();
+        $canvas = $pdf->getDomPDF()->getCanvas();
+
+        $height = $canvas->get_height();
+        $width = $canvas->get_width();
+
+        $canvas->set_opacity(.2, "Multiply");
+
+        $canvas->set_opacity(.1);
+
+        // $canvas->page_text($width/5, $height/2, 'Lunas', '123', 30, array(22,0,0),1,2,0);
+        // $canvas->page_script('
+        // $pdf->set_opacity(.1);
+        // $pdf->image("bg-report.png",10, 10, 1255, 855);
+        // ');
+        return base64_encode($pdf->stream());
     }
 
 
