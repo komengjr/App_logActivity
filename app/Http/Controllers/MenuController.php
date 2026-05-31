@@ -218,6 +218,18 @@ class MenuController extends Controller
             ], 500);
         }
     }
+    // PROSES MAINTENANCE
+    public function menu_verifikasi_maintenance($akses)
+    {
+        if ($this->url_akses($akses) == true) {
+            $cabang = DB::table('users_handler')
+                ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
+                ->where('users_handler.id_user', Auth::user()->id_user)->get();
+            return view('application.menu.menu-verif-maintenance', compact('cabang'));
+        } else {
+            return Redirect::to('dashboard/home');
+        }
+    }
     // PEMBUATAN TASK / TUGAS
     public function menu_create_task($akses)
     {
@@ -357,7 +369,7 @@ class MenuController extends Controller
     {
         $bulan = DB::table('m_rencana_detail')
             ->join('m_rencana_data', 'm_rencana_data.m_rencana_data_code', '=', 'm_rencana_detail.m_rencana_data_code')
-            ->select('m_rencana_detail.m_rencana_detail_bulan','m_rencana_detail.m_rencana_data_code')
+            ->select('m_rencana_detail.m_rencana_detail_bulan', 'm_rencana_detail.m_rencana_data_code')
             ->where('m_rencana_data.m_rencana_data_user', '=', $request->petugas)
             ->where('m_rencana_data.m_rencana_data_tahun', '=', $request->code)
             ->distinct()

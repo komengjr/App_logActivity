@@ -18,7 +18,7 @@ class MRencanaLogDetail extends Migration
             $table->string('m_rencana_log_code');
             $table->string('m_rencana_log_detail_cat');
             $table->string('m_rencana_log_detail_sub');
-            $table->string('m_rencana_log_detail_desc');
+            $table->text('m_rencana_log_detail_desc');
             $table->timestamps();
         });
     }

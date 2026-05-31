@@ -63,6 +63,7 @@ Route::prefix('master-data')->group(function () {
 Route::prefix('{akses}')->group(function () {
     Route::get('app/menu/rencana-maintenance', [MenuController::class, 'menu_rencana_maintenance'])->name('menu_rencana_maintenance');
     Route::get('app/menu/proses-maintenance', [MenuController::class, 'menu_proses_maintenance'])->name('menu_proses_maintenance');
+    Route::get('app/menu/verifikasi-maintenance', [MenuController::class, 'menu_verifikasi_maintenance'])->name('menu_verifikasi_maintenance');
     Route::get('app/menu/create-task', [MenuController::class, 'menu_create_task'])->name('menu_create_task');
 
     Route::get('app/laporan/laporan-case', [MenuController::class, 'laporan_kendala_user'])->name('laporan_kendala_user');

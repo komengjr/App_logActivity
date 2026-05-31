@@ -69,18 +69,18 @@ $brg = DB::table('m_rencana_detail')
                         @endphp
                         <div class="d-flex flex-column gap-1 text-eval">
                             <div class="d-flex justify-content-between align-items-center border-bottom pb-1">
-                                <span><i class="bi bi-cpu me-1 text-secondary"></i> Hardware:</span>
+                                <span class="badge bg-primary"><i class="fas fa-cpu me-1"></i> Hardware</span>
 
                             </div>
                             @foreach ($hardware as $hard)
-                            <div class="d-flex justify-content-between align-items-center ms-2">
-                                <strong>{{$hard->m_rencana_log_detail_sub}}</strong>
-                                <span class="badge bg-primary"><i class="bi bi-exclamation-triangle-fill me-1"></i>{{ $hard->m_rencana_log_detail_desc }}</span>
-                            </div>
+
+                            <strong>{{$hard->m_rencana_log_detail_sub}}</strong>
+                            <p style="text-align: justify;">{{ $hard->m_rencana_log_detail_desc }}</p>
+
                             @endforeach
 
                             <div class="d-flex justify-content-between align-items-center">
-                                <span><i class="bi bi-terminal me-1 text-secondary"></i> Software/Firmware:</span>
+                                <span class="badge bg-primary"><i class="fas fa-terminal me-1"></i> Software/Firmware</span>
                                 <!-- <span class="badge bg-success"><i class="bi bi-check-circle-fill me-1"></i>Normal (v2.1)</span> -->
                             </div>
                             @foreach ($software as $soft)

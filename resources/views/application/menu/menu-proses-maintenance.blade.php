@@ -269,7 +269,7 @@
                         ${sub}
                     </label>
                 </div>
-                <input type="text" class="form-control form-control-lg input-deskripsi-sub" id="txt_${kategori}_${index}" placeholder="Tulis deskripsi..." disabled required style="display:none;">
+                <textarea rows="4" class="form-control form-control-lg input-deskripsi-sub" id="txt_${kategori}_${index}" placeholder="Tulis deskripsi..." disabled required style="display:none;"></textarea>
             `;
             container.appendChild(divGroup);
         });
