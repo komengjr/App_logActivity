@@ -61,6 +61,16 @@ class MasterController extends Controller
             return view('application.error.404');
         }
     }
+    // LOG LOGIN
+    public function master_log_login()
+    {
+        if (Auth::user()->kd_akses == '1') {
+            $data = DB::table('z_login_logs')->orderBy('id','desc')->get();
+            return view('master.master-log-login', compact('data'));
+        } else {
+            return view('application.error.404');
+        }
+    }
     // SUPLIER
     public function master_suplier()
     {

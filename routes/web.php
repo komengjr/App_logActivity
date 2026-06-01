@@ -27,7 +27,6 @@ Route::prefix('app')->group(function () {
     Route::put('dashboard_home/tugas/{id}/terima', [AppController::class, 'dashboard_home_data_tugas_terima'])->name('dashboard_home_data_tugas_terima');
     Route::put('dashboard_home/tugas/{id}/alihkan', [AppController::class, 'dashboard_home_data_tugas_alihkan'])->name('dashboard_home_data_tugas_alihkan');
 
-
     Route::post('get_message', [AppController::class, 'dashboard_get_message'])->name('dashboard_get_message');
     Route::post('get_message/proses', [AppController::class, 'dashboard_get_message_proses'])->name('dashboard_get_message_proses');
     Route::post('get_message/proses_terima', [AppController::class, 'dashboard_get_message_proses_terima'])->name('dashboard_get_message_proses_terima');
@@ -39,7 +38,6 @@ Route::prefix('app')->group(function () {
     Route::post('check-in/proses-user/data-harian-import', [AppController::class, 'dashboard_check_in_proses_data_harian_import'])->name('dashboard_check_in_proses_data_harian_import');
     Route::post('check-in/proses-user/data-harian-save', [AppController::class, 'dashboard_check_in_proses_data_harian_save'])->name('dashboard_check_in_proses_data_harian_save');
 
-
     Route::post('dashboard/monitoring-harian-kritis', [AppController::class, 'dashboard_monitoring_harian_kritis'])->name('dashboard_monitoring_harian_kritis');
     Route::post('dashboard/monitoring-harian-kritis/backup', [AppController::class, 'dashboard_monitoring_harian_backup_kritis'])->name('dashboard_monitoring_harian_backup_kritis');
     Route::post('dashboard/monitoring-harian/report', [AppController::class, 'dashboard_monitoring_harian_backup_report'])->name('dashboard_monitoring_harian_backup_report');
@@ -48,6 +46,8 @@ Route::prefix('master-data')->group(function () {
     Route::get('user', [MasterController::class, 'master_user'])->name('master_user');
     Route::post('user-add', [MasterController::class, 'master_user_add'])->name('master_user_add');
     Route::post('user-save', [MasterController::class, 'master_user_save'])->name('master_user_save');
+
+    Route::get('log-login', [MasterController::class, 'master_log_login'])->name('master_log_login');
 
     Route::get('menu', [MasterController::class, 'master_menu'])->name('master_menu');
     Route::post('menu/add', [MasterController::class, 'master_menu_add'])->name('master_menu_add');

@@ -211,6 +211,13 @@
                                             class="nav-link-text ps-1">Master User</span>
                                     </div>
                                 </a>
+                                <a class="nav-link" href="{{ route('master_log_login') }}" role="button"
+                                    aria-expanded="false">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                                class="fas fa-sign-in-alt"></span></span><span
+                                            class="nav-link-text ps-1">Master Log Login</span>
+                                    </div>
+                                </a>
 
                             <li class="nav-item">
                                 <!-- parent pages-->
