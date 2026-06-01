@@ -109,7 +109,7 @@ Route::prefix('menu')->group(function () {
     Route::post('app/laporan/laporan-rencana-maintenance/cetak-report', [MenuController::class, 'laporan_rencana_maintenance_cetak_report'])->name('laporan_rencana_maintenance_cetak_report');
 
     Route::post('app/laporan/laporan-log-bisone/print', [MenuController::class, 'laporan_log_bisone_print'])->name('laporan_log_bisone_print');
-    Route::post('app/laporan/laporan-log-bisone/print-report', [MenuController::class, 'laporan_log_bisone_print'])->name('laporan_log_bisone_print');
+    Route::post('app/laporan/laporan-log-bisone/print-report', [MenuController::class, 'laporan_log_bisone_print_report'])->name('laporan_log_bisone_print_report');
 });
 
 
