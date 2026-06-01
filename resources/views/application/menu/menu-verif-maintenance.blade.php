@@ -175,9 +175,9 @@
     <div class="modal-dialog modal-dialog-scrollable modal-xl">
         <div class="modal-content border-0 shadow">
 
-            <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title"><i class="bi bi-shield-check me-2"></i>Sistem Peninjauan Laporan</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title text-white"><i class="bi bi-shield-check me-2"></i>Sistem Peninjauan Laporan</h5>
+                <button type="button" class="btn-close btn-close-white text-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div id="pageForm1" class="modal-body p-4">
@@ -213,12 +213,12 @@
                 </div>
 
                 <div class="text-end mt-4">
-                    <button type="button" class="btn btn-dark px-4" onclick="kePageDua()">Buka Dokumen Laporan <i class="bi bi-arrow-right ms-1"></i></button>
+                    <button type="button" class="btn btn-primary px-4" onclick="kePageDua()">Buka Dokumen Laporan <i class="bi bi-arrow-right ms-1"></i></button>
                 </div>
             </div>
 
             <div id="pageForm2" class="modal-body p-4 d-none">
-                <h6 class="text-secondary text-uppercase fw-bold mb-3">Halaman 2: Lembar Review Berita Acara & Tanda Tangan</h6>
+                <h6 class="text-white text-uppercase fw-bold mb-3">Halaman 2: Lembar Review Berita Acara & Tanda Tangan</h6>
 
                 <div class="document-preview">
                     <div class="text-end text-muted small mb-1" id="docKodeForm">SDM-03-FRM-PP.10/04</div>

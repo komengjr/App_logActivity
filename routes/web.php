@@ -68,6 +68,7 @@ Route::prefix('{akses}')->group(function () {
 
     Route::get('app/laporan/laporan-case', [MenuController::class, 'laporan_kendala_user'])->name('laporan_kendala_user');
     Route::get('app/laporan/laporan-rencana-maintenance', [MenuController::class, 'laporan_rencana_maintenance'])->name('laporan_rencana_maintenance');
+    Route::get('app/laporan/laporan-log-bisone', [MenuController::class, 'laporan_log_bisone'])->name('laporan_log_bisone');
 
     Route::get('app/master/master-piket-setup', [MenuController::class, 'master_piket_setup'])->name('master_piket_setup');
     Route::get('app/master/master-piket-data', [MenuController::class, 'master_piket_data'])->name('master_piket_data');
@@ -106,6 +107,9 @@ Route::prefix('menu')->group(function () {
     Route::post('app/laporan/laporan-rencana-maintenance/cetak-rencana-report', [MenuController::class, 'laporan_rencana_maintenance_cetak_rencana_report'])->name('laporan_rencana_maintenance_cetak_rencana_report');
     Route::post('app/laporan/laporan-rencana-maintenance/cetak', [MenuController::class, 'laporan_rencana_maintenance_cetak'])->name('laporan_rencana_maintenance_cetak');
     Route::post('app/laporan/laporan-rencana-maintenance/cetak-report', [MenuController::class, 'laporan_rencana_maintenance_cetak_report'])->name('laporan_rencana_maintenance_cetak_report');
+
+    Route::post('app/laporan/laporan-log-bisone/print', [MenuController::class, 'laporan_log_bisone_print'])->name('laporan_log_bisone_print');
+    Route::post('app/laporan/laporan-log-bisone/print-report', [MenuController::class, 'laporan_log_bisone_print'])->name('laporan_log_bisone_print');
 });
 
 

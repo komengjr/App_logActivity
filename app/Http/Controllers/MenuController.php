@@ -420,7 +420,20 @@ class MenuController extends Controller
         // ');
         return base64_encode($pdf->stream());
     }
-
+    // LAPORAN LOG BISONE
+    public function laporan_log_bisone($akses)
+    {
+        if ($this->url_akses($akses) == true) {
+            $data = DB::connection('second_db')->table('log')->orderBy('logID', 'DESC')->take(500)->get();
+            return view('application.laporan.laporan-log-bisone', compact('data'));
+        } else {
+            return Redirect::to('dashboard/home');
+        }
+    }
+    public function laporan_log_bisone_print(Request $request){
+        $cabang = DB::table('tbl_cabang')->get();
+        return view('application.laporan.log-bisone.form-report-log',compact('cabang'));
+    }
 
     // MASTER PIKET SETUP
     public function master_piket_setup($akses)
