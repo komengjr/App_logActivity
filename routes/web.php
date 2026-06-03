@@ -65,6 +65,7 @@ Route::prefix('{akses}')->group(function () {
     Route::get('app/menu/proses-maintenance', [MenuController::class, 'menu_proses_maintenance'])->name('menu_proses_maintenance');
     Route::get('app/menu/verifikasi-maintenance', [MenuController::class, 'menu_verifikasi_maintenance'])->name('menu_verifikasi_maintenance');
     Route::get('app/menu/create-task', [MenuController::class, 'menu_create_task'])->name('menu_create_task');
+    Route::get('app/menu/backup-bulanan', [MenuController::class, 'menu_backup_bulanan'])->name('menu_backup_bulanan');
 
     Route::get('app/laporan/laporan-case', [MenuController::class, 'laporan_kendala_user'])->name('laporan_kendala_user');
     Route::get('app/laporan/laporan-rencana-maintenance', [MenuController::class, 'laporan_rencana_maintenance'])->name('laporan_rencana_maintenance');
@@ -89,6 +90,7 @@ Route::prefix('menu')->group(function () {
     Route::get('app/menu/create-task/tugas', [MenuController::class, 'menu_create_task_get_tugas'])->name('menu_create_task_get_tugas');
     Route::put('app/menu/create-task/tugas/{id}/status', [MenuController::class, 'menu_create_task_get_tugas_status'])->name('menu_create_task_get_tugas_status');
 
+    Route::post('app/menu/backup-bulanan/save', [MenuController::class, 'menu_backup_bulanan_save'])->name('menu_backup_bulanan_save');
 
     Route::post('app/master/master-piket-setup/save', [MenuController::class, 'master_piket_setup_save'])->name('master_piket_setup_save');
 

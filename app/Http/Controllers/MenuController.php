@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
 {
@@ -324,6 +325,56 @@ class MenuController extends Controller
             'message' => count($dataInsert) . ' Tugas berhasil didelegasikan!'
         ], 201);
     }
+    // BACKUP BULANAN
+    public function menu_backup_bulanan($akses)
+    {
+        if ($this->url_akses($akses) == true) {
+            $cabang = DB::table('users_handler')
+                ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
+                ->where('users_handler.id_user', Auth::user()->id_user)->get();
+            $backups = DB::table('users_backup_bulanan')->orderBy('id_backup_bulanan', 'desc')->get();
+            return view('application.menu.menu-backup-bulanan', compact('backups','cabang'));
+        } else {
+            return Redirect::to('dashboard/home');
+        }
+    }
+    public function menu_backup_bulanan_save(Request $request)
+    {
+        // Validasi inputan form
+        $request->validate([
+            'cabang'      => 'required|string',
+            'bulan'       => 'required|string',
+            'tahun'       => 'required|string',
+            'deskripsi'   => 'required|string',
+            'screenshot'  => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
+        ]);
+        $filename = null;
+
+        // Proses upload file screenshot ke folder public/storage/screenshots
+        if ($request->hasFile('screenshot')) {
+            $file = $request->file('screenshot');
+            $filename = time() . '_' . $file->getClientOriginalName();
+
+            // MENGGUNAKAN METHOD DISK PUBLIC (Lebih direkomendasikan)
+            // Ini otomatis menyimpan ke folder: storage/app/public/screenshots/
+            Storage::disk('public')->putFileAs('screenshots', $file, $filename);
+        }
+
+        // Simpan data ke database
+        DB::table('users_backup_bulanan')->insert([
+            'kd_backup_bulanan' => str::uuid(),
+            'kd_cabang'      => $request->cabang,
+            'nama_backup_bulanan'       => $request->bulan,
+            'tahun_backup_bulanan'       => $request->tahun,
+            'deskripsi'   => $request->deskripsi,
+            'tgl_input'   => now(),
+            'screenshot'  => $filename, // Simpan nama filenya saja
+            'created_at' => now()
+        ]);
+
+        // Redirect kembali dengan pesan sukses
+        return redirect()->back()->with('success', 'Data backup berhasil diunggah!');
+    }
     // LAPORAN KENDALA
     public function laporan_kendala_user($akses)
     {
@@ -430,9 +481,10 @@ class MenuController extends Controller
             return Redirect::to('dashboard/home');
         }
     }
-    public function laporan_log_bisone_print(Request $request){
+    public function laporan_log_bisone_print(Request $request)
+    {
         $cabang = DB::table('tbl_cabang')->get();
-        return view('application.laporan.log-bisone.form-report-log',compact('cabang'));
+        return view('application.laporan.log-bisone.form-report-log', compact('cabang'));
     }
 
     // MASTER PIKET SETUP
