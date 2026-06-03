@@ -17,6 +17,7 @@ class HomeController extends Controller
 
     public function index()
     {
+        return redirect()->route('dashboard_home');
         if (auth::user()->kd_akses == 1) {
             $data_user = DB::table('users')->where('kd_akses','>',1)->count();
             $data_cabang = DB::table('tbl_cabang')->count();

@@ -37,6 +37,8 @@ Route::prefix('app')->group(function () {
     Route::post('check-in/proses-user/data-kritis', [AppController::class, 'dashboard_check_in_proses_data_kritis'])->name('dashboard_check_in_proses_data_kritis');
     Route::post('check-in/proses-user/data-harian-import', [AppController::class, 'dashboard_check_in_proses_data_harian_import'])->name('dashboard_check_in_proses_data_harian_import');
     Route::post('check-in/proses-user/data-harian-save', [AppController::class, 'dashboard_check_in_proses_data_harian_save'])->name('dashboard_check_in_proses_data_harian_save');
+    Route::post('log-daily/data-user', [AppController::class, 'dashboard_log_daily'])->name('dashboard_log_daily');
+    Route::post('log-daily/data-remove', [AppController::class, 'dashboard_log_daily_remove'])->name('dashboard_log_daily_remove');
 
     Route::post('dashboard/monitoring-harian-kritis', [AppController::class, 'dashboard_monitoring_harian_kritis'])->name('dashboard_monitoring_harian_kritis');
     Route::post('dashboard/monitoring-harian-kritis/backup', [AppController::class, 'dashboard_monitoring_harian_backup_kritis'])->name('dashboard_monitoring_harian_backup_kritis');

@@ -479,6 +479,25 @@ class AppController extends Controller
             return 0;
         }
     }
+    public function dashboard_log_daily(Request $request)
+    {
+        $data = DB::table('users_handler_record_log')
+            ->join('tbl_kinerja_sub', 'tbl_kinerja_sub.kd_kinerja_sub', '=', 'users_handler_record_log.kd_kinerja_sub')
+            ->select('users_handler_record_log.*', 'tbl_kinerja_sub.kinerja_sub')
+            ->where('id_user', Auth::user()->id_user)
+            ->where('kd_cabang', $request->code)
+            ->where('tgl_record', date('Y-m-d'))->get();
+        return view('application.dashboard.form-log-daily', compact('data'));
+    }
+    public function dashboard_log_daily_remove(Request $request)
+    {
+        try {
+            DB::table('users_handler_record_log')->where('id', $request->code)->where('tgl_record', date('Y-m-d'))->delete();
+            return 1;
+        } catch (\Throwable $e) {
+            return 0;
+        }
+    }
 
     // REPORT LAPORAN
     public function dashboard_monitoring_harian_kritis(Request $request)

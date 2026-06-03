@@ -1,4 +1,8 @@
 @extends('layouts.template')
+@section('base.css')
+<link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.bootstrap5.css">
+@endsection
 @section('content')
 <style>
     .card-profile {
@@ -44,7 +48,7 @@
                             @endforeach
                         </h5>
                         <div class="btn-group mt-2">
-                            <button class="btn dropdown-toggle btn-primary btn-sm px-3" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Check In
+                            <button class="btn dropdown-toggle btn-primary btn-sm px-3" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-file-signature"></span> Check In Daily
                             </button>
 
                             <div class="dropdown-menu">
@@ -55,7 +59,18 @@
                                 <a class="dropdown-item" href="#">Separated link</a> -->
                             </div>
                         </div>
-                        <button class="btn btn-falcon-default btn-sm px-3 mt-2" type="button" data-bs-toggle="modal" data-bs-target="#modal-template">Laksanakan Tugas</button>
+                        <div class="btn-group mt-2">
+                            <button class="btn dropdown-toggle btn-warning btn-sm px-3" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="far fa-chart-bar"></span> Log Daily
+                            </button>
+
+                            <div class="dropdown-menu">
+                                @foreach ($handle as $hand)
+                                <a class="dropdown-item" href="#" id="button-history-daily" data-bs-toggle="modal" data-bs-target="#modal-template" data-code="{{ $hand->kd_cabang }}">{{ $hand->nama_cabang }}</a>
+                                @endforeach
+                                <!-- <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Separated link</a> -->
+                            </div>
+                        </div>
                         <!-- <div class="border-dashed-bottom my-4 d-lg-none"></div> -->
                     </div>
                     <div class="col ps-2 ps-lg-3">
@@ -167,6 +182,10 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+<script src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.js"></script>
+<script src="https://cdn.datatables.net/responsive/3.0.4/js/responsive.bootstrap5.js"></script>
 <script>
     $(document).on("click", "#button-proses-check-in", function(e) {
         e.preventDefault();
@@ -263,6 +282,79 @@
         }).fail(function() {
             $('#report-backup-harian').html('eror');
         });
+    });
+
+    // DATA LOG
+    $(document).on("click", "#button-history-daily", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-template').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('dashboard_log_daily') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-template').html(data);
+        }).fail(function() {
+            $('#menu-template').html('eror');
+        });
+    });
+    $(document).on("click", "#button-remove-daily", function(e) {
+        e.preventDefault();
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: true
+        });
+        swalWithBootstrapButtons.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var code = $(this).data("code");
+                $.ajax({
+                    url: "{{ route('dashboard_log_daily_remove') }}",
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "code": code
+                    },
+                    dataType: 'html',
+                }).done(function(data) {
+                    Swal.fire('Berhasil!', 'Data Log Berhasil di Hapus', 'success').then(() => {
+                        location.reload();
+                    });
+                }).fail(function() {
+                    Swal.fire('Gagal!', 'Data Log Gagal di Hapus', 'error').then(() => {
+                        location.reload();
+                    });
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                /* Read more about handling dismissals below */
+                swalWithBootstrapButtons.fire({
+                    title: "Cancelled",
+                    text: "Your imaginary file is safe :)",
+                    icon: "error"
+                });
+
+            }
+        });
+
     });
 </script>
 <script>
