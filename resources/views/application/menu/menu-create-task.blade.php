@@ -14,7 +14,7 @@
     <div class="col-md-5">
         <div class="card shadow-sm border-0">
             <div class="card-header bg-primary text-white py-3">
-                <h5 class="card-title mb-0"><i class="bi bi-plus-circle me-2"></i>Buat Tugas Baru</h5>
+                <h5 class="card-title mb-0 text-white"><i class="fas fa-plus-circle me-2"></i>Buat Tugas Baru</h5>
             </div>
             <div class="card-body p-4">
                 <form id="formTugas" enctype="multipart/form-data">

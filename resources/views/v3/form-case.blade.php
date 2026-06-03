@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Form Case - Laporan Kendala IT</title>
+    <title>Form Case - Laporan Kendala User</title>
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('asset/img/icons/shield.png') }}">
     <!-- Bootstrap 5 & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -211,7 +211,7 @@
     <div class="wizard-card">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h4 class="mb-0 fw-bold" style="color: #316bb3;">Form Lapran Kendala IT</h4>
+                <h4 class="mb-0 fw-bold" style="color: #316bb3;">Form Lapran Kendala User</h4>
                 <small class="text-muted">{{ date('d-m-Y H:i:s') }}</small>
             </div>
             <a href="{{ url('/login') }}" class="btn btn-dark"><i class="bi bi-arrow-left"></i> Back</a>

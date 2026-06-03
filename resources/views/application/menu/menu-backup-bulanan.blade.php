@@ -21,8 +21,8 @@
     @endif
     <div class="col-lg-5">
         <div class="card shadow-sm border-0 rounded-3 mb-5">
-            <div class="card-header bg-primary text-white p-3 rounded-top-3">
-                <h4 class="mb-0 text-white"><i class="bi bi-cloud-arrow-up-fill me-2"></i>Form Upload Backup Bulanan</h4>
+            <div class="card-header bg-primary text-white pb-2 rounded-top-3">
+                <h5 class="fw-bold text-white"><i class="fas fa-cloud-arrow-up-fill me-2"></i>Form Upload Backup Bulanan</h5>
             </div>
             <div class="card-body p-4">
 
@@ -74,8 +74,8 @@
                     </div>
 
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button type="reset" class="btn btn-light px-4 text-secondary me-md-2">Reset</button>
-                        <button type="submit" class="btn btn-primary px-5">Kirim Data Backup</button>
+                        <button type="reset" class="btn btn-danger px-3 text-white me-md-2">Reset</button>
+                        <button type="submit" class="btn btn-primary px-3">Kirim Data Backup</button>
                     </div>
                 </form>
 
@@ -84,8 +84,8 @@
     </div>
     <div class="col-md-7">
         <div class="card shadow-sm border-0 rounded-3">
-            <div class="card-header bg-dark text-white p-3 rounded-top-3 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-                <h5 class="mb-0 text-white"><i class="bi bi-table me-2"></i>Daftar Hasil Upload</h5>
+            <div class="card-header bg-dark text-white pb-2 rounded-top-3 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                <h5 class="fw-bold text-white"><i class="fas fa-unlock-alt me-3"></i>Daftar Hasil Upload</h5>
 
                 <div class="d-flex align-items-center gap-2">
                     <label for="filterCabang" class="text-white-50 small text-nowrap"><i class="bi bi-funnel-fill me-1"></i>Filter:</label>
@@ -100,7 +100,7 @@
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0" id="tabelBackup">
-                        <thead class="table-light">
+                        <thead class="table-primary">
                             <tr>
                                 <th scope="col" class="ps-3" style="width: 5%">#</th>
                                 <th scope="col">Cabang</th>

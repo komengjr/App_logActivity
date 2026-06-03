@@ -101,8 +101,10 @@
 <div class="row">
     <div class="col-12">
         <div class="card shadow-sm border-0 mb-3">
+            <div class="card-header bg-primary pb-1">
+                <h4 class="fw-bold text-white"><i class="fas fa-funnel-fill me-2"></i>Filter Pencarian</h4>
+            </div>
             <div class="card-body p-4">
-                <h6 class="fw-bold mb-3 text-secondary"><i class="bi bi-funnel-fill me-2"></i>Filter Pencarian</h6>
                 <form id="filterForm" class="row g-3">
                     <div class="col-md-3">
                         <label for="filterCabang" class="form-label text-muted small fw-semibold">1. Cabang</label>
@@ -131,8 +133,8 @@
                         </select>
                     </div>
                     <div class="col-md-2 d-flex align-items-end gap-2">
-                        <button type="button" class="btn btn-primary flex-fill" onclick="fetchDataTabel()"><i class="bi bi-search"></i> Cari</button>
-                        <button type="button" class="btn btn-outline-secondary" onclick="resetSemuaFilter()"><i class="fas fa-arrow-clockwise"></i></button>
+                        <button type="button" class="btn btn-primary flex-fill" onclick="fetchDataTabel()"><i class="fas fa-search"></i> Cari</button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="resetSemuaFilter()"><i class="fas fa-undo"></i></button>
                     </div>
                 </form>
             </div>
@@ -142,7 +144,7 @@
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover table-clickable align-middle mb-0" id="tabelMaintenance">
-                        <thead class="table-light text-secondary text-uppercase fs-1">
+                        <thead class="table-primary text-secondary text-uppercase fs--1">
                             <tr>
                                 <th class="ps-4">Cabang</th>
                                 <th>Nama Komputer / Unit Barang</th>
