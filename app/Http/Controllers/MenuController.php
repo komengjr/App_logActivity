@@ -163,7 +163,7 @@ class MenuController extends Controller
             DB::beginTransaction();
 
             // A. Update status barang di tabel target rencana_maintenance menjadi 'Selesai'
-            $updated = DB::table('m_rencana_detail')
+            DB::table('m_rencana_detail')
                 ->join('m_rencana_data', 'm_rencana_data.m_rencana_data_code', '=', 'm_rencana_detail.m_rencana_data_code')
                 ->where('m_rencana_detail_id_brg', $request->id_aset)
                 ->where('m_rencana_data_cabang', $request->cabang)
@@ -173,12 +173,18 @@ class MenuController extends Controller
                     'm_rencana_detail_status' => '1',
                     'm_rencana_detail.updated_at'      => now() // jika menggunakan timestamp
                 ]);
-
+            $data = DB::table('m_rencana_detail')
+                ->join('m_rencana_data', 'm_rencana_data.m_rencana_data_code', '=', 'm_rencana_detail.m_rencana_data_code')
+                ->where('m_rencana_detail_id_brg', $request->id_aset)
+                ->where('m_rencana_data_cabang', $request->cabang)
+                ->where('m_rencana_data_tahun', $request->tahun)
+                ->where('m_rencana_detail_bulan', $request->bulan)->first();
             // B. (Opsional) Insert ke tabel log riwayat penanganan riil jika Anda memilikinya
             // Misal Anda punya tabel 'log_realisasi_maintenance':
             $code = str::uuid();
             $logId = DB::table('m_rencana_log')->insertGetId([
                 'm_rencana_log_code' => $code,
+                'm_rencana_detail_code' => $data->m_rencana_detail_code,
                 'm_rencana_log_id_brg' => $request->id_aset,
                 'm_rencana_log_cabang' => $request->cabang,
                 'm_rencana_log_tahun' => $request->tahun,
@@ -230,6 +236,112 @@ class MenuController extends Controller
         } else {
             return Redirect::to('dashboard/home');
         }
+    }
+    public function menu_verifikasi_maintenance_list_cabang()
+    {
+        $cabang = DB::table('users_handler')
+            ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
+            ->where('users_handler.id_user', Auth::user()->id_user)
+            ->select('tbl_cabang.kd_cabang as cabang')
+            ->distinct()
+            ->get();
+
+        return response()->json($cabang);
+    }
+    public function menu_verifikasi_maintenance_list_tahun(Request $request)
+    {
+        $tahun = DB::table('m_rencana_data')
+            ->where('m_rencana_data_cabang', $request->cabang)
+            ->select('m_rencana_data_tahun as tahun')
+            ->distinct()
+            ->get();
+
+        return response()->json($tahun);
+    }
+    public function menu_verifikasi_maintenance_list_bulan(Request $request)
+    {
+        $bulan = DB::table('m_rencana_detail')
+            ->join('m_rencana_data', 'm_rencana_detail.m_rencana_data_code', '=', 'm_rencana_data.m_rencana_data_code')
+            ->where('m_rencana_data.m_rencana_data_cabang', $request->cabang)
+            ->where('m_rencana_data.m_rencana_data_tahun', $request->tahun)
+            ->select('m_rencana_detail.m_rencana_detail_bulan as bulan_nama')
+            ->distinct()
+            ->get();
+
+        return response()->json($bulan);
+    }
+    public function menu_verifikasi_maintenance_data_perangkat(Request $request)
+    {
+        $userId = auth()->id() ?? 'USER-DUMMY-01';
+
+        // Cari tahu dulu cabang apa saja yang boleh diakses user ini
+        $cabangUser = DB::table('users_handler')
+                        ->where('id_user', Auth::user()->id_user)
+                        ->pluck('kd_cabang');
+
+        $query = DB::table('m_rencana_detail')
+                    ->join('m_rencana_data', 'm_rencana_detail.m_rencana_data_code', '=', 'm_rencana_data.m_rencana_data_code')
+                    ->join('m_rencana_log', 'm_rencana_log.m_rencana_detail_code', '=', 'm_rencana_detail.m_rencana_detail_code')
+                    ->select(
+                        'm_rencana_detail.id_m_rencana_detail as id',
+                        'm_rencana_detail.m_rencana_detail_code as detail_code',
+                        'm_rencana_data.m_rencana_data_cabang as cabang',
+                        'm_rencana_data.m_rencana_data_user as petugas_it',
+                        'm_rencana_detail.m_rencana_detail_nama_brg as nama_komputer',
+                        'm_rencana_detail.m_rencana_detail_date as tanggal_selesai',
+                        'm_rencana_detail.m_rencana_detail_verif as nama_atasan',
+                        'm_rencana_detail.m_rencana_detail_sign as signature_base64'
+                    )
+                    // Proteksi awal: Hanya mengambil data dari cabang yang di-handel user tersebut
+                    ->whereIn('m_rencana_data.m_rencana_data_cabang', $cabangUser);
+
+        // Jika user memilih filter cabang spesifik di dropdown frontend
+        if ($request->filled('cabang')) {
+            $query->where('m_rencana_data.m_rencana_data_cabang', $request->cabang);
+        }
+        if ($request->filled('tahun')) {
+            $query->where('m_rencana_data.m_rencana_data_tahun', $request->tahun);
+        }
+        if ($request->filled('bulan')) {
+            $query->where('m_rencana_detail.m_rencana_detail_bulan', $request->bulan);
+        }
+
+        // Cek Status Verifikasi Atasan
+        if ($request->status == 'sudah') {
+            $query->whereNotNull('m_rencana_detail.m_rencana_detail_sign');
+        } elseif ($request->status == 'belum') {
+            $query->whereNull('m_rencana_detail.m_rencana_detail_sign');
+        }
+
+        $data = $query->get();
+
+        return response()->json([
+            'status' => 'SUCCESS',
+            'data'   => $data
+        ]);
+    }
+    public function menu_verifikasi_maintenance_simpan_verifikasi(Request $request)
+    {
+        $request->validate([
+            'id_detail'        => 'required',
+            'nama_atasan'      => 'required|string',
+            'signature_base64' => 'required|string',
+        ]);
+
+        // Update record pada tabel m_rencana_detail
+        DB::table('m_rencana_detail')
+            ->where('id_m_rencana_detail', $request->id_detail)
+            ->update([
+                'm_rencana_detail_verif'  => $request->nama_atasan,
+                'm_rencana_detail_sign'   => $request->signature_base64,
+                'm_rencana_detail_status' => 1, // Anggap 1 artinya "Sudah Diverifikasi"
+                'updated_at'              => now()
+            ]);
+
+        return response()->json([
+            'status'  => 'SUCCESS',
+            'message' => 'Validasi tanda tangan berhasil disimpan ke dalam Master-Detail System!'
+        ]);
     }
     // PEMBUATAN TASK / TUGAS
     public function menu_create_task($akses)
@@ -333,7 +445,7 @@ class MenuController extends Controller
                 ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
                 ->where('users_handler.id_user', Auth::user()->id_user)->get();
             $backups = DB::table('users_backup_bulanan')->orderBy('id_backup_bulanan', 'desc')->get();
-            return view('application.menu.menu-backup-bulanan', compact('backups','cabang'));
+            return view('application.menu.menu-backup-bulanan', compact('backups', 'cabang'));
         } else {
             return Redirect::to('dashboard/home');
         }

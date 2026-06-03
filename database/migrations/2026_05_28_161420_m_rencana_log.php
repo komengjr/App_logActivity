@@ -16,6 +16,7 @@ class MRencanaLog extends Migration
         Schema::create('m_rencana_log', function (Blueprint $table) {
             $table->id('id_m_rencana_log');
             $table->string('m_rencana_log_code')->unique();
+            $table->string('m_rencana_detail_code');
             $table->string('m_rencana_log_id_brg');
             $table->string('m_rencana_log_cabang');
             $table->string('m_rencana_log_tahun');

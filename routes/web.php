@@ -92,6 +92,13 @@ Route::prefix('menu')->group(function () {
 
     Route::post('app/menu/backup-bulanan/save', [MenuController::class, 'menu_backup_bulanan_save'])->name('menu_backup_bulanan_save');
 
+    Route::get('app/menu/verifikasi-maintenance/list-cabang', [MenuController::class, 'menu_verifikasi_maintenance_list_cabang'])->name('menu_verifikasi_maintenance_list_cabang');
+    Route::get('app/menu/verifikasi-maintenance/list-tahun', [MenuController::class, 'menu_verifikasi_maintenance_list_tahun'])->name('menu_verifikasi_maintenance_list_tahun');
+    Route::get('app/menu/verifikasi-maintenance/list-bulan', [MenuController::class, 'menu_verifikasi_maintenance_list_bulan'])->name('menu_verifikasi_maintenance_list_bulan');
+    Route::get('app/menu/verifikasi-maintenance/data-perangkat', [MenuController::class, 'menu_verifikasi_maintenance_data_perangkat'])->name('menu_verifikasi_maintenance_data_perangkat');
+    Route::post('app/menu/verifikasi-maintenance/simpan-verifikasi', [MenuController::class, 'menu_verifikasi_maintenance_simpan_verifikasi'])->name('menu_verifikasi_maintenance_simpan_verifikasi');
+
+
     Route::post('app/master/master-piket-setup/save', [MenuController::class, 'master_piket_setup_save'])->name('master_piket_setup_save');
 
     Route::get('app/master/master-piket-data/{bulan}', [MenuController::class, 'master_piket_data_bulan'])->name('master_piket_data_bulan');
