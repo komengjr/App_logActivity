@@ -276,29 +276,29 @@ class MenuController extends Controller
 
         // Cari tahu dulu cabang apa saja yang boleh diakses user ini
         $cabangUser = DB::table('users_handler')
-                        ->where('id_user', Auth::user()->id_user)
-                        ->pluck('kd_cabang');
+            ->where('id_user', '=', Auth::user()->id_user)
+            ->pluck('kd_cabang');
 
         $query = DB::table('m_rencana_detail')
-                    ->join('m_rencana_data', 'm_rencana_detail.m_rencana_data_code', '=', 'm_rencana_data.m_rencana_data_code')
-                    ->join('m_rencana_log', 'm_rencana_log.m_rencana_detail_code', '=', 'm_rencana_detail.m_rencana_detail_code')
-                    ->select(
-                        'm_rencana_detail.id_m_rencana_detail as id',
-                        'm_rencana_detail.m_rencana_detail_code as detail_code',
-                        'm_rencana_data.m_rencana_data_cabang as cabang',
-                        'm_rencana_data.m_rencana_data_user as petugas_it',
-                        'm_rencana_detail.m_rencana_detail_nama_brg as nama_komputer',
-                        'm_rencana_detail.m_rencana_detail_date as tanggal_selesai',
-                        'm_rencana_detail.m_rencana_detail_verif as nama_atasan',
-                        'm_rencana_detail.m_rencana_detail_sign as signature_base64'
-                    )
-                    // Proteksi awal: Hanya mengambil data dari cabang yang di-handel user tersebut
-                    ->whereIn('m_rencana_data.m_rencana_data_cabang', $cabangUser);
+            ->join('m_rencana_data', 'm_rencana_detail.m_rencana_data_code', '=', 'm_rencana_data.m_rencana_data_code')
+            ->join('m_rencana_log', 'm_rencana_log.m_rencana_detail_code', '=', 'm_rencana_detail.m_rencana_detail_code')
+            ->select(
+                'm_rencana_detail.id_m_rencana_detail as id',
+                'm_rencana_detail.m_rencana_detail_code as detail_code',
+                'm_rencana_data.m_rencana_data_cabang as cabang',
+                'm_rencana_data.m_rencana_data_user as petugas_it',
+                'm_rencana_detail.m_rencana_detail_nama_brg as nama_komputer',
+                'm_rencana_detail.m_rencana_detail_date as tanggal_selesai',
+                'm_rencana_detail.m_rencana_detail_verif as nama_atasan',
+                'm_rencana_detail.m_rencana_detail_sign as signature_base64'
+            )
+            // Proteksi awal: Hanya mengambil data dari cabang yang di-handel user tersebut
+            ->whereIn('m_rencana_data.m_rencana_data_cabang', $cabangUser);
 
         // Jika user memilih filter cabang spesifik di dropdown frontend
-        if ($request->filled('cabang')) {
-            $query->where('m_rencana_data.m_rencana_data_cabang', $request->cabang);
-        }
+        // if ($request->filled('cabang')) {
+        //     $query->where('m_rencana_data.m_rencana_data_cabang', $request->cabang);
+        // }
         if ($request->filled('tahun')) {
             $query->where('m_rencana_data.m_rencana_data_tahun', $request->tahun);
         }
