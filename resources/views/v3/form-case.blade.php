@@ -211,7 +211,7 @@
     <div class="wizard-card">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h4 class="mb-0 fw-bold" style="color: #316bb3;">Form Lapran Kendala User</h4>
+                <h4 class="mb-0 fw-bold" style="color: #316bb3;">Form Laporan Kendala User</h4>
                 <small class="text-muted">{{ date('d-m-Y H:i:s') }}</small>
             </div>
             <a href="{{ url('/login') }}" class="btn btn-dark"><i class="bi bi-arrow-left"></i> Back</a>
