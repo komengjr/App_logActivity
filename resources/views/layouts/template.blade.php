@@ -218,7 +218,6 @@
                                             class="nav-link-text ps-1">Master Log Login</span>
                                     </div>
                                 </a>
-
                             <li class="nav-item">
                                 <!-- parent pages-->
                                 <a class="nav-link dropdown-indicator" href="#master_menu"

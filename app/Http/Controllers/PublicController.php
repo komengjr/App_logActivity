@@ -195,51 +195,56 @@ class PublicController extends Controller
             ]);
             $find = DB::table('users_handler')->join('users', 'users.id_user', '=', 'users_handler.id_user')->where('kd_cabang', $request->cabang)->get();
             foreach ($find as $value) {
-                $nomorhp = $value->phone_number;
-                //Terlebih dahulu kita trim dl
-                $nomorhp = trim($nomorhp);
-                //bersihkan dari karakter yang tidak perlu
-                $nomorhp = strip_tags($nomorhp);
-                // Berishkan dari spasi
-                $nomorhp = str_replace(" ", "", $nomorhp);
-                // Berishkan dari -
-                $nomorhp = str_replace("-", "", $nomorhp);
-                // bersihkan dari bentuk seperti  (022) 66677788
-                $nomorhp = str_replace("(", "", $nomorhp);
-                // bersihkan dari format yang ada titik seperti 0811.222.333.4
-                $nomorhp = str_replace(".", "", $nomorhp);
+                if ($value->phone_number == "") {
+                    # code...
+                } else {
+                    # code...
+                    $nomorhp = $value->phone_number;
+                    //Terlebih dahulu kita trim dl
+                    $nomorhp = trim($nomorhp);
+                    //bersihkan dari karakter yang tidak perlu
+                    $nomorhp = strip_tags($nomorhp);
+                    // Berishkan dari spasi
+                    $nomorhp = str_replace(" ", "", $nomorhp);
+                    // Berishkan dari -
+                    $nomorhp = str_replace("-", "", $nomorhp);
+                    // bersihkan dari bentuk seperti  (022) 66677788
+                    $nomorhp = str_replace("(", "", $nomorhp);
+                    // bersihkan dari format yang ada titik seperti 0811.222.333.4
+                    $nomorhp = str_replace(".", "", $nomorhp);
 
-                if (!preg_match('/[^+0-9]/', trim($nomorhp))) {
-                    // cek apakah no hp karakter 1-3 adalah +62
-                    if (substr(trim($nomorhp), 0, 3) == '+62') {
-                        $nomorhp = trim($nomorhp);
+                    if (!preg_match('/[^+0-9]/', trim($nomorhp))) {
+                        // cek apakah no hp karakter 1-3 adalah +62
+                        if (substr(trim($nomorhp), 0, 3) == '+62') {
+                            $nomorhp = trim($nomorhp);
+                        }
+                        // cek apakah no hp karakter 1 adalah 0
+                        elseif (substr($nomorhp, 0, 1) == '0') {
+                            $nomorhp = '+62' . substr($nomorhp, 1);
+                        }
                     }
-                    // cek apakah no hp karakter 1 adalah 0
-                    elseif (substr($nomorhp, 0, 1) == '0') {
-                        $nomorhp = '+62' . substr($nomorhp, 1);
-                    }
+                    $text1 = "🔐 *[LOGIT SYSTEM NOTIFICATION]*\n\n" .
+                        "Halo, *" . $value->name . "*\n" .
+                        "Berikut adalah Tiket Laporan Anda:\n\n" .
+                        "```" . $tiket . "```\n\n" . "Deskripsi Laporan : " . $request->catatan_laporan .
+                        "\n\n⏰ _Tiket ini dibuat pada :_ " . now() . " WIB\n\n" .
+                        "⚠️ *Demi Kenyamanan Pelapor :* Pastikan Pengecekan Berkala Pada Sistem dengan Memasukan tiket Laporan anda.";
+                    DB::table('v_log_whatsapp')->insert([
+                        'v_log_whatsapp_code' => str::uuid(),
+                        'v_log_whatsapp_type' => 'laporan_user',
+                        'v_log_whatsapp_token' => $tiket,
+                        'v_log_whatsapp_number' => $nomorhp,
+                        'v_log_whatsapp_name' => $request->nama_pelapor,
+                        'v_log_whatsapp_filename' => 'nofile',
+                        'v_log_whatsapp_text' => $text1,
+                        'v_log_whatsapp_file' => 'N',
+                        'v_log_whatsapp_picture' => 0,
+                        'v_log_whatsapp_status' => 0,
+                        'v_log_whatsapp_date' => now(),
+                        'v_log_whatsapp_pass' => 'admin',
+                        'created_at' => now()
+                    ]);
                 }
-                $text1 = "🔐 *[LOGIT SYSTEM NOTIFICATION]*\n\n" .
-                    "Halo, *" . $value->name . "*\n" .
-                    "Berikut adalah Tiket Laporan Anda:\n\n" .
-                    "```" . $tiket . "```\n\n" . "Deskripsi Laporan : " . $request->catatan_laporan .
-                    "\n\n⏰ _Tiket ini dibuat pada :_ " . now() . " WIB\n\n" .
-                    "⚠️ *Demi Kenyamanan Pelapor :* Pastikan Pengecekan Berkala Pada Sistem dengan Memasukan tiket Laporan anda.";
-                DB::table('v_log_whatsapp')->insert([
-                    'v_log_whatsapp_code' => str::uuid(),
-                    'v_log_whatsapp_type' => 'laporan_user',
-                    'v_log_whatsapp_token' => $tiket,
-                    'v_log_whatsapp_number' => $nomorhp,
-                    'v_log_whatsapp_name' => $request->nama_pelapor,
-                    'v_log_whatsapp_filename' => 'nofile',
-                    'v_log_whatsapp_text' => $text1,
-                    'v_log_whatsapp_file' => 'N',
-                    'v_log_whatsapp_picture' => 0,
-                    'v_log_whatsapp_status' => 0,
-                    'v_log_whatsapp_date' => now(),
-                    'v_log_whatsapp_pass' => 'admin',
-                    'created_at' => now()
-                ]);
             }
 
             // Telegram::sendMessage([

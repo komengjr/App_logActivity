@@ -310,6 +310,9 @@ class AppController extends Controller
     // PESAN
     public function dashboard_get_message(Request $request)
     {
+        $cabangUser = DB::table('users_handler')
+            ->where('id_user', '=', Auth::user()->id_user)
+            ->pluck('kd_cabang');
         $datapesan = DB::table('tbl_laporan_user')
             ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
             ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
