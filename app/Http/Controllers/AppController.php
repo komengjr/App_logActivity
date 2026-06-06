@@ -619,7 +619,7 @@ class AppController extends Controller
         $image = base64_encode(file_get_contents(public_path('icon1.png')));
         $start = $date1;
         $end = $date2;
-        $pdf = PDF::loadview('application.laporan-user.report.report-kendala-user', compact('image'), ['datahandle' => $datahandle, 'start' => $start, 'end' => $end])->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Courier']);
+        $pdf = PDF::loadview('application.laporan-user.report.report-kendala-user', compact('image'), ['datahandle' => $datahandle, 'start' => $start, 'end' => $end])->setPaper('A4', 'landscape')->setOptions(['defaultFont' => 'Courier']);
         $pdf->output();
         $canvas = $pdf->getDomPDF()->getCanvas();
 
