@@ -224,8 +224,8 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
             <img src="data:image/png;base64, {{ $image }}">
         </div>
         <div id="company">
-            <div style="margin-top: -20px; font-size: 9px;;">SDM.XX-FRM-IKA-PP.09.03</div><br>
-            <h2 class="name">LAPORAN BACK DATA BULANAN</h2>
+            <div style="margin-top: -20px; font-size: 9px;;">SDM.XX-FRM-PP.10</div><br>
+            <h2 class="name">LAPORAN KENDALA USER</h2>
             <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur esse eius quod minus quae consectetur provident illum, </div>
             <div>000 0000 0000</div>
         </div>
@@ -257,7 +257,7 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
                 </table>
             </div>
             <div id="invoice">
-                <span style="font-size: 1em;color: #1ac300ff;"><strong>BACKUP DATA BISONE BULANAN</strong></span>
+                <span style="font-size: 1em;color: #1ac300ff;"><strong>Laporan Perbaikan Software dan Hardware</strong></span>
                 {{-- <div class="date" style="color: red; font-size: 12px;">Print By : {{ Auth::user()->fullname }}
             </div> --}}
             <div class="date" style="color: #0087C3">{{ date('d-m-Y H-i-s') }}</div><br>
@@ -268,21 +268,30 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
         <!-- Hasil -->
         <h5><span class="badge badge-dark">Date Range : {{$start}} Sampai {{$end}}</span></h5>
 
-        @foreach ($datahandle as $datahandles)
+        @foreach ($datahandle as $datahandle)
         @php
-        $data = DB::table('users_backup_bulanan')->where('kd_cabang',$datahandles->kd_cabang)->whereBetween('tgl_input', [$start,$end])->get();
+        $data = DB::table('tbl_laporan_user')
+        ->where('kd_cabang', $datahandle->kd_cabang)
+        ->whereBetween('tgl_laporan', [$start, $end])
+        ->get();
         @endphp
-        <h5>{{$datahandles->nama_cabang}}</h5>
-        <table style="font-size: 8px; margin: 0px; padding: 0px; width: 710px; font-size: 11px; font-family: Calibri (Body);" border="1">
+        <h5>{{ $datahandle->nama_cabang }}</h5>
+        <table style="font-size: 8px; margin: 0px; padding: 0px; width: 710px; font-size: 11px; font-family: Calibri (Body);"
+            border="1">
             <thead style="font-weight: bold;">
                 <tr>
                     <td class="text-center">No</td>
-                    <td class="text-center">Bulan Backup</td>
-                    <td class="text-center">Tahun Backup</td>
-                    <td class="text-center">Deskripsi</td>
-                    <td class="text-center">Bukti</td>
+                    <td class="text-center">Tiket Laporan</td>
+                    <td class="text-center">Nama Pelapor</td>
+                    <td class="text-center">Kategori Laporan</td>
+                    <td class="text-center">Deskripsi Masalah</td>
+                    <td class="text-center">Tanggal Laporan</td>
+                    <td class="text-center">Terima Laporan</td>
+                    <td class="text-center">Tindakan Perbaikan</td>
+                    <td class="text-center">Selesai Laporan</td>
+                    <td class="text-center">Di Bawah 5 Menit</td>
+                    <td class="text-center">Status Laporan</td>
                 </tr>
-
             </thead>
             <tbody>
                 @php
@@ -290,16 +299,51 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
                 @endphp
                 @foreach ($data as $item)
                 <tr>
-                    <td>{{$no++}}</td>
-                    <td>{{$item->nama_backup_bulanan }}</td>
-                    <td>{{$item->tahun_backup_bulanan }}</td>
+                    <td>{{ $no++ }}</td>
+                    <td>{{ $item->tiket_laporan }}</td>
+                    <td>{{ $item->nama_user }}</td>
                     <td>
-                        @php
-                        echo $item->deskripsi;
-                        @endphp
+                        @if ($item->kategori_laporan == 'ER-001')
+                        Software
+                        @else
+                        Hardware
+                        @endif
                     </td>
                     <td>
-                        <img src="data:image/png;base64, {{ base64_encode(file_get_contents(public_path('storage/screenshots/' . $item->screenshot))) }}" width="450">
+                        @php
+                        echo $item->deskripsi_laporan;
+                        @endphp
+                    </td>
+                    <td>{{ $item->tgl_laporan }}</td>
+                    <td>{{ $item->tgl_respon_laporan }}</td>
+                    <td>
+                        @php
+                        $penyelesaian = DB::table('tbl_laporan_user_log')->where('tiket_laporan',$item->tiket_laporan)->first();
+                        @endphp
+                        @if ($penyelesaian)
+                        @php
+                        echo $penyelesaian->deskripsi_penyelesaian;
+                        @endphp
+                        @endif
+                    </td>
+                    <td>{{ $item->tgl_selesai_laporan }}</td>
+                    <td><span class="badge bg-success">
+                            @php
+                            $dari = date_create($item->tgl_respon_laporan);
+                            $sampai = date_create($item->tgl_selesai_laporan);
+                            $diff = date_diff($dari, $sampai);
+                            echo $diff->format(' %H:%i:%s');
+                            @endphp
+
+                            {{-- {{$datamenit}} --}}
+                        </span>
+                    </td>
+                    <td>
+                        @if ($item->status_laporan == 2)
+                        Selesai
+                        @else
+                        Belum Selesai
+                        @endif
                     </td>
                 </tr>
                 @endforeach

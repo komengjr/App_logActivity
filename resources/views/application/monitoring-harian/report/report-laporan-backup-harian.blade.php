@@ -226,8 +226,8 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
         <div id="company">
             <div style="margin-top: -20px; font-size: 9px;;">PR/001/ACC/123123</div><br>
             <h2 class="name">LAPORAN BACK DATA HARIAN</h2>
-            <div>Pontianak, Jl Ahmad Yani 3 No 1234</div>
-            <div>0896 9410 7336</div>
+            <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur esse eius quod minus quae consectetur provident illum, </div>
+            <div>000 0000 0000</div>
         </div>
         </div>
     </header>
