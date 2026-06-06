@@ -22,7 +22,8 @@
         cache: false,
         data: {
             "_token": "{{ csrf_token() }}",
-            "code": "{{ $code }}"
+            "code": "{{ $code }}",
+            "petugas": "{{ $petugas }}"
         },
         dataType: 'html',
     }).done(function(data) {

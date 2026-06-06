@@ -123,19 +123,29 @@
 </head>
 
 <body>
+    @if ($cabang->kd_entitas_cabang == 'PTP')
 
-    <div class="text-end form-code">123.10/04</div>
+    @else
+
+    @endif
+    <div class="text-end form-code">SDM.XX-FRM-PP.10/04</div>
 
     <div class="title-box">
         CHECKLIST PEMELIHARAAN SOFTWARE & PERALATAN IT PENDUKUNG BISONE<br>
-        LABORATORIUM KLINIK PRAMITA<br>
-        CABANG: MATRAMAN
+        LABORATORIUM KLINIK
+        @if ($cabang->kd_entitas_cabang == 'PTP')
+            PRAMITA
+        @else
+            SIMA
+        @endif
+        <br>
+        CABANG: {{ $cabang->nama_cabang }}
     </div>
 
     <table class="meta-table">
         <tr>
-            <td style="width: 50%;">LOKASI / CABANG : <strong>MATRAMAN</strong></td>
-            <td class="text-end" style="width: 50%;">NAMA KOMPUTER : <strong>123</strong></td>
+            <td style="width: 50%;">LOKASI / CABANG : <strong>{{ $cabang->m_rencana_log_loc }}</strong></td>
+            <td class="text-end" style="width: 50%;">NAMA KOMPUTER : <strong>{{ $cabang->m_rencana_detail_nama_brg }}</strong></td>
         </tr>
     </table>
 
@@ -150,42 +160,31 @@
             <tr class="category-row">
                 <td colspan="2">HARDWARE</td>
             </tr>
+            @foreach ($log as $logs)
+            @if ($logs->m_rencana_log_detail_cat == "Hardware")
             <tr>
-                <td class="indent-item">I. CPU (Fan, Processor, Power Supply, Ruang CPU)</td>
-                <td>Selesai dibersihkan dari debu, thermal pasta diganti baru, putaran kipas lancar.</td>
+                <td class="indent-item">I. {{ $logs->m_rencana_log_detail_sub }}</td>
+                <td>{{ $logs->m_rencana_log_detail_desc }}</td>
             </tr>
-            <tr>
-                <td class="indent-item">II. KABEL (Kabel LAN, Kabel Power)</td>
-                <td>Kondisi fisik kokoh, penguncian RJ45 normal, koneksi stabil.</td>
-            </tr>
-            <tr>
-                <td class="indent-item">III. MONITOR (Fungsi dasar & kecerahan)</td>
-                <td>Layar jernih, pengaturan tingkat kecerahan dikalibrasi ulang agar nyaman di mata.</td>
-            </tr>
-            <tr>
-                <td class="indent-item">IV. KEYBOARD & MOUSE (Label & Fungsi)</td>
-                <td>Semua tombol keyboard berfungsi empuk dan mouse optik merespons cepat.</td>
-            </tr>
+            @endif
+            @endforeach
+
 
             <tr class="category-row">
                 <td colspan="2">SOFTWARE</td>
             </tr>
+            @foreach ($log as $logs)
+            @if ($logs->m_rencana_log_detail_cat == "Software")
             <tr>
-                <td class="indent-item">I. OPERATING SYSTEM (Windows/Linux)</td>
-                <td>OS Windows 11 Pro ter-aktivasi resmi, pengecekan registry aman.</td>
+                <td class="indent-item">I. {{ $logs->m_rencana_log_detail_sub }}</td>
+                <td>{{ $logs->m_rencana_log_detail_desc }}</td>
             </tr>
-            <tr>
-                <td class="indent-item">II. SOFTWARE (Office, Adobe Reader, Apps Internal)</td>
-                <td>Microsoft Office & Aplikasi internal Bisone diperbarui ke versi stabil teranyar.</td>
-            </tr>
-            <tr>
-                <td class="indent-item">III. VIRUS DAN SEJENISNYA (Update Data Antivirus)</td>
-                <td>Proses Full Scan tuntas, database definisi virus terbaru berhasil diunduh.</td>
-            </tr>
+            @endif
+            @endforeach
         </tbody>
     </table>
 
-    <p style="margin-bottom: 25px;">Status Akhir Konfirmasi Manager: <strong>123123</strong></p>
+    <p style="margin-bottom: 25px;">Status Akhir Konfirmasi Manager: <strong>-</strong></p>
 
     <table class="signature-table text-center">
         <tr>
@@ -195,23 +194,23 @@
                     [ VERIFIED BY IT SYSTEM ]
                 </div>
                 <div>
-                    <span class="line-nama">123</span>
+                    <span class="line-nama">{{ $cabang->name }}</span>
                 </div>
                 <div style="color: #555; font-size: 10px;">Staff IT Support</div>
             </td>
 
             <td>
-                <div style="color: #444;">Jakarta, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}</div>
-                <div style="color: #444; margin-top: 2px;">Mengetahui,</div>
+                <div style="color: #444;">{{ $cabang->city }}, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}</div>
+                <div style="color: #444; margin-top: 2px;">Bagian,</div>
 
                 <div class="signature-space">
-                    <img src="123" class="signature-image" alt="Tanda Tangan Atasan">
+                    <img src="{{ $cabang->m_rencana_detail_sign }}" class="signature-image" alt="Tanda Tangan Atasan">
                 </div>
 
                 <div>
-                    <span class="line-nama">123</span>
+                    <span class="line-nama">{{ $cabang->m_rencana_detail_verif }}</span>
                 </div>
-                <div style="color: #555; font-size: 10px;">123</div>
+                <div style="color: #555; font-size: 10px;">-</div>
             </td>
         </tr>
     </table>

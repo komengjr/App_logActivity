@@ -43,6 +43,9 @@ Route::prefix('app')->group(function () {
     Route::post('dashboard/monitoring-harian-kritis', [AppController::class, 'dashboard_monitoring_harian_kritis'])->name('dashboard_monitoring_harian_kritis');
     Route::post('dashboard/monitoring-harian-kritis/backup', [AppController::class, 'dashboard_monitoring_harian_backup_kritis'])->name('dashboard_monitoring_harian_backup_kritis');
     Route::post('dashboard/monitoring-harian/report', [AppController::class, 'dashboard_monitoring_harian_backup_report'])->name('dashboard_monitoring_harian_backup_report');
+
+    Route::post('dashboard/monitoring-bulanan-user', [AppController::class, 'dashboard_monitoring_bulanan_user'])->name('dashboard_monitoring_bulanan_user');
+    Route::post('dashboard/monitoring-bulanan-user/report', [AppController::class, 'dashboard_monitoring_bulanan_user_report'])->name('dashboard_monitoring_bulanan_user_report');
 });
 Route::prefix('master-data')->group(function () {
     Route::get('user', [MasterController::class, 'master_user'])->name('master_user');

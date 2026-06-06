@@ -108,7 +108,7 @@ $brg = DB::table('m_rencana_detail')
                     </td>
                     <td>
                         @if ($log)
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-log-it" id="button-cetak-hasil-maintenance" data-code="{{ $brgs->m_rencana_detail_code }}">Cetak</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-log-it" id="button-cetak-hasil-maintenance" data-code="{{ $brgs->m_rencana_detail_code }}" data-petugas="{{ $petugas }}">Cetak</button>
                         @else
                         <button class="btn btn-primary" disabled>Cetak</button>
                         @endif

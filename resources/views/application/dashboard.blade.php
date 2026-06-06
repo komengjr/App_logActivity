@@ -118,9 +118,9 @@
                     <div class="d-flex btn-reveal-trigger">
                         <div class="calendar"><span class="calendar-month bg-info">Doc</span><span class="calendar-day"><span class="fas fa-file-pdf"></span></span></div>
                         <div class="flex-1 position-relative ps-3">
-                            <h6 class="fs-0 mb-0"><a href="#">Monitoring Back Up Bulanan</a></h6>
+                            <h6 class="fs-0 mb-0"><a href="#" data-bs-toggle="modal" data-bs-target="#modal-template" id="button-monitoring-bulanan">Monitoring Back Up Bulanan</a></h6>
                             <p class="mb-1">User by <a href="#!" class="text-700">{{ Auth::user()->name }}</a></p>
-                            <p class="text-danger mb-0">Coming Soon</p>
+                            <p class="text-success mb-0">Ready</p>
                             Note : Backup Bulanan
                             <div class="border-dashed-bottom my-3"></div>
                         </div>
@@ -208,7 +208,7 @@
             $('#menu-template').html('eror');
         });
     });
-
+    // HARIAN
     $(document).on("click", "#button-monitoring-harian", function(e) {
         e.preventDefault();
         $('#menu-template').html(
@@ -283,7 +283,54 @@
             $('#report-backup-harian').html('eror');
         });
     });
+    // BULANAN
+    $(document).on("click", "#button-monitoring-bulanan", function(e) {
+        e.preventDefault();
+        $('#menu-template').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('dashboard_monitoring_bulanan_user') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": 2123
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-template').html(data);
+        }).fail(function() {
+            $('#menu-template').html('eror');
+        });
+    });
+    $(document).on("click", "#button-preview-backup-bulanan", function(e) {
+        e.preventDefault();
+        const tanggal = document.getElementById('tanggal_monitoring_harian').value;
+        $('#report-backup-harian').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        console.log(tanggal);
 
+        $.ajax({
+            url: "{{ route('dashboard_monitoring_bulanan_user_report') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "date": tanggal
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $("#report-backup-harian").html(
+                '<iframe src="data:application/pdf;base64, ' +
+                data +
+                '" style="width:100%;; height:500px;" frameborder="0"></iframe>'
+            );
+        }).fail(function() {
+            $('#report-backup-harian').html('eror');
+        });
+    });
     // DATA LOG
     $(document).on("click", "#button-history-daily", function(e) {
         e.preventDefault();

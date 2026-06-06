@@ -99,6 +99,7 @@
     $(document).on("click", "#button-cetak-hasil-maintenance", function(e) {
         e.preventDefault();
         var code = $(this).data("code");
+        var petugas = $(this).data("petugas");
         $('#menu-log-it').html(
             '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
         );
@@ -108,7 +109,8 @@
             cache: false,
             data: {
                 "_token": "{{ csrf_token() }}",
-                "code": code
+                "code": code,
+                "petugas": petugas
             },
             dataType: 'html',
         }).done(function(data) {

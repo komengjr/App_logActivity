@@ -522,7 +522,7 @@ class MenuController extends Controller
             ->where('m_rencana_data.m_rencana_data_tahun', '=', $request->tahun)
             ->distinct()
             ->get();
-        return view('application.laporan.rencana-maintenance.detail-rencana', compact('bulan'), ['tahun' => $request->tahun]);
+        return view('application.laporan.rencana-maintenance.detail-rencana', compact('bulan'), ['tahun' => $request->tahun, 'petugas' => $request->petugas]);
     }
     public function laporan_rencana_maintenance_cetak_rencana(Request $request)
     {
@@ -559,13 +559,21 @@ class MenuController extends Controller
     }
     public function laporan_rencana_maintenance_cetak(Request $request)
     {
-        return view('application.laporan.rencana-maintenance.form-report-hasil-maintenance', ['code' => $request->code]);
+        return view('application.laporan.rencana-maintenance.form-report-hasil-maintenance', ['code' => $request->code, 'petugas' => $request->petugas]);
     }
     public function laporan_rencana_maintenance_cetak_report(Request $request)
     {
-
+        $cabang = DB::table('tbl_cabang')
+            ->join('m_rencana_data', 'm_rencana_data.m_rencana_data_cabang', '=', 'tbl_cabang.kd_cabang')
+            ->join('m_rencana_detail', 'm_rencana_detail.m_rencana_data_code', '=', 'm_rencana_data.m_rencana_data_code')
+            ->join('m_rencana_log', 'm_rencana_log.m_rencana_detail_code', '=', 'm_rencana_detail.m_rencana_detail_code')
+            ->join('users', 'users.id_user', '=', 'm_rencana_data.m_rencana_data_user')
+            ->where('m_rencana_detail.m_rencana_detail_code', $request->code)->first();
+        $log = DB::table('m_rencana_log_detail')
+            ->join('m_rencana_log', 'm_rencana_log.m_rencana_log_code', '=', 'm_rencana_log_detail.m_rencana_log_code')
+            ->where('m_rencana_detail_code', $request->code)->get();
         $image = base64_encode(file_get_contents(public_path('icon1.png')));
-        $pdf = PDF::loadview('application.laporan.rencana-maintenance.report.report-hasil-maintenance', compact('image'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Courier']);
+        $pdf = PDF::loadview('application.laporan.rencana-maintenance.report.report-hasil-maintenance', compact('image', 'log', 'cabang'))->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Courier']);
         $pdf->output();
         $canvas = $pdf->getDomPDF()->getCanvas();
 
