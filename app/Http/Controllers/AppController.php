@@ -22,14 +22,18 @@ class AppController extends Controller
     }
     public function dashboard_home()
     {
-        $bio = DB::table('tbl_biodata')->join('users', 'users.id_user', '=', 'tbl_biodata.id_user')
-            ->where('users.id_user', Auth::user()->id_user)->first();
-        $handle = DB::table('users_handler')->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
-            ->where('id_user', Auth::user()->id_user)->get();
-        if ($bio) {
+        if (Auth::user()->kd_akses == '1') {
+            return view('application.dashboard_admin');
+        } elseif (Auth::user()->kd_akses == '2') {
+            return view('application.dashboard_admin');
+        } elseif (Auth::user()->kd_akses == '3' || Auth::user()->kd_akses == '4') {
+            $bio = DB::table('tbl_biodata')->join('users', 'users.id_user', '=', 'tbl_biodata.id_user')
+                ->where('users.id_user', Auth::user()->id_user)->first();
+            $handle = DB::table('users_handler')->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
+                ->where('id_user', Auth::user()->id_user)->get();
             return view('application.dashboard', compact('bio', 'handle'));
-        } else {
-            return view('application.dashboard_admin', compact('handle'));
+        } elseif (Auth::user()->kd_akses == '5') {
+            return view('application.dashboard_verif');
         }
     }
     public function dashboard_home_update_profile(Request $request)
@@ -636,5 +640,31 @@ class AppController extends Controller
         // $pdf->image("bg-report.png",10, 10, 1255, 855);
         // ');
         return base64_encode($pdf->stream());
+    }
+
+    // VERIFIKATOR
+    public function dashboard_verifikator_get_data(Request $request)
+    {
+        $backupharian = DB::table('users_backup_harian')->where('kd_cabang', Auth::user()->cabang)->whereBetween('tgl_backup_harian', [$request->awal, $request->akhir])->get();
+        $backupbulanan = DB::table('users_backup_bulanan')->where('kd_cabang', Auth::user()->cabang)->whereBetween('tgl_input', [$request->awal, $request->akhir])->get();
+        // KRITIS
+        $date1 = $request->awal;
+        $startdate = strtotime($date1);
+        $date2 = $request->akhir;
+        $enddate = strtotime($date2);
+        $harimasuk = array();
+        for ($i = $startdate; $i <= $enddate; $i += (60 * 60 * 24)) {
+            if (date('w', $i) !== '0') {
+                $harimasuk[] = $i;
+            } else {
+            }
+        }
+        $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
+        // KENDALA
+        $kendala = DB::table('tbl_laporan_user')
+            ->where('kd_cabang', Auth::user()->cabang)
+            ->whereBetween('tgl_laporan', [$request->awal, $request->akhir])
+            ->get();
+        return view('application.verifikator.form-hasil-laporan', compact('backupharian', 'backupbulanan', 'harimasuk', 'dataharian', 'kendala'));
     }
 }
