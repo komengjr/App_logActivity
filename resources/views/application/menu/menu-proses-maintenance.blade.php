@@ -248,7 +248,7 @@
     const URL_GET_BARANG = "{{ route('menu_proses_maintenance_get_barang') }}";
     const URL_SIMPAN = "{{ route('menu_proses_maintenance_save') }}";
 
-    const masterHardware = ["CPU", "KABEL", "MONITOR", "KEYBOARD MOUSE"];
+    const masterHardware = ["CPU", "KABEL", "MONITOR", "KEYBOARD MOUSE", "OTHER", ];
     const masterSoftware = ["Operating System", "Aplikasi Lainnya"];
 
     window.onload = function() {

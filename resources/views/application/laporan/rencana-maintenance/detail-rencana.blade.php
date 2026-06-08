@@ -84,10 +84,8 @@ $brg = DB::table('m_rencana_detail')
                                 <!-- <span class="badge bg-success"><i class="bi bi-check-circle-fill me-1"></i>Normal (v2.1)</span> -->
                             </div>
                             @foreach ($software as $soft)
-                            <div class="d-flex justify-content-between align-items-center ms-2">
-                                <span>{{ $soft->m_rencana_log_detail_sub }}</span>
-                                <span class="badge bg-success"><i class="bi bi-check-circle-fill me-1"></i>{{ $soft->m_rencana_log_detail_desc }}</span>
-                            </div>
+                            <strong>{{$soft->m_rencana_log_detail_sub}}</strong>
+                            <p style="text-align: justify;">{{ $soft->m_rencana_log_detail_desc }}</p>
                             @endforeach
                         </div>
                         @endif
