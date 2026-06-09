@@ -84,7 +84,12 @@
                                          @endphp
                                      </td>
                                      <td>
+                                         @if ($item->screenshot == "")
+                                         <span class="badge bg-danger">Kosong</span>
+                                         @else
                                          <img src="data:image/png;base64, {{ base64_encode(file_get_contents(public_path('storage/screenshots/' . $item->screenshot))) }}" width="450">
+
+                                         @endif
                                      </td>
                                  </tr>
                                  @endforeach
@@ -241,31 +246,96 @@
      </div>
      <div class="card-body">
          <div class="table-responsive">
-             <table class="table table-bordered table-hover align-middle">
-                 <thead class="bg-300">
+             <table class="table table-hover align-middle mb-0">
+                 <thead class="table-dark">
                      <tr>
-                         <th>Server/Host</th>
-                         <th>Aktivitas Perawatan</th>
-                         <th>Waktu Pelaksanaan</th>
-                         <th>Penanggung Jawab</th>
-                         <th>Status Akhir</th>
+                         <th style="width: 4%;" class="text-center">No</th>
+                         <th style="width: 26%;">Nama Barang / Perangkat</th>
+                         <th style="width: 20%;">Spesifikasi & Lokasi</th>
+                         <th style="width: 25%;">Sub Penilaian Komponen</th>
+                         <th style="width: 10%;">Tgl Eksekusi</th>
+                         <th style="width: 15%;">Tindakan</th>
+                         <th style="width: 15%;">Action</th>
                      </tr>
                  </thead>
                  <tbody>
+                     @foreach ($brg as $brgs)
                      <tr>
-                         <td><strong>SRV-01</strong> (Main DB)</td>
-                         <td>Optimasi Index & Clear Temporary Logs</td>
-                         <td>06 Juni 2026, 01:00 WIB</td>
-                         <td>Rian Aditia</td>
-                         <td><span class="badge bg-success">Selesai</span></td>
+                         <td class="text-center fw-bold">{{ $no++ }}</td>
+                         <td>
+                             <div class="fw-bold">{{ $brgs->m_rencana_detail_nama_brg }}</div>
+                             <small class="text-muted">{{ $brgs->m_rencana_detail_id_brg }}</small>
+                         </td>
+                         @php
+                         $log = DB::table('m_rencana_log')
+                         ->where('m_rencana_detail_code',$brgs->m_rencana_detail_code)
+                         ->first();
+                         @endphp
+                         <td>
+                             @if ($log)
+                             <strong class="text-success">{{ $log->m_rencana_log_loc }}</strong>
+                             @else
+                             <strong class="text-danger">Belum di lakukan</strong>
+                             @endif
+                         </td>
+                         <td>
+                             @if ($log)
+                             @php
+                             $hardware = DB::table('m_rencana_log_detail')
+                             ->where('m_rencana_log_code',$log->m_rencana_log_code)
+                             ->where('m_rencana_log_detail_cat','=','Hardware')
+                             ->get();
+                             $software = DB::table('m_rencana_log_detail')
+                             ->where('m_rencana_log_code',$log->m_rencana_log_code)
+                             ->where('m_rencana_log_detail_cat','=','Software')
+                             ->get();
+                             @endphp
+                             <div class="d-flex flex-column gap-1 text-eval">
+                                 <div class="d-flex justify-content-between align-items-center border-bottom pb-1">
+                                     <span class="badge bg-primary"><i class="fas fa-cpu me-1"></i> Hardware</span>
+
+                                 </div>
+                                 @foreach ($hardware as $hard)
+
+                                 <strong>{{$hard->m_rencana_log_detail_sub}}</strong>
+                                 <p style="text-align: justify;">{{ $hard->m_rencana_log_detail_desc }}</p>
+
+                                 @endforeach
+
+                                 <div class="d-flex justify-content-between align-items-center">
+                                     <span class="badge bg-primary"><i class="fas fa-terminal me-1"></i> Software/Firmware</span>
+                                     <!-- <span class="badge bg-success"><i class="bi bi-check-circle-fill me-1"></i>Normal (v2.1)</span> -->
+                                 </div>
+                                 @foreach ($software as $soft)
+                                 <strong>{{$soft->m_rencana_log_detail_sub}}</strong>
+                                 <p style="text-align: justify;">{{ $soft->m_rencana_log_detail_desc }}</p>
+                                 @endforeach
+                             </div>
+                             @endif
+                         </td>
+                         <td>
+                             @if ($log)
+                             <strong class="text-success">{{ $log->m_rencana_log_tgl_selesai }}</strong>
+                             @else
+                             <strong class="text-danger">Belum di lakukan</strong>
+                             @endif
+                         </td>
+                         <td>
+                             @if ($log)
+                             <strong class="text-success">{{ $log->m_rencana_log_tipe }}</strong>
+                             @else
+                             <strong class="text-danger">Belum di lakukan</strong>
+                             @endif
+                         </td>
+                         <td>
+                             @if ($log)
+                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-log-it" id="button-cetak-hasil-maintenance" data-code="{{ $brgs->m_rencana_detail_code }}" data-petugas="{{ $brgs->m_rencana_data_user }}">Cetak</button>
+                             @else
+                             <button class="btn btn-primary" disabled>Cetak</button>
+                             @endif
+                         </td>
                      </tr>
-                     <tr>
-                         <td><strong>SRV-05</strong> (Web Apps)</td>
-                         <td>Security Patching Kernel OS</td>
-                         <td>06 Juni 2026, 03:00 WIB</td>
-                         <td>Rian Aditia</td>
-                         <td><span class="badge bg-success">Selesai</span></td>
-                     </tr>
+                     @endforeach
                  </tbody>
              </table>
          </div>

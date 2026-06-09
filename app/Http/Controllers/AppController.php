@@ -646,7 +646,7 @@ class AppController extends Controller
     public function dashboard_verifikator_get_data(Request $request)
     {
         $backupharian = DB::table('users_backup_harian')->where('kd_cabang', Auth::user()->cabang)->whereBetween('tgl_backup_harian', [$request->awal, $request->akhir])->get();
-        $backupbulanan = DB::table('users_backup_bulanan')->where('kd_cabang', Auth::user()->cabang)->whereBetween('tgl_input', [$request->awal, $request->akhir])->get();
+        $backupbulanan = DB::table('users_backup_bulanan')->where('kd_cabang', Auth::user()->cabang)->get();
         // KRITIS
         $date1 = $request->awal;
         $startdate = strtotime($date1);
@@ -665,6 +665,12 @@ class AppController extends Controller
             ->where('kd_cabang', Auth::user()->cabang)
             ->whereBetween('tgl_laporan', [$request->awal, $request->akhir])
             ->get();
-        return view('application.verifikator.form-hasil-laporan', compact('backupharian', 'backupbulanan', 'harimasuk', 'dataharian', 'kendala'));
+        // MAINTENANCE
+
+        $brg = DB::table('m_rencana_detail')
+            ->join('m_rencana_data', 'm_rencana_data.m_rencana_data_code', '=', 'm_rencana_detail.m_rencana_data_code')
+            ->where('m_rencana_data.m_rencana_data_cabang', '=', Auth::user()->cabang)
+            ->whereBetween('m_rencana_detail.m_rencana_detail_date', [$request->awal, $request->akhir])->get();
+        return view('application.verifikator.form-hasil-laporan', compact('backupharian', 'backupbulanan', 'harimasuk', 'dataharian', 'kendala', 'brg'));
     }
 }

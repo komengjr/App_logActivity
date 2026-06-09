@@ -52,6 +52,18 @@
 
 @endsection
 @section('base.js')
+<div class="modal fade" id="modal-log-it" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content border-0">
+            <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
+                <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="menu-log-it"></div>
+        </div>
+    </div>
+</div>
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
 <script src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.js"></script>
@@ -78,6 +90,29 @@
             $("#hasil-get-data").html(data);
         }).fail(function() {
             $('#hasil-get-data').html('eror');
+        });
+    });
+    $(document).on("click", "#button-cetak-hasil-maintenance", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        var petugas = $(this).data("petugas");
+        $('#menu-log-it').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('laporan_rencana_maintenance_cetak') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code,
+                "petugas": petugas
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-log-it').html(data);
+        }).fail(function() {
+            $('#menu-log-it').html('eror');
         });
     });
 </script>
