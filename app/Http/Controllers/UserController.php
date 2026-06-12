@@ -16,7 +16,6 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
     }
     public function lihattiketpersonal($id)
     {
@@ -44,14 +43,18 @@ class UserController extends Controller
         //     }
         //     }
         // }
-        $dataschedule = DB::table('tbl_schedule')->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_schedule.kd_cabang')
-            ->where('tbl_schedule.status_schedule', 0)->where('users_handler.id_user', Auth::user()->id_user)->count();
-        $datalaporan = DB::table('tbl_laporan_user')
-            ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
-            ->where('users_handler.id_user', Auth::user()->id_user)
-            ->where('tbl_laporan_user.status_laporan', '<', 2)->count();
-        $jumlahnotif = $datalaporan + $dataschedule;
-        return view('waktu', ['id' => $jumlahnotif]);
+        if (Auth::check()) {
+            $dataschedule = DB::table('tbl_schedule')->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_schedule.kd_cabang')
+                ->where('tbl_schedule.status_schedule', 0)->where('users_handler.id_user', Auth::user()->id_user)->count();
+            $datalaporan = DB::table('tbl_laporan_user')
+                ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
+                ->where('users_handler.id_user', Auth::user()->id_user)
+                ->where('tbl_laporan_user.status_laporan', '<', 2)->count();
+            $jumlahnotif = $datalaporan + $dataschedule;
+            return view('waktu', ['id' => $jumlahnotif]);
+        } else {
+            return view('waktu', ['id' => '-1']);
+        }
     }
     public function lihatnotifikasi($id)
     {
@@ -310,7 +313,6 @@ class UserController extends Controller
             } else {
                 // $harilibur[] = $i;
             }
-
         }
         $hendlecabang = DB::table('users_handler')
             ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
@@ -340,7 +342,6 @@ class UserController extends Controller
             } else {
                 // $harilibur[] = $i;
             }
-
         }
         $hendlecabang = DB::table('users_handler')
             ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
@@ -459,7 +460,6 @@ class UserController extends Controller
     {
         $data = DB::table('users_schedule_maintenance')->where('kd_schedule_maintenance', $id)->first();
         return view('userleader.cabang.bulanan.form-tambah-perangkat-maintenance', ['data' => $data]);
-
     }
     public function caridetailmaintenancebulananhendledatacabang(Request $request)
     {
@@ -507,8 +507,6 @@ class UserController extends Controller
             $data = DB::table('users_schedule_maintenance_sub')->where('kd_schedule_maintenance', $request->kode)->get();
             return view('userleader.cabang.bulanan.table-perangkat-maintenance', ['data' => $data]);
         }
-
-
     }
     public function perangkatdatadetailmaintenancebulanan($id)
     {
@@ -605,7 +603,6 @@ class UserController extends Controller
             Session::flash('sukses', 'Berhasil Menyelesaikan 1 Task');
             return redirect()->back();
         }
-
     }
     public function lengkapicustomtaskhendledatacabang($id)
     {
@@ -643,8 +640,6 @@ class UserController extends Controller
             $cek = DB::table('custom_task')->where('kd_custom_task', $id)->first();
             return view('userleader.customtask.cari-data-inventaris', ['data' => $cekdata]);
         }
-
-
     }
     public function caridatainventaris_formcustomtasksub(Request $request)
     {
@@ -703,13 +698,10 @@ class UserController extends Controller
                         'created_at' => date('Y-m-d H:i:s'),
                     ]
                 );
-
             }
-
         }
         Session::flash('sukses', 'Berhasil Menyelesaikan Task Harian');
         return redirect()->back();
-
     }
     public function posthendlecabangbackupharian(Request $request)
     {
@@ -725,7 +717,6 @@ class UserController extends Controller
         ]);
         Session::flash('sukses', 'Berhasil Menyelesaikan Task Harian');
         return redirect()->back();
-
     }
     public function posthendlecabangbackupbulanan(Request $request)
     {
@@ -759,5 +750,3 @@ class UserController extends Controller
         return view('userleader.modal.wakturesponuser', ['data' => $data, 'date' => $date]);
     }
 }
-
-

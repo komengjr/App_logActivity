@@ -487,6 +487,45 @@ class MenuController extends Controller
         // Redirect kembali dengan pesan sukses
         return redirect()->back()->with('success', 'Data backup berhasil diunggah!');
     }
+    // VALIDASI SYSTEM BISONE
+    public function menu_validasi_sistem($akses)
+    {
+        if ($this->url_akses($akses) == true) {
+            $cabang = DB::table('users_handler')
+                ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
+                ->where('users_handler.id_user', Auth::user()->id_user)->get();
+            $backups = DB::table('users_backup_bulanan')->orderBy('id_backup_bulanan', 'desc')->get();
+            return view('application.menu.menu-validasi-bisone', compact('backups', 'cabang'));
+        } else {
+            return Redirect::to('dashboard/home');
+        }
+    }
+    public function menu_validasi_sistem_get(Request $request)
+    {
+        $data = DB::table('b_validasi_data')->where('b_validasi_data_cabang', $request->cabang)->where('b_validasi_data_user', Auth::user()->id_user)->get();
+        return view('application.menu.validasi-bisone.data-validasi-bisone', compact('data'));
+    }
+    public function menu_validasi_sistem_save(Request $request)
+    {
+        try {
+            DB::table('b_validasi_data')->insert([
+                'b_validasi_data_code' => str::uuid(),
+                'b_validasi_data_cabang' => $request->cabang,
+                'b_validasi_data_tahun' => $request->tahun,
+                'b_validasi_data_bulan' => $request->bulan,
+                'b_validasi_data_user' => Auth::user()->id_user,
+                'b_validasi_data_status' => 0,
+                'created_at' => now(),
+            ]);
+            $data = DB::table('b_validasi_data')->where('b_validasi_data_user', Auth::user()->id_user)->get();
+            return view('application.menu.validasi-bisone.data-validasi-bisone', compact('data'));
+        } catch (\Throwable $e) {
+            return 0;
+        }
+    }
+    public function menu_validasi_sistem_proses(Request $request){
+        return view('application.menu.validasi-bisone.form-proses-data-validasi-bisone');
+    }
     // LAPORAN KENDALA
     public function laporan_kendala_user($akses)
     {
@@ -781,6 +820,16 @@ class MenuController extends Controller
             return 1;
         } catch (\Throwable $e) {
             return 0;
+        }
+    }
+    // MASTER CABANG
+    public function master_data_menu_validasi($akses)
+    {
+        if ($this->url_akses($akses) == true) {
+            $data = DB::table('tbl_cabang')->get();
+            return view('application.master.master-menu-validasi-bisone', compact('data'));
+        } else {
+            return Redirect::to('dashboard/home');
         }
     }
 }

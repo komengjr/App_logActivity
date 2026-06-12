@@ -76,6 +76,7 @@ Route::prefix('{akses}')->group(function () {
     Route::get('app/menu/verifikasi-maintenance', [MenuController::class, 'menu_verifikasi_maintenance'])->name('menu_verifikasi_maintenance');
     Route::get('app/menu/create-task', [MenuController::class, 'menu_create_task'])->name('menu_create_task');
     Route::get('app/menu/backup-bulanan', [MenuController::class, 'menu_backup_bulanan'])->name('menu_backup_bulanan');
+    Route::get('app/menu/validasi-sistem-bisone', [MenuController::class, 'menu_validasi_sistem'])->name('menu_validasi_sistem');
 
     Route::get('app/laporan/laporan-case', [MenuController::class, 'laporan_kendala_user'])->name('laporan_kendala_user');
     Route::get('app/laporan/laporan-rencana-maintenance', [MenuController::class, 'laporan_rencana_maintenance'])->name('laporan_rencana_maintenance');
@@ -86,6 +87,7 @@ Route::prefix('{akses}')->group(function () {
     Route::get('app/master/master-staff', [MenuController::class, 'master_data_staff'])->name('master_data_staff');
     Route::get('app/master/master-kinerja', [MenuController::class, 'master_data_kinerja'])->name('master_data_kinerja');
     Route::get('app/master/master-cabang', [MenuController::class, 'master_data_cabang'])->name('master_data_cabang');
+    Route::get('app/master/master-menu-validasi', [MenuController::class, 'master_data_menu_validasi'])->name('master_data_menu_validasi');
 });
 // MENU
 Route::prefix('menu')->group(function () {
@@ -101,6 +103,10 @@ Route::prefix('menu')->group(function () {
     Route::put('app/menu/create-task/tugas/{id}/status', [MenuController::class, 'menu_create_task_get_tugas_status'])->name('menu_create_task_get_tugas_status');
 
     Route::post('app/menu/backup-bulanan/save', [MenuController::class, 'menu_backup_bulanan_save'])->name('menu_backup_bulanan_save');
+
+    Route::post('app/menu/validasi-sistem-bisone/get-data', [MenuController::class, 'menu_validasi_sistem_get'])->name('menu_validasi_sistem_get');
+    Route::post('app/menu/validasi-sistem-bisone/save-data', [MenuController::class, 'menu_validasi_sistem_save'])->name('menu_validasi_sistem_save');
+    Route::post('app/menu/validasi-sistem-bisone/proses-data', [MenuController::class, 'menu_validasi_sistem_proses'])->name('menu_validasi_sistem_proses');
 
     Route::get('app/menu/verifikasi-maintenance/list-cabang', [MenuController::class, 'menu_verifikasi_maintenance_list_cabang'])->name('menu_verifikasi_maintenance_list_cabang');
     Route::get('app/menu/verifikasi-maintenance/list-tahun', [MenuController::class, 'menu_verifikasi_maintenance_list_tahun'])->name('menu_verifikasi_maintenance_list_tahun');
@@ -450,5 +456,5 @@ Route::prefix('/v3')->group(function () {
     // Route::post('menu/add-cart-product', [PublicController::class, 'menu_add_cart_product_user'])->name('menu_add_cart_product_user');
     // Route::get('brand', [PublicController::class, 'brand'])->name('brand');
     // Route::get('about', [PublicController::class, 'about'])->name('about');
-    // Route::get('contact', [PublicController::class, 'contact'])->name('contact');
+    Route::get('get_notif', [PublicController::class, 'v3_get_notif'])->name('v3_get_notif');
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Stmt\TryCatch;
 use Telegram\Bot\Keyboard\Keyboard;
@@ -305,5 +306,36 @@ class PublicController extends Controller
             }
         }
         return 'sukses';
+    }
+    public function v3_get_notif()
+    {
+        // $jumlahnotif = 0;
+        // $notif = DB::table('tbl_schedule')
+        //     ->where('status_schedule', 1)
+        //     ->get();
+        // foreach ($notif as $value) {
+        //     if (substr($value->tgl_akhir, 0, 10) >= date('Y-m-d')){
+        //         if (substr($value->tgl_start, 0, 10) <= date('Y-m-d')) {
+        //         $cekdata = DB::table('tbl_schadule_log')->where('kd_schedule',$value->kd_schedule)->where('id_user',auth::user()->id_user)->count();
+
+        //         if ($cekdata == 0){
+        //             $jumlahnotif = $jumlahnotif + 1;
+        //         }else{
+        //         }
+        //     }
+        //     }
+        // }
+        if (Auth::check()) {
+            $dataschedule = DB::table('tbl_schedule')->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_schedule.kd_cabang')
+                ->where('tbl_schedule.status_schedule', 0)->where('users_handler.id_user', Auth::user()->id_user)->count();
+            $datalaporan = DB::table('tbl_laporan_user')
+                ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
+                ->where('users_handler.id_user', Auth::user()->id_user)
+                ->where('tbl_laporan_user.status_laporan', '<', 2)->count();
+            $jumlahnotif = $datalaporan + $dataschedule;
+            return view('waktu', ['id' => $jumlahnotif]);
+        } else {
+            return view('waktu', ['id' => '-1']);
+        }
     }
 }

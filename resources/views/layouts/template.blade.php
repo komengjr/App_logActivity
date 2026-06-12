@@ -645,13 +645,15 @@
         function showTime() {
             var waktu = $("#detikwaktu").text();
             $.ajax({
-                url: "{{route('user/notifikasi/lihatnotifwaktu')}}",
+                url: "{{ route('v3_get_notif') }}",
                 type: "GET",
                 dataType: "html",
             }).done(function(data) {
                 $("#kayu").html(data);
                 if (waktu == data || data == 0) {
 
+                } else if (data < 0) {
+                    location.reload();
                 } else {
                     notifpesanbaru();
                 }
