@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
@@ -823,6 +824,27 @@ class MenuController extends Controller
             return 0;
         }
     }
+    public function master_data_cabang_update_conn(Request $request)
+    {
+        return view('application.master.master-cabang.form-update-conn', ['code' => $request->code]);
+    }
+    public function master_data_cabang_update_conn_save(Request $request)
+    {
+        $passwordEnkripsi = Crypt::encryptString($request->password);
+        try {
+            DB::table('tbl_cabang_address')->insert([
+                'tbl_cabang_address_code' => str::uuid(),
+                'kd_cabang' => $request->code,
+                'tbl_cabang_address_ip' => $request->ip,
+                'tbl_cabang_address_user' => $request->username,
+                'tbl_cabang_address_pass' => $passwordEnkripsi,
+                'created_at' => now()
+            ]);
+            return 1;
+        } catch (\Throwable $e) {
+            return 0;
+        }
+    }
     // MASTER CABANG
     public function master_data_menu_validasi($akses)
     {
@@ -1123,32 +1145,47 @@ class MenuController extends Controller
     public function master_data_log(Request $request, $akses)
     {
         if ($this->url_akses($akses) == true) {
-
-            return view('application.master.master-log');
+            $cabang = DB::table('users_handler')
+                ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
+                ->where('users_handler.id_user', Auth::user()->id_user)->get();
+            return view('application.master.master-log', compact('cabang'));
         } else {
             return Redirect::to('dashboard/home');
         }
     }
     public function master_data_log_get_data(Request $request)
     {
-        // 1. Set konfigurasi database secara dinamis
-        config([
-            'database.connections.dynamic_conn' => [
-                'driver'    => 'mysql', // ganti dengan 'sqlsrv', 'pgsql', dll. jika bukan MySQL
-                'host'      => '192.168.61.231',
-                'database'  => 'one_log',
-                'username'  => 'userlog',
-                'password'  => 'userlog!123',
-                'charset'   => 'utf8mb4',
-                'collation' => 'utf8mb4_unicode_ci',
-                'prefix'    => '',
-            ]
-        ]);
-        $log = DB::connection('dynamic_conn')
-            ->table('log_login')
-            ->whereBetween('Log_LoginDateTime', [$request->start, $request->end]) // Membatasi maksimal 200 data
-            ->orderBy('Log_LoginID','desc')
-            ->get();
-        return view('application.master.master-log.data-log-login',compact('log'));
+        try {
+            $conn = DB::table('tbl_cabang_address')->where('kd_cabang', $request->cabang)->first();
+            if ($conn) {
+                // 1. Set konfigurasi database secara dinamis
+                config([
+                    'database.connections.dynamic_conn' => [
+                        'driver'    => 'mysql', // ganti dengan 'sqlsrv', 'pgsql', dll. jika bukan MySQL
+                        'host'      => $conn->tbl_cabang_address_ip,
+                        'database'  => 'one_log',
+                        'username'  => $conn->tbl_cabang_address_user,
+                        'password'  => Crypt::decryptString($conn->tbl_cabang_address_pass),
+                        'charset'   => 'utf8mb4',
+                        'collation' => 'utf8mb4_unicode_ci',
+                        'prefix'    => '',
+                    ]
+                ]);
+                if ($request->table == 'log_login') {
+                    $log = DB::connection('dynamic_conn')
+                        ->table('log_login')
+                        ->whereBetween('Log_LoginDateTime', [$request->start, $request->end]) // Membatasi maksimal 200 data
+                        ->orderBy('Log_LoginID', 'desc')
+                        ->get();
+                    return view('application.master.master-log.data-log-login', compact('log'));
+                } else {
+                    return 'Coming Soon';
+                }
+            } else {
+                return 'Data Koneksi Belum dibuat';
+            }
+        } catch (\Throwable $e) {
+            return 0;
+        }
     }
 }

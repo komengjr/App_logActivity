@@ -126,6 +126,8 @@ Route::prefix('menu')->group(function () {
     Route::post('app/master/master-cabang/update-save', [MenuController::class, 'master_data_cabang_update_save'])->name('master_data_cabang_update_save');
     Route::post('app/master/master-cabang/add-petugas', [MenuController::class, 'master_data_cabang_add_petugas'])->name('master_data_cabang_add_petugas');
     Route::post('app/master/master-cabang/save-petugas', [MenuController::class, 'master_data_cabang_save_petugas'])->name('master_data_cabang_save_petugas');
+    Route::post('app/master/master-cabang/update-conn', [MenuController::class, 'master_data_cabang_update_conn'])->name('master_data_cabang_update_conn');
+    Route::post('app/master/master-cabang/update-conn-save', [MenuController::class, 'master_data_cabang_update_conn_save'])->name('master_data_cabang_update_conn_save');
 
     Route::post('app/master/master-menu-validasi/add-kategori', [MenuController::class, 'master_data_menu_validasi_add'])->name('master_data_menu_validasi_add');
 

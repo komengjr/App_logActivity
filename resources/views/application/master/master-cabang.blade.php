@@ -43,7 +43,7 @@
                     <th>Kota</th>
                     <th>User Handel</th>
                     <th>User Verifikator</th>
-                    <th>Status Cabang</th>
+                    <th>DB conn</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -78,7 +78,15 @@
                         @endforeach
                     </td>
                     <td>
+                        @php
+                        $conn = DB::table('tbl_cabang_address')->where('kd_cabang',$datas->kd_cabang)->first();
+                        @endphp
+                        @if ($conn)
 
+                        IP : {{ $conn->tbl_cabang_address_ip }} <br>
+                        USER : {{ $conn->tbl_cabang_address_user }} <br>
+                        PASS : *** <br>
+                        @endif
                     </td>
                     <td>
                         <div class="btn-group" role="group">
@@ -93,8 +101,11 @@
                                     id="button-add-data-petugas" data-code="{{$datas->kd_cabang}}"><span
                                         class="fas fa-user-check me-2"></span> Add Petugas</button>
                                 <button class="dropdown-item text-info" data-bs-toggle="modal" data-bs-target="#modal-cabang"
-                                    id="button-proses-tagihan-bulanan" data-code="{{$datas->id_cabang}}"><span
+                                    id="button-proses-tagihan-bulanan" data-code="{{$datas->kd_cabang}}"><span
                                         class="fas fa-user-cog me-2"> </span> Add Verifikator</button>
+                                <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#modal-cabang"
+                                    id="button-update-data-ip" data-code="{{$datas->kd_cabang}}"><span
+                                        class="fas fa-database me-2"> </span> Add DB Connection</button>
                             </div>
                         </div>
                     </td>
@@ -108,7 +119,7 @@
 @section('base.js')
 <div class="modal fade" id="modal-cabang" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="false">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content border-0">
             <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
                 <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
@@ -208,6 +219,57 @@
         );
         $.ajax({
             url: "{{ route('master_data_cabang_save_petugas') }}",
+            type: "POST",
+            cache: false,
+            data: data,
+            dataType: 'html',
+        }).done(function(data) {
+            if (data == 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                    footer: '<a href="#">Why do I have this issue?</a>'
+                });
+                $('#menu-add-data-petugas').html('<button class="btn btn-success float-end" id="button-simpan-data-petugas">Simpan Data</button>');
+            } else {
+                Swal.fire('Berhasil!', 'Data Cabang Berhasil di Update', 'success').then(() => {
+                    location.reload();
+                });
+            }
+        }).fail(function() {
+            $('#menu-add-data-petugas').html('eror');
+        });
+    });
+    $(document).on("click", "#button-update-data-ip", function(e) {
+        e.preventDefault();
+        var code = $(this).data("code");
+        $('#menu-cabang').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('master_data_cabang_update_conn') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-cabang').html(data);
+        }).fail(function() {
+            $('#menu-cabang').html('eror');
+        });
+    });
+    $(document).on("click", "#button-simpan-data-conn", function(e) {
+        e.preventDefault();
+        var data = $("#form-add-conn-cabang").serialize();
+        $('#menu-add-data-petugas').html(
+            '<div class="spinner-border my-0" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('master_data_cabang_update_conn_save') }}",
             type: "POST",
             cache: false,
             data: data,

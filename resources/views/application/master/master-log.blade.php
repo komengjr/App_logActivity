@@ -29,9 +29,9 @@
                             <label for="cabang" class="form-label fw-semibold">Pilih Cabang</label>
                             <select class="form-select" id="cabang" required>
                                 <option value="" selected disabled>-- Pilih Cabang --</option>
-                                <option value="Jakarta">Jakarta Pusat</option>
-                                <option value="Surabaya">Surabaya Barat</option>
-                                <option value="Bandung">Bandung Utara</option>
+                                @foreach ($cabang as $cab)
+                                <option value="{{ $cab->kd_cabang }}">{{ $cab->nama_cabang }}</option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -134,12 +134,17 @@
             data: {
                 "_token": "{{ csrf_token() }}",
                 "cabang": cabang,
+                "table": namaTabel,
                 "start": waktuMulai,
                 "end": waktuSelesai,
             },
             dataType: 'html',
         }).done(function(data) {
-            $('#data-table-log').html(data);
+            if (data == 0) {
+                alert('eror');
+            } else {
+                $('#data-table-log').html(data);
+            }
         }).fail(function() {
             $('#data-table-log').html('eror');
         });
