@@ -291,7 +291,7 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
                 @foreach ($data as $item)
                 <tr>
                     <td>{{$no++}}</td>
-                    <td>{{$item->created_at }}</td>
+                    <td>{{$item->tgl_backup_harian }}</td>
                     <td>{{$item->sistem_backup_harian }}</td>
                     <td>{{$item->proses_backup_harian }}</td>
                     <td>@php
