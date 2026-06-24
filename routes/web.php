@@ -89,6 +89,7 @@ Route::prefix('{akses}')->group(function () {
     Route::get('app/master/master-cabang', [MenuController::class, 'master_data_cabang'])->name('master_data_cabang');
     Route::get('app/master/master-menu-validasi', [MenuController::class, 'master_data_menu_validasi'])->name('master_data_menu_validasi');
     Route::get('app/master/master-tools', [MenuController::class, 'master_data_tools'])->name('master_data_tools');
+    Route::get('app/master/master-log', [MenuController::class, 'master_data_log'])->name('master_data_log');
 });
 // MENU
 Route::prefix('menu')->group(function () {
@@ -145,6 +146,8 @@ Route::prefix('menu')->group(function () {
     Route::post('app/master/master-tools/proses-backup', [MenuController::class, 'master_data_tools_proses_backup'])->name('master_data_tools_proses_backup');
     Route::put('app/master/master-tools/proses-backup-update', [MenuController::class, 'master_data_tools_proses_backup_update'])->name('master_data_tools_proses_backup_update');
     Route::post('app/master/master-tools/proses-backup-update-file', [MenuController::class, 'master_data_tools_proses_backup_update_file'])->name('master_data_tools_proses_backup_update_file');
+
+    Route::post('app/master/master-log/get-data', [MenuController::class, 'master_data_log_get_data'])->name('master_data_log_get_data');
 });
 
 

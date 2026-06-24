@@ -1118,4 +1118,37 @@ class MenuController extends Controller
             return response()->json(['success' => false, 'message' => 'Gagal upload: ' . $e->getMessage()], 500);
         }
     }
+
+    // MASTER LOG
+    public function master_data_log(Request $request, $akses)
+    {
+        if ($this->url_akses($akses) == true) {
+
+            return view('application.master.master-log');
+        } else {
+            return Redirect::to('dashboard/home');
+        }
+    }
+    public function master_data_log_get_data(Request $request)
+    {
+        // 1. Set konfigurasi database secara dinamis
+        config([
+            'database.connections.dynamic_conn' => [
+                'driver'    => 'mysql', // ganti dengan 'sqlsrv', 'pgsql', dll. jika bukan MySQL
+                'host'      => '192.168.61.231',
+                'database'  => 'one_log',
+                'username'  => 'userlog',
+                'password'  => 'userlog!123',
+                'charset'   => 'utf8mb4',
+                'collation' => 'utf8mb4_unicode_ci',
+                'prefix'    => '',
+            ]
+        ]);
+        $log = DB::connection('dynamic_conn')
+            ->table('log_login')
+            ->whereBetween('Log_LoginDateTime', [$request->start, $request->end]) // Membatasi maksimal 200 data
+            ->orderBy('Log_LoginID','desc')
+            ->get();
+        return view('application.master.master-log.data-log-login',compact('log'));
+    }
 }

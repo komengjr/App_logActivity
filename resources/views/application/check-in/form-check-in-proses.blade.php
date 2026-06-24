@@ -54,18 +54,9 @@
                                     <label for="notesBackup" class="form-label fw-semibold small text-warning-emphasis">
                                         <i class="bi bi-pencil-square me-1"></i>Catatan / Keterangan Backup:
                                     </label>
-                                    @php
-                                    $data = DB::connection('second_db')
-                                    ->table('log')
-                                    ->where('logBranchCode', $code)
-                                    ->Where('logDate','like', '%' . date('Y-m-d') . '%',)
-                                    ->first();
-                                    @endphp
-                                    @if ($data)
-                                    <textarea class="form-control" id="notesBackup" rows="10" placeholder="Masukkan detail atau pesan error...">@php echo $data->logMessage; @endphp </textarea>
-                                    @else
+
                                     <textarea class="form-control" id="notesBackup" rows="6" placeholder="Masukkan detail atau pesan error..."></textarea>
-                                    @endif
+
                                     <div class="invalid-feedback">Wajib mengisi Satatan Backup.</div>
                                 </div>
                                 <div class="col-md-6">
