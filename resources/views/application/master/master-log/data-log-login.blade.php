@@ -2,14 +2,7 @@
     <div class="card-header bg-primary">
         <div class="d-flex justify-content-between">
             <div>
-                <a class="btn btn-falcon-default btn-sm" href="#" data-bs-toggle="modal" data-bs-target="#modal-koperasi" id="button-add-data-vocher">
-                    <span class="fas fa-plus me-2"></span> Create Cabang
-                </a>
-                <!-- <span class="mx-1 mx-sm-2 text-300">|</span>
-                <button class="btn btn-falcon-default btn-sm" type="button" data-bs-toggle="tooltip"
-                    data-bs-placement="top" title="" data-bs-original-title="Archive" aria-label="Archive"><span
-                        class="fas fa-print"></span></button> -->
-
+              <h5>Log Data</h5>
             </div>
             <div class="d-flex">
 
