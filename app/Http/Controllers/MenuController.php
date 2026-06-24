@@ -523,7 +523,8 @@ class MenuController extends Controller
             return 0;
         }
     }
-    public function menu_validasi_sistem_proses(Request $request){
+    public function menu_validasi_sistem_proses(Request $request)
+    {
         return view('application.menu.validasi-bisone.form-proses-data-validasi-bisone');
     }
     // LAPORAN KENDALA
@@ -826,10 +827,295 @@ class MenuController extends Controller
     public function master_data_menu_validasi($akses)
     {
         if ($this->url_akses($akses) == true) {
-            $data = DB::table('tbl_cabang')->get();
+            $data = DB::table('b_menus')->get();
             return view('application.master.master-menu-validasi-bisone', compact('data'));
         } else {
             return Redirect::to('dashboard/home');
+        }
+    }
+    public function master_data_menu_validasi_add(Request $request)
+    {
+        return view('application.master.master-menu.form-add-kategori-menu');
+    }
+    // MASTER TOOLS
+    public function master_data_tools(Request $request, $akses)
+    {
+        if ($this->url_akses($akses) == true) {
+            $dataLogs = [];
+            // Jika terdapat request filter lengkap, tampilkan datanya
+            if ($request->has('tgl_mulai') && $request->has('tgl_selesai') && $request->has('kd_cabang')) {
+                $dataLogs = DB::table('users_handler_record_log')
+                    ->where('kd_cabang', $request->kd_cabang)
+                    ->whereBetween('tgl_record', [$request->tgl_mulai, $request->tgl_selesai])
+                    ->get();
+            }
+            $cabang = DB::table('users_handler')
+                ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
+                ->where('users_handler.id_user', Auth::user()->id_user)->get();
+            return view('application.master.master-tools', compact('dataLogs', 'cabang'));
+        } else {
+            return Redirect::to('dashboard/home');
+        }
+    }
+    public function master_data_tools_show(Request $request)
+    {
+        $dataLogs = DB::table('users_handler_record_log')
+            ->join('tbl_kinerja_sub', 'tbl_kinerja_sub.kd_kinerja_sub', '=', 'users_handler_record_log.kd_kinerja_sub')
+            ->where('kd_cabang', $request->kd_cabang)
+            ->whereBetween('tgl_record', [$request->tgl_mulai, $request->tgl_selesai])
+            ->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data'   => $dataLogs
+        ]);
+    }
+    public function master_data_tools_proses(Request $request)
+    {
+        $tglMulai   = Carbon::parse($request->tgl_mulai);
+        $tglSelesai = Carbon::parse($request->tgl_selesai);
+        $kdCabang   = $request->kd_cabang;
+        $idUser     = auth()->id() ?? '1';
+
+        $kinerja = DB::table('tbl_kinerja_sub')->get();
+
+        if ($kinerja->isEmpty()) {
+            return response()->json(['status' => 'error', 'message' => 'Master tbl_kinerja_sub kosong.'], 400);
+        }
+
+        DB::beginTransaction();
+        try {
+            $counterInsert = 0;
+
+            for ($date = $tglMulai; $date->lte($tglSelesai); $date->addDay()) {
+                $tglFormat = $date->format('Y-m-d');
+
+                foreach ($kinerja as $value) {
+                    $cek = DB::table('users_handler_record_log')
+                        ->where('kd_cabang', $kdCabang)
+                        ->where('tgl_record', $tglFormat)
+                        ->where('kd_kinerja_sub', $value->kd_kinerja_sub)
+                        ->first();
+
+                    if (!$cek) {
+                        DB::table('users_handler_record_log')->insert([
+                            'kd_kinerja_sub'     => $value->kd_kinerja_sub,
+                            'id_user'            => Auth::user()->id_user,
+                            'kd_cabang'          => $kdCabang,
+                            'tgl_record'         => $tglFormat,
+                            'ket_kinerja_sub'    => 'N',
+                            'status_kinerja_sub' => 0,
+                            'created_at'         => now(),
+                            'updated_at'         => now()
+                        ]);
+                        $counterInsert++;
+                    }
+                }
+            }
+            DB::commit();
+
+            // Tarik data terbaru setelah import untuk dilempar ke AJAX
+            $dataLogs = DB::table('users_handler_record_log')
+                ->join('tbl_kinerja_sub', 'tbl_kinerja_sub.kd_kinerja_sub', '=', 'users_handler_record_log.kd_kinerja_sub')
+                ->where('kd_cabang', $kdCabang)
+                ->whereBetween('tgl_record', [$request->tgl_mulai, $request->tgl_selesai])
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'message' => "Proses Berhasil! Berhasil menambah {$counterInsert} data baru.",
+                'data'    => $dataLogs
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+    public function master_data_tools_update(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            if ($request->has('logs')) {
+                foreach ($request->input('logs') as $logItem) {
+                    DB::table('users_handler_record_log')
+                        ->where('id', $logItem['id'])
+                        ->update([
+                            'ket_kinerja_sub' => $logItem['text_ket'] ?? '',
+                            'updated_at'      => now()
+                        ]);
+                }
+            }
+            DB::commit();
+
+            // Ambil ulang data fresh setelah update berhasil dilakukan
+            $dataLogs = DB::table('users_handler_record_log')
+                ->where('kd_cabang', $request->kd_cabang)
+                ->whereBetween('tgl_record', [$request->tgl_mulai, $request->tgl_selesai])
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Perubahan seluruh keterangan berhasil disimpan!',
+                'data'    => $dataLogs
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+    public function master_data_tools_proses_backup(Request $request)
+    {
+        $request->validate([
+            'tgl_mulai'   => 'required|date',
+            'tgl_selesai' => 'required|date|after_or_equal:tgl_mulai',
+            'kd_cabang'   => 'required|string',
+        ]);
+
+        $tglMulai   = Carbon::parse($request->tgl_mulai);
+        $tglSelesai = Carbon::parse($request->tgl_selesai);
+        $kdCabang   = $request->kd_cabang;
+
+        DB::beginTransaction();
+        try {
+            $counterInsert = 0;
+
+            // Loop harian langsung tanpa tbl_kinerja_sub
+            for ($date = $tglMulai; $date->lte($tglSelesai); $date->addDay()) {
+                $tglFormat = $date->format('Y-m-d');
+
+                // Cek apakah data backup harian untuk cabang pada tanggal ini sudah ada
+                $cek = DB::table('users_backup_harian')
+                    ->where('kd_cabang', $kdCabang)
+                    ->where('tgl_backup_harian', $tglFormat)
+                    ->first();
+
+                // Jika belum ada data backup untuk tanggal tersebut, lakukan insert
+                if (!$cek) {
+                    // Membuat Kode Unik otomatis (Contoh: BKP-C01-20260624-ABCD)
+                    $kdUnique = 'BKP-' . $kdCabang . '-' . $date->format('Ymd') . '-' . Str::upper(Str::random(4));
+
+                    DB::table('users_backup_harian')->insert([
+                        'kd_users_backup_harian'   => $kdUnique,
+                        'sistem_backup_harian'     => 'OK', // Bisa diisi nilai default/statis
+                        'proses_backup_harian'     => 'OK',
+                        'deskripsi_backup_harian'  => 'Sistem running',
+                        'file_backup_harian'       => '-',
+                        'status_backup_harian'     => '0',
+                        'tgl_backup_harian'        => $tglFormat,
+                        'kd_cabang'                => $kdCabang,
+                        'created_at'               => now(),
+                        'updated_at'               => now()
+                    ]);
+                    $counterInsert++;
+                }
+            }
+            DB::commit();
+
+            // Ambil data fresh dari range tanggal untuk langsung ditampilkan di DataTables bawah
+            $dataLogs = DB::table('users_backup_harian')
+                ->where('kd_cabang', $kdCabang)
+                ->whereBetween('tgl_backup_harian', [$request->tgl_mulai, $request->tgl_selesai])
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'message' => "Sukses! Berhasil generate {$counterInsert} data backup harian baru.",
+                'data'    => $dataLogs
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
+    }
+    public function master_data_tools_proses_backup_update(Request $request)
+    {
+        // Validasi parameter filter yang dikirim balik oleh DataTables
+        $request->validate([
+            'tgl_mulai'   => 'required|date',
+            'tgl_selesai' => 'required|date',
+            'kd_cabang'   => 'required|string',
+            'logs'        => 'required|array',
+            'logs.*.id'   => 'required',
+            'logs.*.text_ket' => 'nullable|string'
+        ]);
+
+        DB::beginTransaction();
+        try {
+            // Melakukan looping untuk mengupdate baris per baris data yang diubah
+            foreach ($request->input('logs') as $logItem) {
+                DB::table('users_backup_harian')
+                    ->where('id_users_backup_harian', $logItem['id']) // Menggunakan Primary Key tabel backup harian
+                    ->update([
+                        'deskripsi_backup_harian' => $logItem['text_ket'] ?? '', // Mengupdate kolom deskripsi
+                        'updated_at'              => now()
+                    ]);
+            }
+            DB::commit();
+
+            // Mengambil kembali data yang fresh setelah di-update berdasarkan range tanggal filter
+            $dataLogs = DB::table('users_backup_harian')
+                ->where('kd_cabang', $request->kd_cabang)
+                ->whereBetween('tgl_backup_harian', [$request->tgl_mulai, $request->tgl_selesai])
+                ->get();
+
+            // Mengembalikan response JSON sukses beserta data terbaru agar DataTables merender ulang otomatis
+            return response()->json([
+                'success' => true,
+                'message' => 'Perubahan seluruh deskripsi backup harian berhasil disimpan!',
+                'data'    => $dataLogs
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memperbarui deskripsi: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+    public function master_data_tools_proses_backup_update_file(Request $request)
+    {
+        $request->validate([
+            'id_backup'   => 'required',
+            'file_backup' => 'required|file|max:20480', // Maksimal file 20MB, sesuaikan kebutuhan
+            'tgl_mulai'   => 'required',
+            'tgl_selesai' => 'required',
+            'kd_cabang'   => 'required',
+        ]);
+
+        try {
+            if ($request->hasFile('file_backup')) {
+                $file = $request->file('file_backup');
+
+                // 1. Simpan file otomatis ke folder: storage/app/public/backup_harian
+                // Gunakan nama asli file atau buat nama unik baru
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $path = $file->storeAs('monitoring_harian/' . Auth::user()->id_user . '', $filename, 'public');
+
+                // 2. Update database (Ubah nama file dan ubah status_backup_harian menjadi '1' karena file sudah ada)
+                DB::table('users_backup_harian')
+                    ->where('id_users_backup_harian', $request->id_backup)
+                    ->update([
+                        'file_backup_harian'   => $path,
+                        'status_backup_harian' => '1', // Otomatis status berubah jadi Aktif/Selesai
+                        'updated_at'           => now()
+                    ]);
+
+                // 3. Ambil data fresh untuk merender ulang tabel di UI tanpa reload page
+                $dataLogs = DB::table('users_backup_harian')
+                    ->where('kd_cabang', $request->kd_cabang)
+                    ->whereBetween('tgl_backup_harian', [$request->tgl_mulai, $request->tgl_selesai])
+                    ->get();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'File backup berhasil diunggah dan sistem diperbarui!',
+                    'data'    => $dataLogs
+                ]);
+            }
+
+            return response()->json(['success' => false, 'message' => 'File tidak ditemukan.'], 400);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Gagal upload: ' . $e->getMessage()], 500);
         }
     }
 }

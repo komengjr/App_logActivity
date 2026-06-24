@@ -19,7 +19,7 @@
     <div class="card-header bg-primary">
         <div class="d-flex justify-content-between">
             <div>
-                <a class="btn btn-falcon-default btn-sm" href="#" data-bs-toggle="modal" data-bs-target="#modal-koperasi" id="button-add-data-vocher">
+                <a class="btn btn-falcon-default btn-sm" href="#" data-bs-toggle="modal" data-bs-target="#modal-template" id="button-add-data-kategori">
                     <span class="fas fa-plus me-2"></span> Create Kategori
                 </a>
                 <!-- <span class="mx-1 mx-sm-2 text-300">|</span>
@@ -50,8 +50,8 @@
                 @foreach ($data as $datas)
                 <tr>
                     <td>{{ $no++ }}</td>
-                    <td>{{ $datas->nama_cabang }} </td>
-                    <td>{{ $datas->kd_cabang }}</td>
+                    <td>{{ $datas->b_menus_kategori }} </td>
+                    <td>{{ $datas->b_menus_code }}</td>
                     <td>
                         <div class="btn-group" role="group">
                             <button class="btn btn-sm btn-falcon-primary dropdown-toggle" id="btnGroupVerticalDrop2"
@@ -59,13 +59,13 @@
                                     class="fas fa-align-left me-1" data-fa-transform="shrink-3"></span>Menu</button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop2">
                                 <button class="dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#modal-cabang"
-                                    id="button-update-data-cabang" data-code="{{$datas->kd_cabang}}"><span
+                                    id="button-update-data-cabang" data-code="{{$datas->b_menus_code}}"><span
                                         class="fas fa-edit me-2"></span> Update Cabang</button>
                                 <button class="dropdown-item text-primary" data-bs-toggle="modal" data-bs-target="#modal-cabang"
-                                    id="button-add-data-petugas" data-code="{{$datas->kd_cabang}}"><span
+                                    id="button-add-data-petugas" data-code="{{$datas->b_menus_code}}"><span
                                         class="fas fa-user-check me-2"></span> Add Petugas</button>
                                 <button class="dropdown-item text-info" data-bs-toggle="modal" data-bs-target="#modal-cabang"
-                                    id="button-proses-tagihan-bulanan" data-code="{{$datas->id_cabang}}"><span
+                                    id="button-proses-tagihan-bulanan" data-code="{{$datas->b_menus_code}}"><span
                                         class="fas fa-user-cog me-2"> </span> Add Verifikator</button>
                             </div>
                         </div>
@@ -100,25 +100,25 @@
     });
 </script>
 <script>
-    $(document).on("click", "#button-update-data-cabang", function(e) {
+    $(document).on("click", "#button-add-data-kategori", function(e) {
         e.preventDefault();
         var code = $(this).data("code");
-        $('#menu-cabang').html(
+        $('#menu-template').html(
             '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
         );
         $.ajax({
-            url: "{{ route('master_data_cabang_update') }}",
+            url: "{{ route('master_data_menu_validasi_add') }}",
             type: "POST",
             cache: false,
             data: {
                 "_token": "{{ csrf_token() }}",
-                "code": code
+                "code": 123
             },
             dataType: 'html',
         }).done(function(data) {
-            $('#menu-cabang').html(data);
+            $('#menu-template').html(data);
         }).fail(function() {
-            $('#menu-cabang').html('eror');
+            $('#menu-template').html('eror');
         });
     });
     $(document).on("click", "#button-simpan-update-cabang", function(e) {

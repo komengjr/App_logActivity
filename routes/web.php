@@ -88,6 +88,7 @@ Route::prefix('{akses}')->group(function () {
     Route::get('app/master/master-kinerja', [MenuController::class, 'master_data_kinerja'])->name('master_data_kinerja');
     Route::get('app/master/master-cabang', [MenuController::class, 'master_data_cabang'])->name('master_data_cabang');
     Route::get('app/master/master-menu-validasi', [MenuController::class, 'master_data_menu_validasi'])->name('master_data_menu_validasi');
+    Route::get('app/master/master-tools', [MenuController::class, 'master_data_tools'])->name('master_data_tools');
 });
 // MENU
 Route::prefix('menu')->group(function () {
@@ -125,6 +126,8 @@ Route::prefix('menu')->group(function () {
     Route::post('app/master/master-cabang/add-petugas', [MenuController::class, 'master_data_cabang_add_petugas'])->name('master_data_cabang_add_petugas');
     Route::post('app/master/master-cabang/save-petugas', [MenuController::class, 'master_data_cabang_save_petugas'])->name('master_data_cabang_save_petugas');
 
+    Route::post('app/master/master-menu-validasi/add-kategori', [MenuController::class, 'master_data_menu_validasi_add'])->name('master_data_menu_validasi_add');
+
     Route::post('app/laporan/laporan-case/detail', [MenuController::class, 'laporan_kendala_user_detail'])->name('laporan_kendala_user_detail');
 
     Route::post('app/laporan/laporan-rencana-maintenance/detail', [MenuController::class, 'laporan_rencana_maintenance_detail'])->name('laporan_rencana_maintenance_detail');
@@ -135,6 +138,13 @@ Route::prefix('menu')->group(function () {
 
     Route::post('app/laporan/laporan-log-bisone/print', [MenuController::class, 'laporan_log_bisone_print'])->name('laporan_log_bisone_print');
     Route::post('app/laporan/laporan-log-bisone/print-report', [MenuController::class, 'laporan_log_bisone_print_report'])->name('laporan_log_bisone_print_report');
+
+    Route::get('app/master/master-tools/show', [MenuController::class, 'master_data_tools_show'])->name('master_data_tools_show');
+    Route::post('app/master/master-tools/proses', [MenuController::class, 'master_data_tools_proses'])->name('master_data_tools_proses');
+    Route::put('app/master/master-tools/update', [MenuController::class, 'master_data_tools_update'])->name('master_data_tools_update');
+    Route::post('app/master/master-tools/proses-backup', [MenuController::class, 'master_data_tools_proses_backup'])->name('master_data_tools_proses_backup');
+    Route::put('app/master/master-tools/proses-backup-update', [MenuController::class, 'master_data_tools_proses_backup_update'])->name('master_data_tools_proses_backup_update');
+    Route::post('app/master/master-tools/proses-backup-update-file', [MenuController::class, 'master_data_tools_proses_backup_update_file'])->name('master_data_tools_proses_backup_update_file');
 });
 
 
