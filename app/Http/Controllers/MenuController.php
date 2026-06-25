@@ -636,8 +636,12 @@ class MenuController extends Controller
     public function laporan_log_bisone($akses)
     {
         if ($this->url_akses($akses) == true) {
-            $data = DB::connection('second_db')->table('log')->orderBy('logID', 'DESC')->take(500)->get();
-            return view('application.laporan.laporan-log-bisone', compact('data'));
+            try {
+                $data = DB::connection('second_db')->table('log')->orderBy('logID', 'DESC')->take(500)->get();
+                return view('application.laporan.laporan-log-bisone', compact('data'));
+            } catch (\Throwable $e) {
+                return Redirect::to('dashboard/home');
+            }
         } else {
             return Redirect::to('dashboard/home');
         }
@@ -1145,9 +1149,13 @@ class MenuController extends Controller
     public function master_data_log(Request $request, $akses)
     {
         if ($this->url_akses($akses) == true) {
-            $cabang = DB::table('users_handler')
-                ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
-                ->where('users_handler.id_user', Auth::user()->id_user)->get();
+            if (Auth::user()->kd_akses <= 2) {
+                $cabang = DB::table('tbl_cabang')->get();
+            } else {
+                $cabang = DB::table('users_handler')
+                    ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
+                    ->where('users_handler.id_user', Auth::user()->id_user)->get();
+            }
             return view('application.master.master-log', compact('cabang'));
         } else {
             return Redirect::to('dashboard/home');
@@ -1178,6 +1186,13 @@ class MenuController extends Controller
                         ->orderBy('Log_LoginID', 'desc')
                         ->get();
                     return view('application.master.master-log.data-log-login', compact('log'));
+                } elseif ($request->table == 'result_handoveremail_log') {
+                    $log = DB::connection('dynamic_conn')
+                        ->table('result_handoveremail_log')
+                        ->whereBetween('Result_HandOverEmailLogDateTime', [$request->start, $request->end]) // Membatasi maksimal 200 data
+                        ->orderBy('Result_HandOverEmailLogID', 'desc')
+                        ->get();
+                    return view('application.master.master-log.data-log-email', compact('log'));
                 } else {
                     return 'Coming Soon';
                 }

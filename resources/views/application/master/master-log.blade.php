@@ -39,7 +39,8 @@
                             <label for="namaTabel" class="form-label fw-semibold">Pilih Tabel Database</label>
                             <select class="form-select" id="namaTabel" required>
                                 <option value="" selected disabled>-- Pilih Tabel --</option>
-                                <option value="log_login">log_login (Data Login)</option>
+                                <option value="log_login">Log Login</option>
+                                <option value="result_handoveremail_log">Email Log</option>
                             </select>
                         </div>
 
