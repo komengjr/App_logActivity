@@ -510,7 +510,10 @@ class AppController extends Controller
     // REPORT LAPORAN
     public function dashboard_monitoring_harian_kritis(Request $request)
     {
-        return view('application.monitoring-harian.form-report-harian');
+        $cabang = DB::table('users_handler')
+            ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
+            ->where('users_handler.id_user', Auth::user()->id_user)->get();
+        return view('application.monitoring-harian.form-report-harian', compact('cabang'));
     }
     public function dashboard_monitoring_harian_backup_kritis(Request $request)
     {
@@ -527,12 +530,17 @@ class AppController extends Controller
             } else {
             }
         }
-        $hendlecabang = DB::table('users_handler')
-            ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
-            ->where('users_handler.id_user', Auth::user()->id_user)->get();
+        $datacabang = DB::table('tbl_cabang')->where('kd_cabang', $request->cabang)->first();
         $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
         $image = base64_encode(file_get_contents(public_path('icon1.png')));
-        $pdf = PDF::loadview('application.monitoring-harian.report.report-laporan-kritis', ['dataharian' => $dataharian, 'harimasuk' => $harimasuk, 'hendlecabang' => $hendlecabang], compact('image'))->setPaper('A3', 'landscape')->setOptions(['defaultFont' => 'Courier']);
+        $pdf = PDF::loadview('application.monitoring-harian.report.report-laporan-kritis', [
+            'dataharian' => $dataharian,
+            'harimasuk' => $harimasuk,
+            'datacabang' => $datacabang,
+            'start' => $date1,
+            'end' => $date2,
+            'cabang' => $request->cabang
+        ], compact('image'))->setPaper('A3', 'landscape')->setOptions(['defaultFont' => 'Courier']);
         $pdf->output();
         $canvas = $pdf->getDomPDF()->getCanvas();
 
@@ -557,10 +565,16 @@ class AppController extends Controller
         $datahandle = DB::table('users_handler')
             ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
             ->where('id_user', Auth::user()->id_user)->get();
+        $datacabang = DB::table('tbl_cabang')->where('kd_cabang', $request->cabang)->first();
         $image = base64_encode(file_get_contents(public_path('icon1.png')));
         $start = $date1;
         $end = $date2;
-        $pdf = PDF::loadview('application.monitoring-harian.report.report-laporan-backup-harian', compact('image'), ['datahandle' => $datahandle, 'start' => $start, 'end' => $end])->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Courier']);
+        $pdf = PDF::loadview('application.monitoring-harian.report.report-laporan-backup-harian', compact('image'), [
+            'datahandle' => $datahandle,
+            'datacabang' => $datacabang,
+            'start' => $start,
+            'end' => $end
+        ])->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Courier']);
         $pdf->output();
         $canvas = $pdf->getDomPDF()->getCanvas();
 

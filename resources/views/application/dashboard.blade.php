@@ -232,6 +232,7 @@
     $(document).on("click", "#button-preview-backup-harian-kritis", function(e) {
         e.preventDefault();
         const tanggal = document.getElementById('tanggal_monitoring_harian').value;
+        const cabang = document.getElementById('data_id_cabang').value;
         $('#report-backup-harian').html(
             '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
         );
@@ -243,7 +244,8 @@
             cache: false,
             data: {
                 "_token": "{{ csrf_token() }}",
-                "date": tanggal
+                "date": tanggal,
+                "cabang": cabang
             },
             dataType: 'html',
         }).done(function(data) {
@@ -259,6 +261,7 @@
     $(document).on("click", "#button-preview-backup-harian", function(e) {
         e.preventDefault();
         const tanggal = document.getElementById('tanggal_monitoring_harian').value;
+        const cabang = document.getElementById('data_id_cabang').value;
         $('#report-backup-harian').html(
             '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
         );
@@ -270,7 +273,8 @@
             cache: false,
             data: {
                 "_token": "{{ csrf_token() }}",
-                "date": tanggal
+                "date": tanggal,
+                "cabang": cabang
             },
             dataType: 'html',
         }).done(function(data) {

@@ -9,7 +9,19 @@
         <div class="card mb-3 border border-1">
             <div class="card-body d-flex justify-content-between">
                 <div>
-                    <input class="form-control datetimepicker" name="tanggal_monitoring_harian" id="tanggal_monitoring_harian" type="text" placeholder="Y-m-d to Y-m-d" data-options='{"mode":"range","dateFormat":"Y-m-d","disableMobile":true}' />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input class="form-control datetimepicker" name="tanggal_monitoring_harian" id="tanggal_monitoring_harian" type="text" placeholder="Y-m-d to Y-m-d" data-options='{"mode":"range","dateFormat":"Y-m-d","disableMobile":true}' />
+                        </div>
+                        <div class="col-md-6">
+                            <select id="data_id_cabang" name="kd_cabang" class="form-select" required>
+                                <option value="">-- Pilih Cabang --</option>
+                                @foreach ($cabang as $cab)
+                                <option value="{{ $cab->kd_cabang }}">{{ $cab->nama_cabang }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="d-flex">
 

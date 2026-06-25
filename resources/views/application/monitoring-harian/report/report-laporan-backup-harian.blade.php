@@ -226,8 +226,8 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
         <div id="company">
             <div style="margin-top: -20px; font-size: 9px;;">PR/001/ACC/123123</div><br>
             <h2 class="name">LAPORAN BACK DATA HARIAN</h2>
-            <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. </div>
-            <div>000 0000 0000</div>
+            <div>{{ $datacabang->nama_cabang }}</div>
+            <div>{{ $datacabang->alamat }}</div>
         </div>
         </div>
     </header>
@@ -268,11 +268,11 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
         <!-- Hasil -->
         <h5><span class="badge badge-dark">Date Range : {{$start}} Sampai {{$end}}</span></h5>
 
-        @foreach ($datahandle as $datahandle)
+
         @php
-        $data = DB::table('users_backup_harian')->where('kd_cabang',$datahandle->kd_cabang)->whereBetween('tgl_backup_harian', [$start,$end])->get();
+        $data = DB::table('users_backup_harian')->where('kd_cabang',$datacabang->kd_cabang)->whereBetween('tgl_backup_harian', [$start,$end])->get();
         @endphp
-        <h5>{{$datahandle->nama_cabang}}</h5>
+        <h5>{{$datacabang->nama_cabang}}</h5>
         <table style="font-size: 8px; margin: 0px; padding: 0px; width: 710px; font-size: 11px; font-family: Calibri (Body);" border="1">
             <thead style="font-weight: bold;">
                 <tr>
@@ -302,7 +302,7 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
                 @endforeach
             </tbody>
         </table>
-        @endforeach
+
 
         {{-- <div id="thanks">Thank you!</div> --}}
         <div id="notices">

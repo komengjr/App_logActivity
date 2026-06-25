@@ -226,8 +226,8 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
         <div id="company">
             <div style="margin-top: -20px; font-size: 9px;;">PR/001/ACC/123123</div><br>
             <h2 class="name">LAPORAN PENGUJIAN FASILITAS SARANA DAN PRASARANA KRITIS</h2>
-            <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur esse eius quod minus quae consectetur provident illum, </div>
-            <div>000 0000 0000</div>
+            <div>{{ $datacabang->nama_cabang }}</div>
+            <div>{{ $datacabang->alamat }}</div>
         </div>
         </div>
     </header>
@@ -264,10 +264,7 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
 
         </div>
         </div>
-
-        @foreach ($hendlecabang as $hendlecabang)
-        <br>
-        Cabang : {{ $hendlecabang->nama_cabang }}
+        <h5><span class="badge badge-dark">Date Range : {{$start}} Sampai {{$end}}</span></h5>
 
         <table
             style="font-size: 8px; margin: 0px; padding: 0px; width:100%; font-size: 11px; font-family: Calibri (Body);"
@@ -297,7 +294,7 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
                     @php
                     $cekdata = DB::table('users_handler_record_log')
                     ->where('kd_kinerja_sub', $item->kd_kinerja_sub)
-                    ->where('kd_cabang', $hendlecabang->kd_cabang)
+                    ->where('kd_cabang', $cabang)
                     ->where('tgl_record', date('Y-m-d', $datamasuk1))
                     ->first();
                     @endphp
@@ -313,7 +310,7 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
                 @endforeach
             </tbody>
         </table>
-        @endforeach
+
 
         {{-- <div id="thanks">Thank you!</div> --}}
         <div id="notices">
