@@ -41,7 +41,8 @@
                             <select class="form-select form-select-lg" id="namaTabel" required>
                                 <option value="" selected disabled>-- Pilih Tabel --</option>
                                 <option value="log_login">Log Login</option>
-                                <option value="result_handoveremail_log">Email Log</option>
+                                <option value="log_patient">Log Pasien</option>
+                                <option value="result_handoveremail_log">Log Email</option>
                             </select>
                         </div>
 

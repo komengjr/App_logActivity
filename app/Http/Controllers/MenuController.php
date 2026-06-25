@@ -1186,6 +1186,13 @@ class MenuController extends Controller
                         ->orderBy('Log_LoginID', 'desc')
                         ->get();
                     return view('application.master.master-log.data-log-login', compact('log'));
+                } elseif ($request->table == 'log_patient') {
+                    $log = DB::connection('dynamic_conn')
+                        ->table('log_patient')
+                        ->whereBetween('Log_PatientDate', [$request->start, $request->end]) // Membatasi maksimal 200 data
+                        ->orderBy('Log_PatientID', 'desc')
+                        ->get();
+                    return view('application.master.master-log.data-log-patient', compact('log'));
                 } elseif ($request->table == 'result_handoveremail_log') {
                     $log = DB::connection('dynamic_conn')
                         ->table('result_handoveremail_log')
