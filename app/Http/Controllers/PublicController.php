@@ -132,6 +132,17 @@ class PublicController extends Controller
                     'created_at' => now(),
                 ]);
             }
+            if ($request->hasFile('bukti_laporan')) {
+                $file = $request->file('bukti_laporan');
+                // Membuat nama file unik, contoh: bukti_1719310000_pelapor.png
+                $filename = 'bukti_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                // Menyimpan file ke folder: storage/app/public/bukti_kasus
+                // Jangan lupa jalankan perintah "php artisan storage:link" di terminal
+                $path = $file->storeAs('bukti_kasus', $filename, 'public');
+                $namaFileSimpan = $filename;
+            } else {
+                $namaFileSimpan = "";
+            }
             DB::table('tbl_laporan_user')->insert([
                 'tiket_laporan' => $tiket,
                 'kd_cabang' => $request->cabang,
@@ -145,6 +156,7 @@ class PublicController extends Controller
                 'tgl_laporan' => date('Y-m-d H:i:s'),
                 'no_hp' => $request->no_whatsapp,
                 'email' => $request->email,
+                'file' => $namaFileSimpan,
                 'status_telegram' => 0,
                 'created_at' => now(),
             ]);

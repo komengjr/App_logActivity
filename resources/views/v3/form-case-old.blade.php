@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Form Case - Laporan Kendala User</title>
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('asset/img/icons/shield.png') }}">
+    <!-- Bootstrap 5 & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
@@ -181,54 +182,8 @@
         .is-invalid {
             border-color: #e74c3c !important;
         }
-
-        /* Style Tambahan untuk Preview Area */
-        .preview-container {
-            display: none;
-            position: relative;
-            max-width: 100%;
-            margin-top: 10px;
-            border: 1px dashed #dee2e6;
-            border-radius: 0.375rem;
-            padding: 10px;
-            text-align: center;
-            background: #f8f9fa;
-        }
-
-        .preview-image {
-            max-height: 200px;
-            max-width: 100%;
-            object-fit: contain;
-            border-radius: 0.25rem;
-        }
-
-        .preview-file-info {
-            font-size: 0.85rem;
-            color: #6c757d;
-            margin-top: 5px;
-        }
-
-        .btn-remove-preview {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(231, 76, 60, 0.9);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-remove-preview:hover {
-            background: rgb(192, 41, 43);
-        }
     </style>
+    <!-- Tambahkan di HEAD (setelah Bootstrap) -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         /* Penyesuaian agar tampilan Select2 cocok dengan Bootstrap 5 */
@@ -243,6 +198,8 @@
             width: 100% !important;
         }
     </style>
+
+
 </head>
 
 <body>
@@ -259,15 +216,18 @@
             </div>
             <a href="{{ url('/login') }}" class="btn btn-dark"><i class="bi bi-arrow-left"></i> Back</a>
         </div>
+        <!-- <h3 class="text-center mb-4" style="color: #316bb3; font-weight: 700;"><span class="badge bg-primary">/span></h3> -->
 
+        <!-- Stepper -->
         <div class="step-header">
             <div class="step-item active" data-step="1">1</div>
             <div class="step-item" data-step="2">2</div>
             <div class="step-item" data-step="3">3</div>
         </div>
 
-        <form id="wizardForm" novalidate method="POST" enctype="multipart/form-data">
+        <form id="wizardForm" novalidate method="POST">
             @csrf
+            <!-- Step 1: Informasi Dasar -->
             <div class="form-step form-step-active">
                 <h5 class="mb-3 text-info"><i class="bi bi-info-circle me-2"></i><strong>Informasi Pelapor & Cabang</strong></h5>
                 <div class="mb-3">
@@ -300,6 +260,7 @@
                 </div>
             </div>
 
+            <!-- Step 2: Detail Teknis -->
             <div class="form-step">
                 <h5 class="mb-3 text-info"><i class="bi bi-gear me-2"></i>Detail Laporan</h5>
                 <div class="mb-3">
@@ -321,44 +282,26 @@
                     </select>
                     <div class="error-msg">Isi Kategori.</div>
                 </div>
-
-
-
                 <div id="data-kategori"></div>
                 <div class="mb-3">
                     <label class="form-label">Catatan Tambahan</label>
                     <textarea class="form-control" name="catatan_laporan" rows="3" placeholder="Kondisi barang, dll..." required></textarea>
                     <div class="error-msg">Isi Pesan Tambahan.</div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Upload Bukti Laporan ( Optional )<small class="text-muted">(Gambar/PDF, Maks 2MB)</small></label>
-                    <input type="file" class="form-control" name="bukti_laporan" id="bukti_laporan" accept="image/*,.pdf">
-                    <div class="error-msg">File bukti laporan wajib diunggah.</div>
-
-                    <div class="preview-container" id="previewContainer">
-                        <button type="button" class="btn-remove-preview" id="btnRemovePreview" title="Ubah/Hapus File">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
-                        <img src="" alt="Pratinjau Bukti" class="preview-image" id="imagePreview" style="display:none;">
-                        <div id="fileInfoPreview" class="p-3 text-secondary" style="display:none;">
-                            <i class="bi bi-file-earmark-pdf-fill text-danger fs-1"></i>
-                            <div class="preview-file-info fw-bold" id="pdfNameText">nama_file.pdf</div>
-                        </div>
-                    </div>
-                </div>
                 <div class="d-flex justify-content-between mt-4">
-                    <button type="button" class="btn btn-prev px-4 py-2"><i class="bi bi-arrow-left me-1"></i> Kembali</button>
+                    <!-- <button type="button" class="btn btn-prev px-4 py-2"><i class="bi bi-arrow-left me-1"></i> Kembali</button> -->
                     <button type="button" class="btn btn-next px-4 py-2">Lanjut <i class="bi bi-arrow-right ms-1"></i></button>
                 </div>
             </div>
 
+            <!-- Step 3: Konfirmasi -->
             <div class="form-step">
                 <h5 class="mb-3 text-info"><i class="bi bi-check2-circle me-2"></i>Konfirmasi Penyimpanan</h5>
                 <div class="alert alert-info border-0 shadow-sm">
                     <p class="small mb-0">Pastikan semua data yang Anda masukkan sudah benar sebelum menekan tombol simpan.</p>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">No Whatsapp</label>
+                    <label class="form-label">No WHatsapp</label>
                     <input type="text" class="form-control" name="no_whatsapp" id="no_whatsapp" placeholder="Masukkan nomor Whatsapp" required>
                     <div class="error-msg">Nomor Whatsapp wajib diisi.</div>
                 </div>
@@ -380,6 +323,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Tambahkan di paling bawah (setelah jQuery) -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -389,6 +333,8 @@
                 allowClear: true
             });
 
+            // FIX: Masalah Select2 hilang saat validasi/perpindahan step
+            // Karena Select2 menyembunyikan element asli, kita perlu trigger ulang validasi
             $('.select-search').on('change', function() {
                 if (this.checkValidity()) {
                     $(this).removeClass("is-invalid");
@@ -397,49 +343,7 @@
                 }
             });
 
-            // LOGIKA PREVIEW & UBAH GAMBAR/FILE BUKTI
-            $('#bukti_laporan').on('change', function() {
-                const file = this.files[0];
-                if (file) {
-                    // Validasi ukuran berkas (Maksimal 500 KB)
-                    if (file.size > 500 * 1024) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Ukuran Berkas Terlalu Besar',
-                            text: 'Maksimal ukuran berkas bukti adalah 500 KB.'
-                        });
-                        this.value = ""; // Reset input file jika tidak valid
-                        $('#previewContainer').hide();
-                        return;
-                    }
-
-                    $('#previewContainer').fadeIn();
-
-                    // Jika tipe file adalah Gambar
-                    if (file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            $('#imagePreview').attr('src', e.target.result).show();
-                            $('#fileInfoPreview').hide();
-                        }
-                        reader.readAsDataURL(file);
-                    } else {
-                        // Jika tipe file adalah PDF atau lainnya
-                        $('#pdfNameText').text(file.name);
-                        $('#fileInfoPreview').show();
-                        $('#imagePreview').hide();
-                    }
-                }
-            });
-
-            // Tombol "X" untuk hapus preview / ubah gambar kembali kosong
-            $('#btnRemovePreview').on('click', function() {
-                $('#bukti_laporan').val(''); // Menghapus file di input HTML asli
-                $('#previewContainer').fadeOut(function() {
-                    $('#imagePreview').attr('src', '').hide();
-                    $('#fileInfoPreview').hide();
-                });
-            });
+            // ... sisanya adalah script wizard kamu yang sudah ada ...
         });
     </script>
     <script>
@@ -447,6 +351,7 @@
             let currentStep = 0;
             const steps = $(".form-step");
             const stepIcons = $(".step-item");
+
 
             // Fungsi Validasi Step
             function validateStep(stepIndex) {
@@ -486,30 +391,32 @@
                 stepIcons.eq(currentStep).addClass("active").removeClass("completed");
             });
 
+
+
             // Real-time validation clear
-            $("input, select, textarea").on("input change", function() {
+            $("input, select").on("input change", function() {
                 if (this.checkValidity()) {
                     $(this).removeClass("is-invalid");
                     $(this).siblings(".error-msg").fadeOut();
                 }
             });
         });
-
         $(document).on("click", "#btnSubmit", function(e) {
             e.preventDefault();
             var nowhatsapp = document.getElementById('no_whatsapp').value;
             const btn = $("#btnSubmit");
-
+            // Submit Akhir
             if (nowhatsapp == "") {
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Nomor Whatsapp wajib diisi!",
+                    text: "Something went wrong!",
+                    footer: "<a href=\"#\">Why do I have this issue?</a>"
                 });
             } else {
                 Swal.fire({
                     title: 'Apakah data sudah benar?',
-                    text: "Data akan disimpan ke sistem Pelaporan beserta file bukti.",
+                    text: "Data akan disimpan ke sistem Pelaporan.",
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonColor: '#5a9bd5',
@@ -520,33 +427,27 @@
                     if (result.isConfirmed) {
                         btn.html('<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan...');
                         btn.prop("disabled", true);
-
-                        var form = $('#wizardForm')[0];
-                        var data = new FormData(form);
-
+                        var data = $("#wizardForm").serialize();
+                        // Simulasi Proses Ajax
                         $.ajax({
                             url: "{{ route('v3_case_save_data') }}",
                             headers: {
                                 "X-CSRF-TOKEN": $('meta[name="csrf"]').attr("content"),
                             },
                             type: "POST",
-                            enctype: 'multipart/form-data',
                             data: data,
-                            processData: false,
-                            contentType: false,
-                            cache: false,
+                            dataType: "html",
                         }).done(function(data) {
                             if (data == 0) {
                                 Swal.fire({
                                     icon: "error",
                                     title: "Oops...",
                                     text: "Gagal Menyimpan Tiket Laporan , Coba lagi nanti!",
+                                    footer: "<a href=\"#\">Why do I have this issue?</a>"
                                 });
-                                btn.html('<i class="bi bi-cloud-arrow-up me-1"></i> Simpan Data');
-                                btn.prop("disabled", false);
                             } else {
                                 setTimeout(() => {
-                                    Swal.fire('Berhasil!', 'Nomor Tiket ' + data + ' telah dibuat. Pastikan No Tiket Ini disimpan', 'success').then(() => {
+                                    Swal.fire('Berhasil!', 'Nomor Tiket '+ data +' telah dibuat. Pastikan No Tiket Ini disimpan', 'success').then(() => {
                                         location.reload();
                                     });
                                 }, 2000);
@@ -556,12 +457,13 @@
                                 icon: "error",
                                 title: "Oops...",
                                 text: "Something went wrong!",
+                                footer: "<a href=\"#\">Why do I have this issue?</a>"
                             });
-                            btn.html('<i class="bi bi-cloud-arrow-up me-1"></i> Simpan Data');
-                            btn.prop("disabled", false);
                         });
+
                     }
                 });
+
             }
         });
     </script>
@@ -570,11 +472,18 @@
             var dataid = document.getElementById("pilih_kategori").value;
             var cabang = document.getElementById("cabang").value;
             if (dataid == "") {
-                // Notifikasi jika kosong
+                Lobibox.notify('warning', {
+                    pauseDelayOnHover: true,
+                    continueDelayOnInactiveTab: true,
+                    position: 'top right',
+                    icon: 'fas fa-info-circle',
+                    msg: 'Pastikan Sudah dipilih'
+                });
             } else {
                 if (dataid == 'ER-001') {
                     $("#data-kategori").html("");
                 } else {
+
                     $("#data-kategori").html('<span class="spinner-border spinner-border-sm me-2"></span>Mohon Menunggu...');
                     $.ajax({
                         url: "{{ route('v3_case_get_data') }}",
@@ -589,7 +498,7 @@
                     }).done(function(data) {
                         $("#data-kategori").html(data);
                     }).fail(function() {
-                        console.log('error');
+                        console.log('eror');
                     });
                 }
             }
