@@ -2,6 +2,7 @@
 @section('base.css')
 <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.bootstrap5.css">
+<link href="{{ asset('vendors/choices/choices.min.css') }}" rel="stylesheet" />
 @endsection
 @section('content')
 
@@ -18,7 +19,7 @@
 <div class="row justify-content-center">
     <div class="col-xl-12">
 
-        <div class="card shadow-sm mb-4">
+        <div class="card shadow-sm mb-3">
             <div class="card-header bg-primary text-white">
                 <h5 class="card-title mb-0 text-white"><i class="bi bi-filter-square me-2"></i>Filter Log Data & Tabel</h5>
             </div>
@@ -27,7 +28,7 @@
                     <div class="row g-3">
                         <div class="col-md-3">
                             <label for="cabang" class="form-label fw-semibold">Pilih Cabang</label>
-                            <select class="form-select" id="cabang" required>
+                            <select class="form-select js-choice" id="cabang" required>
                                 <option value="" selected disabled>-- Pilih Cabang --</option>
                                 @foreach ($cabang as $cab)
                                 <option value="{{ $cab->kd_cabang }}">{{ $cab->nama_cabang }}</option>
@@ -37,7 +38,7 @@
 
                         <div class="col-md-3">
                             <label for="namaTabel" class="form-label fw-semibold">Pilih Tabel Database</label>
-                            <select class="form-select" id="namaTabel" required>
+                            <select class="form-select form-select-lg" id="namaTabel" required>
                                 <option value="" selected disabled>-- Pilih Tabel --</option>
                                 <option value="log_login">Log Login</option>
                                 <option value="result_handoveremail_log">Email Log</option>
@@ -46,12 +47,12 @@
 
                         <div class="col-md-3">
                             <label for="waktuMulai" class="form-label fw-semibold">Dari (Tanggal & Waktu)</label>
-                            <input type="datetime-local" class="form-control" id="waktuMulai" required>
+                            <input type="datetime-local" class="form-control form-control-lg" id="waktuMulai" required>
                         </div>
 
                         <div class="col-md-3">
                             <label for="waktuSelesai" class="form-label fw-semibold">Sampai (Tanggal & Waktu)</label>
-                            <input type="datetime-local" class="form-control" id="waktuSelesai" required>
+                            <input type="datetime-local" class="form-control form-control-lg" id="waktuSelesai" required>
                         </div>
                     </div>
 
@@ -115,6 +116,7 @@
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
 <script src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.js"></script>
 <script src="https://cdn.datatables.net/responsive/3.0.4/js/responsive.bootstrap5.js"></script>
+<script src="{{ asset('vendors/choices/choices.min.js') }}"></script>
 
 <script>
     document.getElementById('formFilter').addEventListener('submit', function(event) {

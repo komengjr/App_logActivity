@@ -1197,7 +1197,11 @@ class MenuController extends Controller
                     return 'Coming Soon';
                 }
             } else {
-                return 'Data Koneksi Belum dibuat';
+                return '<div class="alert alert-warning border-2 d-flex align-items-center" role="alert">
+                        <div class="bg-warning me-3 icon-item"><span class="fas fa-exclamation-circle text-white fs-3"></span></div>
+                        <p class="mb-0 flex-1">Data Koneksi Belum dibuat!</p>
+                        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>';
             }
         } catch (\Throwable $e) {
             return 0;
