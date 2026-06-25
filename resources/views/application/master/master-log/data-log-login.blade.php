@@ -42,7 +42,43 @@
     </div>
 </div>
 <script>
-    new DataTable('#example', {
-        responsive: true
+    $(document).ready(function() {
+        $('#example').DataTable({
+            dom: 'Bfrtip', // Menentukan posisi tombol eksport (B = Buttons, f = filtering, r = processing, t = table, i = info, p = pagination)
+            buttons: [{
+                    extend: 'copy',
+                    className: 'btn btn-secondary btn-sm'
+                },
+                {
+                    extend: 'csv',
+                    className: 'btn btn-secondary btn-sm'
+                },
+                {
+                    extend: 'excel',
+                    className: 'btn btn-success btn-sm',
+                    title: 'Log Patient Data'
+                },
+                {
+                    extend: 'pdf',
+                    className: 'btn btn-danger btn-sm',
+                    title: 'Log Patient Data',
+                    orientation: 'landscape', // Opsional: dibuat landscape karena kolomnya cukup lebar
+                    pageSize: 'A4'
+                },
+                {
+                    extend: 'print',
+                    className: 'btn btn-info btn-sm'
+                }
+            ],
+            language: {
+                // Opsional: Untuk mengubah teks pencarian menjadi bahasa Indonesia
+                search: "Cari:",
+                lengthMenu: "Tampilkan _MENU_ data per halaman",
+                zeroRecords: "Data tidak ditemukan",
+                info: "Menampilkan halaman _PAGE_ dari _PAGES_",
+                infoEmpty: "Tidak ada data tersedia",
+                infoFiltered: "(disaring dari _MAX_ total data)"
+            }
+        });
     });
 </script>
