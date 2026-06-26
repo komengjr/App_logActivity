@@ -63,7 +63,7 @@
                 {
                     extend: 'pdf',
                     className: 'btn btn-danger btn-sm',
-                    title: 'Log Patient Data',
+                    title: 'Log Login Data',
                     orientation: 'landscape', // Opsional: dibuat landscape karena kolomnya cukup lebar
                     pageSize: 'A4'
                 },
