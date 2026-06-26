@@ -2,7 +2,7 @@
     <div class="card-header bg-primary">
         <div class="d-flex justify-content-between">
             <div>
-              <h5>Log Data</h5>
+                <h5>Log Data</h5>
             </div>
             <div class="d-flex">
 
@@ -44,7 +44,9 @@
 <script>
     $(document).ready(function() {
         $('#example').DataTable({
-            dom: 'Bfrtip', // Menentukan posisi tombol eksport (B = Buttons, f = filtering, r = processing, t = table, i = info, p = pagination)
+            dom: "<'row mb-3'<'col-md-6 d-flex justify-content-start'B><'col-md-6 d-flex justify-content-end'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row mt-3'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 d-flex justify-content-end'p>>",
             buttons: [{
                     extend: 'copy',
                     className: 'btn btn-secondary btn-sm'
