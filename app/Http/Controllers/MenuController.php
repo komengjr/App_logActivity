@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
@@ -820,6 +821,49 @@ class MenuController extends Controller
             return view('application.master.master-staff', compact('data'));
         } else {
             return Redirect::to('dashboard/home');
+        }
+    }
+    public function master_data_staff_add(Request $request)
+    {
+        $cabang = DB::table('tbl_cabang')->get();
+        return view('application.master.master-staff.form-add-staff', compact('cabang'));
+    }
+    public function master_data_staff_save(Request $request)
+    {
+        try {
+            $namaGambar = 0;
+            $id =  'UUID' . date('Ymdhis');
+            // 3. Simpan ke Database memakai Query Builder / DB Facade sesuai skema penamaan tabel Anda
+            DB::table('tbl_biodata')->insert([
+                'id_user'    => $id,
+                'kd_cabang'    => $request->kd_cabang,
+                'nip'          => $request->nip,
+                'nama_lengkap' => $request->nama_lengkap,
+                'tgl_lahir'    => $request->tgl_lahir,
+                'tempat_lahir' => $request->tempat_lahir,
+                'no_hp'        => $request->no_hp,
+                'alamat'       => $request->alamat,
+                'gambar'       => $namaGambar,
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ]);
+            DB::table('users')->insert([
+                'id_user' => $id,
+                'name' => $request->nama_lengkap,
+                'email' => $request->nip,
+                'password' => Hash::make($request->nip),
+                'kd_akses' => $request->akses,
+                'cabang' => $request->kd_cabang,
+                'status_user' => 1,
+                'phone_number' => $request->no_hp,
+                'remember_token' => str::uuid(),
+                'created_at' => now()
+            ]);
+            // Kembalikan JSON sukses
+            return 1;
+        } catch (\Exception $e) {
+            // Jika terjadi error pada database atau sistem, kembalikan pesan error
+            return 0;
         }
     }
     // MASTER KINERJA

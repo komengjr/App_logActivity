@@ -152,6 +152,9 @@ Route::prefix('menu')->group(function () {
     Route::put('app/master/master-tools/proses-backup-update', [MenuController::class, 'master_data_tools_proses_backup_update'])->name('master_data_tools_proses_backup_update');
     Route::post('app/master/master-tools/proses-backup-update-file', [MenuController::class, 'master_data_tools_proses_backup_update_file'])->name('master_data_tools_proses_backup_update_file');
 
+    Route::post('app/master/master-staff/add', [MenuController::class, 'master_data_staff_add'])->name('master_data_staff_add');
+    Route::post('app/master/master-staff/save', [MenuController::class, 'master_data_staff_save'])->name('master_data_staff_save');
+
     Route::post('app/master/master-log/get-data', [MenuController::class, 'master_data_log_get_data'])->name('master_data_log_get_data');
 });
 

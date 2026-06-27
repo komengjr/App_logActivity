@@ -122,9 +122,14 @@
 <!-- PENCARIAN REAL-TIME -->
 <div class="card custom-card mb-3 border border-primary">
     <div class="card-body p-3">
-        <div class="d-flex align-items-center search-box px-3 py-1">
-            <i class="fas fa-search text-muted me-2"></i>
-            <input type="text" id="inputPencarian" class="form-control border-0 shadow-none ps-1 bg-transparent" placeholder="Ketik nama karyawan untuk mencari...">
+        <div class="d-flex justify-content-between">
+            <div class="d-flex align-items-center search-box px-3 py-1">
+                <i class="fas fa-search text-muted me-2"></i>
+                <input type="text" id="inputPencarian" class="form-control border-0 shadow-none ps-1 bg-transparent" placeholder="Ketik nama karyawan untuk mencari...">
+            </div>
+
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-cabang" id="button-add-new-staff" data-code="123">Tambah Staff Baru</button>
+
         </div>
     </div>
 </div>
@@ -216,7 +221,18 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="modal-cabang" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content border-0">
+            <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
+                <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="menu-cabang"></div>
+        </div>
+    </div>
+</div>
 <script>
     // Inisialisasi element modal secara manual tanpa merusak UI Bootstrap
     const modalElement = document.getElementById('modalEditKaryawan');
@@ -323,4 +339,57 @@
         }
     });
 </script>
+<script>
+    $(document).on("click", "#button-add-new-staff", function(e) {
+        e.preventDefault();
+        $('#menu-cabang').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('master_data_staff_add') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": 123
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-cabang').html(data);
+        }).fail(function() {
+            $('#menu-cabang').html('eror');
+        });
+    });
+    $(document).on("click", "#button-simpan-data-petugas", function(e) {
+        e.preventDefault();
+        var data = $("#form-add-petugas-cabang").serialize();
+        $('#menu-add-data-petugas').html(
+            '<div class="spinner-border my-0" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('master_data_staff_save') }}",
+            type: "POST",
+            cache: false,
+            data: data,
+            dataType: 'html',
+        }).done(function(data) {
+            if (data == 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                    footer: '<a href="#">Why do I have this issue?</a>'
+                });
+                $('#menu-add-data-petugas').html('<button class="btn btn-success float-end" id="button-simpan-data-petugas">Simpan Data</button>');
+            } else {
+                Swal.fire('Berhasil!', 'Data Cabang Berhasil di Update', 'success').then(() => {
+                    location.reload();
+                });
+            }
+        }).fail(function() {
+            $('#menu-add-data-petugas').html('eror');
+        });
+    });
+</script>
+
 @endsection
