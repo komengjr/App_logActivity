@@ -60,11 +60,11 @@
                 <textarea class="form-control" id="alamat" name="alamat" rows="3" placeholder="Masukkan alamat lengkap..."></textarea>
             </div>
 
-            <div class="mb-4">
+            <!-- <div class="mb-4">
                 <label for="gambar" class="form-label">Upload Gambar / Foto</label>
                 <input class="form-control" type="file" id="gambar" name="gambar" accept="image/*">
                 <div class="form-text">Format yang diperbolehkan: JPG, PNG, atau JPEG.</div>
-            </div>
+            </div> -->
 
         </form>
     </div>

@@ -831,7 +831,7 @@ class MenuController extends Controller
     public function master_data_staff_save(Request $request)
     {
         try {
-            $namaGambar = 0;
+            $namaGambar = "";
             $id =  'UUID' . date('Ymdhis');
             // 3. Simpan ke Database memakai Query Builder / DB Facade sesuai skema penamaan tabel Anda
             DB::table('tbl_biodata')->insert([
