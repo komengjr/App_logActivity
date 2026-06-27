@@ -691,7 +691,7 @@ class MenuController extends Controller
             $backupharian = DB::table('users_backup_harian')->where('kd_cabang', $request->cabang)->whereBetween('tgl_backup_harian', [$date1, $date2])->get();
             return view('application.laporan.laporan-it-support.data-backup-harian', compact('backupharian'));
         } elseif ($request->laporan == 'b_bulanan') {
-            $backupbulanan = DB::table('users_backup_bulanan')->where('kd_cabang', Auth::user()->cabang)->get();
+            $backupbulanan = DB::table('users_backup_bulanan')->where('kd_cabang', $request->cabang)->get();
             return view('application.laporan.laporan-it-support.data-backup-bulanan', compact('backupbulanan'));
         } elseif ($request->laporan == 'kendala') {
             $kendala = DB::table('tbl_laporan_user')
