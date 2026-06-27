@@ -651,6 +651,59 @@ class MenuController extends Controller
         $cabang = DB::table('tbl_cabang')->get();
         return view('application.laporan.log-bisone.form-report-log', compact('cabang'));
     }
+    // LAPORAN IT SUPPORT
+    public function laporan_it_support($akses)
+    {
+        if ($this->url_akses($akses) == true) {
+            try {
+                $data = DB::table('users_handler')
+                    ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
+                    ->where('users_handler.id_user', Auth::user()->id_user)->get();
+                $cabang = DB::table('tbl_cabang')->get();
+                return view('application.laporan.laporan-it-support', compact('data', 'cabang'));
+            } catch (\Throwable $e) {
+                return Redirect::to('dashboard/home');
+            }
+        } else {
+            return Redirect::to('dashboard/home');
+        }
+    }
+    public function laporan_it_support_get_data(Request $request)
+    {
+        $date1 = substr($request->start, 0, 10);
+        $date2 = substr($request->end, 0, 10);
+        $startdate = $request->start;
+        $startdate = strtotime($date1);
+        $enddate = $request->end;
+        $enddate = strtotime($date2);
+        if ($request->laporan == 'kritis') {
+            $harimasuk = array();
+            for ($i = $startdate; $i <= $enddate; $i += (60 * 60 * 24)) {
+                if (date('w', $i) !== '0') {
+                    $harimasuk[] = $i;
+                } else {
+                }
+            }
+            $datacabang = DB::table('tbl_cabang')->where('kd_cabang', $request->cabang)->first();
+            $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
+            return view('application.laporan.laporan-it-support.data-kritis', compact('harimasuk', 'datacabang', 'dataharian'));
+        } elseif ($request->laporan == 'b_harian') {
+            $backupharian = DB::table('users_backup_harian')->where('kd_cabang', $request->cabang)->whereBetween('tgl_backup_harian', [$date1, $date2])->get();
+            return view('application.laporan.laporan-it-support.data-backup-harian', compact('backupharian'));
+        } elseif ($request->laporan == 'b_bulanan') {
+            $backupbulanan = DB::table('users_backup_bulanan')->where('kd_cabang', Auth::user()->cabang)->get();
+            return view('application.laporan.laporan-it-support.data-backup-bulanan', compact('backupbulanan'));
+        } elseif ($request->laporan == 'kendala') {
+            $kendala = DB::table('tbl_laporan_user')
+                ->where('kd_cabang', $request->cabang)
+                ->whereBetween('tgl_laporan', [$date1, $date2])
+                ->get();
+            return view('application.laporan.laporan-it-support.data-kendala-user', compact('kendala'));
+        } else {
+            # code...
+            return 'comingsoon';
+        }
+    }
 
     // MASTER PIKET SETUP
     public function master_piket_setup($akses)

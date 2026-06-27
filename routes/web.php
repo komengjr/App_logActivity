@@ -81,6 +81,7 @@ Route::prefix('{akses}')->group(function () {
     Route::get('app/laporan/laporan-case', [MenuController::class, 'laporan_kendala_user'])->name('laporan_kendala_user');
     Route::get('app/laporan/laporan-rencana-maintenance', [MenuController::class, 'laporan_rencana_maintenance'])->name('laporan_rencana_maintenance');
     Route::get('app/laporan/laporan-log-bisone', [MenuController::class, 'laporan_log_bisone'])->name('laporan_log_bisone');
+    Route::get('app/laporan/laporan-it-support', [MenuController::class, 'laporan_it_support'])->name('laporan_it_support');
 
     Route::get('app/master/master-piket-setup', [MenuController::class, 'master_piket_setup'])->name('master_piket_setup');
     Route::get('app/master/master-piket-data', [MenuController::class, 'master_piket_data'])->name('master_piket_data');
@@ -141,6 +142,8 @@ Route::prefix('menu')->group(function () {
 
     Route::post('app/laporan/laporan-log-bisone/print', [MenuController::class, 'laporan_log_bisone_print'])->name('laporan_log_bisone_print');
     Route::post('app/laporan/laporan-log-bisone/print-report', [MenuController::class, 'laporan_log_bisone_print_report'])->name('laporan_log_bisone_print_report');
+
+    Route::post('app/laporan/laporan-it-support/get-data', [MenuController::class, 'laporan_it_support_get_data'])->name('laporan_it_support_get_data');
 
     Route::get('app/master/master-tools/show', [MenuController::class, 'master_data_tools_show'])->name('master_data_tools_show');
     Route::post('app/master/master-tools/proses', [MenuController::class, 'master_data_tools_proses'])->name('master_data_tools_proses');
