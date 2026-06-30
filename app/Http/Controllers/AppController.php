@@ -444,14 +444,14 @@ class AppController extends Controller
             $fileName = date('Y-m-d') . '.' . $extension;
 
             $disk = Storage::disk(config('filesystems.publis'));
-            $path = $disk->putFileAs('monitoring_harian/' . auth::user()->id_user, $file, $fileName);
+            $path = $disk->putFileAs('monitoring_harian/' . auth::user()->id_user . '/' . $request->cabang, $file, $fileName);
             // $path1 = $disk('videos', $file, $fileName);
 
             // delete chunked file
             unlink($file->getPathname());
 
             return [
-                'path' => '../../storage/monitoring_harian/' . auth::user()->id_user . '/' . $fileName,
+                'path' => '../../storage/monitoring_harian/' . auth::user()->id_user . '/' . $request->cabang . '/' . $fileName,
                 'filename' => $fileName
             ];
         }
@@ -475,7 +475,7 @@ class AppController extends Controller
                     'sistem_backup_harian' => $request->sistem,
                     'proses_backup_harian' => $request->proses,
                     'deskripsi_backup_harian' => $request->desc,
-                    'file_backup_harian' => 'monitoring_harian/' . auth::user()->id_user . '/' . $request->file,
+                    'file_backup_harian' => 'monitoring_harian/' . auth::user()->id_user . '/' . $request->code . '/' . $request->file,
                     'status_backup_harian' => 1,
                     'tgl_backup_harian' => date('Y-m-d'),
                     'kd_cabang' => $request->code,

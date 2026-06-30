@@ -310,7 +310,7 @@ $ids = mt_rand(100,999);
         target: "{{ route('dashboard_check_in_proses_data_harian_import') }}",
         query: {
             _token: '{{ csrf_token() }}',
-            code: 123123,
+            cabang: `{{ $code }}`,
         },
         fileType: ['jpg','png'],
         headers: {
