@@ -217,6 +217,7 @@ $ids = mt_rand(100,999);
                 dataType: 'html',
             }).done(function(data) {
                 Swal.fire('Berhasil!', 'Proses Berhasil dilakukan', 'success').then(() => {});
+                location.reload();
             }).fail(function() {
                 Swal.fire('Gagal!', 'Proses Gagal dilakukan', 'error').then(() => {});
             });
