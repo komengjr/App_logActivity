@@ -17,7 +17,7 @@
                   <td class="text-nowrap">{{ $datas->b_validasi_data_bulan }}</td>
                   <td class="text-nowrap">{{ $datas->b_validasi_data_cabang }}</td>
                   <td>
-                    <span class="badge badge rounded-pill d-block p-2 badge-soft-success">Completed<span class="ms-1 fas fa-check" data-fa-transform="shrink-2"></span></span>
+                    <span class="badge badge rounded-pill d-block p-2 badge-soft-warning">Proses<span class="ms-1 fas fa-check" data-fa-transform="shrink-2"></span></span>
                   </td>
                   <td class="text-end">
                     <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal-template" data-code="{{ $datas->b_validasi_data_code }}" id="button-proses-validasi-bisone">Proses</button>
