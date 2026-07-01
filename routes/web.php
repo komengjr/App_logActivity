@@ -110,6 +110,7 @@ Route::prefix('menu')->group(function () {
     Route::post('app/menu/validasi-sistem-bisone/get-data', [MenuController::class, 'menu_validasi_sistem_get'])->name('menu_validasi_sistem_get');
     Route::post('app/menu/validasi-sistem-bisone/save-data', [MenuController::class, 'menu_validasi_sistem_save'])->name('menu_validasi_sistem_save');
     Route::post('app/menu/validasi-sistem-bisone/proses-data', [MenuController::class, 'menu_validasi_sistem_proses'])->name('menu_validasi_sistem_proses');
+    Route::post('app/menu/validasi-sistem-bisone/create-data-form', [MenuController::class, 'menu_validasi_sistem_create_data_form'])->name('menu_validasi_sistem_create_data_form');
 
     Route::get('app/menu/verifikasi-maintenance/list-cabang', [MenuController::class, 'menu_verifikasi_maintenance_list_cabang'])->name('menu_verifikasi_maintenance_list_cabang');
     Route::get('app/menu/verifikasi-maintenance/list-tahun', [MenuController::class, 'menu_verifikasi_maintenance_list_tahun'])->name('menu_verifikasi_maintenance_list_tahun');
@@ -131,6 +132,9 @@ Route::prefix('menu')->group(function () {
     Route::post('app/master/master-cabang/update-conn-save', [MenuController::class, 'master_data_cabang_update_conn_save'])->name('master_data_cabang_update_conn_save');
 
     Route::post('app/master/master-menu-validasi/add-kategori', [MenuController::class, 'master_data_menu_validasi_add'])->name('master_data_menu_validasi_add');
+    Route::post('app/master/master-menu-validasi/save-kategori', [MenuController::class, 'master_data_menu_validasi_save'])->name('master_data_menu_validasi_save');
+    Route::post('app/master/master-menu-validasi/add-sub-menu', [MenuController::class, 'master_data_menu_validasi_add_sub_menu'])->name('master_data_menu_validasi_add_sub_menu');
+    Route::post('app/master/master-menu-validasi/save-sub-menu', [MenuController::class, 'master_data_menu_validasi_save_sub_menu'])->name('master_data_menu_validasi_save_sub_menu');
 
     Route::post('app/laporan/laporan-case/detail', [MenuController::class, 'laporan_kendala_user_detail'])->name('laporan_kendala_user_detail');
 
@@ -478,4 +482,6 @@ Route::prefix('/v3')->group(function () {
     // Route::get('brand', [PublicController::class, 'brand'])->name('brand');
     // Route::get('about', [PublicController::class, 'about'])->name('about');
     Route::get('get_notif', [PublicController::class, 'v3_get_notif'])->name('v3_get_notif');
+    Route::get('validasi/proses/{token}', [PublicController::class, 'v3_get_token_validasi'])->name('v3_get_token_validasi');
+    Route::post('validasi/save', [PublicController::class, 'v3_get_token_validasi_save'])->name('v3_get_token_validasi_save');
 });

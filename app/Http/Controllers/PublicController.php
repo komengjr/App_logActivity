@@ -350,4 +350,64 @@ class PublicController extends Controller
             return view('waktu', ['id' => '-1']);
         }
     }
+    public function v3_get_token_validasi($token)
+    {
+        $data = DB::table('b_validasi_data_req')
+            ->join('b_validasi_data', 'b_validasi_data.b_validasi_data_code', '=', 'b_validasi_data_req.b_validasi_data_code')
+            ->join('b_menus', 'b_menus.b_menus_code', '=', 'b_validasi_data_req.b_menus_code')
+            ->where('b_validasi_data_req_code', $token)->first();
+        if ($data) {
+            // 1. Ambil semua 'b_menus_sub_code' yang SUDAH PERNAH divalidasi/disimpan di tabel b_validasi_bisone
+            $alreadySavedCodes = DB::table('b_validasi_bisone')
+                ->where('b_validasi_data_req_code', $token)
+                ->pluck('b_menus_sub_code')
+                ->toArray();
+            $menu = DB::table('b_menus_sub')
+                ->whereNotIn('b_menus_sub_code', $alreadySavedCodes) // Menyaring data
+                ->pluck('b_menus_sub_name', 'b_menus_sub_code')
+                ->toArray();
+            // $menu = DB::table('b_menus_sub')->where('b_menus_code', $data->b_menus_code)->pluck('b_menus_sub_name', 'b_menus_sub_code')->toArray();
+            return view('v3.form-validasi-menu-bisone', compact('menu', 'data'), ['token' => $token]);
+            # code...
+        } else {
+            # code...
+        }
+    }
+    public function v3_get_token_validasi_save(Request $request)
+    {
+        $validated = $request->validate([
+            'b_menus_sub_code' => 'required|string',
+            'code_token' => 'required|string',
+            'tahun'            => 'required|integer',
+            'bulan'            => 'required|string',
+            'skala'            => 'required|integer|between:0,4',
+            'catatan_manual'   => 'nullable|string',
+            'nama_verifikator' => 'required|string',
+            'ttd_verifikator'  => 'required|string',
+            'nama_validator'   => 'required|string',
+            'ttd_validator'    => 'required|string',
+        ]);
+
+        // Membuat kode acak/unik untuk kolom code (Contoh hasil: VLD-2026071422)
+        $uniqueCode = 'VLD-' . date('YmdHis') . rand(10, 99);
+
+        // Insert ke tabel b_validasi_bisone
+        DB::table('b_validasi_bisone')->insert([
+            'b_validasi_bisone_code'   => $uniqueCode,
+            'b_validasi_data_req_code' => $validated['code_token'], // Sesuaikan aturan kode req Anda
+            'tahun'                    => $validated['tahun'],
+            'bulan'                    => $validated['bulan'],
+            'b_menus_sub_code'         => $validated['b_menus_sub_code'],
+            'skala'                    => $validated['skala'],
+            'catatan_manual'           => $validated['catatan_manual'],
+            'nama_verifikator'         => $validated['nama_verifikator'],
+            'ttd_verifikator'          => $validated['ttd_verifikator'],
+            'nama_validator'           => $validated['nama_validator'],
+            'ttd_validator'            => $validated['ttd_validator'],
+        ]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil disimpan langsung ke database!'
+        ], 200);
+    }
 }

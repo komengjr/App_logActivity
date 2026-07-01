@@ -19,8 +19,8 @@
     <div class="card-header bg-primary">
         <div class="d-flex justify-content-between">
             <div>
-                <a class="btn btn-falcon-default btn-sm" href="#" data-bs-toggle="modal" data-bs-target="#modal-template" id="button-add-data-kategori">
-                    <span class="fas fa-plus me-2"></span> Create Kategori
+                <a class="btn btn-falcon-default btn-sm" href="#" data-bs-toggle="modal" data-bs-target="#modal-template" id="button-add-data-menu">
+                    <span class="fas fa-plus me-2"></span> Create Menu
                 </a>
                 <!-- <span class="mx-1 mx-sm-2 text-300">|</span>
                 <button class="btn btn-falcon-default btn-sm" type="button" data-bs-toggle="tooltip"
@@ -51,7 +51,14 @@
                 <tr>
                     <td>{{ $no++ }}</td>
                     <td>{{ $datas->b_menus_kategori }} </td>
-                    <td>{{ $datas->b_menus_code }}</td>
+                    <td>
+                        @php
+                        $sub = DB::table('b_menus_sub')->where('b_menus_code',$datas->b_menus_code )->get();
+                        @endphp
+                        @foreach ($sub as $subs)
+                        <li>{{ $subs->b_menus_sub_name }}</li>
+                        @endforeach
+                    </td>
                     <td>
                         <div class="btn-group" role="group">
                             <button class="btn btn-sm btn-falcon-primary dropdown-toggle" id="btnGroupVerticalDrop2"
@@ -59,14 +66,8 @@
                                     class="fas fa-align-left me-1" data-fa-transform="shrink-3"></span>Menu</button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop2">
                                 <button class="dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#modal-cabang"
-                                    id="button-update-data-cabang" data-code="{{$datas->b_menus_code}}"><span
-                                        class="fas fa-edit me-2"></span> Update Cabang</button>
-                                <button class="dropdown-item text-primary" data-bs-toggle="modal" data-bs-target="#modal-cabang"
-                                    id="button-add-data-petugas" data-code="{{$datas->b_menus_code}}"><span
-                                        class="fas fa-user-check me-2"></span> Add Petugas</button>
-                                <button class="dropdown-item text-info" data-bs-toggle="modal" data-bs-target="#modal-cabang"
-                                    id="button-proses-tagihan-bulanan" data-code="{{$datas->b_menus_code}}"><span
-                                        class="fas fa-user-cog me-2"> </span> Add Verifikator</button>
+                                    id="button-add-data-sub-menu" data-code="{{$datas->b_menus_code}}"><span
+                                        class="fas fa-edit me-2"></span> Add Sub Menu</button>
                             </div>
                         </div>
                     </td>
@@ -100,7 +101,7 @@
     });
 </script>
 <script>
-    $(document).on("click", "#button-add-data-kategori", function(e) {
+    $(document).on("click", "#button-add-data-menu", function(e) {
         e.preventDefault();
         var code = $(this).data("code");
         $('#menu-template').html(
@@ -121,14 +122,14 @@
             $('#menu-template').html('eror');
         });
     });
-    $(document).on("click", "#button-simpan-update-cabang", function(e) {
+    $(document).on("click", "#button-simpan-data-menu", function(e) {
         e.preventDefault();
-        var data = $("#form-update-cabang").serialize();
-        $('#menu-update-data-cabang').html(
+        var data = $("#form-add-kategori-menu").serialize();
+        $('#menu-update-data-menu').html(
             '<div class="spinner-border my-0" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
         );
         $.ajax({
-            url: "{{ route('master_data_cabang_update_save') }}",
+            url: "{{ route('master_data_menu_validasi_save') }}",
             type: "POST",
             cache: false,
             data: data,
@@ -141,24 +142,26 @@
                     text: "Something went wrong!",
                     footer: '<a href="#">Why do I have this issue?</a>'
                 });
-                $('#menu-update-data-cabang').html('<button class="btn btn-success float-end" id="button-simpan-update-cabang">Simpan Data</button>');
+                $('#menu-update-data-menu').html('<button class="btn btn-success float-end" id="button-simpan-data-menu">Simpan Data</button>');
             } else {
                 Swal.fire('Berhasil!', 'Data Cabang Berhasil di Update', 'success').then(() => {
                     location.reload();
                 });
             }
         }).fail(function() {
-            $('#menu-update-data-cabang').html('eror');
+            $('#menu-update-data-menu').html('eror');
         });
     });
-    $(document).on("click", "#button-add-data-petugas", function(e) {
+
+
+    $(document).on("click", "#button-add-data-sub-menu", function(e) {
         e.preventDefault();
         var code = $(this).data("code");
         $('#menu-cabang').html(
             '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
         );
         $.ajax({
-            url: "{{ route('master_data_cabang_add_petugas') }}",
+            url: "{{ route('master_data_menu_validasi_add_sub_menu') }}",
             type: "POST",
             cache: false,
             data: {
@@ -172,14 +175,14 @@
             $('#menu-cabang').html('eror');
         });
     });
-    $(document).on("click", "#button-simpan-data-petugas", function(e) {
+    $(document).on("click", "#button-simpan-data-sub-menu", function(e) {
         e.preventDefault();
-        var data = $("#form-add-petugas-cabang").serialize();
-        $('#menu-add-data-petugas').html(
+        var data = $("#form-add-sub-menu").serialize();
+        $('#menu-add-data-menu').html(
             '<div class="spinner-border my-0" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
         );
         $.ajax({
-            url: "{{ route('master_data_cabang_save_petugas') }}",
+            url: "{{ route('master_data_menu_validasi_save_sub_menu') }}",
             type: "POST",
             cache: false,
             data: data,
@@ -192,14 +195,14 @@
                     text: "Something went wrong!",
                     footer: '<a href="#">Why do I have this issue?</a>'
                 });
-                $('#menu-add-data-petugas').html('<button class="btn btn-success float-end" id="button-simpan-data-petugas">Simpan Data</button>');
+                $('#menu-add-data-menu').html('<button class="btn btn-success float-end" id="button-simpan-data-sub-menu">Simpan Data</button>');
             } else {
                 Swal.fire('Berhasil!', 'Data Cabang Berhasil di Update', 'success').then(() => {
                     location.reload();
                 });
             }
         }).fail(function() {
-            $('#menu-add-data-petugas').html('eror');
+            $('#menu-add-data-menu').html('eror');
         });
     });
 </script>

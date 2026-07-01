@@ -5,10 +5,11 @@
         </p>
     </div>
     <div class="p-4 pb-3" id="menu-add-data-pr-all">
-        <form class="row g-3 pb-3" id="form-add-kategori-menu" method="POST">
+        <form class="row g-3 pb-3" id="form-add-sub-menu">
             @csrf
+            <input type="text" name="code" value="{{ $code }}" id="" hidden>
             <div class="col-md-12">
-                <label for="inputLastName1" class="form-label">Nama Kategori Menu</label>
+                <label for="inputLastName1" class="form-label">Nama Sub Menu</label>
                 <div class="input-group"> <span class="input-group-text"><i class="fas fa-map-marked-alt"></i></span>
                     <input type="text" class="form-control form-control-lg" name="name" id="">
                 </div>
@@ -19,7 +20,7 @@
 </div>
 <div class="modal-footer px-4 bg-300">
     <span id="menu-add-data-menu">
-        <button class="btn btn-success float-end" id="button-simpan-data-menu" data-code="">Simpan
+        <button class="btn btn-success float-end" id="button-simpan-data-sub-menu" data-code="">Simpan
             Data</button>
     </span>
 </div>

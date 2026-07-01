@@ -16,6 +16,7 @@ class BValidasiBisone extends Migration
         Schema::create('b_validasi_bisone', function (Blueprint $table) {
             $table->id();
             $table->string('b_validasi_bisone_code');                         // Contoh: 2026
+            $table->string('b_validasi_data_req_code');                         // Contoh: 2026
             $table->year('tahun');                         // Contoh: 2026
             $table->string('bulan');                       // Contoh: "Januari"
 

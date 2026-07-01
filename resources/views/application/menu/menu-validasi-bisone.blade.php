@@ -155,5 +155,40 @@
             $('#menu-template').html('eror');
         });
     });
+    $(document).on("click", "#button-create-data-form", function(e) {
+        e.preventDefault();
+        var id = $(this).data("id");
+        var code = $(this).data("code");
+        $('#loading-table').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('menu_validasi_sistem_create_data_form') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "id": id,
+                "code": code
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            if (data == 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                    footer: '<a href="#">Why do I have this issue?</a>'
+                });
+                $('#menu-add-data-menu').html('<button class="btn btn-success float-end" id="button-simpan-data-sub-menu">Simpan Data</button>');
+            } else {
+                Swal.fire('Berhasil!', 'Data Cabang Berhasil di Update', 'success').then(() => {});
+                $('#loading-table').html('Berhasil');
+                $('#menu-create-data-form').html(data);
+            }
+        }).fail(function() {
+            $('#menu-create-data-form').html('eror');
+        });
+    });
 </script>
 @endsection

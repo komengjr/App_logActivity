@@ -13,6 +13,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use PhpParser\Node\Stmt\TryCatch;
 
 class MenuController extends Controller
 {
@@ -527,7 +528,24 @@ class MenuController extends Controller
     }
     public function menu_validasi_sistem_proses(Request $request)
     {
-        return view('application.menu.validasi-bisone.form-proses-data-validasi-bisone');
+        $data = DB::table('b_menus')->get();
+        return view('application.menu.validasi-bisone.form-proses-data-validasi-bisone', compact('data'), ['code' => $request->code]);
+    }
+    public function menu_validasi_sistem_create_data_form(Request $request)
+    {
+        try {
+            DB::table('b_validasi_data_req')->insert([
+                'b_validasi_data_req_code' => str::uuid(),
+                'b_validasi_data_code' => $request->id,
+                'b_menus_code' => $request->code,
+                'b_validasi_data_req_date' => now(),
+                'b_validasi_data_req_status' => 0,
+                'created_at' => now()
+            ]);
+            return 1;
+        } catch (\Throwable $e) {
+            return 0;
+        }
     }
     // LAPORAN KENDALA
     public function laporan_kendala_user($akses)
@@ -960,6 +978,39 @@ class MenuController extends Controller
     public function master_data_menu_validasi_add(Request $request)
     {
         return view('application.master.master-menu.form-add-kategori-menu');
+    }
+    public function master_data_menu_validasi_save(Request $request)
+    {
+        try {
+            DB::table('b_menus')->insert([
+                'b_menus_code' => str::uuid(),
+                'b_menus_kategori' => $request->name,
+                'b_menus_status' => 1,
+                'created_at' => now()
+            ]);
+            return 1;
+        } catch (\Throwable $e) {
+            return 0;
+        }
+    }
+    public function master_data_menu_validasi_add_sub_menu(Request $request)
+    {
+        return view('application.master.master-menu.form-add-sub-menu', ['code' => $request->code]);
+    }
+    public function master_data_menu_validasi_save_sub_menu(Request $request)
+    {
+        try {
+            DB::table('b_menus_sub')->insert([
+                'b_menus_sub_code' => str::uuid(),
+                'b_menus_code' => $request->code,
+                'b_menus_sub_name' => $request->name,
+                'b_menus_sub_status' => 1,
+                'created_at' => now()
+            ]);
+            return 1;
+        } catch (\Throwable $e) {
+            return 0;
+        }
     }
     // MASTER TOOLS
     public function master_data_tools(Request $request, $akses)
