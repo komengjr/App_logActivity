@@ -534,15 +534,20 @@ class MenuController extends Controller
     public function menu_validasi_sistem_create_data_form(Request $request)
     {
         try {
-            DB::table('b_validasi_data_req')->insert([
-                'b_validasi_data_req_code' => str::uuid(),
-                'b_validasi_data_code' => $request->id,
-                'b_menus_code' => $request->code,
-                'b_validasi_data_req_date' => now(),
-                'b_validasi_data_req_status' => 0,
-                'created_at' => now()
-            ]);
-            return 1;
+            $cek = DB::table('b_validasi_data_req')->where('b_validasi_data_code', $request->id)->first();
+            if ($cek) {
+                return 0;
+            } else {
+                DB::table('b_validasi_data_req')->insert([
+                    'b_validasi_data_req_code' => str::uuid(),
+                    'b_validasi_data_code' => $request->id,
+                    'b_menus_code' => $request->code,
+                    'b_validasi_data_req_date' => now(),
+                    'b_validasi_data_req_status' => 0,
+                    'created_at' => now()
+                ]);
+                return 1;
+            }
         } catch (\Throwable $e) {
             return 0;
         }
