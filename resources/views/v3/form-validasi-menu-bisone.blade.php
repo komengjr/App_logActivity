@@ -195,7 +195,7 @@
             tbody.innerHTML += `
         <tr class="section-title">
             <td class="text-center">A</td>
-            <td colspan="6">BILLING</td>
+            <td colspan="6">{{ $data->b_menus_kategori }}</td>
         </tr>
     `;
 
