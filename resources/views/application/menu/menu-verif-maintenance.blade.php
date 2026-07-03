@@ -195,7 +195,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="ownerName" class="form-label fw-semibold">Nama Atasan Klinik (m_rencana_detail_verif) <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="ownerName" placeholder="Contoh: Is Suryani">
+                    <input type="text" class="form-control" id="ownerName" placeholder="Contoh: Agus Raharjo">
                 </div>
 
                 <input type="hidden" id="hiddenIdDetail">
