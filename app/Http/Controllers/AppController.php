@@ -315,16 +315,21 @@ class AppController extends Controller
     // PESAN
     public function dashboard_get_message(Request $request)
     {
-        $cabangUser = DB::table('users_handler')
-            ->where('id_user', '=', Auth::user()->id_user)
-            ->pluck('kd_cabang');
+        $kosong = [];
         $datapesan = DB::table('tbl_laporan_user')
             ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
             ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
             ->where('users_handler.id_user', Auth::user()->id_user)
             ->where('tbl_laporan_user.status_laporan', '<', 2)->get();
-        $dataschadule = DB::table('tbl_schedule')
-            ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_schedule.kd_cabang')->where('users_handler.id_user', Auth::user()->id_user)->where('tbl_schedule.status_schedule', 0)->get();
+        $security = DB::table('user_security')->where('id_user', Auth::user()->id_user)->where('user_security_status', '=', 1)->first();
+        if ($security) {
+            $datasecurity = DB::table('tbl_laporan_security')
+                ->where('laporan_security_status', '<', 2)
+                ->get();
+        } else {
+            $datasecurity = [];
+        }
+
         // dd($dataschadule);
         $piket = DB::table('piket_nasional_user')
             ->join('piket_nasional', 'piket_nasional.tiket_piket_nasional', '=', 'piket_nasional_user.tiket_piket_nasional')
@@ -333,7 +338,12 @@ class AppController extends Controller
         $datanasional = DB::table('tbl_laporan_user')
             ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
             ->where('tbl_laporan_user.status_laporan', '<', 1)->get();
-        return view('application.message.list-message', ['datapesan' => $datapesan, 'dataschedule' => $dataschadule, 'piket' => $piket, 'datanasional' => $datanasional]);
+        return view('application.message.list-message', [
+            'datapesan' => $datapesan,
+            'datasecurity' => $datasecurity,
+            'piket' => $piket,
+            'datanasional' => $datanasional
+        ]);
     }
     public function dashboard_get_message_proses(Request $request)
     {
@@ -395,6 +405,67 @@ class AppController extends Controller
             return 0;
         }
     }
+    public function dashboard_get_message_proses_security(Request $request)
+    {
+        $data = DB::table('tbl_laporan_security')->where('laporan_security_code', $request->code)->first();
+
+        return view('application.message.data-message-security', compact('data'));
+    }
+    public function dashboard_get_message_proses_security_terima(Request $request)
+    {
+        try {
+            DB::table('tbl_laporan_security')->where('laporan_security_code', $request->code)->update([
+                'laporan_security_respon' => now(),
+                'laporan_security_it' => Auth::user()->id_user,
+                'updated_at' => now()
+            ]);
+            return 1;
+        } catch (\Throwable $e) {
+            return 0;
+        }
+    }
+    public function dashboard_get_message_proses_security_tindakan(Request $request)
+    {
+        try {
+            DB::table('tbl_laporan_security_proses')->insert([
+                'laporan_security_proses_code' => str::uuid(),
+                'laporan_security_code' => $request->code,
+                'laporan_security_proses_type' => $request->petugas,
+                'estimasi_laporan_date' => $request->estimasi_tgl,
+                'estimasi_laporan_time' => $request->estimasi_time,
+                'laporan_security_proses_user' => Auth::user()->id_user,
+                'created_at' => now()
+            ]);
+            DB::table('tbl_laporan_security')->where('laporan_security_code', $request->code)->update([
+                'laporan_security_proses' => now(),
+                'laporan_security_status' => 1,
+                'updated_at' => now()
+            ]);
+            return 1;
+        } catch (\Throwable $e) {
+            return 0;
+        }
+    }
+    public function dashboard_get_message_proses_security_finish(Request $request)
+    {
+        try {
+            DB::table('tbl_laporan_security_log')->insert([
+                'laporan_security_code' => $request->code,
+                'laporan_security_log_desc' => $request->solusi,
+                'laporan_security_log_user' => Auth::user()->id_user,
+                'created_at' => now()
+            ]);
+            DB::table('tbl_laporan_security')->where('laporan_security_code', $request->code)->update([
+                'laporan_security_selesai' => now(),
+                'laporan_security_status' => 2,
+                'updated_at' => now()
+            ]);
+            return 1;
+        } catch (\Throwable $e) {
+            return 0;
+        }
+    }
+
 
     public function dashboard_check_in_proses(Request $request)
     {

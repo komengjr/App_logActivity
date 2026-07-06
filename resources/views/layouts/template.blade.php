@@ -748,6 +748,27 @@
                 $('#menu-template-xl').html('eror');
             });
         });
+        $(document).on("click", "#button-proses-data-pesan-security", function(e) {
+            e.preventDefault();
+            var code = $(this).data("code");
+            $('#menu-template-xl').html(
+                '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+            );
+            $.ajax({
+                url: "{{ route('dashboard_get_message_proses_security') }}",
+                type: "POST",
+                cache: false,
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "code": code
+                },
+                dataType: 'html',
+            }).done(function(data) {
+                $('#menu-template-xl').html(data);
+            }).fail(function() {
+                $('#menu-template-xl').html('eror');
+            });
+        });
     </script>
     <script>
         let timerInterval;

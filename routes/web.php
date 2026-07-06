@@ -32,6 +32,10 @@ Route::prefix('app')->group(function () {
     Route::post('get_message/proses_terima', [AppController::class, 'dashboard_get_message_proses_terima'])->name('dashboard_get_message_proses_terima');
     Route::post('get_message/proses_tindakan', [AppController::class, 'dashboard_get_message_proses_tindakan'])->name('dashboard_get_message_proses_tindakan');
     Route::post('get_message/proses_finish', [AppController::class, 'dashboard_get_message_proses_finish'])->name('dashboard_get_message_proses_finish');
+    Route::post('get_message/proses-security', [AppController::class, 'dashboard_get_message_proses_security'])->name('dashboard_get_message_proses_security');
+    Route::post('get_message/proses-security-terima', [AppController::class, 'dashboard_get_message_proses_security_terima'])->name('dashboard_get_message_proses_security_terima');
+    Route::post('get_message/proses-security-tindakan', [AppController::class, 'dashboard_get_message_proses_security_tindakan'])->name('dashboard_get_message_proses_security_tindakan');
+    Route::post('get_message/proses-security-finish', [AppController::class, 'dashboard_get_message_proses_security_finish'])->name('dashboard_get_message_proses_security_finish');
 
     Route::post('check-in/proses-user', [AppController::class, 'dashboard_check_in_proses'])->name('dashboard_check_in_proses');
     Route::post('check-in/proses-user/data-kritis', [AppController::class, 'dashboard_check_in_proses_data_kritis'])->name('dashboard_check_in_proses_data_kritis');

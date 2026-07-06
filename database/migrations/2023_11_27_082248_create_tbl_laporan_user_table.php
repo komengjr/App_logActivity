@@ -31,6 +31,7 @@ class CreateTblLaporanUserTable extends Migration
             $table->string('id_user')->nullable();
             $table->string('no_hp')->nullable();
             $table->string('email')->nullable();
+            $table->text('file')->nullable();
             $table->integer('status_telegram')->nullable();
             $table->timestamps();
         });

@@ -34,33 +34,34 @@
             <div class="mb-3">
                 <label for="nama" class="form-label fw-bold small">Nama Pelapor</label>
                 <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
-                    <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->nama_user }}" readonly>
+                    <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->laporan_security_user }}" readonly>
                 </div>
 
             </div>
             <div class="mb-3">
                 <label for="nama" class="form-label fw-bold small">NIP</label>
                 <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
-                    <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->nip_user }}" readonly>
+                    <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->laporan_security_nip }}" readonly>
                 </div>
             </div>
             <div class="mb-3">
                 <label for="nama" class="form-label fw-bold small">Divisi</label>
                 <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
-                    <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->divisi }}" readonly>
+                    <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->laporan_security_divisi }}" readonly>
                 </div>
             </div>
             <div class="mb-3">
                 <label for="kendala" class="form-label fw-bold small">Detail Kendala</label>
+                ifelse
                 <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="far fa-address-book"></span></span>
-                    <textarea class="form-control" id="kendala" rows="3" placeholder="Ceritakan detail kendala atau kerusakan..." readonly>{{ $data->deskripsi_laporan }}</textarea>
+                    <textarea class="form-control" id="kendala" rows="3" placeholder="Ceritakan detail kendala atau kerusakan..." readonly>{{ $data->laporan_security_desc }}</textarea>
                 </div>
             </div>
-             <div class="mb-4">
+            <div class="mb-4">
                 <label for="kendala" class="form-label fw-bold small">Detail Bukti</label>
-                @if ($data->file != "")
+                @if ($data->laporan_security_file != "")
                 <div class="image-wrapper mx-auto">
-                    <img src="{{ asset('storage/bukti_kasus/'.$data->file) }}"
+                    <img src="{{ asset('storage/bukti_kasus/'.$data->laporan_security_file) }}"
                         alt="Gambar Dinamis"
                         class="img-fluid rounded shadow dynamic-img">
                 </div>
@@ -89,7 +90,7 @@
                 <div class="col-md-12 mb-3">
                     <label for="kendala" class="form-label fw-bold small">Detail Kendala</label>
                     <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="far fa-address-book"></span></span>
-                        <textarea class="form-control" id="kendala" rows="3" placeholder="Ceritakan detail kendala atau kerusakan..." readonly>{{ $data->deskripsi_laporan }}</textarea>
+                        <textarea class="form-control" id="kendala" rows="3" placeholder="Ceritakan detail kendala atau kerusakan..." readonly>{{ $data->laporan_security_desc }}</textarea>
                     </div>
                 </div>
                 <div class="col-md-12 mb-3">
@@ -102,7 +103,7 @@
                         </select>
                     </div>
 
-                    <input type="text" name="tiket" id="tiket" value="{{ $data->tiket_laporan }}" hidden>
+                    <input type="text" name="tiket" id="tiket" value="{{ $data->laporan_security_code }}" hidden>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="estimasi" class="form-label fw-bold small">Estimasi Tanggal Pengerjaan</label>
@@ -138,7 +139,7 @@
             <div class="col-md-12 mb-3">
                 <label for="kendala" class="form-label fw-bold small">Detail Kendala</label>
                 <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="far fa-address-book"></span></span>
-                    <textarea class="form-control" id="kendala" rows="3" placeholder="Ceritakan detail kendala atau kerusakan..." readonly>{{ $data->deskripsi_laporan }}</textarea>
+                    <textarea class="form-control" id="kendala" rows="3" placeholder="Ceritakan detail kendala atau kerusakan..." readonly>{{ $data->laporan_security_desc }}</textarea>
                 </div>
             </div>
             <div class="mb-4">
@@ -163,11 +164,11 @@ $ids = mt_rand(100, 999);
     const cardTahap2<?php echo $ids ?> = document.getElementById('tahap-2');
     const cardTahap3<?php echo $ids ?> = document.getElementById('tahap-3');
 
-    if ("{{ $data->tgl_respon_laporan }}" != "" && "{{ $data-> tgl_proses_laporan }}" != "") {
+    if ("{{ $data->laporan_security_respon }}" != "" && "{{ $data->laporan_security_proses }}" != "") {
         cardTahap1<?php echo $ids ?>.classList.add('d-none'); // Sembunyikan Tahap 1 instant
         cardTahap2<?php echo $ids ?>.classList.add('d-none'); // Sembunyikan Tahap 2 instant
         cardTahap3<?php echo $ids ?>.classList.remove('d-none'); // Langsung tampilkan Tahap 3
-    } else if ("{{ $data->tgl_respon_laporan }}" != "") {
+    } else if ("{{ $data->laporan_security_respon }}" != "") {
         cardTahap1<?php echo $ids ?>.classList.add('d-none');
         cardTahap2<?php echo $ids ?>.classList.remove('d-none');
     }
@@ -186,7 +187,7 @@ $ids = mt_rand(100, 999);
                 '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
             );
             $.ajax({
-                url: "{{ route('dashboard_get_message_proses_terima') }}",
+                url: "{{ route('dashboard_get_message_proses_security_terima') }}",
                 type: "POST",
                 cache: false,
                 data: {
@@ -241,7 +242,7 @@ $ids = mt_rand(100, 999);
                 '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
             );
             $.ajax({
-                url: "{{ route('dashboard_get_message_proses_tindakan') }}",
+                url: "{{ route('dashboard_get_message_proses_security_tindakan') }}",
                 type: "POST",
                 cache: false,
                 data: {
@@ -292,7 +293,7 @@ $ids = mt_rand(100, 999);
                 '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
             );
             $.ajax({
-                url: "{{ route('dashboard_get_message_proses_finish') }}",
+                url: "{{ route('dashboard_get_message_proses_security_finish') }}",
                 type: "POST",
                 cache: false,
                 data: {

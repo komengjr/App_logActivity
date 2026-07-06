@@ -316,6 +316,7 @@
                     <label class="form-label">Kategori</label>
                     <select name="kategori_laporan" class="form-control wizard-required" id="pilih_kategori" required>
                         <option value="">Pilih Kategori</option>
+                        <option value="ER-000">Security</option>
                         <option value="ER-001">Software</option>
                         <option value="ER-002">Hardware</option>
                     </select>
@@ -572,9 +573,9 @@
             if (dataid == "") {
                 // Notifikasi jika kosong
             } else {
-                if (dataid == 'ER-001') {
+                if (dataid == 'ER-001' || dataid == 'ER-000') {
                     $("#data-kategori").html("");
-                } else {
+                } else if (dataid == 'ER-002') {
                     $("#data-kategori").html('<span class="spinner-border spinner-border-sm me-2"></span>Mohon Menunggu...');
                     $.ajax({
                         url: "{{ route('v3_case_get_data') }}",
