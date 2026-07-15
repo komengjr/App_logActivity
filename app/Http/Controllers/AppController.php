@@ -755,8 +755,9 @@ class AppController extends Controller
 
         $brg = DB::table('m_rencana_detail')
             ->join('m_rencana_data', 'm_rencana_data.m_rencana_data_code', '=', 'm_rencana_detail.m_rencana_data_code')
+            ->join('m_rencana_log', 'm_rencana_log.m_rencana_detail_code', '=', 'm_rencana_detail.m_rencana_detail_code')
             ->where('m_rencana_data.m_rencana_data_cabang', '=', Auth::user()->cabang)
-            ->whereBetween('m_rencana_detail.m_rencana_detail_date', [$request->awal, $request->akhir])->get();
+            ->whereBetween('m_rencana_log.m_rencana_log_tgl_selesai', [$request->awal, $request->akhir])->get();
         return view('application.verifikator.form-hasil-laporan', compact('backupharian', 'backupbulanan', 'harimasuk', 'dataharian', 'kendala', 'brg'));
     }
 }
