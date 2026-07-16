@@ -1333,6 +1333,19 @@ class MenuController extends Controller
                         'prefix'    => '',
                     ]
                 ]);
+                // 1. Set konfigurasi database secara dinamis
+                config([
+                    'database.connections.dynamic_conn2' => [
+                        'driver'    => 'mysql', // ganti dengan 'sqlsrv', 'pgsql', dll. jika bukan MySQL
+                        'host'      => $conn->tbl_cabang_address_ip,
+                        'database'  => 'one',
+                        'username'  => $conn->tbl_cabang_address_user,
+                        'password'  => Crypt::decryptString($conn->tbl_cabang_address_pass),
+                        'charset'   => 'utf8mb4',
+                        'collation' => 'utf8mb4_unicode_ci',
+                        'prefix'    => '',
+                    ]
+                ]);
                 if ($request->table == 'log_login') {
                     $log = DB::connection('dynamic_conn')
                         ->table('log_login')
@@ -1354,6 +1367,42 @@ class MenuController extends Controller
                         ->orderBy('Result_HandOverEmailLogID', 'desc')
                         ->get();
                     return view('application.master.master-log.data-log-email', compact('log'));
+                } elseif ($request->table == 'FO_log') {
+                    $dataLog = DB::connection('dynamic_conn')
+                        ->table('log_fo')
+                        ->whereBetween('Log_FoDate', [$request->start, $request->end]) // Membatasi maksimal 200 data
+                        ->orderBy('Log_FoID', 'desc')
+                        ->get();
+
+                    // 4. Ambil semua User ID dari data log untuk filter ke DB Pusat
+                    $userIds = $dataLog->pluck('Log_FoUserID')->unique()->toArray();
+
+                    // 5. Ambil data dari DB Pusat (Tabel m_user) berdasarkan ID yang ada di log
+                    $dataUser = DB::connection('dynamic_conn2')
+                        ->table('m_user')
+                        ->whereIn('M_UserID', $userIds)
+                        ->get();
+
+                    // 6. Proses JOIN Manual (Pencocokan Data) menggunakan helper 'where' agar lebih aman dari beda tipe data
+                    $finalResult = $dataLog->map(function ($log) use ($dataUser) {
+                        // Cari user yang M_UserID nya sama dengan Log_FoUserID di log
+                        $user = $dataUser->where('M_UserID', $log->Log_FoUserID)->first();
+
+                        // Masukkan nama lengkap user ke dalam objek log
+                        $log->nama_user = $user ? $user->M_UserFullName : 'User Tidak Ditemukan';
+                        $log->username  = $user ? $user->M_UserUsername : '-';
+
+                        return $log;
+                    });
+                    return view('application.master.master-log.data-log-fo', ['logs' => $finalResult]);
+                } elseif ($request->table == 'log_user') {
+                    $log = DB::connection('dynamic_conn2')
+                        ->table('log_user')
+                        ->join('m_user','m_user.M_UserID','=','log_user.Log_UserM_UserID')
+                        ->whereBetween('Log_UserDatetime', [$request->start, $request->end]) // Membatasi maksimal 200 data
+                        ->orderBy('Log_UserID', 'desc')
+                        ->get();
+                    return view('application.master.master-log.data-log-user', compact('log'));
                 } else {
                     return 'Coming Soon';
                 }
@@ -1365,7 +1414,7 @@ class MenuController extends Controller
                         </div>';
             }
         } catch (\Throwable $e) {
-            return 0;
+            return $e;
         }
     }
 }

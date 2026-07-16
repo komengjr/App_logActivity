@@ -1,0 +1,96 @@
+<div class="card mb-3 border border-success">
+    <div class="card-header bg-primary">
+        <div class="d-flex justify-content-between">
+            <div>
+                <h5>Log Data</h5>
+            </div>
+            <div class="d-flex">
+
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table id="example" class="table table-striped" style="width:100%">
+            <thead class="bg-300 fs--1">
+                <tr>
+                    <th>No</th>
+                    <th>Login Time</th>
+                    <th>Login IP</th>
+                    <th>Login Type</th>
+                    <th>Login Status</th>
+                    <th>User</th>
+                </tr>
+            </thead>
+            <tbody class="fs--1">
+                @php
+                $no = 1;
+                @endphp
+                @foreach ($log as $logs)
+                <tr>
+                    <td>{{ $no++ }}</td>
+                    <td>{{ $logs->Log_UserDatetime }}</td>
+                    <td>{{ $logs->Log_UserCode }}</td>
+                    <td>{{ $logs->Log_UserXID }}</td>
+                    <td>
+
+                        @php
+                        $json = $logs->Log_UserJson;
+
+                        $data = json_decode($json, true);
+
+                        // Looping untuk menampilkan semua key dan value
+                        foreach ($data as $key => $value) {
+                        echo "<strong>$key:</strong> " . ($value ?? 'NULL') . "<br>";
+                        }
+                        @endphp
+                    </td>
+                    <td>{{ $logs->M_UserFullName }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable({
+            dom: "<'row mb-3'<'col-md-6 d-flex justify-content-start'B><'col-md-6 d-flex justify-content-end'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row mt-3'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 d-flex justify-content-end'p>>",
+            buttons: [{
+                    extend: 'copy',
+                    className: 'btn btn-secondary btn-sm'
+                },
+                {
+                    extend: 'csv',
+                    className: 'btn btn-secondary btn-sm'
+                },
+                {
+                    extend: 'excel',
+                    className: 'btn btn-success btn-sm',
+                    title: 'Log Patient Data'
+                },
+                {
+                    extend: 'pdf',
+                    className: 'btn btn-danger btn-sm',
+                    title: 'Log Login Data',
+                    orientation: 'landscape', // Opsional: dibuat landscape karena kolomnya cukup lebar
+                    pageSize: 'A4'
+                },
+                {
+                    extend: 'print',
+                    className: 'btn btn-info btn-sm'
+                }
+            ],
+            language: {
+                // Opsional: Untuk mengubah teks pencarian menjadi bahasa Indonesia
+                search: "Cari:",
+                lengthMenu: "Tampilkan _MENU_ data per halaman",
+                zeroRecords: "Data tidak ditemukan",
+                info: "Menampilkan halaman _PAGE_ dari _PAGES_",
+                infoEmpty: "Tidak ada data tersedia",
+                infoFiltered: "(disaring dari _MAX_ total data)"
+            }
+        });
+    });
+</script>

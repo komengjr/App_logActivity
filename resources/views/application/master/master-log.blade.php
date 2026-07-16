@@ -32,7 +32,7 @@
                             <select class="form-select js-choice" id="cabang" required>
                                 <option value="" selected disabled>-- Pilih Cabang --</option>
                                 @foreach ($cabang as $cab)
-                                <option value="{{ $cab->kd_cabang }}">{{ $cab->nama_cabang }}</option>
+                                <option value="{{ $cab->kd_cabang }}">{{ $cab->nama_cabang }} - {{ $cab->kd_cabang }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -44,6 +44,8 @@
                                 <option value="log_login">Log Login</option>
                                 <option value="log_patient">Log Pasien</option>
                                 <option value="result_handoveremail_log">Log Email</option>
+                                <option value="FO_log">Log FO</option>
+                                <option value="log_user">Log User</option>
                             </select>
                         </div>
 
