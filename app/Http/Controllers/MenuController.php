@@ -1397,8 +1397,8 @@ class MenuController extends Controller
                     return view('application.master.master-log.data-log-fo', ['logs' => $finalResult]);
                 } elseif ($request->table == 'log_user') {
                     $log = DB::connection('dynamic_conn2')
-                        ->table('log_user')
-                        ->join('m_user','m_user.M_UserID','=','log_user.Log_UserM_UserID')
+                        ->table('m_user')->select('log_user.*', 'm_user.*')
+                        ->join('log_user', 'log_user.Log_UserM_UserID', '=', 'm_user.M_UserID')
                         ->whereBetween('Log_UserDatetime', [$request->start, $request->end]) // Membatasi maksimal 200 data
                         ->orderBy('Log_UserID', 'desc')
                         ->get();

@@ -17,8 +17,8 @@
                         <th>No</th>
                         <th>Tanggal Log</th>
                         <th>Status</th>
-                        <th>Nama User (Pusat)</th>
-                        <th>Usernam (Lokal)</th>
+                        <th>Alias</th>
+                        <th>Username / Nama</th>
                     </tr>
                 </thead>
                 <tbody class="fs--1">
