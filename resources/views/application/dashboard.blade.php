@@ -476,6 +476,60 @@
             $('#menu-template').html('eror');
         });
     });
+    $(document).on("click", "#button-preview-rencana-tahunan", function(e) {
+        e.preventDefault();
+        const tahun_cabang = document.getElementById('tahun_cabang').value;
+        const kd_cabang = document.getElementById('kd_cabang').value;
+        $('#report-rencana-maintenance').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('dashboard_rencana_maintenance_user_report_tahun') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "kd_cabang": kd_cabang,
+                "tahun_cabang": tahun_cabang,
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $("#report-rencana-maintenance").html(
+                '<iframe src="data:application/pdf;base64, ' +
+                data +
+                '" style="width:100%;; height:500px;" frameborder="0"></iframe>'
+            );
+        }).fail(function() {
+            $('#report-rencana-maintenance').html('eror');
+        });
+    });
+    $(document).on("click", "#button-preview-detail-barang", function(e) {
+        e.preventDefault();
+        const tahun_cabang = document.getElementById('tahun_cabang').value;
+        const kd_cabang = document.getElementById('kd_cabang').value;
+        $('#report-rencana-maintenance').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('dashboard_rencana_maintenance_user_report_detail_barang') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "kd_cabang": kd_cabang,
+                "tahun_cabang": tahun_cabang,
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $("#report-rencana-maintenance").html(
+                '<iframe src="data:application/pdf;base64, ' +
+                data +
+                '" style="width:100%;; height:500px;" frameborder="0"></iframe>'
+            );
+        }).fail(function() {
+            $('#report-rencana-maintenance').html('eror');
+        });
+    });
 </script>
 <script>
     const API_URL = '/app/dashboard_home';

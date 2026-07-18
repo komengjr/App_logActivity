@@ -11,7 +11,7 @@
                 <div>
                     <div class="row">
                         <div class="col-md-6">
-                            <select id="data_id_cabang" name="kd_cabang" class="form-select" required>
+                            <select id="kd_cabang" name="kd_cabang" class="form-select" required>
                                 <option value="">-- Pilih Cabang --</option>
                                 @foreach ($cabang as $cab)
                                 <option value="{{ $cab->kd_cabang }}">{{ $cab->nama_cabang }}</option>
@@ -19,7 +19,7 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <select id="data_id_cabang" name="kd_cabang" class="form-select" required>
+                            <select id="tahun_cabang" name="tahun_cabang" class="form-select" required>
                                 <option value="">-- Pilih Tahun --</option>
                                 <option value="2026">-- 2026 --</option>
                                 <option value="2027">-- 2027 --</option>
@@ -45,7 +45,7 @@
         </div>
 
         <div class="card mb-3">
-            <div id="report-backup-harian"></div>
+            <div id="report-rencana-maintenance"></div>
         </div>
     </div>
 </div>

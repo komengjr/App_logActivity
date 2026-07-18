@@ -734,6 +734,54 @@ class AppController extends Controller
             ->where('users_handler.id_user', Auth::user()->id_user)->get();
         return view('application.rencana-maintenance.form-rencana-maintenance-user', compact('cabang'));
     }
+    public function dashboard_rencana_maintenance_user_report_tahun(Request $request)
+    {
+        $cabang = $request->kd_cabang;
+        $tahun = $request->tahun_cabang;
+        $tahun = substr($request->date, 14, 10);
+        $image = base64_encode(file_get_contents(public_path('icon1.png')));
+        $pdf = PDF::loadview('application.rencana-maintenance.report.report-maintenance-tahun', compact('image'))->setPaper('A4', 'landscape')->setOptions(['defaultFont' => 'Courier']);
+        $pdf->output();
+        $canvas = $pdf->getDomPDF()->getCanvas();
+
+        $height = $canvas->get_height();
+        $width = $canvas->get_width();
+
+        $canvas->set_opacity(.2, "Multiply");
+
+        $canvas->set_opacity(.1);
+
+        // $canvas->page_text($width/5, $height/2, 'Lunas', '123', 30, array(22,0,0),1,2,0);
+        // $canvas->page_script('
+        // $pdf->set_opacity(.1);
+        // $pdf->image("bg-report.png",10, 10, 1255, 855);
+        // ');
+        return base64_encode($pdf->stream());
+    }
+    public function dashboard_rencana_maintenance_user_report_detail_barang(Request $request)
+    {
+        $cabang = $request->kd_cabang;
+        $tahun = $request->tahun_cabang;
+        $tahun = substr($request->date, 14, 10);
+        $image = base64_encode(file_get_contents(public_path('icon1.png')));
+        $pdf = PDF::loadview('application.rencana-maintenance.report.report-maintenance-detail-barang', compact('image'))->setPaper('A4', 'landscape')->setOptions(['defaultFont' => 'Courier']);
+        $pdf->output();
+        $canvas = $pdf->getDomPDF()->getCanvas();
+
+        $height = $canvas->get_height();
+        $width = $canvas->get_width();
+
+        $canvas->set_opacity(.2, "Multiply");
+
+        $canvas->set_opacity(.1);
+
+        // $canvas->page_text($width/5, $height/2, 'Lunas', '123', 30, array(22,0,0),1,2,0);
+        // $canvas->page_script('
+        // $pdf->set_opacity(.1);
+        // $pdf->image("bg-report.png",10, 10, 1255, 855);
+        // ');
+        return base64_encode($pdf->stream());
+    }
 
     // VERIFIKATOR
     public function dashboard_verifikator_get_data(Request $request)
