@@ -727,6 +727,13 @@ class AppController extends Controller
         // ');
         return base64_encode($pdf->stream());
     }
+    public function dashboard_rencana_maintenance_user(Request $request)
+    {
+        $cabang = DB::table('users_handler')
+            ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'users_handler.kd_cabang')
+            ->where('users_handler.id_user', Auth::user()->id_user)->get();
+        return view('application.rencana-maintenance.form-rencana-maintenance-user', compact('cabang'));
+    }
 
     // VERIFIKATOR
     public function dashboard_verifikator_get_data(Request $request)

@@ -54,6 +54,8 @@ Route::prefix('app')->group(function () {
     Route::post('dashboard/monitoring-laporan-user', [AppController::class, 'dashboard_monitoring_laporan_user'])->name('dashboard_monitoring_laporan_user');
     Route::post('dashboard/monitoring-laporan-user/report', [AppController::class, 'dashboard_monitoring_laporan_user_report'])->name('dashboard_monitoring_laporan_user_report');
 
+    Route::post('dashboard/rencana-maintenance-user', [AppController::class, 'dashboard_rencana_maintenance_user'])->name('dashboard_rencana_maintenance_user');
+
     Route::post('dashboard/verifikator/get-data', [AppController::class, 'dashboard_verifikator_get_data'])->name('dashboard_verifikator_get_data');
 });
 Route::prefix('master-data')->group(function () {

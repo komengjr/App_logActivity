@@ -138,7 +138,7 @@
                     <div class="d-flex btn-reveal-trigger">
                         <div class="calendar"><span class="calendar-month bg-primary">Doc</span><span class="calendar-day"><span class="fas fa-file-pdf"></span></span></div>
                         <div class="flex-1 position-relative ps-3">
-                            <h6 class="fs-0 mb-0"><a href="#">Rencana Maintenance Bulanan</a></h6>
+                            <h6 class="fs-0 mb-0"><a href="#" data-bs-toggle="modal" data-bs-target="#modal-template" id="button-rencana-maintenance-user">Rencana Maintenance Bulanan</a></h6>
                             <p class="mb-1">User by <a href="#!" class="text-700">{{ Auth::user()->name }}</a></p>
                             <p class="text-danger mb-0">Coming Soon</p>
                             Note : Pemeliharaan Software Dan Peralatan IT Pendukung LIS , <small class="text-success">Kebutuhan PP 10</small>
@@ -454,6 +454,27 @@
             }
         });
 
+    });
+    // RENCANA MAINTENANCE
+    $(document).on("click", "#button-rencana-maintenance-user", function(e) {
+        e.preventDefault();
+        $('#menu-template').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('dashboard_rencana_maintenance_user') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "code": 2123
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-template').html(data);
+        }).fail(function() {
+            $('#menu-template').html('eror');
+        });
     });
 </script>
 <script>
