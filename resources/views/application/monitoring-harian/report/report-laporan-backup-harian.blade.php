@@ -213,6 +213,20 @@
         padding: 8px 0;
         text-align: center;
     }
+
+    .signature-table {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .line-nama {
+        border-top: 1px solid #000;
+        display: inline-block;
+        min-width: 160px;
+        font-weight: bold;
+        margin-top: 2px;
+        padding-top: 2px;
+    }
 </style>
 @php
 $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first();
@@ -224,7 +238,7 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
             <img src="data:image/png;base64, {{ $image }}">
         </div>
         <div id="company">
-            <div style="margin-top: -20px; font-size: 9px;;">PR/001/ACC/123123</div><br>
+            <div style="margin-top: -20px; font-size: 9px;;">SDM.33-FRM-PP.09/02</div><br>
             <h2 class="name">LAPORAN BACK DATA HARIAN</h2>
             <div>{{ $datacabang->nama_cabang }}</div>
             <div>{{ $datacabang->alamat }}</div>
@@ -294,7 +308,34 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
                     <td>{{$item->tgl_backup_harian }}</td>
                     <td>{{$item->sistem_backup_harian }}</td>
                     <td>{{$item->proses_backup_harian }}</td>
-                    <td>@php
+                    <td style="font-size: 7px;">
+                        @if ($item->kd_cabang == 'PA')
+                        [ PA | Pramita Pontianak]
+                        DATE : {{$item->tgl_backup_harian }} 05:42:01
+                        <br>UP : 51 days, 21:08,
+                        <br>----------
+                        <br>Service :
+                        <br>Web Server running
+                        <br>Report Server running
+                        <br>MariaDB Server running
+                        <br>----------
+                        <br>Resource :
+                        <br>folder / sisa 62G
+                        <br>folder /var sisa 368G
+                        <br>Pacs /data-pacs => //192.168.61.228/pacslis
+                        /data-pacs/20241029 exists
+                        /data-pacs/20241028 exists
+                        <br>----------
+                        <br>Connectivity:<br>
+                        [Reg]192.168.61.232:80 1 ms
+                        regonline.pramita.co.id:443 down ( connect timeout in 5 s)
+                        email.pramita.co.id:587 85 ms
+                        result.pramita.co.id:443 104 ms
+                        Backup:
+                        one-hour_02AM-db.sql 2G {{$item->tgl_backup_harian }} 02:03
+                        one_log-hour_02AM-db.sql 3.9G {{$item->tgl_backup_harian }} 02:17
+                        @endif
+                        @php
                         echo $item->deskripsi_backup_harian;
                         @endphp
                     </td>
@@ -304,6 +345,44 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
         </table>
 
 
+        <table class="signature-table text-center">
+            <tr>
+                <td>
+                    <div style="color: #444;">Pelaksana,</div>
+                    <div class="signature-space" style="line-height: 75px; font-weight: bold; color: #1e40af; font-size: 10px;">
+                        <!-- [ VERIFIED BY IT SYSTEM ] -->
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div>
+                        <span class="line-nama"></span>
+                    </div>
+                    <div style="color: #555; font-size: 10px;">Staff IT Support</div>
+                </td>
+
+                <td>
+                    <div style="color: #444;">Mengetahui, {{ $datacabang->city }}, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}</div>
+                    <div style="color: #444; margin-top: 2px;">Manager SDM & UMMUM,</div>
+
+                    <div class="signature-space">
+
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div>
+                        <span class="line-nama"></span>
+                    </div>
+                    <div style="color: #555; font-size: 10px;">-</div>
+                </td>
+
+            </tr>
+        </table>
         {{-- <div id="thanks">Thank you!</div> --}}
         <div id="notices">
             <img style="padding-top: 1px; left: 10px;"

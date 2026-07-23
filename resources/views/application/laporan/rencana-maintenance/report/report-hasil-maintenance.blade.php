@@ -184,21 +184,35 @@
         </tbody>
     </table>
 
-    <p style="margin-bottom: 25px;">Status Akhir Konfirmasi Manager: <strong>-</strong></p>
+    <p style="margin-bottom: 25px;"><strong>-</strong></p>
 
     <table class="signature-table text-center">
         <tr>
             <td>
                 <div style="color: #444;">Pelaksana Maintenance,</div>
                 <div class="signature-space" style="line-height: 75px; font-weight: bold; color: #1e40af; font-size: 10px;">
-                    [ VERIFIED BY IT SYSTEM ]
+                    <!-- [ VERIFIED BY IT SYSTEM ] -->
                 </div>
+                <br>
                 <div>
                     <span class="line-nama">{{ $cabang->name }}</span>
                 </div>
                 <div style="color: #555; font-size: 10px;">Staff IT Support</div>
             </td>
 
+            <td>
+                <div style="color: #444;">Mengetahui</div>
+                <div style="color: #444; margin-top: 2px;">Manager SDM & UMMUM,</div>
+
+                <div class="signature-space">
+
+                </div>
+
+                <div>
+                    <span class="line-nama"></span>
+                </div>
+                <div style="color: #555; font-size: 10px;">-</div>
+            </td>
             <td>
                 <div style="color: #444;">{{ $cabang->city }}, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}</div>
                 <div style="color: #444; margin-top: 2px;">Bagian,</div>
