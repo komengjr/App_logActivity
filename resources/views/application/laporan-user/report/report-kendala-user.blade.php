@@ -240,8 +240,8 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
         <div id="company">
             <div style="margin-top: -20px; font-size: 9px;;">SDM.XX-FRM-PP.10</div><br>
             <h2 class="name">LAPORAN KENDALA USER</h2>
-            <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur esse eius quod minus quae consectetur provident illum, </div>
-            <div>000 0000 0000</div>
+            <div>-</div>
+            <div>-</div>
         </div>
         </div>
     </header>
