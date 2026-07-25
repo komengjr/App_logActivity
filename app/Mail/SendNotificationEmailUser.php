@@ -21,7 +21,7 @@ class SendNotificationEmailUser extends Mailable
     public function build()
     {
         // Mengambil nomor tiket dari array data (jika ada) untuk subjek yang dinamis
-        $ticketId = $this->data['ticket_id'] ?? 'SYSTEM';
+        $ticketId = $this->data['ticket_id'] ?? 'SYSTEMS';
 
         return $this->subject('Update Tiket Laporan #' . $ticketId)
             ->view('v3.mail.notification-email');
