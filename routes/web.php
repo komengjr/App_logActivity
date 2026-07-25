@@ -490,6 +490,7 @@ Route::prefix('/v3')->group(function () {
     // Route::get('brand', [PublicController::class, 'brand'])->name('brand');
     // Route::get('about', [PublicController::class, 'about'])->name('about');
     Route::get('get_notif', [PublicController::class, 'v3_get_notif'])->name('v3_get_notif');
+    Route::get('send_notif', [PublicController::class, 'v3_send_notif'])->name('v3_send_notif');
     Route::get('validasi/proses/{token}', [PublicController::class, 'v3_get_token_validasi'])->name('v3_get_token_validasi');
     Route::post('validasi/save', [PublicController::class, 'v3_get_token_validasi_save'])->name('v3_get_token_validasi_save');
 });

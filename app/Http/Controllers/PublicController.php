@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendNotificationEmail;
+use App\Mail\SendNotificationEmailUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use PhpParser\Node\Stmt\TryCatch;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Commands\Command;
@@ -335,10 +338,26 @@ class PublicController extends Controller
                 'v_log_whatsapp_pass' => 'admin',
                 'created_at' => now()
             ]);
-            // Telegram::sendMessage([
-            //     'chat_id' => '-1002095197699',
-            //     'text' => $text,
-            // ]);
+
+
+            // SEND EMAIL
+            if ($request->email != '') {
+                $data = [
+                    'name'             => $request->nama_pelapor,
+                    'email'            => $request->email,
+                    'ticket_id'        => $tiket,
+                    'category'         => $request->kategori_laporan,
+                    'status'           => 'Aktif',
+                    'priority'         => 'Tinggi',
+                    'kd_cabang'        => $request->cabang,
+                    'divisi'           => $request->divisi,
+                    'messageContent'   => 'Halo ' . $request->nama_pelapor . ', laporan atau tiket bantuan Anda dengan kategori "' . $request->kategori_laporan . '" telah diperbarui dengan status saat ini: .',
+                    'created_at'       => now(),
+                    'url'              => url('/v3/check_laporan'), // Sesuaikan route detail laporan Anda
+                    'buttonText'       => 'Lihat Detail Tiket'
+                ];
+                Mail::to($request->email)->send(new SendNotificationEmailUser($data));
+            }
             return $tiket;
         } catch (\Throwable $e) {
             return 0;
@@ -430,6 +449,23 @@ class PublicController extends Controller
         } else {
             return view('waktu', ['id' => '-1']);
         }
+    }
+    public function v3_send_notif()
+    {
+        $data = [
+            'title' => 'Budi Santoso',
+            'name' => 'Budi Santoso',
+            'ticket_id' => 'TCK-2026-089',
+            'category' => 'Gagal Login & Autentikasi',
+            'messageContent' => 'Laporan tiket bantuan Anda telah kami terima dan sedang ditangani oleh tim teknis terkait.',
+            'url' => url('/tickets/TCK-2026-089'),
+            'buttonText' => 'Cek Status Tiket'
+        ];
+
+        // Kirim ke email tujuan
+        Mail::to('agusprasetyoraharjo@gmail.com')->send(new SendNotificationEmail($data));
+
+        return "Email berhasil dikirim!";
     }
     public function v3_get_token_validasi($token)
     {
