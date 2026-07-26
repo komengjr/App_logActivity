@@ -11,25 +11,21 @@
 <div class="ticket-info-box">
     <div class="row align-items-center">
         <div class="col-9">
-            <span class="badge bg-primary mb-2" id="displayTicketID">#{{ $data->tiket_laporan }}</span>
+            <span class="badge bg-primary mb-2" id="displayTicketID">#{{ $data->laporan_security_code }}</span>
             <h6 class="mb-0 fw-bold">
-                @if ($data->kategori_laporan == "ER-001")
-                Kendala Pada Software
-                @elseif ($data->kategori_laporan == "ER-002")
-                Kendala Pada Hardware
-                @else
-                Ada Masalah
-                @endif
+
+                Kendala Pada Security
+
             </h6>
             <small class="text-muted">Status:
                 <strong>
-                    @if ($data->tgl_selesai_laporan != NULL)
+                    @if ($data->laporan_security_selesai != NULL)
                     <span class="text-primary">Tiket Selesai</span>
-                    @elseif ($data->tgl_proses_laporan != NULL)
+                    @elseif ($data->laporan_security_proses != NULL)
                     <span class="text-warning">Tiket Sedang di Proses</span>
-                    @elseif ($data->tgl_respon_laporan != NULL)
+                    @elseif ($data->laporan_security_respon != NULL)
                     <span class="text-warning">Tiket Sudah direspon</span>
-                    @elseif ($data->tgl_laporan != NULL)
+                    @elseif ($data->laporan_security_date != NULL)
                     <span class="text-danger">Tiket Belum direspon</span>
                     @endif
                 </strong>
@@ -45,17 +41,17 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label class="form-label fw-semibold small">Waktu Proses Tiket</label>
-            <input type="datetime-local" class="form-control" value="{{ $data->tgl_respon_laporan }}">
+            <input type="datetime-local" class="form-control" value="{{ $data->laporan_security_proses }}">
         </div>
         <div class="col-md-6 mb-3">
-            <label class="form-label fw-semibold small">Waktu Proses Tiket</label>
-            <input type="datetime-local" class="form-control" value="{{ $data->tgl_selesai_laporan }}">
+            <label class="form-label fw-semibold small">Waktu Selesai Tiket</label>
+            <input type="datetime-local" class="form-control" value="{{ $data->laporan_security_selesai }}">
         </div>
     </div>
 
     <div class="mb-3">
         <label class="form-label fw-semibold small">Catatan Kendala</label>
-        <textarea class="form-control" rows="3" placeholder="Apa temuan Anda di lokasi?" readonly>{{ $data->deskripsi_laporan }}</textarea>
+        <textarea class="form-control" rows="3" placeholder="Apa temuan Anda di lokasi?" readonly>{{ $data->laporan_security_desc }}</textarea>
     </div>
 
     <!-- <div class="mb-4">

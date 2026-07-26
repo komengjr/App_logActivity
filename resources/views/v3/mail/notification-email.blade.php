@@ -151,7 +151,17 @@
                     </tr>
                     <tr>
                         <td class="label">Kategori Laporan</td>
-                        <td>: {{ $data['category'] }}</td>
+                        <td>:
+                            <strong>
+                                @if ($data['category'] == "ER-001")
+                                Kendala Pada Software
+                                @elseif ($data['category'] == "ER-002")
+                                Kendala Pada Hardware
+                                @else
+                                Kendala Pada Security
+                                @endif
+                            </strong>
+                        </td>
                     </tr>
                     <tr>
                         <td class="label">Tingkat / Prioritas</td>
@@ -165,6 +175,10 @@
                         <td class="label">Tanggal Laporan</td>
                         <td>: {{ $data['created_at'] }}</td>
                     </tr>
+                    <tr>
+                        <td class="label">Deskripsi Laporan</td>
+                        <td>: {{ $data['deskripsi'] }}</td>
+                    </tr>
                 </table>
             </div>
 
@@ -174,10 +188,10 @@
                 <a href="{{ $data['url'] }}" class="btn">{{ $data['buttonText'] }}</a>
             </div>
 
-            <p style="margin-top: 25px; margin-bottom: 0;">Salam hangat,<br><strong>Tim Support & IT</strong></p>
+            <p style="margin-top: 25px; margin-bottom: 0;">Salam hangat,<br><strong>Tim IT Support</strong></p>
 
             <div class="footer">
-                &copy; 2026 Laravel App. Seluruh hak cipta dilindungi.<br>
+                &copy; 2026 System Log IT. Seluruh hak cipta dilindungi.<br>
                 Pesan ini digenerate secara otomatis oleh sistem, mohon tidak membalas email ini.
             </div>
         </div>

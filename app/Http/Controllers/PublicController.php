@@ -146,6 +146,26 @@ class PublicController extends Controller
             } else {
                 $namaFileSimpan = "";
             }
+
+            // SEND EMAIL
+            if ($request->email != '') {
+                $data = [
+                    'name'             => $request->nama_pelapor,
+                    'email'            => $request->email,
+                    'ticket_id'        => $tiket,
+                    'category'         => $request->kategori_laporan,
+                    'status'           => 'Aktif',
+                    'priority'         => 'Tinggi',
+                    'kd_cabang'        => $request->cabang,
+                    'divisi'           => $request->divisi,
+                    'messageContent'   => 'Halo ' . $request->nama_pelapor . ', laporan atau tiket bantuan Anda telah diperbarui dengan status saat ini: .',
+                    'deskripsi'        => $request->catatan_laporan,
+                    'created_at'       => now(),
+                    'url'              => url('/v3/check_laporan'), // Sesuaikan route detail laporan Anda
+                    'buttonText'       => 'Lihat Detail Tiket'
+                ];
+                Mail::to($request->email)->send(new SendNotificationEmailUser($data));
+            }
             if ($request->kategori_laporan == 'ER-000') {
                 DB::table('tbl_laporan_security')->insert([
                     'laporan_security_code' => $tiket,
@@ -217,7 +237,6 @@ class PublicController extends Controller
                     }
                 }
             } else {
-
                 DB::table('tbl_laporan_user')->insert([
                     'tiket_laporan' => $tiket,
                     'kd_cabang' => $request->cabang,
@@ -340,24 +359,7 @@ class PublicController extends Controller
             ]);
 
 
-            // SEND EMAIL
-            if ($request->email != '') {
-                $data = [
-                    'name'             => $request->nama_pelapor,
-                    'email'            => $request->email,
-                    'ticket_id'        => $tiket,
-                    'category'         => $request->kategori_laporan,
-                    'status'           => 'Aktif',
-                    'priority'         => 'Tinggi',
-                    'kd_cabang'        => $request->cabang,
-                    'divisi'           => $request->divisi,
-                    'messageContent'   => 'Halo ' . $request->nama_pelapor . ', laporan atau tiket bantuan Anda dengan kategori "' . $request->kategori_laporan . '" telah diperbarui dengan status saat ini: .',
-                    'created_at'       => now(),
-                    'url'              => url('/v3/check_laporan'), // Sesuaikan route detail laporan Anda
-                    'buttonText'       => 'Lihat Detail Tiket'
-                ];
-                Mail::to($request->email)->send(new SendNotificationEmailUser($data));
-            }
+
             return $tiket;
         } catch (\Throwable $e) {
             return 0;
@@ -370,7 +372,12 @@ class PublicController extends Controller
         if ($data) {
             return view('v3.form-detail-laporan', ['data' => $data]);
         } else {
-            return 0;
+            $security = DB::table('tbl_laporan_security')->where('laporan_security_code', $request->code)->first();
+            if ($security) {
+                return view('v3.form-detail-laporan-security', ['data' => $security]);
+            } else {
+                return 0;
+            }
         }
     }
     public function v3_chek_laporan()
