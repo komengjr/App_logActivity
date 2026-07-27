@@ -1,7 +1,7 @@
 <style>
     .step-card {
         opacity: 1;
-        max-height: 2000px;
+
         overflow: hidden;
         transition:
             opacity 0.0s cubic-bezier(0.4, 0, 0.2, 1),
@@ -31,43 +31,46 @@
             <span class="badge bg-white text-primary">Baru</span>
         </div>
         <div class="card-body">
-            <div class="mb-3">
-                <label for="nama" class="form-label fw-bold small">Nama Pelapor</label>
-                <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
-                    <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->nama_user }}" readonly>
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label for="nama" class="form-label fw-bold small">Nama Pelapor</label>
+                    <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
+                        <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->nama_user }}" readonly>
+                    </div>
+
+                </div>
+                <div class="col-12 mb-3">
+                    <label for="nama" class="form-label fw-bold small">NIP</label>
+                    <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
+                        <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->nip_user }}" readonly>
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <label for="nama" class="form-label fw-bold small">Divisi</label>
+                    <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
+                        <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->divisi }}" readonly>
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <label for="kendala" class="form-label fw-bold small">Detail Kendala</label>
+                    <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="far fa-address-book"></span></span>
+                        <textarea class="form-control" id="kendala" rows="3" placeholder="Ceritakan detail kendala atau kerusakan..." readonly>{{ $data->deskripsi_laporan }}</textarea>
+                    </div>
                 </div>
 
-            </div>
-            <div class="mb-3">
-                <label for="nama" class="form-label fw-bold small">NIP</label>
-                <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
-                    <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->nip_user }}" readonly>
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="nama" class="form-label fw-bold small">Divisi</label>
-                <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
-                    <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->divisi }}" readonly>
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="kendala" class="form-label fw-bold small">Detail Kendala</label>
-                <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="far fa-address-book"></span></span>
-                    <textarea class="form-control" id="kendala" rows="3" placeholder="Ceritakan detail kendala atau kerusakan..." readonly>{{ $data->deskripsi_laporan }}</textarea>
-                </div>
-            </div>
-             <div class="mb-4">
-                <label for="kendala" class="form-label fw-bold small">Detail Bukti</label>
-                @if ($data->file != "")
-                <div class="image-wrapper mx-auto">
-                    <img src="{{ asset('storage/bukti_kasus/'.$data->file) }}"
-                        alt="Gambar Dinamis"
-                        class="img-fluid rounded shadow dynamic-img">
-                </div>
-                @else
-                <span class="badge bg-warning">Lampiran Tidak di tampilkan</span>
-                @endif
+                <div class="col-12 mb-4">
+                    <label for="kendala" class="form-label fw-bold small">Detail Bukti</label>
+                    @if ($data->file != "")
+                    <div class="image-wrapper mx-auto">
+                        <img src="{{ asset('storage/bukti_kasus/'.$data->file) }}"
+                            alt="Gambar Dinamis"
+                            class="img-fluid ">
+                    </div>
+                    @else
+                    <span class="badge bg-warning">Lampiran Tidak di tampilkan</span>
+                    @endif
 
+                </div>
             </div>
             <div class="d-flex justify-content-between">
                 <button type="button" class="btn btn-danger me-2 float-start" data-bs-dismiss="modal">Close</button>

@@ -547,7 +547,7 @@
     </div>
     <div class="modal fade" id="modal-template-xl" data-bs-keyboard="false" data-bs-backdrop="static"
         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
-        <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document" style="background-color: transparent;">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="background-color: transparent;">
             <div class="modal-content border-0" style="background-color: transparent;">
 
                 <div id="menu-template-xl"></div>
