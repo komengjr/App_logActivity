@@ -1,7 +1,7 @@
 <style>
     .step-card {
         opacity: 1;
-        max-height: 1000px;
+        /* max-height: 1000px; */
         overflow: hidden;
         transition:
             opacity 0.0s cubic-bezier(0.4, 0, 0.2, 1),
@@ -22,141 +22,139 @@
     }
 </style>
 
-<div class="overflow-y-auto px-2" style="max-height: 75vh;">
-    <form class="p-2" id="laporanForm" onsubmit="event.preventDefault();">
+<form class="p-2" id="laporanForm" onsubmit="event.preventDefault();">
 
-        <!-- TAHAP 1: REGISTRASI KENDALA -->
-        <div class="card shadow-sm mb-4 step-card" id="tahap-1">
-            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                <span class="fw-semibold">Tahap 1: Registrasi Kendala</span>
-                <span class="badge bg-white text-primary">Baru</span>
+    <!-- TAHAP 1: REGISTRASI KENDALA -->
+    <div class="card shadow-sm mb-4 step-card" id="tahap-1">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">Tahap 1: Registrasi Kendala</span>
+            <span class="badge bg-white text-primary">Baru</span>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="nama" class="form-label fw-bold small">Nama Pelapor</label>
+                <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
+                    <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->nama_user }}" readonly>
+                </div>
+
             </div>
-            <div class="card-body">
-                <div class="mb-3">
-                    <label for="nama" class="form-label fw-bold small">Nama Pelapor</label>
-                    <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
-                        <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->nama_user }}" readonly>
-                    </div>
+            <div class="mb-3">
+                <label for="nama" class="form-label fw-bold small">NIP</label>
+                <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
+                    <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->nip_user }}" readonly>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="nama" class="form-label fw-bold small">Divisi</label>
+                <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
+                    <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->divisi }}" readonly>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="kendala" class="form-label fw-bold small">Detail Kendala</label>
+                <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="far fa-address-book"></span></span>
+                    <textarea class="form-control" id="kendala" rows="3" placeholder="Ceritakan detail kendala atau kerusakan..." readonly>{{ $data->deskripsi_laporan }}</textarea>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="kendala" class="form-label fw-bold small">Detail Bukti</label>
+                @if ($data->file != "")
+                <div class="image-wrapper mx-auto">
+                    <img src="{{ asset('storage/bukti_kasus/'.$data->file) }}"
+                        alt="Gambar Dinamis"
+                        class="img-fluid rounded shadow dynamic-img">
+                </div>
+                @else
+                <span class="badge bg-warning">Lampiran Tidak di tampilkan</span>
+                @endif
 
-                </div>
-                <div class="mb-3">
-                    <label for="nama" class="form-label fw-bold small">NIP</label>
-                    <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
-                        <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->nip_user }}" readonly>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="nama" class="form-label fw-bold small">Divisi</label>
-                    <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
-                        <input type="text" class="form-control form-control-lg" id="nama" value="{{ $data->divisi }}" readonly>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="kendala" class="form-label fw-bold small">Detail Kendala</label>
-                    <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="far fa-address-book"></span></span>
-                        <textarea class="form-control" id="kendala" rows="3" placeholder="Ceritakan detail kendala atau kerusakan..." readonly>{{ $data->deskripsi_laporan }}</textarea>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label for="kendala" class="form-label fw-bold small">Detail Bukti</label>
-                    @if ($data->file != "")
-                    <div class="image-wrapper mx-auto">
-                        <img src="{{ asset('storage/bukti_kasus/'.$data->file) }}"
-                            alt="Gambar Dinamis"
-                            class="img-fluid rounded shadow dynamic-img">
-                    </div>
-                    @else
-                    <span class="badge bg-warning">Lampiran Tidak di tampilkan</span>
-                    @endif
-
-                </div>
-                <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-danger me-2 float-start" data-bs-dismiss="modal">Close</button>
-                    <div id="loading_terima">
-                        <button type="button" class="btn btn-primary" onclick="terimaLaporan()">Terima Laporan &rarr;</button>
-                    </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-danger me-2 float-start" data-bs-dismiss="modal">Close</button>
+                <div id="loading_terima">
+                    <button type="button" class="btn btn-primary" onclick="terimaLaporan()">Terima Laporan &rarr;</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- TAHAP 2: ALOKASI & PROSES -->
-        <div class="card shadow-sm mb-4 step-card d-none" id="tahap-2">
-            <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
-                <span class="fw-semibold">Tahap 2: Tindakan & Proses</span>
-                <span class="badge bg-dark text-white">Diproses</span>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12 mb-3">
-                        <label for="kendala" class="form-label fw-bold small">Detail Kendala</label>
-                        <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="far fa-address-book"></span></span>
-                            <textarea class="form-control" id="kendala" rows="3" placeholder="Ceritakan detail kendala atau kerusakan..." readonly>{{ $data->deskripsi_laporan }}</textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <label for="petugas" class="form-label fw-bold small">Yang di Lakukan Oleh</label>
-                        <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
-                            <select class="form-select form-select-lg" name="petugas" id="petugas" required>
-                                <option value="">Pilih</option>
-                                <option value="I">Internal</option>
-                                <option value="E">Eksternal</option>
-                            </select>
-                        </div>
-
-                        <input type="text" name="tiket" id="tiket" value="{{ $data->tiket_laporan }}" hidden>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="estimasi" class="form-label fw-bold small">Estimasi Tanggal Pengerjaan</label>
-                        <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-calendar"></span></span>
-                            <input type="date" class="form-control form-control-lg" id="estimasi_tgl" required>
-                        </div>
-
-                    </div>
-                    <div class="col-md-6 mb-4">
-                        <label for="estimasi" class="form-label fw-bold small">Estimasi Waktu Pengerjaan</label>
-                        <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-calendar"></span></span>
-                            <input type="time" class="form-control form-control-lg" id="estimasi_time" placeholder="Contoh: 2 jam / 1 hari kerja" required>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-danger me-2" data-bs-dismiss="modal">Close</button>
-                    <div id="loading_proses">
-                        <button type="button" class="btn btn-warning fw-semibold text-dark" onclick="prosesLaporan()">Simpan & Lanjut &rarr;</button>
-                    </div>
-                </div>
-            </div>
+    <!-- TAHAP 2: ALOKASI & PROSES -->
+    <div class="card shadow-sm mb-4 step-card d-none" id="tahap-2">
+        <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">Tahap 2: Tindakan & Proses</span>
+            <span class="badge bg-dark text-white">Diproses</span>
         </div>
-
-        <!-- TAHAP 3: SOLUSI & PENYELESAIAN -->
-        <div class="card shadow-sm mb-4 step-card d-none" id="tahap-3">
-            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-                <span class="fw-semibold">Tahap 3: Solusi & Penyelesaian</span>
-                <span class="badge bg-white text-success">Resolusi</span>
-            </div>
-            <div class="card-body">
+        <div class="card-body">
+            <div class="row">
                 <div class="col-md-12 mb-3">
                     <label for="kendala" class="form-label fw-bold small">Detail Kendala</label>
                     <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="far fa-address-book"></span></span>
                         <textarea class="form-control" id="kendala" rows="3" placeholder="Ceritakan detail kendala atau kerusakan..." readonly>{{ $data->deskripsi_laporan }}</textarea>
                     </div>
                 </div>
-                <div class="mb-4">
-                    <label for="solusi" class="form-label fw-bold small">Tindakan Penyelesaian</label>
-                    <textarea class="form-control" id="solusi" rows="3" placeholder="Tuliskan perbaikan/solusi yang sudah diterapkan..." required></textarea>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-danger me-2" data-bs-dismiss="modal">Close</button>
-                    <div id="loading_penyelesaian">
-                        <button type="button" class="btn btn-success" onclick="selesaikanLaporan()">Selesaikan Laporan ✓</button>
+                <div class="col-md-12 mb-3">
+                    <label for="petugas" class="form-label fw-bold small">Yang di Lakukan Oleh</label>
+                    <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-user"></span></span>
+                        <select class="form-select form-select-lg" name="petugas" id="petugas" required>
+                            <option value="">Pilih</option>
+                            <option value="I">Internal</option>
+                            <option value="E">Eksternal</option>
+                        </select>
                     </div>
+
+                    <input type="text" name="tiket" id="tiket" value="{{ $data->tiket_laporan }}" hidden>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="estimasi" class="form-label fw-bold small">Estimasi Tanggal Pengerjaan</label>
+                    <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-calendar"></span></span>
+                        <input type="date" class="form-control form-control-lg" id="estimasi_tgl" required>
+                    </div>
+
+                </div>
+                <div class="col-md-6 mb-4">
+                    <label for="estimasi" class="form-label fw-bold small">Estimasi Waktu Pengerjaan</label>
+                    <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="fas fa-calendar"></span></span>
+                        <input type="time" class="form-control form-control-lg" id="estimasi_time" placeholder="Contoh: 2 jam / 1 hari kerja" required>
+                    </div>
+
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-danger me-2" data-bs-dismiss="modal">Close</button>
+                <div id="loading_proses">
+                    <button type="button" class="btn btn-warning fw-semibold text-dark" onclick="prosesLaporan()">Simpan & Lanjut &rarr;</button>
                 </div>
             </div>
         </div>
+    </div>
 
-    </form>
-</div>
+    <!-- TAHAP 3: SOLUSI & PENYELESAIAN -->
+    <div class="card shadow-sm mb-4 step-card d-none" id="tahap-3">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">Tahap 3: Solusi & Penyelesaian</span>
+            <span class="badge bg-white text-success">Resolusi</span>
+        </div>
+        <div class="card-body">
+            <div class="col-md-12 mb-3">
+                <label for="kendala" class="form-label fw-bold small">Detail Kendala</label>
+                <div class="input-group flex-nowrap"><span class="input-group-text" id="addon-wrapping"><span class="far fa-address-book"></span></span>
+                    <textarea class="form-control" id="kendala" rows="3" placeholder="Ceritakan detail kendala atau kerusakan..." readonly>{{ $data->deskripsi_laporan }}</textarea>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="solusi" class="form-label fw-bold small">Tindakan Penyelesaian</label>
+                <textarea class="form-control" id="solusi" rows="3" placeholder="Tuliskan perbaikan/solusi yang sudah diterapkan..." required></textarea>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-danger me-2" data-bs-dismiss="modal">Close</button>
+                <div id="loading_penyelesaian">
+                    <button type="button" class="btn btn-success" onclick="selesaikanLaporan()">Selesaikan Laporan ✓</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
 @php
 $ids = mt_rand(100, 999);
 @endphp
