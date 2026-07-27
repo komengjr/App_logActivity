@@ -242,6 +242,27 @@
         .select2-container {
             width: 100% !important;
         }
+
+        /* Gaya tambahan untuk membatasi ukuran gambar QR */
+        .qr-code-img {
+            max-width: 250px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Gaya untuk link Bot */
+        .bot-link {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #0088cc;
+            /* Warna khas Telegram */
+            text-decoration: none;
+        }
+
+        .bot-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -357,9 +378,12 @@
                 <h5 class="mb-3 text-info"><i class="bi bi-check2-circle me-2"></i>Konfirmasi Penyimpanan</h5>
                 <div class="alert alert-info border-0 shadow-sm">
                     <p class="small mb-0">Pastikan semua data yang Anda masukkan sudah benar sebelum menekan tombol simpan.</p>
+                    <button type="button" class="btn btn-primary btn-sm shadow-sm" data-bs-toggle="modal" data-bs-target="#modalTelegramId">
+                        📱 Cara Daftar Telegram dengan No HP
+                    </button>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">No Whatsapp</label>
+                    <label class="form-label">No Whatsapp / Telegram</label>
                     <input type="text" class="form-control" name="no_whatsapp" id="no_whatsapp" placeholder="Masukkan nomor Whatsapp" required>
                     <div class="error-msg">Nomor Whatsapp wajib diisi.</div>
                 </div>
@@ -379,7 +403,62 @@
         </form>
     </div>
 
+    <div class="modal fade" id="modalTelegramId" tabindex="-1" aria-labelledby="modalTelegramIdLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalTelegramIdLabel">Panduan Pendaftaran Telegram ID</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted">Ikuti langkah-langkah berikut untuk mendaftarkan nomor handphone Anda ke Telegram ID:</p>
+
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="flex-shrink-0">
+                            <span class="badge bg-primary rounded-circle p-3 fs-5">1</span>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            Akses bot Telegram berikut:
+                            <br>
+                            <a href="https://t.me/log_notifikasi_bot" class="bot-link" target="_blank">@log_notifikasi_bot</a>
+                            <br>
+                            <small class="text-muted">(atau scan QR code di bawah ini)</small>
+                        </div>
+                    </div>
+
+                    <div class="text-center mb-3">
+                        <img src="{{ asset('telegram.png') }}" alt="QR Code @log_notifikasi_bot" class="qr-code-img img-thumbnail">
+                        <p class="text-muted mt-1">QR Code @log_notifikasi_bot</p>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <span class="badge bg-primary rounded-circle p-3 fs-5">2</span>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            Di dalam chat bot, ketik dan kirim pesan:
+                            <br>
+                            <span class="badge bg-light text-dark border font-monospace fs-6 px-3 py-2">halo</span>
+                            <br>
+                            Bot akan membalas dengan tombol untuk membagikan nomor handphone.
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info mt-4 mb-0" role="alert">
+                        <h6 class="alert-heading"><i class="bi bi-info-circle-fill"></i> Catatan Penting:</h6>
+                        Setelah Anda mengetik "halo", ketuk tombol **"Bagikan No Saya"** (atau *Share My Number*) yang disediakan oleh bot. Nomor HP Anda secara otomatis akan terdaftar di sistem Telegram ID bot tersebut.
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <a href="https://t.me/log_notifikasi_bot" class="btn btn-success" target="_blank">Buka Bot Sekarang</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>

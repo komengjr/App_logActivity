@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\TelegramUser;
 use Telegram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
@@ -310,5 +312,128 @@ class ApiController extends Controller
         ]);
 
         return $response->json();
+    }
+    public function getway_telegram_checking()
+    {
+        $token = env('TELEGRAM_BOT_TOKEN');
+        $offset = Cache::get('telegram_offset', 0);
+
+        $response = Http::get("https://api.telegram.org/bot{$token}/getUpdates", [
+            'offset' => $offset,
+            'timeout' => 5
+        ]);
+
+        if ($response->successful()) {
+            $data = $response->json();
+
+            if (!empty($data['result'])) {
+                foreach ($data['result'] as $update) {
+                    $offset = $update['update_id'] + 1;
+                    Cache::put('telegram_offset', $offset);
+
+                    if (isset($update['message'])) {
+                        $chatId    = $update['message']['chat']['id'];
+                        $firstName = $update['message']['chat']['first_name'] ?? 'User';
+                        $username  = $update['message']['chat']['username'] ?? null;
+
+                        // CEK 1: Jika user mengirim kontak (nomor HP via tombol)
+                        if (isset($update['message']['contact'])) {
+                            $phoneNumber = $update['message']['contact']['phone_number'];
+
+                            // Simpan nomor HP ke database berdasarkan chat_id
+                            TelegramUser::updateOrCreate(
+                                ['chat_id' => $chatId],
+                                [
+                                    'first_name' => $firstName,
+                                    'username'   => $username,
+                                    'phone'      => '+' . $phoneNumber // Pastikan kolom 'phone' ada di tabel
+                                ]
+                            );
+
+                            $this->info("Nomor HP {$phoneNumber} berhasil disimpan untuk Chat ID: {$chatId}");
+
+                            // Balas pesan sukses & bersihkan keyboard
+                            Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
+                                'chat_id' => $chatId,
+                                'text'    => "Terima kasih! Nomor HP Anda ({$phoneNumber}) telah berhasil disimpan.",
+                                'reply_markup' => json_encode(['remove_keyboard' => true])
+                            ]);
+                        }
+                        // CEK 2: Jika user baru pertama chat (Kirim tombol minta No HP)
+                        else {
+                            $this->sendRequestContactButton($token, $chatId, $firstName);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function getway_telegram_webhook(Request $request)
+    {
+        $token = env('TELEGRAM_BOT_TOKEN');
+        $update = $request->all();
+
+        if (isset($update['message'])) {
+            $chatId    = $update['message']['chat']['id'];
+            $firstName = $update['message']['chat']['first_name'] ?? 'User';
+            $username  = $update['message']['chat']['username'] ?? null;
+            $textInput = strtolower(trim($update['message']['text'] ?? ''));
+
+            // 1. JIKA USER KETIK "halo" (Atau pesan teks biasa)
+            // Jangan simpan dulu, tapi kirimkan tombol untuk meminta nomor HP
+            if ($textInput === 'halo' || !isset($update['message']['contact'])) {
+                $this->sendRequestContactButton($token, $chatId, $firstName);
+            }
+        }
+
+        // 2. JIKA USER KLIK TOMBOL "OK / Bagikan No HP" (Mengirim Kontak)
+        // Di sinilah proses penyimpanan ke database terjadi
+        if (isset($update['message']['contact'])) {
+            $chatId      = $update['message']['chat']['id'];
+            $firstName   = $update['message']['chat']['first_name'] ?? 'User';
+            $username    = $update['message']['chat']['username'] ?? null;
+            $phoneNumber = $update['message']['contact']['phone_number'];
+
+            // Simpan ke database
+            TelegramUser::updateOrCreate(
+                ['chat_id' => $chatId],
+                [
+                    'first_name' => $firstName,
+                    'username'   => $username,
+                    'phone'      => '+' . $phoneNumber
+                ]
+            );
+
+            // Balas pesan sukses & hapus tombolnya
+            Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
+                'chat_id' => $chatId,
+                'text'    => "Nomor HP Anda (+{$phoneNumber}) berhasil disimpan! Terima kasih.",
+                'reply_markup' => json_encode(['remove_keyboard' => true])
+            ]);
+        }
+
+        return response()->json(['status' => 'success'], 200);
+    }
+    private function sendRequestContactButton($token, $chatId, $firstName)
+    {
+        $keyboard = [
+            'keyboard' => [
+                [
+                    [
+                        'text' => '📱 Bagikan Nomor HP Saya',
+                        'request_contact' => true
+                    ]
+                ]
+            ],
+            'resize_keyboard' => true,
+            'one_time_keyboard' => true
+        ];
+
+        Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
+            'chat_id' => $chatId,
+            'text'    => "Halo {$firstName}! Silakan klik tombol di bawah ini untuk melanjutkan verifikasi nomor HP Anda:",
+            'reply_markup' => json_encode($keyboard)
+        ]);
     }
 }
