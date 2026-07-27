@@ -33,6 +33,10 @@ Route::prefix('v2/')->group(function (): void {
     Route::get('getway/checking-telegram', [ApiController::class, 'getway_telegram_checking'])->name('getway_telegram_checking');
     Route::post('getway/checking-webhook', [ApiController::class, 'getway_telegram_webhook'])->name('getway_telegram_webhook');
 });
+Route::prefix('v3/')->group(function (): void {
+    Route::post('getway-telegram', [ApiController::class, 'v3_getway_telegram'])->name('v3_getway_telegram');
+    Route::post('getway-send', [ApiController::class, 'v3_getway_send'])->name('v3_getway_send');
+});
 Route::prefix('password/')->group(function (): void {
     Route::post('send-otp', [ApiController::class, 'password_send_otp'])->name('password_send_otp');
     Route::post('update', [ApiController::class, 'password_update'])->name('password_update');

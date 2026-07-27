@@ -436,4 +436,165 @@ class ApiController extends Controller
             'reply_markup' => json_encode($keyboard)
         ]);
     }
+
+    public function v3_getway_telegram(Request $request)
+    {
+        $token = env('TELEGRAM_BOT_TOKEN');
+        $update = $request->all();
+
+        // 1. JIKA USER MENGIRIM PESAN TEKS BIASA
+        if (isset($update['message'])) {
+            $chatId    = $update['message']['chat']['id'];
+            $firstName = $update['message']['chat']['first_name'] ?? 'User';
+            $textInput = trim($update['message']['text'] ?? '');
+            $textLower = strtolower($textInput);
+
+            // Cek apakah user sedang dalam sesi menunggu input nomor tiket (Cek Laporan)
+            $waitingTicketKey = "waiting_ticket_{$chatId}";
+            if (Cache::has($waitingTicketKey)) {
+                Cache::forget($waitingTicketKey);
+
+                $noTiket = $textInput;
+
+                // Cari data laporan di tabel tbl_laporan_user berdasarkan tiket_laporan
+                $laporan = DB::table('tbl_laporan_user')
+                    ->where('tiket_laporan', $noTiket)
+                    ->first();
+
+                if ($laporan) {
+                    $pesanRespon  = "🔍 *DETAIL LAPORAN DIKETAHUI*\n\n";
+                    $pesanRespon .= "🎫 *No Tiket:* {$laporan->tiket_laporan}\n";
+                    $pesanRespon .= "👤 *Nama Pelapor:* {$laporan->nama_user}\n";
+                    $pesanRespon .= "🏢 *Divisi / Cabang:* {$laporan->divisi} ({$laporan->kd_cabang})\n";
+                    $pesanRespon .= "📌 *Kategori:* {$laporan->kategori_laporan}\n";
+                    $pesanRespon .= "⚡ *Tingkat:* {$laporan->tingkat_laporan}\n";
+                    $pesanRespon .= "📊 *Status Laporan:* *{$laporan->status_laporan}*\n";
+                    $pesanRespon .= "📅 *Tanggal Dibuat:* {$laporan->tgl_laporan}\n";
+
+                    if (!empty($laporan->tgl_selesai_laporan)) {
+                        $pesanRespon .= "✅ *Tanggal Selesai:* {$laporan->tgl_selesai_laporan}\n";
+                    }
+                } else {
+                    $pesanRespon = "❌ Maaf, laporan dengan nomor tiket *{$noTiket}* tidak ditemukan di sistem kami.";
+                }
+
+                Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
+                    'chat_id'    => $chatId,
+                    'text'       => $pesanRespon,
+                    'parse_mode' => 'Markdown'
+                ]);
+
+                return response()->json(['status' => 'success'], 200);
+            }
+
+            // Jika mengetik "halo"
+            if ($textLower === 'halo') {
+                $this->sendMenuButtons($token, $chatId, $firstName);
+            } else {
+                Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
+                    'chat_id' => $chatId,
+                    'text'    => "Ketik 'halo' untuk memunculkan menu utama."
+                ]);
+            }
+        }
+
+        // 2. JIKA USER KLIK TOMBOL INLINE (3 Menu Pilihan)
+        if (isset($update['callback_query'])) {
+            $callbackId = $update['callback_query']['id'];
+            $chatId     = $update['callback_query']['message']['chat']['id'];
+            $firstName  = $update['callback_query']['from']['first_name'] ?? 'User';
+            $messageId  = $update['callback_query']['message']['message_id'];
+            $data       = $update['callback_query']['data'];
+
+            // Matikan loading tombol seketika
+            Http::post("https://api.telegram.org/bot{$token}/answerCallbackQuery", [
+                'callback_query_id' => $callbackId
+            ]);
+
+            // Proteksi anti-spam klik ganda (2 detik)
+            $lockKey = "telegram_click_{$chatId}_{$data}";
+            if (!Cache::add($lockKey, true, 2)) {
+                return response()->json(['status' => 'ignored'], 200);
+            }
+
+            // Hapus tombol inline setelah diklik
+            Http::post("https://api.telegram.org/bot{$token}/editMessageReplyMarkup", [
+                'chat_id'      => $chatId,
+                'message_id'   => $messageId,
+                'reply_markup' => json_encode(['inline_keyboard' => []])
+            ]);
+
+            // Logika 3 Tombol
+            if ($data === 'cek_laporan') {
+                Cache::put("waiting_ticket_{$chatId}", true, 300);
+
+                Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
+                    'chat_id'    => $chatId,
+                    'text'       => "📄 Silakan ketik dan kirim *Nomor Tiket* laporan Anda:",
+                    'parse_mode' => 'Markdown'
+                ]);
+            } elseif ($data === 'daftar_kontak') {
+                // Memunculkan tombol keyboard bawah untuk izin kontak
+                $this->sendRequestContactButton($token, $chatId, $firstName);
+            } elseif ($data === 'help') {
+                Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
+                    'chat_id' => $chatId,
+                    'text'    => "🆘 *Bantuan*\n\nGunakan tombol menu yang tersedia atau ketik *'halo'* untuk kembali ke menu utama.",
+                    'parse_mode' => 'Markdown'
+                ]);
+            }
+        }
+
+        // 3. JIKA USER MENGIRIM KONTAK (Proses Simpan ke Database TelegramUsers)
+        if (isset($update['message']['contact'])) {
+            $chatId      = $update['message']['chat']['id'];
+            $firstName   = $update['message']['chat']['first_name'] ?? 'User';
+            $username    = $update['message']['chat']['username'] ?? null;
+            $phoneNumber = $update['message']['contact']['phone_number'];
+            $nomor = $phoneNumber;
+
+            if (substr($nomor, 0, 1) !== '+') {
+                $nomor = '+' . $nomor;
+            }
+            TelegramUser::updateOrCreate(
+                ['chat_id' => $chatId],
+                [
+                    'first_name' => $firstName,
+                    'username'   => $username,
+                    'phone'      => $nomor
+                ]
+            );
+
+            Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
+                'chat_id'      => $chatId,
+                'text'         => "✅ Nomor HP Anda ({$nomor}) berhasil didaftarkan dan disimpan! Terima kasih.",
+                'reply_markup' => json_encode(['remove_keyboard' => true])
+            ]);
+        }
+
+        return response()->json(['status' => 'success'], 200);
+    }
+    private function sendMenuButtons($token, $chatId, $firstName)
+    {
+        // Membuat 3 Inline Button (Cek Laporan, Buat Laporan, Help)
+        $inlineKeyboard = [
+            'inline_keyboard' => [
+                [
+                    ['text' => '📊 Cek Laporan', 'callback_data' => 'cek_laporan']
+                ],
+                [
+                    ['text' => '📝 Daftar Kontak', 'callback_data' => 'daftar_kontak']
+                ],
+                [
+                    ['text' => '❓ Help', 'callback_data' => 'help']
+                ]
+            ]
+        ];
+
+        Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
+            'chat_id' => $chatId,
+            'text'    => "Halo {$firstName}! Silakan pilih menu di bawah ini:",
+            'reply_markup' => json_encode($inlineKeyboard)
+        ]);
+    }
 }
