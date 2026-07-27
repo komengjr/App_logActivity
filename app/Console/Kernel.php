@@ -13,7 +13,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        // Daftarkan command Anda di sini jika belum otomatis terdeteksi
         \App\Console\Commands\FetchTelegramUpdates::class,
     ];
 
