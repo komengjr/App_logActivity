@@ -359,7 +359,6 @@ class PublicController extends Controller
             ]);
 
 
-
             return $tiket;
         } catch (\Throwable $e) {
             return 0;

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\TelegramWebhookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Telegram\Bot\Laravel\Facades\Telegram;
@@ -28,9 +29,11 @@ Route::prefix('v2/')->group(function (): void {
     Route::get('getway/whatsapp', [ApiController::class, 'getway_whatsapp'])->name('getway_whatsapp');
     Route::get('getway/whatsapp-update/{code}', [ApiController::class, 'getway_whatsapp_status'])->name('getway_whatsapp_status');
     Route::post('getway/whatsapp-update', [ApiController::class, 'getway_whatsapp_update'])->name('getway_whatsapp_update');
+    Route::get('getway/whatsapp-sending', [ApiController::class, 'getway_whatsapp_send'])->name('getway_whatsapp_send');
 });
 Route::prefix('password/')->group(function (): void {
     Route::post('send-otp', [ApiController::class, 'password_send_otp'])->name('password_send_otp');
     Route::post('update', [ApiController::class, 'password_update'])->name('password_update');
 });
 
+Route::post('/telegram/webhook', [TelegramWebhookController::class, 'handle']);

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class ApiController extends Controller
 {
@@ -270,7 +271,7 @@ class ApiController extends Controller
         }
 
         // 4. Jalankan Query Update secara aman menggunakan Database Transaction
-        DB::transaction(function () use ( $request, $otpCheck) {
+        DB::transaction(function () use ($request, $otpCheck) {
 
             // A. Update password baru milik user (di-hash menggunakan bcrypt)
             DB::table('users')->where('id_user', FacadesAuth::user()->id_user)->update([
@@ -287,5 +288,16 @@ class ApiController extends Controller
             'success' => true,
             'message' => 'Selamat! Password Anda berhasil diperbarui.'
         ]);
+    }
+    public function getway_whatsapp_send()
+    {
+        $response = Http::withHeaders([
+            'Authorization' => env('WA_API_KEY'),
+        ])->post(env('WA_ENDPOINT'), [
+            'target' => '081973939957', // Format: 08123456789 atau 628123456789
+            'message' => 'Halo semuanya',
+        ]);
+
+        return $response->json();
     }
 }
