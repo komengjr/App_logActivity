@@ -200,9 +200,20 @@ class ApiController extends Controller
     }
     public function getway_whatsapp_status($code)
     {
-        DB::table('v_log_whatsapp')->where('v_log_whatsapp_code', $code)->update([
-            'v_log_whatsapp_status' => 1
-        ]);
+        $data = DB::table('v_log_whatsapp')->where('v_log_whatsapp_code', $code)->first();
+        if ($data) {
+            # code...
+            $telegram = DB::table('telegram_users')->where('phone', $data->v_log_whatsapp_number)->first();
+            if ($telegram) {
+                Telegram::sendMessage([
+                    'chat_id' => $telegram->chat_id,
+                    'text' => $data->v_log_whatsapp_text,
+                ]);
+            }
+            DB::table('v_log_whatsapp')->where('v_log_whatsapp_code', $code)->update([
+                'v_log_whatsapp_status' => 1
+            ]);
+        }
         return response()->json('Berhasil Kirim');
     }
     public function getway_whatsapp_update(Request $request)

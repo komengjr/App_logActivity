@@ -18,6 +18,7 @@ class CreateTelegramUsersTable extends Migration
             $table->string('chat_id')->unique();
             $table->string('first_name')->nullable();
             $table->string('username')->nullable();
+            $table->string('phone')->nullable();
             $table->timestamps();
         });
     }
