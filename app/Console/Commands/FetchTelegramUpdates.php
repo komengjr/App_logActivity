@@ -28,7 +28,7 @@ class FetchTelegramUpdates extends Command
             if (!empty($data['result'])) {
                 foreach ($data['result'] as $update) {
                     $offset = $update['update_id'] + 1;
-                    Cache::put('telegram_offset', $offset);
+                    // Cache::put('telegram_offset', $offset);
 
                     if (isset($update['message'])) {
                         $chatId    = $update['message']['chat']['id'];
