@@ -14,11 +14,11 @@
     <div class="card-body">
         <form id="formFilter" class="row g-3">
             <div class="col-md-5">
-                <label for="filterPetugas" class="form-label fw-bold">Pilihan Cabang</label>
+                <label for="filterPetugas" class="form-label fw-bold">Petugas IT Penanggung Jawab</label>
                 <select id="filterPetugas" class="form-select" required>
-                    <option value="" selected disabled>-- Pilih Cabang --</option>
-                    @foreach ($cabang as $cab)
-                    <option value="{{ $cab->kd_cabang }}">{{ $cab->nama_cabang }}</option>
+                    <option value="" selected disabled>-- Pilih Petugas --</option>
+                    @foreach ($user as $users)
+                    <option value="{{ $users->id_user }}">{{ $users->nama_lengkap }}</option>
                     @endforeach
                 </select>
             </div>
@@ -76,7 +76,7 @@
             cache: false,
             data: {
                 "_token": "{{ csrf_token() }}",
-                "cabang": petugas,
+                "petugas": petugas,
                 "tahun": tahun,
             },
             dataType: 'html',

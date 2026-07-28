@@ -12,6 +12,7 @@
 $no = 1;
 $brg = DB::table('m_rencana_detail')
 ->join('m_rencana_data', 'm_rencana_data.m_rencana_data_code', '=', 'm_rencana_detail.m_rencana_data_code')
+->where('m_rencana_data.m_rencana_data_user', '=', $petugas)
 ->where('m_rencana_data.m_rencana_data_tahun', '=', $tahun)
 ->where('m_rencana_detail.m_rencana_detail_bulan', '=', $bulans->m_rencana_detail_bulan)
 ->get()
