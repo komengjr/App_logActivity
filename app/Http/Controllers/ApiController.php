@@ -415,27 +415,7 @@ class ApiController extends Controller
 
         return response()->json(['status' => 'success'], 200);
     }
-    private function sendRequestContactButton($token, $chatId, $firstName)
-    {
-        $keyboard = [
-            'keyboard' => [
-                [
-                    [
-                        'text' => '📱 Bagikan Nomor HP Saya',
-                        'request_contact' => true
-                    ]
-                ]
-            ],
-            'resize_keyboard' => true,
-            'one_time_keyboard' => true
-        ];
 
-        Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
-            'chat_id' => $chatId,
-            'text'    => "Halo {$firstName}! Silakan klik tombol di bawah ini untuk melanjutkan verifikasi nomor HP Anda:",
-            'reply_markup' => json_encode($keyboard)
-        ]);
-    }
 
     public function v3_getway_telegram(Request $request)
     {
@@ -595,6 +575,28 @@ class ApiController extends Controller
             'chat_id' => $chatId,
             'text'    => "Halo {$firstName}! Silakan pilih menu di bawah ini:",
             'reply_markup' => json_encode($inlineKeyboard)
+        ]);
+    }
+    private function sendRequestContactButton($token, $chatId, $firstName)
+    {
+        $keyboard = [
+            'keyboard' => [
+                [
+                    [
+                        'text'            => '📱 Bagikan Nomor HP Saya',
+                        'request_contact' => true
+                    ]
+                ]
+            ],
+            'resize_keyboard'   => true,
+            'one_time_keyboard' => true
+        ];
+
+        Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
+            'chat_id'      => $chatId,
+            'text'         => "Halo {$firstName}! Silakan klik tombol *Bagikan Nomor HP Saya* di bawah untuk mendaftarkan kontak Anda:",
+            'parse_mode'   => 'Markdown',
+            'reply_markup' => json_encode($keyboard)
         ]);
     }
 }
