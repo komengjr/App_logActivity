@@ -572,8 +572,9 @@ class MenuController extends Controller
     {
         if ($this->url_akses($akses) == true) {
             $user = DB::table('tbl_biodata')->get();
+            $cabang = DB::table('tbl_cabang')->get();
             $data = DB::table('tbl_laporan_user')->orderBy('id_laporan', 'DESC')->get();
-            return view('application.laporan.laporan-rencana-maintenance', compact('data', 'user'));
+            return view('application.laporan.laporan-rencana-maintenance', compact('data', 'user', 'cabang'));
         } else {
             return Redirect::to('dashboard/home');
         }
@@ -583,7 +584,7 @@ class MenuController extends Controller
         $bulan = DB::table('m_rencana_detail')
             ->join('m_rencana_data', 'm_rencana_data.m_rencana_data_code', '=', 'm_rencana_detail.m_rencana_data_code')
             ->select('m_rencana_detail.m_rencana_detail_bulan')
-            ->where('m_rencana_data.m_rencana_data_user', '=', $request->petugas)
+            ->where('m_rencana_data.m_rencana_data_cabang', '=', $request->cabang)
             ->where('m_rencana_data.m_rencana_data_tahun', '=', $request->tahun)
             ->distinct()
             ->get();
