@@ -419,7 +419,7 @@ class ApiController extends Controller
 
     public function v3_getway_telegram(Request $request)
     {
-        $token = env('TELEGRAM_BOT_TOKEN');
+        $token = '7372867009:AAHS08RqpVYUtd4vAXz2ESIrLyRUxokWY4Q';
         $update = $request->all();
 
         // 1. JIKA USER MENGIRIM PESAN TEKS BIASA
@@ -577,7 +577,7 @@ class ApiController extends Controller
             'reply_markup' => json_encode($inlineKeyboard)
         ]);
     }
-    private function sendRequestContactButton($token, $chatId, $firstName)
+     private function sendRequestContactButton($token, $chatId, $firstName)
     {
         $keyboard = [
             'keyboard' => [
