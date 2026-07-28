@@ -595,16 +595,46 @@ class MenuController extends Controller
     }
     public function laporan_rencana_maintenance_cetak_rencana_report(Request $request)
     {
-        $bulan = DB::table('m_rencana_detail')
+        // 1. Ambil daftar kode rencana yang unik berdasarkan filter petugas dan tahun
+        $rencanaCodes = DB::table('m_rencana_detail')
             ->join('m_rencana_data', 'm_rencana_data.m_rencana_data_code', '=', 'm_rencana_detail.m_rencana_data_code')
-            ->select('m_rencana_detail.m_rencana_detail_bulan', 'm_rencana_detail.m_rencana_data_code')
             ->where('m_rencana_data.m_rencana_data_user', '=', $request->petugas)
             ->where('m_rencana_data.m_rencana_data_tahun', '=', $request->code)
             ->distinct()
+            ->pluck('m_rencana_data.m_rencana_data_code');
+
+        // 2. Ambil data master rencana (Cabang) yang unik/tidak double dengan join ke tbl_cabang
+        $rencanaData = DB::table('m_rencana_data')
+            ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'm_rencana_data.m_rencana_data_cabang')
+            ->select('m_rencana_data.*', 'tbl_cabang.nama_cabang', 'tbl_cabang.alamat', 'tbl_cabang.city')
+            ->whereIn('m_rencana_data.m_rencana_data_code', $rencanaCodes)
             ->get();
-        $bio = DB::table('tbl_biodata')->where('id_user', $request->petugas)->first();
+
+        // 3. Melampirkan relasi details untuk setiap baris data master secara bersih
+        foreach ($rencanaData as $row) {
+            $row->details = DB::table('m_rencana_detail')
+                ->where('m_rencana_data_code', $row->m_rencana_data_code)
+                ->get();
+        }
+
+        // Data untuk Semester 1 dan Semester 2
+        $dataSemester1 = $rencanaData;
+        $dataSemester2 = $rencanaData;
+
+        // 4. Mengambil tanda tangan pelaksana (jika ada)
+        $pelaksanaSign = null;
+        $firstDetail = DB::table('m_rencana_detail')
+            ->join('m_rencana_data', 'm_rencana_data.m_rencana_data_code', '=', 'm_rencana_detail.m_rencana_data_code')
+            ->where('m_rencana_data.m_rencana_data_user', '=', $request->petugas)
+            ->where('m_rencana_data.m_rencana_data_tahun', '=', $request->code)
+            ->whereNotNull('m_rencana_detail_sign')
+            ->first();
+
+        if ($firstDetail) {
+            $pelaksanaSign = $firstDetail->m_rencana_detail_sign;
+        }
         $image = base64_encode(file_get_contents(public_path('icon1.png')));
-        $pdf = PDF::loadview('application.laporan.rencana-maintenance.report.report-rencana-maintenance', compact('image', 'bulan', 'bio'), ['tahun' => $request->code])->setPaper('A3', 'landscape')->setOptions(['defaultFont' => 'Courier']);
+        $pdf = PDF::loadview('application.laporan.rencana-maintenance.report.report-rencana-maintenance', compact('image', 'dataSemester1', 'dataSemester2', 'pelaksanaSign'), ['tahun' => $request->code])->setPaper('A3', 'landscape')->setOptions(['defaultFont' => 'Courier']);
         $pdf->output();
         $canvas = $pdf->getDomPDF()->getCanvas();
 
@@ -615,12 +645,12 @@ class MenuController extends Controller
 
         $canvas->set_opacity(.1);
 
+        return base64_encode($pdf->stream());
         // $canvas->page_text($width/5, $height/2, 'Lunas', '123', 30, array(22,0,0),1,2,0);
         // $canvas->page_script('
         // $pdf->set_opacity(.1);
         // $pdf->image("bg-report.png",10, 10, 1255, 855);
         // ');
-        return base64_encode($pdf->stream());
     }
     public function laporan_rencana_maintenance_cetak(Request $request)
     {

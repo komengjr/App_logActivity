@@ -3,7 +3,7 @@
         <i class="bi bi-info-circle-fill me-2"></i> Menampilkan Laporan Kerja Hasil Maintenance Perangkat:
     </div>
     <div>
-        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal-log-it" id="button-cetak-rencana-maintenance" data-code="{{ $tahun }}">Cetak Rencana Maintenance</button>
+        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal-log-it" id="button-cetak-rencana-maintenance" data-code="{{ $tahun }}" data-petugas="{{ $petugas }}">Cetak Rencana Maintenance</button>
     </div>
 </div>
 

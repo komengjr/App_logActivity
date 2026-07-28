@@ -27,7 +27,8 @@
                 <select id="filterTahun" class="form-select" required>
                     <option value="" selected disabled>-- Pilih Tahun --</option>
                     <option value="2026">2026</option>
-                    <option value="2025">2025</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
                 </select>
             </div>
             <div class="col-md-3 d-flex align-items-end">
@@ -120,9 +121,9 @@
         });
     });
     $(document).on("click", "#button-cetak-rencana-maintenance", function(e) {
-
         e.preventDefault();
         var code = $(this).data("code");
+        var petugas = $(this).data("petugas");
         $('#menu-log-it').html(
             '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
         );
@@ -133,6 +134,7 @@
             data: {
                 "_token": "{{ csrf_token() }}",
                 "code": code,
+                "petugas": petugas
             },
             dataType: 'html',
         }).done(function(data) {
