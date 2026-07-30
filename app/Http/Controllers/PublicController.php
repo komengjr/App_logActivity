@@ -418,7 +418,58 @@ class PublicController extends Controller
 
             return redirect()->back()->with('success', 'Terima kasih! Konfirmasi penyelesaian berhasil disimpan.');
         } else {
+            $data = DB::table('tbl_laporan_user')->where('tiket_laporan', $tiket)->first();
+            $user = DB::table('users')->where('id_user', $data->id_user)->first();
+            $nomorhp = $user->phone_number;
+            //Terlebih dahulu kita trim dl
+            $nomorhp = trim($nomorhp);
+            //bersihkan dari karakter yang tidak perlu
+            $nomorhp = strip_tags($nomorhp);
+            // Berishkan dari spasi
+            $nomorhp = str_replace(" ", "", $nomorhp);
+            // Berishkan dari -
+            $nomorhp = str_replace("-", "", $nomorhp);
+            // bersihkan dari bentuk seperti  (022) 66677788
+            $nomorhp = str_replace("(", "", $nomorhp);
+            // bersihkan dari format yang ada titik seperti 0811.222.333.4
+            $nomorhp = str_replace(".", "", $nomorhp);
 
+            if (!preg_match('/[^+0-9]/', trim($nomorhp))) {
+                // cek apakah no hp karakter 1-3 adalah +62
+                if (substr(trim($nomorhp), 0, 3) == '+62') {
+                    $nomorhp = trim($nomorhp);
+                }
+                // cek apakah no hp karakter 1 adalah 0
+                elseif (substr($nomorhp, 0, 1) == '0') {
+                    $nomorhp = '+62' . substr($nomorhp, 1);
+                }
+            }
+            $telegram = DB::table('telegram_users')->where('phone', $nomorhp)->first();
+            if ($telegram) {
+                $text = "📌 *[LOGIT SYSTEM - PERMINTAAN FOLLOW UP]*\n\n" .
+                    "Halo, Team IT / Support\n" .
+                    "Mohon bantuannya untuk melakukan *follow up* pada tiket laporan berikut yang *belum selesai*:\n\n" .
+                    "🎫 *No. Tiket:* ```" . $data->tiket_laporan . "```\n" .
+                    "👤 *Pelapor:* " . $data->nama_user . "\n" .
+                    "📝 *Deskripsi Laporan:* " . $data->deskripsi_laporan . "\n\n" .
+                    "⏰ _Tanggal Permintaan Follow Up:_ " . now()->format('Y-m-d H:i:s') . " WIB\n\n" .
+                    "⚠️ *Catatan:* Mohon segera memperbarui status atau menindaklanjuti tiket ini demi kenyamanan pengguna.";
+                DB::table('v_log_whatsapp')->insert([
+                    'v_log_whatsapp_code' => str::uuid(),
+                    'v_log_whatsapp_type' => 'laporan_user',
+                    'v_log_whatsapp_token' => $data->tiket_laporan,
+                    'v_log_whatsapp_number' => $nomorhp,
+                    'v_log_whatsapp_name' => $data->nama_user,
+                    'v_log_whatsapp_filename' => 'nofile',
+                    'v_log_whatsapp_text' => $text,
+                    'v_log_whatsapp_file' => 'N',
+                    'v_log_whatsapp_picture' => 0,
+                    'v_log_whatsapp_status' => 0,
+                    'v_log_whatsapp_date' => now(),
+                    'v_log_whatsapp_pass' => 'admin',
+                    'created_at' => now()
+                ]);
+            }
             return redirect()->back()->with('warning', 'Konfirmasi dikirim. Tim IT akan memeriksa kembali kendala Anda.');
         }
     }
