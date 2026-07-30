@@ -102,134 +102,118 @@
      </div>
  </div>
 
- <div class="card mb-3 shadow-sm">
+ <div class="card mb-3 shadow-sm" id="hasil-data-kritis">
      <div class="card-header text-white py-3 bg-primary">
          <h5 class="mb-0 h6 fw-bold text-white"><i class="bi bi-grid-3x3-gap me-2"></i>2. Laporan Log Kritis Harian (Hasil Pengukuran Fasilitas)</h5>
      </div>
      <div class="card-body p-0">
-         <div class="table-responsive">
-             <table class="table table-bordered table-hover table-matriks align-middle mb-0 text-center">
-                 <thead class="text-white text-nowrap fs--2" style="background-color: #008b8b; border-color: #007e7e;">
-                     <tr>
-                         <th rowspan="2" class="align-middle" style="width: 60px;">No</th>
-                         <th rowspan="2" class="text-start">Jenis Alat/Fasilitas</th>
-                         <th colspan="{{ count($harimasuk) }}">Hasil Pengukuran</th>
-                     </tr>
-                     <tr style=" background-color: #007e7e;">
-                         @foreach ($harimasuk as $datamasuk)
-                         <th style="padding: 2px; font-size: 7px;">{{ date('d/m/Y', $datamasuk) }}</th>
-                         @endforeach
-                     </tr>
-                 </thead>
-                 <tbody class="fs--2">
-                     @php
-                     $no = 1;
-                     @endphp
-                     @foreach ($dataharian as $item)
-                     <tr>
-                         <td>{{ $no++ }}</td>
-                         <td class="text-start">{{ $item->kinerja_sub }}</td>
-                         @foreach ($harimasuk as $datamasuk1)
-                         @php
-                         $cekdata = DB::table('users_handler_record_log')
-                         ->where('kd_kinerja_sub', $item->kd_kinerja_sub)
-                         ->where('kd_cabang',Auth::user()->cabang)
-                         ->where('tgl_record', date('Y-m-d', $datamasuk1))
-                         ->first();
-                         @endphp
-                         @if ($cekdata)
-                         <td style="text-align: center;font-size: 12px;">
-                             <span class="badge bg-success-subtle text-success border border-success-subtle px-2">{{ $cekdata->ket_kinerja_sub }}</span>
-                         </td>
-                         @else
-                         <td></td>
-                         @endif
-                         @endforeach
+         <div class="table-responsive" >
 
-                     </tr>
-                     @endforeach
-                 </tbody>
-             </table>
          </div>
      </div>
-     <div class="card-footer bg-white small text-muted">
-         <span class="me-3"><strong class="text-success">N</strong> = Normal</span>
-         <span><strong class="text-danger">TN</strong> = Tidak Normal</span>
-     </div>
+
  </div>
+ <script>
+     $('#hasil-data-kritis').html(
+         '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+     );
+     $.ajax({
+         url: "{{ route('dashboard_verifikator_get_data_kritis') }}",
+         type: "POST",
+         cache: false,
+         data: {
+             "_token": "{{ csrf_token() }}",
+             "awal": "{{ $start }}",
+             "akhir": "{{ $end }}",
+         },
+         dataType: 'html',
+     }).done(function(data) {
+         $("#hasil-data-kritis").html(data);
+     }).fail(function() {
+         $('#hasil-data-kritis').html('eror');
+     });
+ </script>
 
  <div class="card mb-3 shadow-sm">
-     <div class="card-header bg-primary py-3">
+     <div class="card-header bg-primary py-3 d-flex justify-content-between align-items-center">
          <h5 class="mb-0 h6 fw-bold text-white">3. Laporan Kendala User</h5>
+         <button type="button" class="btn btn-light btn-sm fw-semibold shadow-sm" onclick="printTableKendala()">
+             <i class="bi bi-printer me-1"></i> Cetak Table
+         </button>
      </div>
      <div class="card-body">
          <div class="table-responsive">
              <table class="table table-bordered table-hover align-middle fs--1" id="table-kendala-user">
                  <thead class="bg-300">
                      <tr>
-                         <td class="text-center">No</td>
-                         <td class="text-center">Tiket Laporan</td>
-                         <td class="text-center">Nama Pelapor</td>
-                         <td class="text-center">Kategori Laporan</td>
-                         <td class="text-center">Deskripsi Masalah</td>
-                         <td class="text-center">Tanggal Laporan</td>
-                         <td class="text-center">Terima Laporan</td>
-                         <td class="text-center">Tindakan Perbaikan</td>
-                         <td class="text-center">Selesai Laporan</td>
-                         <td class="text-center">Di Bawah 5 Menit</td>
-                         <td class="text-center">Status Laporan</td>
+                         <th class="text-center">No</th>
+                         <th class="text-center">Tiket Laporan</th>
+                         <th class="text-center">Nama Pelapor</th>
+                         <th class="text-center">Kategori Laporan</th>
+                         <th class="text-center">Deskripsi Masalah</th>
+                         <th class="text-center">Tanggal Laporan</th>
+                         <th class="text-center">Terima Laporan</th>
+                         <th class="text-center">Tindakan Perbaikan</th>
+                         <th class="text-center">Selesai Laporan</th>
+                         <th class="text-center">Durasi (Respon - Selesai)</th>
+                         <th class="text-center">Status Laporan</th>
                      </tr>
                  </thead>
                  <tbody>
-                     @php
-                     $no = 1;
-                     @endphp
-                     @foreach ($kendala as $item)
+                     @foreach ($kendala as $index => $item)
                      <tr>
-                         <td>{{ $no++ }}</td>
+                         <td class="text-center">{{ $index + 1 }}</td>
                          <td>{{ $item->tiket_laporan }}</td>
                          <td>{{ $item->nama_user }}</td>
                          <td>
                              @if ($item->kategori_laporan == 'ER-001')
-                             Software
+                             <span class="badge bg-info">Software</span>
                              @else
-                             Hardware
+                             <span class="badge bg-warning text-dark">Hardware</span>
                              @endif
                          </td>
                          <td>
-                             @php
-                             echo $item->deskripsi_laporan;
-                             @endphp
+
+                             {!! $item->deskripsi_laporan !!}
                          </td>
                          <td>{{ $item->tgl_laporan }}</td>
-                         <td>{{ $item->tgl_respon_laporan }}</td>
+                         <td>{{ $item->tgl_respon_laporan ?? '-' }}</td>
                          <td>
                              @php
-                             $penyelesaian = DB::table('tbl_laporan_user_log')->where('tiket_laporan',$item->tiket_laporan)->first();
+                             // PERINGATAN: Mengambil data DB di dalam loop sangat membebani server (N+1 Query Issue).
+                             // Sebaiknya ini dipindah ke Controller.
+                             $penyelesaian = DB::table('tbl_laporan_user_log')
+                             ->where('tiket_laporan', $item->tiket_laporan)
+                             ->first();
                              @endphp
+
                              @if ($penyelesaian)
-                             @php
-                             echo $penyelesaian->deskripsi_penyelesaian;
-                             @endphp
+                             {!! $penyelesaian->deskripsi_penyelesaian !!}
+                             @else
+                             <span class="text-muted">-</span>
                              @endif
                          </td>
-                         <td>{{ $item->tgl_selesai_laporan }}</td>
-                         <td><span class="badge bg-success">
-                                 @php
-                                 $dari = date_create($item->tgl_respon_laporan);
-                                 $sampai = date_create($item->tgl_selesai_laporan);
-                                 $diff = date_diff($dari, $sampai);
-                                 echo $diff->format(' %H:%i:%s');
-                                 @endphp
-
-                                 {{-- {{$datamenit}} --}}
+                         <td>{{ $item->tgl_selesai_laporan ?? '-' }}</td>
+                         <td class="text-center">
+                             {{-- Validasi agar tidak error jika tgl_respon atau tgl_selesai masih kosong --}}
+                             @if($item->tgl_respon_laporan && $item->tgl_selesai_laporan)
+                             @php
+                             $dari = date_create($item->tgl_respon_laporan);
+                             $sampai = date_create($item->tgl_selesai_laporan);
+                             $diff = date_diff($dari, $sampai);
+                             @endphp
+                             <span class="badge bg-success">
+                                 {{ $diff->format('%H:%i:%s') }}
                              </span>
-                         </td>
-                         <td>
-                             @if ($item->status_laporan == 2)
-                             Selesai
                              @else
-                             Belum Selesai
+                             <span class="badge bg-secondary">Menunggu</span>
+                             @endif
+                         </td>
+                         <td class="text-center">
+                             @if ($item->status_laporan == 2)
+                             <span class="badge bg-success">Selesai</span>
+                             @else
+                             <span class="badge bg-danger">Belum Selesai</span>
                              @endif
                          </td>
                      </tr>
@@ -239,6 +223,7 @@
          </div>
      </div>
  </div>
+
 
  <div class="card mb-3 shadow-sm">
      <div class="card-header bg-white py-3 bg-primary">
@@ -351,4 +336,62 @@
      new DataTable('#table-kendala-user', {
          responsive: true
      });
+ </script>
+ <script>
+     function printTableKendala() {
+         // Ambil elemen HTML tabel
+         let tableHtml = document.getElementById('table-kendala-user').outerHTML;
+
+         // Buat window baru khusus untuk proses cetak
+         let printWindow = window.open('', '_blank', 'width=1000,height=700');
+
+         // Tulis dokumen HTML baru di window tersebut
+         printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Laporan Kendala User</title>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    padding: 20px;
+                }
+                h4 {
+                    text-align: center;
+                    margin-bottom: 20px;
+                    font-weight: bold;
+                }
+                table {
+                    font-size: 11px !important;
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                th, td {
+                    padding: 6px !important;
+                    vertical-align: middle !important;
+                }
+                /* Pengaturan halaman kertas agar lanskap/mendatar */
+                @page {
+                    size: A4 landscape;
+                    margin: 10mm;
+                }
+            </style>
+        </head>
+        <body>
+            <h4>LAPORAN KENDALA USER</h4>
+            ${tableHtml}
+        </body>
+        </html>
+    `);
+
+         printWindow.document.close();
+         printWindow.focus();
+
+         // Beri jeda 500ms agar style Bootstrap ter-load sempurna sebelum dialog print muncul
+         setTimeout(function() {
+             printWindow.print();
+             printWindow.close();
+         }, 500);
+     }
  </script>

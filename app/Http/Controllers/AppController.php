@@ -828,6 +828,23 @@ class AppController extends Controller
     {
         $backupharian = DB::table('users_backup_harian')->where('kd_cabang', Auth::user()->cabang)->whereBetween('tgl_backup_harian', [$request->awal, $request->akhir])->get();
         $backupbulanan = DB::table('users_backup_bulanan')->where('kd_cabang', Auth::user()->cabang)->get();
+
+        // KENDALA
+        $kendala = DB::table('tbl_laporan_user')
+            ->where('kd_cabang', Auth::user()->cabang)
+            ->whereBetween('tgl_laporan', [$request->awal, $request->akhir])
+            ->get();
+        // MAINTENANCE
+
+        $brg = DB::table('m_rencana_detail')
+            ->join('m_rencana_data', 'm_rencana_data.m_rencana_data_code', '=', 'm_rencana_detail.m_rencana_data_code')
+            ->join('m_rencana_log', 'm_rencana_log.m_rencana_detail_code', '=', 'm_rencana_detail.m_rencana_detail_code')
+            ->where('m_rencana_data.m_rencana_data_cabang', '=', Auth::user()->cabang)
+            ->whereBetween('m_rencana_log.m_rencana_log_tgl_selesai', [$request->awal, $request->akhir])->get();
+        return view('application.verifikator.form-hasil-laporan', compact('backupharian', 'backupbulanan', 'kendala', 'brg'), ['start' => $request->awal, 'end' => $request->akhir]);
+    }
+    public function dashboard_verifikator_get_data_kritis(Request $request)
+    {
         // KRITIS
         $date1 = $request->awal;
         $startdate = strtotime($date1);
@@ -841,18 +858,6 @@ class AppController extends Controller
             }
         }
         $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
-        // KENDALA
-        $kendala = DB::table('tbl_laporan_user')
-            ->where('kd_cabang', Auth::user()->cabang)
-            ->whereBetween('tgl_laporan', [$request->awal, $request->akhir])
-            ->get();
-        // MAINTENANCE
-
-        $brg = DB::table('m_rencana_detail')
-            ->join('m_rencana_data', 'm_rencana_data.m_rencana_data_code', '=', 'm_rencana_detail.m_rencana_data_code')
-            ->join('m_rencana_log', 'm_rencana_log.m_rencana_detail_code', '=', 'm_rencana_detail.m_rencana_detail_code')
-            ->where('m_rencana_data.m_rencana_data_cabang', '=', Auth::user()->cabang)
-            ->whereBetween('m_rencana_log.m_rencana_log_tgl_selesai', [$request->awal, $request->akhir])->get();
-        return view('application.verifikator.form-hasil-laporan', compact('backupharian', 'backupbulanan', 'harimasuk', 'dataharian', 'kendala', 'brg'));
+        return view('application.verifikator.table-kritis', compact('harimasuk', 'dataharian'));
     }
 }
