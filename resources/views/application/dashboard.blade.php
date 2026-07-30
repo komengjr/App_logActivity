@@ -347,7 +347,7 @@
             cache: false,
             data: {
                 "_token": "{{ csrf_token() }}",
-                "code": 2123
+                "code": '{{ Auth::user()->id_user }}'
             },
             dataType: 'html',
         }).done(function(data) {

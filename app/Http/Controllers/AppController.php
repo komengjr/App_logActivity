@@ -697,7 +697,47 @@ class AppController extends Controller
     }
     public function dashboard_monitoring_laporan_user(Request $request)
     {
-        return view('application.laporan-user.form-report-laporan-user');
+        $id_user       = $request->input('code'); // Berisi id_user dari AJAX
+        $search_tiket  = $request->input('search_tiket');
+        $status_filter = $request->input('status_filter');
+
+        // Default ke Bulan Sekarang jika tanggal tidak diisi
+        $tgl_mulai   = $request->input('tgl_mulai', Carbon::now()->startOfMonth()->format('Y-m-d'));
+        $tgl_selesai = $request->input('tgl_selesai', Carbon::now()->endOfMonth()->format('Y-m-d'));
+
+        // 1. Ambil list cabang yang di-handler oleh id_user dari tabel users_handler
+        $userCabangs = DB::table('users_handler')
+            ->where('id_user', $id_user)
+            ->pluck('kd_cabang')
+            ->toArray();
+
+        // 2. Query data laporan berdasarkan cabang-cabang tersebut
+        $query = DB::table('tbl_laporan_user')
+            ->whereIn('kd_cabang', $userCabangs);
+
+        // 3. Filter Rentang Tanggal
+        if (!empty($tgl_mulai) && !empty($tgl_selesai)) {
+            $query->whereBetween(DB::raw('DATE(tgl_laporan)'), [$tgl_mulai, $tgl_selesai]);
+        }
+
+        // 4. Filter Pencarian No. Tiket
+        if (!empty($search_tiket)) {
+            $query->where('tiket_laporan', 'LIKE', '%' . $search_tiket . '%');
+        }
+
+        // 5. Filter Status Laporan
+        if ($status_filter === 'belum_selesai') {
+            $query->whereNull('tgl_verifikasi_laporan')
+                ->whereIn('status_laporan', ['0', '1', '2']);
+        } elseif ($status_filter === 'sudah_selesai') {
+            $query->where(function ($q) {
+                $q->whereNotNull('tgl_verifikasi_laporan')
+                    ->orWhere('status_laporan', 'selesai');
+            });
+        }
+
+        $laporans = $query->orderBy('created_at', 'desc')->get();
+        return view('application.laporan-user.form-report-laporan-user', compact('laporans'));
     }
     public function dashboard_monitoring_laporan_user_report(Request $request)
     {
