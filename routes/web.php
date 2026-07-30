@@ -60,6 +60,8 @@ Route::prefix('app')->group(function () {
 
     Route::post('dashboard/verifikator/get-data', [AppController::class, 'dashboard_verifikator_get_data'])->name('dashboard_verifikator_get_data');
     Route::post('dashboard/verifikator/get-data-kritis', [AppController::class, 'dashboard_verifikator_get_data_kritis'])->name('dashboard_verifikator_get_data_kritis');
+    Route::post('dashboard/verifikator/cetak-data-kritis', [AppController::class, 'dashboard_verifikator_cetak_data_kritis'])->name('dashboard_verifikator_cetak_data_kritis');
+    Route::post('dashboard/verifikator/cetak-data-kritis/report', [AppController::class, 'dashboard_verifikator_cetak_data_kritis_report'])->name('dashboard_verifikator_cetak_data_kritis_report');
 });
 Route::prefix('master-data')->group(function () {
     Route::get('user', [MasterController::class, 'master_user'])->name('master_user');

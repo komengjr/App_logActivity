@@ -539,7 +539,8 @@ class PublicController extends Controller
             $datalaporan = DB::table('tbl_laporan_user')
                 ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
                 ->where('users_handler.id_user', Auth::user()->id_user)
-                ->where('tbl_laporan_user.status_laporan', '<', 2)->count();
+                ->whereNotIn('tbl_laporan_user.status_laporan', [2, '2', 'selesai', 'Selesai'])
+                ->count();
             $jumlahnotif = $datalaporan + $datasecurity;
             return view('waktu', ['id' => $jumlahnotif]);
         } else {

@@ -115,5 +115,28 @@
             $('#menu-log-it').html('eror');
         });
     });
+    $(document).on("click", "#button-print-laporan-kritis", function(e) {
+        e.preventDefault();
+        var start = $(this).data("start");
+        var end = $(this).data("end");
+        $('#menu-log-it').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('dashboard_verifikator_cetak_data_kritis') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "start": start,
+                "end": end
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-log-it').html(data);
+        }).fail(function() {
+            $('#menu-log-it').html('eror');
+        });
+    });
 </script>
 @endsection

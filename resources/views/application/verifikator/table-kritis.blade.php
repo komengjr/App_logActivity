@@ -1,10 +1,10 @@
 <!-- Header Card dengan Tombol Print -->
 <div class="card-header py-3 d-flex justify-content-between align-items-center" style="background-color: #008b8b;">
-    <h5 class="mb-0 h6 fw-bold text-white">
-        <h5 class="mb-0 h6 fw-bold text-white"><i class="bi bi-grid-3x3-gap me-2"></i>2. Laporan Log Kritis Harian (Hasil Pengukuran Fasilitas)</h5>
-    </h5>
-    <button type="button" class="btn btn-light btn-sm fw-semibold shadow-sm" onclick="printTableMatriks()">
-        <i class="bi bi-printer me-1"></i> Cetak Matriks
+
+    <h5 class="mb-0 h6 fw-bold text-white"><i class="bi bi-grid-3x3-gap me-2"></i>2. Laporan Log Kritis Harian (Hasil Pengukuran Fasilitas)</h5>
+
+    <button type="button" class="btn btn-light btn-sm fw-semibold shadow-sm" data-bs-toggle="modal" data-bs-target="#modal-log-it" id="button-print-laporan-kritis" data-start="{{ $start }}" data-end="{{ $end }}">
+        <i class="bi bi-printer me-1"></i> Cetak Laporan
     </button>
 </div>
 
@@ -66,5 +66,3 @@
     <span class="me-3"><strong class="text-success">N</strong> = Normal</span>
     <span><strong class="text-danger">TN</strong> = Tidak Normal</span>
 </div>
-
-

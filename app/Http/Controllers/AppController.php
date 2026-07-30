@@ -320,7 +320,8 @@ class AppController extends Controller
             ->join('users_handler', 'users_handler.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
             ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
             ->where('users_handler.id_user', Auth::user()->id_user)
-            ->where('tbl_laporan_user.status_laporan', '<', 2)->get();
+            ->whereNotIn('tbl_laporan_user.status_laporan', [2, '2', 'selesai', 'Selesai'])
+            ->get();
         $security = DB::table('user_security')->where('id_user', Auth::user()->id_user)->where('user_security_status', '=', 1)->first();
         if ($security) {
             $datasecurity = DB::table('tbl_laporan_security')
@@ -331,17 +332,17 @@ class AppController extends Controller
         }
 
         // dd($dataschadule);
-        $piket = DB::table('piket_nasional_user')
-            ->join('piket_nasional', 'piket_nasional.tiket_piket_nasional', '=', 'piket_nasional_user.tiket_piket_nasional')
-            ->Where('piket_nasional.tgl_piket_nasional', 'like', '%' . date('Y-m-d') . '%')
-            ->where('piket_nasional_user.user_piket', Auth::user()->id_user)->first();
+        // $piket = DB::table('piket_nasional_user')
+        //     ->join('piket_nasional', 'piket_nasional.tiket_piket_nasional', '=', 'piket_nasional_user.tiket_piket_nasional')
+        //     ->Where('piket_nasional.tgl_piket_nasional', 'like', '%' . date('Y-m-d') . '%')
+        //     ->where('piket_nasional_user.user_piket', Auth::user()->id_user)->first();
         $datanasional = DB::table('tbl_laporan_user')
             ->join('tbl_cabang', 'tbl_cabang.kd_cabang', '=', 'tbl_laporan_user.kd_cabang')
-            ->where('tbl_laporan_user.status_laporan', '<', 1)->get();
+            ->whereIn('tbl_laporan_user.status_laporan', [0, 1])->get();
         return view('application.message.list-message', [
             'datapesan' => $datapesan,
             'datasecurity' => $datasecurity,
-            'piket' => $piket,
+            // 'piket' => $piket,
             'datanasional' => $datanasional
         ]);
     }
@@ -858,6 +859,53 @@ class AppController extends Controller
             }
         }
         $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
-        return view('application.verifikator.table-kritis', compact('harimasuk', 'dataharian'));
+        return view('application.verifikator.table-kritis', compact('harimasuk', 'dataharian'), ['start' => $request->awal, 'end' => $request->akhir]);
+    }
+    public function dashboard_verifikator_cetak_data_kritis(Request $request)
+    {
+        return view('application.verifikator.form-report-kritis', ['start' => $request->start, 'end' => $request->end]);
+    }
+    public function dashboard_verifikator_cetak_data_kritis_report(Request $request)
+    {
+        $date1 = substr($request->date, 0, 10);
+        $date2 = substr($request->date, 14, 10);
+        $startdate = $request->start;
+        $startdate = strtotime($startdate);
+        $enddate = $request->end;
+        $enddate = strtotime($enddate);
+        $harimasuk = array();
+        for ($i = $startdate; $i <= $enddate; $i += (60 * 60 * 24)) {
+            if (date('w', $i) !== '0') {
+                $harimasuk[] = $i;
+            } else {
+            }
+        }
+        $datacabang = DB::table('tbl_cabang')->where('kd_cabang', Auth::user()->cabang)->first();
+        $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
+        $image = base64_encode(file_get_contents(public_path('icon1.png')));
+        $pdf = PDF::loadview('application.verifikator.report.report-data-kritis', [
+            'dataharian' => $dataharian,
+            'harimasuk' => $harimasuk,
+            'datacabang' => $datacabang,
+            'start' => $date1,
+            'end' => $date2,
+            'cabang' => Auth::user()->cabang
+        ], compact('image'))->setPaper('A3', 'landscape')->setOptions(['defaultFont' => 'Courier']);
+        $pdf->output();
+        $canvas = $pdf->getDomPDF()->getCanvas();
+
+        $height = $canvas->get_height();
+        $width = $canvas->get_width();
+
+        $canvas->set_opacity(.2, "Multiply");
+
+        $canvas->set_opacity(.1);
+
+        // $canvas->page_text($width/5, $height/2, 'Lunas', '123', 30, array(22,0,0),1,2,0);
+        // $canvas->page_script('
+        // $pdf->set_opacity(.1);
+        // $pdf->image("bg-report.png",10, 10, 1255, 855);
+        // ');
+        return base64_encode($pdf->stream());
     }
 }
