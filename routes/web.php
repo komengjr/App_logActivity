@@ -474,6 +474,8 @@ Route::prefix('/v3')->group(function () {
     Route::post('case/save-data', [PublicController::class, 'v3_case_save_data'])->name('v3_case_save_data');
     Route::post('case/get-tiket', [PublicController::class, 'v3_case_get_tiket'])->name('v3_case_get_tiket');
     Route::get('check_laporan', [PublicController::class, 'v3_chek_laporan'])->name('v3_chek_laporan');
+    Route::get('validation_laporan/{tiket}', [PublicController::class, 'v3_validation_laporan'])->name('v3_validation_laporan');
+    Route::post('verifikasi_penyelesaian_laporan/{tiket}', [PublicController::class, 'v3_verifikasi_penyelesaian'])->name('v3_verifikasi_penyelesaian');
     Route::get('check_schedule', [PublicController::class, 'v3_check_schedule'])->name('v3_check_schedule');
     Route::post('check_schedule/detail', [PublicController::class, 'v3_check_schedule_detail'])->name('v3_check_schedule_detail');
     Route::get('kritis/{code}/{id}/{tgl}', [PublicController::class, 'v3_insert_kritis_cabang'])->name('v3_insert_kritis_cabang');

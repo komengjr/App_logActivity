@@ -551,7 +551,6 @@ class ApiController extends Controller
                 'reply_markup' => json_encode(['remove_keyboard' => true])
             ]);
         }
-
         return response()->json(['status' => 'success'], 200);
     }
     private function sendMenuButtons($token, $chatId, $firstName)
@@ -577,7 +576,7 @@ class ApiController extends Controller
             'reply_markup' => json_encode($inlineKeyboard)
         ]);
     }
-     private function sendRequestContactButton($token, $chatId, $firstName)
+    private function sendRequestContactButton($token, $chatId, $firstName)
     {
         $keyboard = [
             'keyboard' => [

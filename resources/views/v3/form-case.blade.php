@@ -389,7 +389,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Email <small>Optional</small></label>
-                    <input type="text" class="form-control" name="email" placeholder="0" required>
+                    <input type="text" class="form-control" name="email" id="email" placeholder="example@gmail.com" required>
                     <div class="error-msg">Stok minimal 1.</div>
                 </div>
 
@@ -578,13 +578,14 @@
         $(document).on("click", "#btnSubmit", function(e) {
             e.preventDefault();
             var nowhatsapp = document.getElementById('no_whatsapp').value;
+            var email = document.getElementById('email').value;
             const btn = $("#btnSubmit");
 
-            if (nowhatsapp == "") {
+            if (nowhatsapp == "" || email == "") {
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Nomor Whatsapp wajib diisi!",
+                    text: "Nomor Whatsapp dan Email wajib diisi!",
                 });
             } else {
                 Swal.fire({

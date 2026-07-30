@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\SendNotificationEmail;
 use App\Mail\SendNotificationEmailUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -161,7 +162,7 @@ class PublicController extends Controller
                     'messageContent'   => 'Halo ' . $request->nama_pelapor . ', laporan atau tiket bantuan Anda telah diperbarui dengan status saat ini: .',
                     'deskripsi'        => $request->catatan_laporan,
                     'created_at'       => now(),
-                    'url'              => url('/v3/check_laporan'), // Sesuaikan route detail laporan Anda
+                    'url'              => url('/v3/validation_laporan', $tiket), // Sesuaikan route detail laporan Anda
                     'buttonText'       => 'Lihat Detail Tiket'
                 ];
                 Mail::to($request->email)->send(new SendNotificationEmailUser($data));
@@ -254,7 +255,6 @@ class PublicController extends Controller
                     'status_telegram' => 0,
                     'created_at' => now(),
                 ]);
-
 
                 $find = DB::table('users_handler')->join('users', 'users.id_user', '=', 'users_handler.id_user')->where('kd_cabang', $request->cabang)->get();
                 foreach ($find as $value) {
@@ -382,6 +382,45 @@ class PublicController extends Controller
     public function v3_chek_laporan()
     {
         return view('v3.form-check-laporan');
+    }
+    public function v3_validation_laporan($tiket)
+    {
+        // 1. Ambil data utama laporan
+        $laporan = DB::table('tbl_laporan_user')
+            ->where('tiket_laporan', $tiket)
+            ->first();
+
+        // Jika tiket tidak ditemukan, tampilkan halaman 404
+        if (!$laporan) {
+            abort(404, 'Tiket laporan tidak ditemukan.');
+        }
+
+        // 2. Ambil riwayat/pengerjaan Tim IT dari tbl_laporan_user_log
+        // Opsional: Join ke tabel user jika ingin menampilkan nama teknisi yang menangani
+        $logs = DB::table('tbl_laporan_user_log')
+            ->where('tiket_laporan', $tiket)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('v3.form-validation-laporan', compact('laporan', 'logs'));
+    }
+    public function v3_verifikasi_penyelesaian(Request $request, $tiket)
+    {
+        $status_verifikasi = $request->input('status_verifikasi'); // 'selesai' atau 'belum'
+
+        if ($status_verifikasi === 'selesai') {
+            DB::table('tbl_laporan_user')
+                ->where('tiket_laporan', $tiket)
+                ->update([
+                    'status_laporan' => 'Selesai',
+                    'tgl_verifikasi_laporan' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'updated_at' => Carbon::now()
+                ]);
+
+            return redirect()->back()->with('success', 'Terima kasih! Konfirmasi penyelesaian berhasil disimpan.');
+        } else {
+
+            return redirect()->back()->with('warning', 'Konfirmasi dikirim. Tim IT akan memeriksa kembali kendala Anda.');
+        }
     }
     public function v3_check_schedule()
     {
