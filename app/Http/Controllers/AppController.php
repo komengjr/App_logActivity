@@ -861,6 +861,67 @@ class AppController extends Controller
         $dataharian = DB::table('tbl_kinerja_sub')->where('jenis_kinerja_sub', 1)->get();
         return view('application.verifikator.table-kritis', compact('harimasuk', 'dataharian'), ['start' => $request->awal, 'end' => $request->akhir]);
     }
+    public function dashboard_verifikator_cetak_data_backup_harian(Request $request)
+    {
+        return view('application.verifikator.form-report-backup-harian', ['start' => $request->start, 'end' => $request->end]);
+    }
+    public function dashboard_verifikator_cetak_data_backup_harian_report(Request $request)
+    {
+
+        $datacabang = DB::table('tbl_cabang')->where('kd_cabang', Auth::user()->cabang)->first();
+        $image = base64_encode(file_get_contents(public_path('icon1.png')));
+        $start = $request->start;
+        $end = $request->end;
+        $pdf = PDF::loadview('application.verifikator.report.report-data-backup-harian', compact('image'), [
+            'datacabang' => $datacabang,
+            'start' => $start,
+            'end' => $end
+        ])->setPaper('A4', 'potrait')->setOptions(['defaultFont' => 'Courier']);
+        $pdf->output();
+        $canvas = $pdf->getDomPDF()->getCanvas();
+
+        $height = $canvas->get_height();
+        $width = $canvas->get_width();
+
+        $canvas->set_opacity(.2, "Multiply");
+
+        $canvas->set_opacity(.1);
+
+        // $canvas->page_text($width/5, $height/2, 'Lunas', '123', 30, array(22,0,0),1,2,0);
+        // $canvas->page_script('
+        // $pdf->set_opacity(.1);
+        // $pdf->image("bg-report.png",10, 10, 1255, 855);
+        // ');
+        return base64_encode($pdf->stream());
+    }
+    public function dashboard_verifikator_cetak_data_backup_bulanan(Request $request)
+    {
+        return view('application.verifikator.form-report-backup-bulanan', ['start' => $request->start, 'end' => $request->end]);
+    }
+    public function dashboard_verifikator_cetak_data_backup_bulanan_report(Request $request)
+    {
+
+        $image = base64_encode(file_get_contents(public_path('icon1.png')));
+        $start = $request->start;
+        $end = $request->end;
+        $pdf = PDF::loadview('application.verifikator.report.report-data-backup-bulanan', compact('image'), [ 'start' => $start, 'end' => $end])->setPaper('A4', 'landscape')->setOptions(['defaultFont' => 'Courier']);
+        $pdf->output();
+        $canvas = $pdf->getDomPDF()->getCanvas();
+
+        $height = $canvas->get_height();
+        $width = $canvas->get_width();
+
+        $canvas->set_opacity(.2, "Multiply");
+
+        $canvas->set_opacity(.1);
+
+        // $canvas->page_text($width/5, $height/2, 'Lunas', '123', 30, array(22,0,0),1,2,0);
+        // $canvas->page_script('
+        // $pdf->set_opacity(.1);
+        // $pdf->image("bg-report.png",10, 10, 1255, 855);
+        // ');
+        return base64_encode($pdf->stream());
+    }
     public function dashboard_verifikator_cetak_data_kritis(Request $request)
     {
         return view('application.verifikator.form-report-kritis', ['start' => $request->start, 'end' => $request->end]);
@@ -907,5 +968,40 @@ class AppController extends Controller
         // $pdf->image("bg-report.png",10, 10, 1255, 855);
         // ');
         return base64_encode($pdf->stream());
+    }
+    public function dashboard_verifikator_sign_maintenance(Request $request)
+    {
+        $request->validate([
+            'm_rencana_detail_code'      => 'required',
+            'm_rencana_detail_verif_sdm' => 'required',
+            'm_rencana_detail_sign_sdm'  => 'required',
+        ]);
+
+        try {
+            $updated = DB::table('m_rencana_detail')
+                ->where('m_rencana_detail_code', $request->m_rencana_detail_code)
+                ->update([
+                    'm_rencana_detail_verif_sdm' => $request->m_rencana_detail_verif_sdm,
+                    'm_rencana_detail_sign_sdm'  => $request->m_rencana_detail_sign_sdm,
+                    'updated_at'                 => now(),
+                ]);
+
+            if ($updated) {
+                return response()->json([
+                    'status'  => 'success',
+                    'message' => 'Data verifikasi SDM berhasil disimpan.'
+                ]);
+            }
+
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Gagal memproses verifikasi. Data tidak ditemukan atau tidak ada perubahan.'
+            ], 400);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Terjadi kesalahan sistem: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

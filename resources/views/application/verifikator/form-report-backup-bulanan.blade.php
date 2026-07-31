@@ -1,6 +1,6 @@
 <div class="modal-body p-0">
     <div class="bg-primary rounded-top-lg py-3 ps-4 pe-6">
-        <h4 class="mb-1" style="color: white;" id="staticBackdropLabel">Form Report Data Kritis</h4>
+        <h4 class="mb-1" style="color: white;" id="staticBackdropLabel">Form Report Data Backup Bulanan</h4>
         <p class="fs--2 mb-0" style="color: white;">Support by <a class="link-600 fw-semi-bold" href="#!"></a>
         </p>
     </div>
@@ -16,7 +16,7 @@
         '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
     );
     $.ajax({
-        url: "{{ route('dashboard_verifikator_cetak_data_kritis_report') }}",
+        url: "{{ route('dashboard_verifikator_cetak_data_backup_bulanan_report') }}",
         type: "POST",
         cache: false,
         data: {

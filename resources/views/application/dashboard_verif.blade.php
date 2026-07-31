@@ -68,6 +68,8 @@
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
 <script src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.js"></script>
 <script src="https://cdn.datatables.net/responsive/3.0.4/js/responsive.bootstrap5.js"></script>
+<!-- CDN Signature Pad -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
 <script>
     $(document).on("click", "#btnTerapkanFilter", function(e) {
         e.preventDefault();
@@ -124,6 +126,52 @@
         );
         $.ajax({
             url: "{{ route('dashboard_verifikator_cetak_data_kritis') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "start": start,
+                "end": end
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-log-it').html(data);
+        }).fail(function() {
+            $('#menu-log-it').html('eror');
+        });
+    });
+    $(document).on("click", "#button-cetak-backup-harian", function(e) {
+        e.preventDefault();
+        var start = $(this).data("start");
+        var end = $(this).data("end");
+        $('#menu-log-it').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('dashboard_verifikator_cetak_data_backup_harian') }}",
+            type: "POST",
+            cache: false,
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "start": start,
+                "end": end
+            },
+            dataType: 'html',
+        }).done(function(data) {
+            $('#menu-log-it').html(data);
+        }).fail(function() {
+            $('#menu-log-it').html('eror');
+        });
+    });
+    $(document).on("click", "#button-cetak-backup-bulanan", function(e) {
+        e.preventDefault();
+        var start = $(this).data("start");
+        var end = $(this).data("end");
+        $('#menu-log-it').html(
+            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
+        );
+        $.ajax({
+            url: "{{ route('dashboard_verifikator_cetak_data_backup_bulanan') }}",
             type: "POST",
             cache: false,
             data: {

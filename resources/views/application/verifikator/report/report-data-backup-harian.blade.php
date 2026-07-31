@@ -238,8 +238,8 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
             <img src="data:image/png;base64, {{ $image }}">
         </div>
         <div id="company">
-            <div style="margin-top: -20px; font-size: 9px;;">PR/001/ACC/123123</div><br>
-            <h2 class="name">LAPORAN PENGUJIAN FASILITAS SARANA DAN PRASARANA KRITIS</h2>
+            <div style="margin-top: -20px; font-size: 9px;;">SDM.33-FRM-PP.09/02</div><br>
+            <h2 class="name">LAPORAN BACK DATA HARIAN</h2>
             <div>{{ $datacabang->nama_cabang }}</div>
             <div>{{ $datacabang->alamat }}</div>
         </div>
@@ -271,75 +271,90 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
                 </table>
             </div>
             <div id="invoice">
-                <span style="font-size: 1em;color: #1ac300ff;"><strong>LAPORAN PENGUJIAN FASILITAS SARANA DAN PRASARANA KRITIS</strong></span>
+                <span style="font-size: 1em;color: #1ac300ff;"><strong>CHECKLIST SISTEM SERVER & BACKUP DATA BISONE HARIAN</strong></span>
                 {{-- <div class="date" style="color: red; font-size: 12px;">Print By : {{ Auth::user()->fullname }}
             </div> --}}
             <div class="date" style="color: #0087C3">{{ date('d-m-Y H-i-s') }}</div><br>
 
         </div>
         </div>
+
+        <!-- Hasil -->
         <h5><span class="badge badge-dark">Date Range : {{$start}} Sampai {{$end}}</span></h5>
 
-        <table
-            style="font-size: 8px; margin: 0px; padding: 0px; width:100%; font-size: 11px; font-family: Calibri (Body);"
-            border="1">
+
+        @php
+        $data = DB::table('users_backup_harian')->where('kd_cabang',Auth::user()->cabang)->whereBetween('tgl_backup_harian', [$start,$end])->get();
+        @endphp
+        <h5>{{$datacabang->nama_cabang}}</h5>
+        <table style="font-size: 8px; margin: 0px; padding: 0px; width: 710px; font-size: 11px; font-family: Calibri (Body);" border="1">
+            <thead style="font-weight: bold;">
+                <tr>
+                    <td class="text-center">No</td>
+                    <td class="text-center">Verifikasi Backup</td>
+                    <td class="text-center">Sistem Backup</td>
+                    <td class="text-center">Proses Backup</td>
+                    <td class="text-center">Deskripsi</td>
+                </tr>
+
+            </thead>
             <tbody>
-                <thead>
-                    <tr>
-                        <th rowspan="2" style="width: 2%;">No</th>
-                        <th rowspan="2" style="width: 10%; margin: 10px; padding: 10px;">Jenis Alat/Fasilitas
-                        </th>
-                        <th colspan="{{ count($harimasuk) }}">Hasil Pengukuran</th>
-                    </tr>
-                    <tr>
-                        @foreach ($harimasuk as $datamasuk)
-                        <th style="padding: 2px; font-size: 7px;">{{ date('d/m/Y', $datamasuk) }}</th>
-                        @endforeach
-                    </tr>
-                </thead>
                 @php
                 $no = 1;
                 @endphp
-                @foreach ($dataharian as $item)
+                @foreach ($data as $item)
                 <tr>
-                    <td>{{ $no++ }}</td>
-                    <td>{{ $item->kinerja_sub }}</td>
-                    @foreach ($harimasuk as $datamasuk1)
-                    @php
-                    $cekdata = DB::table('users_handler_record_log')
-                    ->where('kd_kinerja_sub', $item->kd_kinerja_sub)
-                    ->where('kd_cabang', $cabang)
-                    ->where('tgl_record', date('Y-m-d', $datamasuk1))
-                    ->first();
-                    @endphp
-                    @if ($cekdata)
-                    @if ($cekdata->ket_kinerja_sub == 'N')
-                    <td style="text-align: center;font-size: 12px; color: green;">{{ $cekdata->ket_kinerja_sub }}
+                    <td>{{$no++}}</td>
+                    <td>{{$item->tgl_backup_harian }}</td>
+                    <td>{{$item->sistem_backup_harian }}</td>
+                    <td>{{$item->proses_backup_harian }}</td>
+                    <td style="font-size: 7px;">
+                        @if ($item->kd_cabang == 'PA')
+                        [ PA | Pramita Pontianak]
+                        DATE : {{$item->tgl_backup_harian }} 05:42:01
+                        <br>UP : 51 days, 21:08,
+                        <br>----------
+                        <br>Service :
+                        <br>Web Server running
+                        <br>Report Server running
+                        <br>MariaDB Server running
+                        <br>----------
+                        <br>Resource :
+                        <br>folder / sisa 62G
+                        <br>folder /var sisa 368G
+                        <br>Pacs /data-pacs => //192.168.61.228/pacslis
+                        /data-pacs/20241029 exists
+                        /data-pacs/20241028 exists
+                        <br>----------
+                        <br>Connectivity:<br>
+                        [Reg]192.168.61.232:80 1 ms
+                        regonline.pramita.co.id:443 down ( connect timeout in 5 s)
+                        email.pramita.co.id:587 85 ms
+                        result.pramita.co.id:443 104 ms
+                        Backup:
+                        one-hour_02AM-db.sql 2G {{$item->tgl_backup_harian }} 02:03
+                        one_log-hour_02AM-db.sql 3.9G {{$item->tgl_backup_harian }} 02:17
+                        @endif
+                        @php
+                        echo $item->deskripsi_backup_harian;
+                        @endphp
                     </td>
-                    @else
-                    <td style="text-align: center;font-size: 12px; color: red;">{{ $cekdata->ket_kinerja_sub }}
-                    </td>
-
-                    @endif
-                    @else
-                    <td></td>
-                    @endif
-                    @endforeach
-
                 </tr>
                 @endforeach
             </tbody>
         </table>
 
+
         <table class="signature-table text-center">
             <tr>
                 <td>
-                    <div style="color: #444;">Pelaksana ,</div>
+                    <div style="color: #444;">Pelaksana,</div>
                     <div class="signature-space" style="line-height: 75px; font-weight: bold; color: #1e40af; font-size: 10px;">
                         <!-- [ VERIFIED BY IT SYSTEM ] -->
                     </div>
                     <br>
-                    <img src="data:image/png;base64, {!! base64_encode(QrCode::style('round')->eye('circle')->format('svg')->size(100)->errorCorrection('H')->generate(123), ) !!}">
+                    <br>
+                    <br>
                     <br>
                     <br>
                     <div>

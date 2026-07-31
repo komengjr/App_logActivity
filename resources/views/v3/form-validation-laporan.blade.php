@@ -231,7 +231,7 @@
             <div class="ticket-info-box">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <h5 class="fw-bold mb-0 text-dark">{{ $laporan->nama_user }}</h5>
-                    <span class="badge
+                    <!-- <span class="badge
                     @if($laporan->status_laporan == '0') bg-danger
                     @elseif($laporan->status_laporan == '1') bg-warning text-dark
                     @elseif($laporan->status_laporan == '2') bg-info text-dark
@@ -244,16 +244,19 @@
                         @elseif($laporan->status_laporan == '2') bi-tools
                         @else bi-check-circle-fill @endif me-1"></i>
 
-                        @if($laporan->status_laporan == '0')
-                        Belum Direspon
-                        @elseif($laporan->status_laporan == '1')
-                        Sedang Diproses
-                        @elseif($laporan->status_laporan == '2')
-                        Penyelesaian IT
-                        @else
-                        Tiket Selesai
-                        @endif
-                    </span>
+
+                    </span> -->
+                    @if ($laporan->status_laporan == 'Selesai')
+                    <span class="badge bg-success rounded-pill px-3 py-2"><i class="bi bi-check-circle-fill me-2"></i> Tiket Selesai</span>
+                    @elseif ($laporan->tgl_selesai_laporan != NULL)
+                    <span class="badge bg-info rounded-pill px-3 py-2"><i class="bi bi-check-circle-fill me-2"></i> Butuh Verifikasi</span>
+                    @elseif ($laporan->tgl_proses_laporan != NULL)
+                    <span class="badge bg-primary rounded-pill px-3 py-2"><i class="bi bi-tools me-2"></i> Tiket Sedang di Proses</span>
+                    @elseif ($laporan->tgl_respon_laporan != NULL)
+                    <span class="badge bg-dark rounded-pill px-3 py-2"><i class="bi bi-hourglass-split me-2"></i> Tiket Sudah direspon</span>
+                    @elseif ($laporan->tgl_laporan != NULL)
+                    <span class="badge bg-danger rounded-pill px-3 py-2"><i class="bi bi-exclamation-circle-fill me-2"></i> Tiket Belum direspon</span>
+                    @endif
                 </div>
 
                 <!-- Grid Informasi Pelapor -->

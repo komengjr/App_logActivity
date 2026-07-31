@@ -60,8 +60,13 @@ Route::prefix('app')->group(function () {
 
     Route::post('dashboard/verifikator/get-data', [AppController::class, 'dashboard_verifikator_get_data'])->name('dashboard_verifikator_get_data');
     Route::post('dashboard/verifikator/get-data-kritis', [AppController::class, 'dashboard_verifikator_get_data_kritis'])->name('dashboard_verifikator_get_data_kritis');
+    Route::post('dashboard/verifikator/cetak-data-backup-harian', [AppController::class, 'dashboard_verifikator_cetak_data_backup_harian'])->name('dashboard_verifikator_cetak_data_backup_harian');
+    Route::post('dashboard/verifikator/cetak-data-backup-harian/report', [AppController::class, 'dashboard_verifikator_cetak_data_backup_harian_report'])->name('dashboard_verifikator_cetak_data_backup_harian_report');
+    Route::post('dashboard/verifikator/cetak-data-backup-bulanan', [AppController::class, 'dashboard_verifikator_cetak_data_backup_bulanan'])->name('dashboard_verifikator_cetak_data_backup_bulanan');
+    Route::post('dashboard/verifikator/cetak-data-backup-bulanan/report', [AppController::class, 'dashboard_verifikator_cetak_data_backup_bulanan_report'])->name('dashboard_verifikator_cetak_data_backup_bulanan_report');
     Route::post('dashboard/verifikator/cetak-data-kritis', [AppController::class, 'dashboard_verifikator_cetak_data_kritis'])->name('dashboard_verifikator_cetak_data_kritis');
     Route::post('dashboard/verifikator/cetak-data-kritis/report', [AppController::class, 'dashboard_verifikator_cetak_data_kritis_report'])->name('dashboard_verifikator_cetak_data_kritis_report');
+    Route::post('dashboard/verifikator/sign-maintenance', [AppController::class, 'dashboard_verifikator_sign_maintenance'])->name('dashboard_verifikator_sign_maintenance');
 });
 Route::prefix('master-data')->group(function () {
     Route::get('user', [MasterController::class, 'master_user'])->name('master_user');

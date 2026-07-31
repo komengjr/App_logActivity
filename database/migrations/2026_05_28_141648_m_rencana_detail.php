@@ -25,6 +25,8 @@ class MRencanaDetail extends Migration
             $table->string('m_rencana_detail_verif')->nullable();
             $table->text('m_rencana_detail_sign')->nullable();
             $table->integer('m_rencana_detail_status');
+            $table->varchar('m_rencana_detail_verif_sdm')->nullable();
+            $table->text('m_rencana_detail_sign_sdm')->nullable();
             $table->timestamps();
         });
     }

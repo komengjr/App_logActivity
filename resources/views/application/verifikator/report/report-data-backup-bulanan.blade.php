@@ -238,10 +238,10 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
             <img src="data:image/png;base64, {{ $image }}">
         </div>
         <div id="company">
-            <div style="margin-top: -20px; font-size: 9px;;">PR/001/ACC/123123</div><br>
-            <h2 class="name">LAPORAN PENGUJIAN FASILITAS SARANA DAN PRASARANA KRITIS</h2>
-            <div>{{ $datacabang->nama_cabang }}</div>
-            <div>{{ $datacabang->alamat }}</div>
+            <div style="margin-top: -20px; font-size: 9px;;">SDM.33-FRM-IKA-PP.09.03</div><br>
+            <h2 class="name">LAPORAN BACK DATA BULANAN</h2>
+            <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur esse eius quod minus quae consectetur provident illum, </div>
+            <div>000 0000 0000</div>
         </div>
         </div>
     </header>
@@ -271,75 +271,74 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
                 </table>
             </div>
             <div id="invoice">
-                <span style="font-size: 1em;color: #1ac300ff;"><strong>LAPORAN PENGUJIAN FASILITAS SARANA DAN PRASARANA KRITIS</strong></span>
+                <span style="font-size: 1em;color: #1ac300ff;"><strong>BACKUP DATA BISONE BULANAN</strong></span>
                 {{-- <div class="date" style="color: red; font-size: 12px;">Print By : {{ Auth::user()->fullname }}
             </div> --}}
             <div class="date" style="color: #0087C3">{{ date('d-m-Y H-i-s') }}</div><br>
 
         </div>
         </div>
+
+        <!-- Hasil -->
         <h5><span class="badge badge-dark">Date Range : {{$start}} Sampai {{$end}}</span></h5>
 
-        <table
-            style="font-size: 8px; margin: 0px; padding: 0px; width:100%; font-size: 11px; font-family: Calibri (Body);"
-            border="1">
+
+        @php
+        $data = DB::table('users_backup_bulanan')->where('kd_cabang',Auth::user()->cabang)->get();
+        @endphp
+
+        <table style="margin: 0px; padding: 0px; width: 100%; font-size: 11px; font-family: 'Calibri', sans-serif;" border="1">
+            <thead style="font-weight: bold;">
+                <tr>
+                    <td class="text-center" style="width: 30px;">No</td>
+                    <td class="text-center">Bulan Backup</td>
+                    <td class="text-center">Tahun Backup</td>
+                    <td class="text-center">Deskripsi</td>
+                    <td class="text-center">Bukti</td>
+                </tr>
+            </thead>
             <tbody>
-                <thead>
-                    <tr>
-                        <th rowspan="2" style="width: 2%;">No</th>
-                        <th rowspan="2" style="width: 10%; margin: 10px; padding: 10px;">Jenis Alat/Fasilitas
-                        </th>
-                        <th colspan="{{ count($harimasuk) }}">Hasil Pengukuran</th>
-                    </tr>
-                    <tr>
-                        @foreach ($harimasuk as $datamasuk)
-                        <th style="padding: 2px; font-size: 7px;">{{ date('d/m/Y', $datamasuk) }}</th>
-                        @endforeach
-                    </tr>
-                </thead>
                 @php
                 $no = 1;
                 @endphp
-                @foreach ($dataharian as $item)
+                @foreach ($data as $item)
                 <tr>
-                    <td>{{ $no++ }}</td>
-                    <td>{{ $item->kinerja_sub }}</td>
-                    @foreach ($harimasuk as $datamasuk1)
-                    @php
-                    $cekdata = DB::table('users_handler_record_log')
-                    ->where('kd_kinerja_sub', $item->kd_kinerja_sub)
-                    ->where('kd_cabang', $cabang)
-                    ->where('tgl_record', date('Y-m-d', $datamasuk1))
-                    ->first();
-                    @endphp
-                    @if ($cekdata)
-                    @if ($cekdata->ket_kinerja_sub == 'N')
-                    <td style="text-align: center;font-size: 12px; color: green;">{{ $cekdata->ket_kinerja_sub }}
+                    <td class="text-center">{{ $no++ }}</td>
+                    <td>{{ $item->nama_backup_bulanan }}</td>
+                    <td>{{ $item->tahun_backup_bulanan }}</td>
+                    <td>
+                        {{-- Syntax Blade bersih untuk render HTML --}}
+                        {!! $item->deskripsi !!}
                     </td>
-                    @else
-                    <td style="text-align: center;font-size: 12px; color: red;">{{ $cekdata->ket_kinerja_sub }}
+                    <td class="text-center">
+                        @php
+                        $path = public_path('storage/screenshots/' . $item->screenshot);
+                        @endphp
+
+                        {{-- Cek apakah nama file ada di DB & filenya benar-benar ada di storage server --}}
+                        @if (!empty($item->screenshot) && file_exists($path) && is_file($path))
+                        <img src="data:image/png;base64,{{ base64_encode(file_get_contents($path)) }}" width="450">
+                        @else
+                        <span style="color: #888;">-</span>
+                        @endif
                     </td>
-
-                    @endif
-                    @else
-                    <td></td>
-                    @endif
-                    @endforeach
-
                 </tr>
                 @endforeach
             </tbody>
         </table>
 
+
+        <br>
         <table class="signature-table text-center">
             <tr>
                 <td>
-                    <div style="color: #444;">Pelaksana ,</div>
+                    <div style="color: #444;">Pelaksana,</div>
                     <div class="signature-space" style="line-height: 75px; font-weight: bold; color: #1e40af; font-size: 10px;">
                         <!-- [ VERIFIED BY IT SYSTEM ] -->
                     </div>
                     <br>
-                    <img src="data:image/png;base64, {!! base64_encode(QrCode::style('round')->eye('circle')->format('svg')->size(100)->errorCorrection('H')->generate(123), ) !!}">
+                    <br>
+                    <br>
                     <br>
                     <br>
                     <div>
@@ -349,7 +348,7 @@ $bio = DB::table('tbl_biodata')->where('id_user',Auth::user()->id_user)->first()
                 </td>
 
                 <td>
-                    <div style="color: #444;">Mengetahui, {{ $datacabang->city }}, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}</div>
+                    <div style="color: #444;">Mengetahui, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}</div>
                     <div style="color: #444; margin-top: 2px;">Manager SDM & UMMUM,</div>
 
                     <div class="signature-space">

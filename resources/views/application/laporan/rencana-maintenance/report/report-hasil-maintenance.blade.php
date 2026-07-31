@@ -134,9 +134,9 @@
         CHECKLIST PEMELIHARAAN SOFTWARE & PERALATAN IT PENDUKUNG BISONE<br>
         LABORATORIUM KLINIK
         @if ($cabang->kd_entitas_cabang == 'PTP')
-            PRAMITA
+        PRAMITA
         @else
-            SIMA
+        SIMA
         @endif
         <br>
         CABANG: {{ $cabang->nama_cabang }}
@@ -205,11 +205,11 @@
                 <div style="color: #444; margin-top: 2px;">Manager SDM & UMMUM,</div>
 
                 <div class="signature-space">
-
+                    <img src="{{ $cabang->m_rencana_detail_sign_sdm }}" class="signature-image" alt="Tanda Tangan Atasan">
                 </div>
 
                 <div>
-                    <span class="line-nama"></span>
+                    <span class="line-nama">{{ $cabang->m_rencana_detail_verif_sdm }}</span>
                 </div>
                 <div style="color: #555; font-size: 10px;">-</div>
             </td>
