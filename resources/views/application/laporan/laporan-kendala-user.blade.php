@@ -112,7 +112,7 @@
                 <label class="form-label fs--2 fw-semibold text-secondary mb-1">Tipe Laporan</label>
                 <select id="sourceFilter" class="form-select bg-light fs--2">
                     <option value="">Semua Tipe</option>
-                    <option value="USER">User Kendala</option>
+                    <option value="USER">Hardware & Software</option>
                     <option value="SECURITY">Security</option>
                 </select>
             </div>
