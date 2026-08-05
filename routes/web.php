@@ -152,7 +152,8 @@ Route::prefix('menu')->group(function () {
     Route::post('app/master/master-menu-validasi/add-sub-menu', [MenuController::class, 'master_data_menu_validasi_add_sub_menu'])->name('master_data_menu_validasi_add_sub_menu');
     Route::post('app/master/master-menu-validasi/save-sub-menu', [MenuController::class, 'master_data_menu_validasi_save_sub_menu'])->name('master_data_menu_validasi_save_sub_menu');
 
-    Route::post('app/laporan/laporan-case/detail', [MenuController::class, 'laporan_kendala_user_detail'])->name('laporan_kendala_user_detail');
+    Route::get('app/laporan-kendala/get-data', [MenuController::class, 'laporan_kendala_get_data'])->name('laporan_kendala_get_data');
+    Route::get('app/laporan/laporan-case/detail', [MenuController::class, 'laporan_kendala_user_detail'])->name('laporan_kendala_user_detail');
 
     Route::post('app/laporan/laporan-rencana-maintenance/detail', [MenuController::class, 'laporan_rencana_maintenance_detail'])->name('laporan_rencana_maintenance_detail');
     Route::post('app/laporan/laporan-rencana-maintenance/cetak-rencana', [MenuController::class, 'laporan_rencana_maintenance_cetak_rencana'])->name('laporan_rencana_maintenance_cetak_rencana');

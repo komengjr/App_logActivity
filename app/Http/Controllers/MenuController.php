@@ -564,9 +564,110 @@ class MenuController extends Controller
     }
     public function laporan_kendala_user_detail(Request $request)
     {
-        $data = DB::table('tbl_laporan_user')->where('tiket_laporan', $request->code)->first();
+        $code = $request->code;
+        $source = $request->source;
+
+        if ($source === 'SECURITY') {
+            $data = DB::table('tbl_laporan_security')
+                ->where('laporan_security_code', $code)
+                ->first();
+        } else {
+            $data = DB::table('tbl_laporan_user')
+                ->where('tiket_laporan', $code)
+                ->first();
+        }
+
         return view('application.laporan.kendala.detail-kendala', compact('data'));
     }
+    public function laporan_kendala_get_data(Request $request)
+    {
+        // 1. Query Laporan User (Sesuai kolom tbl_laporan_user)
+        $queryUser = DB::table('tbl_laporan_user')
+            ->select(
+                DB::raw("'USER' as sumber_laporan"),
+                'tiket_laporan as tiket_laporan',
+                'nama_user as nama_user',
+                'nip_user as nip_user',
+                'kd_cabang as cabang',
+                'divisi as divisi',
+                'kategori_laporan as kategori_laporan',
+                'deskripsi_laporan as deskripsi_laporan',
+                'status_laporan as status_laporan',
+                'tingkat_laporan as tingkat_laporan',
+                'tgl_laporan as tgl_laporan',
+                'tgl_respon_laporan as tgl_respon_laporan',
+                'tgl_proses_laporan as tgl_proses_laporan',
+                'tgl_selesai_laporan as tgl_selesai_laporan',
+                'id_user as nama_pelaksana', // Pelaksana IT
+                'no_hp as no_hp',
+                'email as email',
+                'file as file'
+            )->where('kd_cabang',Auth::user()->cabang);
+
+        // 2. Query Laporan Security (Sesuai kolom tbl_laporan_security)
+        $querySecurity = DB::table('tbl_laporan_security')
+            ->select(
+                DB::raw("'SECURITY' as sumber_laporan"),
+                'laporan_security_code as tiket_laporan',
+                'laporan_security_user as nama_user',
+                'laporan_security_nip as nip_user',
+                'laporan_security_cabang as cabang',
+                'laporan_security_divisi as divisi',
+                'laporan_security_cat as kategori_laporan',
+                'laporan_security_desc as deskripsi_laporan',
+                'laporan_security_status as status_laporan',
+                'laporan_security_level as tingkat_laporan',
+                'laporan_security_date as tgl_laporan',
+                'laporan_security_respon as tgl_respon_laporan',
+                'laporan_security_proses as tgl_proses_laporan',
+                'laporan_security_selesai as tgl_selesai_laporan',
+                'laporan_security_it as nama_pelaksana',
+                'laporan_security_number as no_hp',
+                'laporan_security_email as email',
+                'laporan_security_file as file'
+            )->where('laporan_security_cabang',Auth::user()->cabang);
+
+        // 3. Filter Sumber
+        if ($request->filled('source')) {
+            if ($request->source === 'USER') {
+                $combinedQuery = $queryUser;
+            } else if ($request->source === 'SECURITY') {
+                $combinedQuery = $querySecurity;
+            }
+        } else {
+            $combinedQuery = $queryUser->unionAll($querySecurity);
+        }
+
+        // Subquery gabungan
+        $mainQuery = DB::table(DB::raw("({$combinedQuery->toSql()}) as combined_reports"))
+            ->mergeBindings($combinedQuery);
+
+        // 4. Filter Kata Kunci Pencarian
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $mainQuery->where(function ($q) use ($search) {
+                $q->where('tiket_laporan', 'like', "%{$search}%")
+                    ->orWhere('deskripsi_laporan', 'like', "%{$search}%")
+                    ->orWhere('nama_user', 'like', "%{$search}%")
+                    ->orWhere('nip_user', 'like', "%{$search}%")
+                    ->orWhere('cabang', 'like', "%{$search}%")
+                    ->orWhere('nama_pelaksana', 'like', "%{$search}%");
+            });
+        }
+
+        // 5. Filter Range Tanggal Laporan
+        if ($request->filled('start_date')) {
+            $mainQuery->whereDate('tgl_laporan', '>=', $request->start_date);
+        }
+        if ($request->filled('end_date')) {
+            $mainQuery->whereDate('tgl_laporan', '<=', $request->end_date);
+        }
+
+        $data = $mainQuery->orderBy('tgl_laporan', 'desc')->paginate(10);
+
+        return response()->json($data);
+    }
+
     // LAPORAN RENCANA MAINTENANCE
     public function laporan_rencana_maintenance($akses)
     {

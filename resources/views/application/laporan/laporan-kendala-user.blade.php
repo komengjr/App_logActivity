@@ -1,96 +1,199 @@
 @extends('layouts.template')
-@section('content')
-<div class="card shadow-sm border-0 mb-3">
-    <div class="card-body">
-        <h3 class="card-title mb-1 fw-bold">Daftar Laporan Tugas</h3>
-        <p class="text-muted mb-0">Manajemen dan pemantauan status laporan terkini</p>
-    </div>
-</div>
 
-<div class="card shadow-sm border-0 mb-3">
-    <div class="card-body">
-        <div class="row justify-content-between align-items-center g-3">
-            <div class="col-12 col-md-5">
-                <div class="input-group">
-                    <span class="input-group-text bg-white border-end-0 text-muted">
-                        <i class="fas fa-search"></i>
-                    </span>
-                    <input type="text" id="searchInput" class="form-control border-start-0" placeholder="Cari laporan, pembuat, status, atau pelaksana...">
+@section('content')
+<style>
+    .bg-gradient-primary-dark {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    }
+
+    .ticket-badge {
+        font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        font-size: 0.75rem;
+        background-color: #f1f5f9;
+        color: #334155;
+        border: 1px dashed #cbd5e1;
+        padding: 2px 6px;
+        border-radius: 4px;
+    }
+
+    .table-custom tbody tr {
+        transition: all 0.2s ease;
+    }
+
+    .table-custom tbody tr:hover {
+        background-color: #f8fafc !important;
+    }
+
+    .status-dot {
+        height: 6px;
+        width: 6px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 4px;
+    }
+
+    /* CSS Khusus Cetak / Print */
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        #printArea,
+        #printArea * {
+            visibility: visible;
+        }
+
+        #printArea {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+
+        .no-print {
+            display: none !important;
+        }
+
+        table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+        }
+
+        th,
+        td {
+            border: 1px solid #dee2e6 !important;
+            padding: 6px !important;
+            font-size: 10px !important;
+        }
+    }
+</style>
+
+<!-- Banner Header Tema Helpdesk -->
+<div class="card bg-gradient-primary-dark text-white shadow-sm border-0 mb-3 rounded-3 overflow-hidden no-print">
+    <div class="card-body p-3 position-relative">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="d-flex align-items-center">
+                    <div class="bg-white bg-opacity-20 p-2 rounded-3 me-3 text-white">
+                        <i class="fas fa-headset fs-2"></i>
+                    </div>
+                    <div>
+                        <h3 class="card-title mb-0 fw-bold text-white fs-2">Pusat Laporan Kendala & Security</h3>
+                        <p class="text-white-50 mb-0 fs--2">Monitoring gabungan kendala sistem dan keamanan secara real-time</p>
+                    </div>
                 </div>
             </div>
-            <div class="col-12 col-md-auto text-muted small">
-                Total Data: <span class="fw-bold text-dark" id="totalDataInfo">20 Laporan</span>
+            <div class="col-md-4 text-md-end mt-2 mt-md-0">
+                <span class="badge bg-white bg-opacity-10 text-white px-2 py-1 rounded-pill border border-white border-opacity-25 fs--2">
+                    <i class="fas fa-circle text-success me-1" style="font-size: 8px;"></i> System Online
+                </span>
             </div>
         </div>
     </div>
 </div>
 
-<div class="card shadow-sm border-0">
+<!-- Card Filter, Range Tanggal & Cetak -->
+<div class="card shadow-sm border-0 mb-3 rounded-3 no-print">
+    <div class="card-body p-3">
+        <div class="row g-2 align-items-end">
+            <!-- Input Pencarian Teks -->
+            <div class="col-12 col-md-3">
+                <label class="form-label fs--2 fw-semibold text-secondary mb-1">Cari Kata Kunci</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0 text-muted ps-2.5">
+                        <i class="fas fa-search fs--2"></i>
+                    </span>
+                    <input type="text" id="searchInput" class="form-control bg-light border-start-0 ps-0 fs--2" placeholder="Kode, kendala, nama...">
+                </div>
+            </div>
+
+            <!-- Filter Sumber Laporan -->
+            <div class="col-12 col-md-2">
+                <label class="form-label fs--2 fw-semibold text-secondary mb-1">Tipe Laporan</label>
+                <select id="sourceFilter" class="form-select bg-light fs--2">
+                    <option value="">Semua Tipe</option>
+                    <option value="USER">User Kendala</option>
+                    <option value="SECURITY">Security</option>
+                </select>
+            </div>
+
+            <!-- Filter Range Tanggal -->
+            <div class="col-6 col-md-2">
+                <label class="form-label fs--2 fw-semibold text-secondary mb-1">Dari Tanggal</label>
+                <input type="date" id="startDate" class="form-control bg-light fs--2">
+            </div>
+            <div class="col-6 col-md-2">
+                <label class="form-label fs--2 fw-semibold text-secondary mb-1">Sampai Tanggal</label>
+                <input type="date" id="endDate" class="form-control bg-light fs--2">
+            </div>
+
+            <!-- Tombol Reset & Print -->
+            <div class="col-12 col-md-3 d-flex gap-2 justify-content-md-end">
+                <button type="button" id="btnResetFilter" class="btn btn-sm btn-light border text-secondary fs--2 w-100 w-md-auto">
+                    <i class="fas fa-undo me-1"></i> Reset
+                </button>
+                <button type="button" onclick="printTableData()" class="btn btn-sm btn-success fs--2 w-100 w-md-auto">
+                    <i class="fas fa-print me-1"></i> Cetak / Print
+                </button>
+            </div>
+        </div>
+
+        <hr class="my-2 text-border opacity-25">
+
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="text-muted fs--2">
+                <i class="fas fa-info-circle me-1"></i> Menyaring gabungan data <strong>Laporan User & Security</strong>.
+            </div>
+            <div class="bg-primary bg-opacity-10 px-2 py-1 rounded-2 text-primary border border-primary border-opacity-10 fs--2">
+                <span class="me-1">Total:</span>
+                <span class="fw-bold" id="totalDataInfo">0 Laporan</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Card Data Tabel -->
+<div class="card shadow-sm border-0 rounded-3 overflow-hidden" id="printArea">
+    <!-- Judul Header Cetak -->
+    <div class="d-none d-print-block p-3 text-center border-bottom">
+        <h4 class="fw-bold mb-1">Laporan Gabungan User & Security</h4>
+        <p class="mb-0 fs--2 text-muted">Dicetak pada: {{ date('d-m-Y H:i') }}</p>
+    </div>
+
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-hover mb-0 fs--2" id="reportTable">
-                <thead class="table-primary">
+            <table class="table align-middle table-hover table-custom mb-0 fs--2" id="reportTable">
+                <thead class="bg-light text-uppercase text-secondary fw-bold border-bottom fs--2">
                     <tr>
-                        <th scope="col">Kategori Laporan</th>
-                        <th scope="col">Pembuat Laporan</th>
-                        <th scope="col">Deskripsi Laporan</th>
-                        <th scope="col">Tanggal Laporan</th>
-                        <th scope="col">Tanggal Diterima</th>
-                        <th scope="col">Tanggal Selesai</th>
-                        <th scope=" col">Pelaksana Tugas</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Aksi</th>
+                        <th scope="col" class="ps-3 py-2">Sumber & Tiket</th>
+                        <th scope="col" class="py-2">Pelapor / Cabang</th>
+                        <th scope="col" class="py-2">Kategori</th>
+                        <th scope="col" class="py-2" style="min-width: 180px;">Deskripsi</th>
+                        <th scope="col" class="py-2">Tgl Laporan</th>
+                        <th scope="col" class="py-2">Tgl Respon</th>
+                        <th scope="col" class="py-2">Tgl Selesai</th>
+                        <th scope="col" class="py-2">Pelaksana (IT)</th>
+                        <th scope="col" class="py-2 text-center">Status</th>
+                        <th scope="col" class="py-2 text-center pe-3 no-print">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach ($data as $datas)
+                <tbody id="tableBody">
                     <tr>
-                        <td class="ps-4 fw-bold text-dark">
-                            @if ($datas->kategori_laporan == 'ER-001')
-                            Hardware
-                            @elseif($datas->kategori_laporan == 'ER-002')
-                            Software
-                            @else
-                            Lain Lain
-                            @endif
-                        </td>
-                        <td>{{ $datas->nama_user }}</td>
-                        <td>{{ $datas->deskripsi_laporan }}</td>
-                        <td>{{ $datas->tgl_laporan }}</td>
-                        <td>{{ $datas->tgl_respon_laporan }}</td>
-                        <td>{{ $datas->tgl_selesai_laporan }}</td>
-                        <td>
-                            @php
-                            $user = DB::table('tbl_biodata')->where('id_user',$datas->id_user)->first();
-                            @endphp
-                            @if ($user)
-                            <span class="badge bg-light text-dark border">{{ $user->nama_lengkap }}</span>
-                            @endif
-                        </td>
-                        <td class="text-center">
-                            @if ($datas->status_laporan == '0')
-                            <span class="badge bg-danger text-white px-3 py-2 rounded-pill">Belum</span>
-                            @elseif ($datas->status_laporan == '1')
-                            <span class="badge bg-warning text-white px-3 py-2 rounded-pill">Proses</span>
-                            @elseif ($datas->status_laporan == '2')
-                            <span class="badge bg-success text-white px-3 py-2 rounded-pill">Selesai</span>
-                            @endif
-                        </td>
-                        <td class="text-center pe-4">
-                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalDetail1" id="button-show-laporan" data-code="{{ $datas->tiket_laporan }}"><i class="fas fa-eye-fill me-1"></i> Detail</button>
+                        <td colspan="10" class="text-center py-4 text-muted fs--2">
+                            <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+                            Memuat gabungan data laporan...
                         </td>
                     </tr>
-                    @endforeach
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="card-footer bg-white border-0 py-3 d-flex justify-content-between align-items-center">
-        <span class="text-muted small" id="paginationInfo">Menampilkan 1-10 dari 20 data</span>
+    <!-- Footer & Paginasi -->
+    <div class="card-footer bg-light border-0 py-2 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2 no-print">
+        <span class="text-muted fs--2" id="paginationInfo">Menampilkan 0 dari 0 data</span>
         <nav aria-label="Page navigation">
             <ul class="pagination pagination-sm mb-0" id="paginationButtons">
-                <li class="page-item" id="prevPageBtn"><a class="page-link" href="#" onclick="changePage(-1); return false;">Sebelumnya</a></li>
-                <li class="page-item" id="nextPageBtn"><a class="page-link" href="#" onclick="changePage(1); return false;">Selanjutnya</a></li>
+                <!-- Button Paginasi JS -->
             </ul>
         </nav>
     </div>
@@ -98,177 +201,208 @@
 @endsection
 
 @section('base.js')
+<!-- Modal Detail Laporan -->
 <div class="modal fade" id="modalDetail1" tabindex="-1" aria-labelledby="modalDetail1Label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow">
-            <div class="modal-header bg-light">
-                <h5 class="modal-title fw-bold text-dark" id="modalDetail1Label"><i class="bi bi-file-earmark-text text-primary me-2"></i>Detail Laporan Tugas</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg rounded-3">
+            <div class="modal-header bg-gradient-primary-dark text-white p-3">
+                <h5 class="modal-title fw-bold text-white fs-2" id="modalDetail1Label">
+                    <i class="fas fa-shield-alt me-2"></i>Detail Laporan
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-4" id="menu-modal-kendala">
-
+            <div class="modal-body p-3 fs--2" id="menu-modal-kendala">
+                <!-- Content Loaded via Ajax -->
             </div>
-            <div class="modal-footer border-0 bg-light-subtle">
-                <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Tutup</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modalDetail2" tabindex="-1" aria-labelledby="modalDetail2Label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow">
-            <div class="modal-header bg-light">
-                <h5 class="modal-title fw-bold text-dark" id="modalDetail2Label"><i class="bi bi-file-earmark-text text-primary me-2"></i>Detail Laporan Tugas</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-4">
-                <div class="mb-3 d-flex justify-content-between align-items-center border-bottom pb-2">
-                    <span class="text-muted small">Status Laporan</span>
-                    <span class="badge bg-warning-subtle text-warning px-3 py-1 rounded-pill">Proses</span>
-                </div>
-                <div class="mb-3">
-                    <label class="text-muted small d-block">Nama Laporan</label>
-                    <span class="fw-bold text-dark fs-5">Bug Aplikasi Kasir</span>
-                </div>
-                <div class="row g-3 mb-3">
-                    <div class="col-6">
-                        <label class="text-muted small d-block">Pembuat Laporan</label>
-                        <span class="fw-semibold">Siti Aminah</span>
-                    </div>
-                    <div class="col-6">
-                        <label class="text-muted small d-block">Pelaksana Tugas</label>
-                        <span class="fw-semibold">Dev - Dimas</span>
-                    </div>
-                </div>
-                <hr class="text-muted opacity-25">
-                <div class="row g-3 mb-3">
-                    <div class="col-4">
-                        <label class="text-muted small d-block">Tgl Laporan</label>
-                        <span class="small fw-semibold">12 Mei 2026</span>
-                    </div>
-                    <div class="col-4">
-                        <label class="text-muted small d-block">Tgl Diterima</label>
-                        <span class="small fw-semibold">13 Mei 2026</span>
-                    </div>
-                    <div class="col-4">
-                        <label class="text-muted small d-block">Tgl Selesai</label>
-                        <span class="small text-muted italic">-</span>
-                    </div>
-                </div>
-                <div class="mb-0 bg-light p-3 rounded border">
-                    <label class="text-muted small d-block fw-bold mb-1">Solusi & Tindakan:</label>
-                    <p class="mb-0 text-muted small-85 italic">Laporan saat ini sedang dianalisis pada environment staging guna mereproduksi bug keranjang belanja kosong sebelum di-deploy perbaikannya ke production server.</p>
-                </div>
-            </div>
-            <div class="modal-footer border-0 bg-light-subtle">
-                <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Tutup</button>
+            <div class="modal-footer border-0 bg-light p-2">
+                <button type="button" class="btn btn-sm btn-secondary px-3 rounded-2 fs--2" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>
 </div>
+
 <script>
-    const rowsPerPage = 10;
     let currentPage = 1;
-    let filteredRows = [];
+    let searchTimeout = null;
 
-    const tableRows = Array.from(document.querySelectorAll('#reportTable tbody tr'));
-    const searchInput = document.getElementById('searchInput');
-
-    function filterAndPaginate() {
-        const query = searchInput.value.toLowerCase();
-
-        // 1. Proses mem-filter data berdasarkan keyword pencarian
-        filteredRows = tableRows.filter(row => {
-            return row.innerText.toLowerCase().includes(query);
-        });
-
-        // Update indikator jumlah total data di atas
-        document.getElementById('totalDataInfo').innerText = filteredRows.length + " Laporan";
-
-        // Hitung total halaman yang dibutuhkan
-        const totalPages = Math.ceil(filteredRows.length / rowsPerPage) || 1;
-        if (currentPage > totalPages) currentPage = totalPages;
-
-        // 2. Sembunyikan semua baris terlebih dahulu
-        tableRows.forEach(row => row.style.display = 'none');
-
-        // 3. Tampilkan hanya 10 baris data sesuai halaman yang aktif
-        const start = (currentPage - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
-        const activeRows = filteredRows.slice(start, end);
-
-        activeRows.forEach(row => row.style.display = '');
-
-        // 4. Perbarui Teks Info Paginasi (di pojok kiri bawah)
-        const displayStart = filteredRows.length === 0 ? 0 : start + 1;
-        const displayEnd = end > filteredRows.length ? filteredRows.length : end;
-        document.getElementById('paginationInfo').innerText = `Menampilkan ${displayStart}-${displayEnd} dari ${filteredRows.length} data`;
-
-        // 5. Atur Status tombol Tombol Sebelumnya / Selanjutnya
-        document.getElementById('prevPageBtn').classList.toggle('disabled', currentPage === 1);
-        document.getElementById('nextPageBtn').classList.toggle('disabled', currentPage === totalPages || filteredRows.length === 0);
-
-        // Bersihkan & gambar ulang nomor halaman dinamis (1, 2, dst)
-        renderPageNumbers(totalPages);
-    }
-
-    function changePage(direction) {
-        currentPage += direction;
-        filterAndPaginate();
-    }
-
-    function goToPage(pageNumber) {
-        currentPage = pageNumber;
-        filterAndPaginate();
-    }
-
-    function renderPageNumbers(totalPages) {
-        // Cari element tombol angka dinamis lama, lalu hapus
-        const paginationList = document.getElementById('paginationButtons');
-        const numItems = paginationList.querySelectorAll('.page-num-item');
-        numItems.forEach(item => item.remove());
-
-        const nextBtn = document.getElementById('nextPageBtn');
-
-        // Buat elemen tombol halaman baru secara berurutan
-        for (let i = 1; i <= totalPages; i++) {
-            const li = document.createElement('li');
-            li.className = `page-item page-num-item ${i === currentPage ? 'active' : ''}`;
-            li.innerHTML = `<a class="page-link" href="#" onclick="goToPage(${i}); return false;">${i}</a>`;
-            paginationList.insertBefore(li, nextBtn);
-        }
-    }
-
-    // Event Listener untuk memicu filter saat user mengetik di search bar
-    searchInput.addEventListener('keyup', () => {
-        currentPage = 1; // Reset ke halaman 1 setiap kali mengetik pencarian baru
-        filterAndPaginate();
+    $(document).ready(function() {
+        fetchTableData();
     });
 
-    // Inisialisasi awal saat halaman pertama kali dibuka
-    filterAndPaginate();
-</script>
-<script>
-    $(document).on("click", "#button-show-laporan", function(e) {
+    $('#searchInput').on('keyup', function() {
+        triggerSearch();
+    });
+    $('#startDate, #endDate, #sourceFilter').on('change', function() {
+        triggerSearch();
+    });
+
+    $('#btnResetFilter').on('click', function() {
+        $('#searchInput').val('');
+        $('#startDate').val('');
+        $('#endDate').val('');
+        $('#sourceFilter').val('');
+        currentPage = 1;
+        fetchTableData();
+    });
+
+    function triggerSearch() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(function() {
+            currentPage = 1;
+            fetchTableData();
+        }, 300);
+    }
+
+    function fetchTableData(page = currentPage) {
+        currentPage = page;
+
+        $('#tableBody').html(`
+            <tr>
+                <td colspan="10" class="text-center py-4 text-muted fs--2">
+                    <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+                    Memuat gabungan data laporan...
+                </td>
+            </tr>
+        `);
+
+        $.ajax({
+            url: "{{ route('laporan_kendala_get_data') }}",
+            type: "GET",
+            data: {
+                page: currentPage,
+                search: $('#searchInput').val(),
+                source: $('#sourceFilter').val(),
+                start_date: $('#startDate').val(),
+                end_date: $('#endDate').val()
+            },
+            dataType: 'json',
+            success: function(response) {
+                renderTable(response.data);
+                renderPagination(response);
+                $('#totalDataInfo').text(response.total + " Laporan");
+            },
+            error: function() {
+                $('#tableBody').html(`
+                    <tr>
+                        <td colspan="10" class="text-center text-danger py-3 fs--2">
+                            <i class="fas fa-exclamation-triangle me-1"></i> Gagal mengambil data gabungan.
+                        </td>
+                    </tr>
+                `);
+            }
+        });
+    }
+
+    function renderTable(dataList) {
+        if (!dataList || dataList.length === 0) {
+            $('#tableBody').html(`
+                <tr>
+                    <td colspan="10" class="text-center text-muted py-4 fs--2">
+                        <i class="fas fa-inbox fa-2x mb-2 d-block opacity-50"></i>
+                        Tidak ada data laporan ditemukan.
+                    </td>
+                </tr>
+            `);
+            return;
+        }
+
+        let html = '';
+        dataList.forEach(function(row) {
+            // Badge Tipe Sumber (USER vs SECURITY)
+            let tipeBadge = row.sumber_laporan === 'SECURITY' ?
+                '<span class="badge bg-warning bg-opacity-20 text-dark border border-warning px-1.5 py-0-5 fs--2"><i class="fas fa-shield-alt me-1 text-warning"></i>SECURITY</span>' :
+                '<span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-1.5 py-0-5 fs--2"><i class="fas fa-user me-1"></i>USER</span>';
+
+            // Status Badge
+            let statusBadge = '';
+            if (row.status_laporan == '0' || row.status_laporan == 'Belum') {
+                statusBadge = '<span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-2 py-1 rounded-pill fs--2"><span class="status-dot bg-danger"></span>Belum Diproses</span>';
+            } else if (row.status_laporan == '1' || row.status_laporan == 'Proses') {
+                statusBadge = '<span class="badge bg-warning bg-opacity-10 text-warning-emphasis border border-warning border-opacity-25 px-2 py-1 rounded-pill fs--2"><span class="status-dot bg-warning"></span>Sedang Diproses</span>';
+            } else {
+                statusBadge = '<span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1 rounded-pill fs--2"><span class="status-dot bg-success"></span>Selesai</span>';
+            }
+
+            let pelaksana = row.nama_pelaksana ?
+                `<span class="badge bg-white text-dark border shadow-xs px-2 py-1 fs--2"><i class="fas fa-user-gear text-primary me-1"></i>${row.nama_pelaksana}</span>` :
+                '<span class="text-muted fs--2 italic">-</span>';
+
+            let deskripsi = row.deskripsi_laporan ?
+                (row.deskripsi_laporan.length > 40 ? row.deskripsi_laporan.substring(0, 40) + '...' : row.deskripsi_laporan) : '-';
+
+            html += `
+                <tr class="fs--2">
+                    <td class="ps-3 py-2">
+                        <div class="mb-1">${tipeBadge}</div>
+                        <div><span class="ticket-badge">${row.tiket_laporan ?? '-'}</span></div>
+                    </td>
+                    <td class="py-2">
+                        <div class="fw-semibold text-dark">${row.nama_user ?? '-'}</div>
+                        <div class="text-muted fs--2">${row.cabang ?? ''}</div>
+                    </td>
+                    <td class="py-2"><span class="badge bg-light text-dark border fs--2">${row.kategori_laporan ?? '-'}</span></td>
+                    <td class="py-2"><span class="text-secondary">${deskripsi}</span></td>
+                    <td class="py-2 text-muted"><i class="far fa-calendar-alt me-1"></i>${row.tgl_laporan ?? '-'}</td>
+                    <td class="py-2 text-muted"><i class="far fa-clock me-1"></i>${row.tgl_respon_laporan ?? '-'}</td>
+                    <td class="py-2 text-muted"><i class="far fa-check-circle me-1"></i>${row.tgl_selesai_laporan ?? '-'}</td>
+                    <td class="py-2">${pelaksana}</td>
+                    <td class="py-2 text-center">${statusBadge}</td>
+                    <td class="py-2 text-center pe-3 no-print">
+                        <button class="btn btn-xs btn-outline-primary rounded-2 shadow-xs button-show-laporan fs--2 px-2 py-1" data-bs-toggle="modal" data-bs-target="#modalDetail1" data-code="${row.tiket_laporan}" data-source="${row.sumber_laporan}">
+                            <i class="fas fa-eye me-1"></i> Detail
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        $('#tableBody').html(html);
+    }
+
+    function renderPagination(res) {
+        let paginationHtml = '';
+
+        let prevClass = res.current_page === 1 ? 'disabled' : '';
+        paginationHtml += `<li class="page-item ${prevClass}"><a class="page-link fs--2" href="#" onclick="fetchTableData(${res.current_page - 1}); return false;"><i class="fas fa-chevron-left"></i></a></li>`;
+
+        for (let i = 1; i <= res.last_page; i++) {
+            let activeClass = i === res.current_page ? 'active' : '';
+            paginationHtml += `<li class="page-item ${activeClass}"><a class="page-link fs--2" href="#" onclick="fetchTableData(${i}); return false;">${i}</a></li>`;
+        }
+
+        let nextClass = res.current_page === res.last_page || res.total === 0 ? 'disabled' : '';
+        paginationHtml += `<li class="page-item ${nextClass}"><a class="page-link fs--2" href="#" onclick="fetchTableData(${res.current_page + 1}); return false;"><i class="fas fa-chevron-right"></i></a></li>`;
+
+        $('#paginationButtons').html(paginationHtml);
+
+        let from = res.from ? res.from : 0;
+        let to = res.to ? res.to : 0;
+        $('#paginationInfo').text(`Menampilkan ${from}-${to} dari ${res.total} data`);
+    }
+
+    function printTableData() {
+        window.print();
+    }
+
+    $(document).on("click", ".button-show-laporan", function(e) {
         e.preventDefault();
         var code = $(this).data("code");
-        $('#menu-modal-kendala').html(
-            '<div class="spinner-border my-3" style="display: block; margin-left: auto; margin-right: auto;" role="status"><span class="visually-hidden">Loading...</span></div>'
-        );
+        var source = $(this).data("source");
+
+        $('#menu-modal-kendala').html('<div class="py-4 text-center fs--2"><div class="spinner-border spinner-border-sm text-primary" role="status"></div><p class="text-muted mt-2 mb-0">Memuat detail...</p></div>');
+
         $.ajax({
             url: "{{ route('laporan_kendala_user_detail') }}",
-            type: "POST",
-            cache: false,
+            type: "GET",
             data: {
-                "_token": "{{ csrf_token() }}",
-                "code": code
+                "code": code,
+                "source": source
             },
             dataType: 'html',
         }).done(function(data) {
             $('#menu-modal-kendala').html(data);
         }).fail(function() {
-            $('#menu-modal-kendala').html('eror');
+            $('#menu-modal-kendala').html('<div class="alert alert-danger text-center m-2 fs--2"><i class="fas fa-exclamation-circle me-1"></i> Gagal memuat data.</div>');
         });
     });
 </script>
