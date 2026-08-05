@@ -74,8 +74,8 @@
         <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="d-flex align-items-center">
-                    <div class="bg-white bg-opacity-20 p-2 rounded-3 me-3 text-white">
-                        <i class="fas fa-headset fs-2"></i>
+                    <div class="bg-white bg-opacity-20 p-2 rounded-3 me-3">
+                        <i class="fas fa-headset fs-2 text-dark"></i>
                     </div>
                     <div>
                         <h3 class="card-title mb-0 fw-bold text-white fs-2">Pusat Laporan Kendala & Security</h3>
@@ -84,7 +84,7 @@
                 </div>
             </div>
             <div class="col-md-4 text-md-end mt-2 mt-md-0">
-                <span class="badge bg-white bg-opacity-10 text-white px-2 py-1 rounded-pill border border-white border-opacity-25 fs--2">
+                <span class="badge bg-white bg-opacity-10 text-dark px-2 py-1 rounded-pill border border-white border-opacity-25 fs--2">
                     <i class="fas fa-circle text-success me-1" style="font-size: 8px;"></i> System Online
                 </span>
             </div>
@@ -145,8 +145,8 @@
                 <i class="fas fa-info-circle me-1"></i> Menyaring gabungan data <strong>Laporan User & Security</strong>.
             </div>
             <div class="bg-primary bg-opacity-10 px-2 py-1 rounded-2 text-primary border border-primary border-opacity-10 fs--2">
-                <span class="me-1">Total:</span>
-                <span class="fw-bold" id="totalDataInfo">0 Laporan</span>
+                <span class="me-1 text-white">Total:</span>
+                <span class="fw-bold text-white" id="totalDataInfo">0 Laporan</span>
             </div>
         </div>
     </div>
@@ -308,19 +308,31 @@
 
         let html = '';
         dataList.forEach(function(row) {
+            // Mapping Kategori (ER-000 = Security, ER-001 = Hardware, ER-002 = Software)
+            let kategoriNama = '-';
+            if (row.kategori_laporan === 'ER-000') {
+                kategoriNama = 'Security';
+            } else if (row.kategori_laporan === 'ER-001') {
+                kategoriNama = 'Hardware';
+            } else if (row.kategori_laporan === 'ER-002') {
+                kategoriNama = 'Software';
+            } else {
+                kategoriNama = row.kategori_laporan ?? '-'; // Menampilkan kode/nama asli jika ada kategori lain
+            }
+
             // Badge Tipe Sumber (USER vs SECURITY)
             let tipeBadge = row.sumber_laporan === 'SECURITY' ?
-                '<span class="badge bg-warning bg-opacity-20 text-dark border border-warning px-1.5 py-0-5 fs--2"><i class="fas fa-shield-alt me-1 text-warning"></i>SECURITY</span>' :
-                '<span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-1.5 py-0-5 fs--2"><i class="fas fa-user me-1"></i>USER</span>';
+                '<span class="badge bg-warning bg-opacity-20 text-dark border border-warning px-1.5 py-0-5 fs--2"><i class="fas fa-shield-alt me-1 text-dark"></i>SECURITY</span>' :
+                '<span class="badge bg-primary bg-opacity-10 text-white border border-primary border-opacity-25 px-1.5 py-0-5 fs--2"><i class="fas fa-user me-1"></i>USER</span>';
 
             // Status Badge
             let statusBadge = '';
             if (row.status_laporan == '0' || row.status_laporan == 'Belum') {
-                statusBadge = '<span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-2 py-1 rounded-pill fs--2"><span class="status-dot bg-danger"></span>Belum Diproses</span>';
+                statusBadge = '<span class="badge bg-danger bg-opacity-10 text-white border border-danger border-opacity-25 px-2 py-1 rounded-pill fs--2"><span class="status-dot bg-danger"></span>Belum Diproses</span>';
             } else if (row.status_laporan == '1' || row.status_laporan == 'Proses') {
-                statusBadge = '<span class="badge bg-warning bg-opacity-10 text-warning-emphasis border border-warning border-opacity-25 px-2 py-1 rounded-pill fs--2"><span class="status-dot bg-warning"></span>Sedang Diproses</span>';
+                statusBadge = '<span class="badge bg-warning bg-opacity-10 text-white border border-warning border-opacity-25 px-2 py-1 rounded-pill fs--2"><span class="status-dot bg-warning"></span>Sedang Diproses</span>';
             } else {
-                statusBadge = '<span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1 rounded-pill fs--2"><span class="status-dot bg-success"></span>Selesai</span>';
+                statusBadge = '<span class="badge bg-success bg-opacity-10 text-white border border-success border-opacity-25 px-2 py-1 rounded-pill fs--2"><span class="status-dot bg-success"></span>Selesai</span>';
             }
 
             let pelaksana = row.nama_pelaksana ?
@@ -331,29 +343,29 @@
                 (row.deskripsi_laporan.length > 40 ? row.deskripsi_laporan.substring(0, 40) + '...' : row.deskripsi_laporan) : '-';
 
             html += `
-                <tr class="fs--2">
-                    <td class="ps-3 py-2">
-                        <div class="mb-1">${tipeBadge}</div>
-                        <div><span class="ticket-badge">${row.tiket_laporan ?? '-'}</span></div>
-                    </td>
-                    <td class="py-2">
-                        <div class="fw-semibold text-dark">${row.nama_user ?? '-'}</div>
-                        <div class="text-muted fs--2">${row.cabang ?? ''}</div>
-                    </td>
-                    <td class="py-2"><span class="badge bg-light text-dark border fs--2">${row.kategori_laporan ?? '-'}</span></td>
-                    <td class="py-2"><span class="text-secondary">${deskripsi}</span></td>
-                    <td class="py-2 text-muted"><i class="far fa-calendar-alt me-1"></i>${row.tgl_laporan ?? '-'}</td>
-                    <td class="py-2 text-muted"><i class="far fa-clock me-1"></i>${row.tgl_respon_laporan ?? '-'}</td>
-                    <td class="py-2 text-muted"><i class="far fa-check-circle me-1"></i>${row.tgl_selesai_laporan ?? '-'}</td>
-                    <td class="py-2">${pelaksana}</td>
-                    <td class="py-2 text-center">${statusBadge}</td>
-                    <td class="py-2 text-center pe-3 no-print">
-                        <button class="btn btn-xs btn-outline-primary rounded-2 shadow-xs button-show-laporan fs--2 px-2 py-1" data-bs-toggle="modal" data-bs-target="#modalDetail1" data-code="${row.tiket_laporan}" data-source="${row.sumber_laporan}">
-                            <i class="fas fa-eye me-1"></i> Detail
-                        </button>
-                    </td>
-                </tr>
-            `;
+                    <tr class="fs--2">
+                        <td class="ps-3 py-2">
+                            <div class="mb-1">${tipeBadge}</div>
+                            <div><span class="ticket-badge">${row.tiket_laporan ?? '-'}</span></div>
+                        </td>
+                        <td class="py-2">
+                            <div class="fw-semibold text-dark">${row.nama_user ?? '-'}</div>
+                            <div class="text-muted fs--2">${row.cabang ?? ''}</div>
+                        </td>
+                        <td class="py-2"><span class="badge bg-light text-dark border fs--2">${kategoriNama}</span></td>
+                        <td class="py-2"><span class="text-secondary">${deskripsi}</span></td>
+                        <td class="py-2 text-muted"><i class="far fa-calendar-alt me-1"></i>${row.tgl_laporan ?? '-'}</td>
+                        <td class="py-2 text-muted"><i class="far fa-clock me-1"></i>${row.tgl_respon_laporan ?? '-'}</td>
+                        <td class="py-2 text-muted"><i class="far fa-check-circle me-1"></i>${row.tgl_selesai_laporan ?? '-'}</td>
+                        <td class="py-2">${pelaksana}</td>
+                        <td class="py-2 text-center">${statusBadge}</td>
+                        <td class="py-2 text-center pe-3 no-print">
+                            <button class="btn btn-xs btn-outline-primary rounded-2 shadow-xs button-show-laporan fs--2 px-2 py-1" data-bs-toggle="modal" data-bs-target="#modalDetail1" data-code="${row.tiket_laporan}" data-source="${row.sumber_laporan}">
+                                <i class="fas fa-eye me-1"></i> Detail
+                            </button>
+                        </td>
+                    </tr>
+                `;
         });
 
         $('#tableBody').html(html);
