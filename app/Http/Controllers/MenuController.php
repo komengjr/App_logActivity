@@ -598,6 +598,7 @@ class MenuController extends Controller
                 'tgl_respon_laporan as tgl_respon_laporan',
                 'tgl_proses_laporan as tgl_proses_laporan',
                 'tgl_selesai_laporan as tgl_selesai_laporan',
+                'tgl_verifikasi_laporan as verifikasi_laporan',
                 'id_user as nama_pelaksana', // Pelaksana IT
                 'no_hp as no_hp',
                 'email as email',
@@ -621,6 +622,7 @@ class MenuController extends Controller
                 'laporan_security_respon as tgl_respon_laporan',
                 'laporan_security_proses as tgl_proses_laporan',
                 'laporan_security_selesai as tgl_selesai_laporan',
+                'laporan_security_verifikasi as verifikasi_laporan',
                 'laporan_security_it as nama_pelaksana',
                 'laporan_security_number as no_hp',
                 'laporan_security_email as email',

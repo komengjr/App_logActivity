@@ -174,6 +174,7 @@
                         <th scope="col" class="py-2">Tgl Selesai</th>
                         <th scope="col" class="py-2">Pelaksana (IT)</th>
                         <th scope="col" class="py-2 text-center">Status</th>
+                        <th scope="col" class="py-2 text-center">Verifikasi</th>
                         <th scope="col" class="py-2 text-center pe-3 no-print">Aksi</th>
                     </tr>
                 </thead>
@@ -334,6 +335,13 @@
             } else {
                 statusBadge = '<span class="badge bg-success bg-opacity-10 text-white border border-success border-opacity-25 px-2 py-1 rounded-pill fs--2"><span class="status-dot bg-success"></span>Selesai</span>';
             }
+            // Status verifikasi
+            let statusverifikasi = '';
+            if (row.verifikasi_laporan == '' || row.verifikasi_laporan == null) {
+                statusverifikasi = '<span class="badge bg-danger bg-opacity-10 text-white border border-danger border-opacity-25 px-2 py-1 rounded-pill fs--2"><span class="status-dot bg-danger"></span>Belum Verifikasi</span>';
+            } else {
+                statusverifikasi = '<span class="badge bg-success bg-opacity-10 text-white border border-success border-opacity-25 px-2 py-1 rounded-pill fs--2"><span class="status-dot bg-success"></span>Sudah Veifikasi</span>';
+            }
 
             let pelaksana = row.nama_pelaksana ?
                 `<span class="badge bg-white text-dark border shadow-xs px-2 py-1 fs--2"><i class="fas fa-user-gear text-primary me-1"></i>${row.nama_pelaksana}</span>` :
@@ -359,6 +367,7 @@
                         <td class="py-2 text-muted"><i class="far fa-check-circle me-1"></i>${row.tgl_selesai_laporan ?? '-'}</td>
                         <td class="py-2">${pelaksana}</td>
                         <td class="py-2 text-center">${statusBadge}</td>
+                        <td class="py-2 text-center">${statusverifikasi}</td>
                         <td class="py-2 text-center pe-3 no-print">
                             <button class="btn btn-xs btn-outline-primary rounded-2 shadow-xs button-show-laporan fs--2 px-2 py-1" data-bs-toggle="modal" data-bs-target="#modalDetail1" data-code="${row.tiket_laporan}" data-source="${row.sumber_laporan}">
                                 <i class="fas fa-eye me-1"></i> Detail

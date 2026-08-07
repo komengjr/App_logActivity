@@ -12,7 +12,7 @@ $tglLaporan = $isSecurity ? $data->laporan_security_date : $data->tgl_laporan;
 $tglRespon = $isSecurity ? $data->laporan_security_respon : $data->tgl_respon_laporan;
 $tglProses = $isSecurity ? ($data->laporan_security_proses ?? null) : ($data->tgl_proses_laporan ?? null);
 $tglSelesai = $isSecurity ? $data->laporan_security_selesai : $data->tgl_selesai_laporan;
-$tglVerifikasi = $isSecurity ? null : ($data->tgl_verifikasi_laporan ?? null); // Khusus user / disesuaikan
+$tglVerifikasi = $isSecurity ? ($data->tgl_verifikasi_laporan ?? null) : ($data->laporan_security_verifikasi ?? null); // Khusus user / disesuaikan
 
 // Ambil data Pelaksana Tugas (IT)
 $user = DB::table('tbl_biodata')->where('id_user', $idUser)->first();
