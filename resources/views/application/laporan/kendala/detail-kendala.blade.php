@@ -12,7 +12,9 @@ $tglLaporan = $isSecurity ? $data->laporan_security_date : $data->tgl_laporan;
 $tglRespon = $isSecurity ? $data->laporan_security_respon : $data->tgl_respon_laporan;
 $tglProses = $isSecurity ? ($data->laporan_security_proses ?? null) : ($data->tgl_proses_laporan ?? null);
 $tglSelesai = $isSecurity ? $data->laporan_security_selesai : $data->tgl_selesai_laporan;
-$tglVerifikasi = $isSecurity ? ($data->tgl_verifikasi_laporan ?? null) : ($data->laporan_security_verifikasi ?? null); // Khusus user / disesuaikan
+
+// Disesuaikan: Security -> laporan_security_verifikasi | User -> tgl_verifikasi_laporan
+$tglVerifikasi = $isSecurity ? ($data->laporan_security_verifikasi ?? null) : ($data->tgl_verifikasi_laporan ?? null);
 
 // Ambil data Pelaksana Tugas (IT)
 $user = DB::table('tbl_biodata')->where('id_user', $idUser)->first();
@@ -83,6 +85,13 @@ $log = DB::table('tbl_laporan_user_log')->where('tiket_laporan', $tiket)->first(
         background-color: #f8f9fa;
         color: #adb5bd;
         border-color: #dee2e6;
+    }
+
+    /* Status Belum Diverifikasi (Merah / Dark Red) */
+    .timeline-step.unverified .timeline-icon {
+        background-color: #dc3545;
+        color: #fff;
+        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25);
     }
 </style>
 
@@ -187,12 +196,18 @@ $log = DB::table('tbl_laporan_user_log')->where('tiket_laporan', $tiket)->first(
             </div>
 
             <!-- Step 5: Diverifikasi Pembuat -->
-            <div class="timeline-step {{ $tglVerifikasi ? 'completed' : ($tglSelesai ? 'active' : 'pending') }}">
+            <div class="timeline-step {{ $tglVerifikasi ? 'completed' : 'unverified' }}">
                 <div class="timeline-icon">
-                    <i class="fas fa-user-check"></i>
+                    <i class="fas {{ $tglVerifikasi ? 'fa-user-check' : 'fa-user-times' }}"></i>
                 </div>
                 <div class="fw-bold small text-dark">Diverifikasi</div>
-                <div class="text-muted extra-small" style="font-size: 11px;">{{ $tglVerifikasi ?? '-' }}</div>
+                <div class="text-muted extra-small" style="font-size: 11px;">
+                    @if ($tglVerifikasi)
+                    {{ $tglVerifikasi }}
+                    @else
+                    <span class="text-danger fw-bold">Belum Verifikasi</span>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
